@@ -3,3 +3,7 @@ dist
 .tmp
 .sass-cache
 app/bower_components
+app/scripts/**/*.d.ts
+app/scripts/**/*.js
+app/scripts/**/*.js.map
+app/scripts/reference.ts
