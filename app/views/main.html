@@ -37,15 +37,21 @@
 	text-size-adjust: none;
 }
 #wrapper {
-	position: relative;
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
 	z-index: 1;
 	width: 100%;
 	margin-top:1em;
-	height:200px;
+	/*height:200px;*/
 	/*background: #ccc;*/
 	overflow: hidden;
 	-ms-touch-action: none;
 }
+
+
 
 </style>
 <div id="wrapper">
@@ -486,10 +492,11 @@
 <script>
 
 console.log("canard", $("#scroller"));
-myScroll = new IScroll('#wrapper', { eventPassthrough: true, scrollX: true, scrollY: false});
+// myScroll = new IScroll('#wrapper', { eventPassthrough: true, scrollX: true, scrollY: true});
+myScroll = new IScroll('#wrapper', { mouseWheel: true, scrollX: true, scrollY: true, zoom:true});
 
-$("#wrapper").height($("#scroller").height())
-$(window).resize(function() {
-	$("#wrapper").height($("#scroller").height())
-});
+// $("#wrapper").height($("#scroller").height())
+// $(window).resize(function() {
+	// $("#wrapper").height($("#scroller").height())
+// });
 </script>

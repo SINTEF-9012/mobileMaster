@@ -44,8 +44,39 @@ module.exports = function (grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      ts: {
+          files: ['<%= yeoman.app %>/scripts/{,*/}*.ts', '!<%= yeoman.app %>/scripts/reference.ts', '!<%= yeoman.app %>/scripts/{,*/}*.d.ts'],
+          tasks: ['ts:dev']
       }
     },
+    ts: {
+    options: { // use to override the default options, http://gruntjs.com/configuring-tasks#options
+        target: 'es3', // es3 (default) / or es5
+        //module: 'commonjs', // amd , commonjs (default)
+        sourcemap: true, // true (default) | false
+        //declaration: false, // true | false (default)
+        //nolib: false, // true | false (default)
+        //comments: false // true | false (default)
+    },
+    dev: { // a particular target
+        src: ['<%= yeoman.app %>/scripts/{,*/}*.ts', '!<%= yeoman.app %>/scripts/reference.ts', '!<%= yeoman.app %>/scripts/{,*/}*.d.ts'], // The source typescript files, http://gruntjs.com/configuring-tasks#files
+        reference: '<%= yeoman.app %>/scripts/reference.ts', // If specified, generate this file that you can use for your reference management
+        // out: '<%= yeoman.app %>/scripts/out.js', // If specified, generate an out.js file which is the merged js file
+        options: { // override the main options, http://gruntjs.com/configuring-tasks#options
+            sourcemap: true,
+            declaration: true,
+            comments: true,
+            target: 'es5'
+        },
+    },
+    build: { // another target
+        src: ['<%= yeoman.app %>/scripts/*.ts'],
+        options: { // overide the main options for this target
+            sourcemap: false,
+        }
+    },
+},
     autoprefixer: {
       options: ['last 1 version'],
       dist: {
@@ -61,7 +92,7 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '192.168.1.5',
         livereload: 35729
       },
       livereload: {
@@ -294,7 +325,8 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'karma.conf.js',
-        singleRun: true
+        autoWatch: true,
+        singleRun: false
       }
     },
     cdnify: {
@@ -331,6 +363,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'concurrent:server',
+      'ts:dev',
       'autoprefixer',
       'connect:livereload',
       'watch'
@@ -338,6 +371,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
+    'ts:dev',
     'clean:server',
     'concurrent:test',
     'autoprefixer',
