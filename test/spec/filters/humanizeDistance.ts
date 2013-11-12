@@ -12,9 +12,16 @@ describe('Filter: humanizeDistance', function () {
     humanizeDistance = $filter('humanizeDistance');
   }));
 
-  it('should use kilometers for large distances', function() {
+  it('should use rounded kilometers for the biggest distances', function() {
     expect(humanizeDistance(3000000)).toContain("3000 km");
+    expect(humanizeDistance(3023432)).toContain("3000 km");
+    expect(humanizeDistance(3043432)).toContain("3000 km");
+  });
+
+  it('should use kilometers for large distances', function() {
     expect(humanizeDistance(30000)).toContain("30 km");
+    expect(humanizeDistance(32000)).toContain("32 km");
+    expect(humanizeDistance(232000)).toContain("232 km");
   });
 
   it('should use kilometers and half for small kilometers distances', function() {
@@ -38,17 +45,20 @@ describe('Filter: humanizeDistance', function () {
     expect(humanizeDistance(1500)).toContain("1500 m");
     expect(humanizeDistance(1499)).toContain("1500 m");
     expect(humanizeDistance(1450)).toContain("1450 m");
-    expect(humanizeDistance(1349)).toContain("1300 m");
+    expect(humanizeDistance(1319)).toContain("1300 m");
   });
 
   it('use meters when the objets are close', function() {
     expect(humanizeDistance(971)).toContain("971 m");
     expect(humanizeDistance(238)).toContain("238 m");
     expect(humanizeDistance(3)).toContain("3 m");
+    expect(humanizeDistance(3.345456667)).toContain("3 m");
   });
   it('use centimeters when the objets are in the same location', function() {
     expect(humanizeDistance(2.1)).toContain("210 cm");
     expect(humanizeDistance(1.8)).toContain("180 cm");
+    expect(humanizeDistance(1.87)).toContain("187 cm");
+    expect(humanizeDistance(1.8743333)).toContain("187 cm");
     expect(humanizeDistance(0.03)).toContain("3 cm");
   });
 });
