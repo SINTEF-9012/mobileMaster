@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\antoinep\\Desktop\\mobileMaster",
+			"folder_exclude_patterns": [".sass-cache", ".tmp"],
+			"file_exclude_patterns": ["filters/*.js.map","controllers/*.js.map",
+										"filters/*.js","controllers/*.js",
+										"filters/*.d.ts","controllers/*.d.ts",
+										"scripts/*.js.map"]
+		}
+	]
+}

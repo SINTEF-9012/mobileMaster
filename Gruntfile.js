@@ -15,7 +15,8 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
-      dist: 'dist'
+      dist: 'dist',
+      test: 'test'
     },
     watch: {
       coffee: {
@@ -46,7 +47,11 @@ module.exports = function (grunt) {
         ]
       },
       ts: {
-          files: ['<%= yeoman.app %>/scripts/{,*/}*.ts', '!<%= yeoman.app %>/scripts/reference.ts', '!<%= yeoman.app %>/scripts/{,*/}*.d.ts'],
+          files: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
+                  '!<%= yeoman.app %>/scripts/reference.ts',
+                  '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
+                  '<%= yeoman.test %>/spec/{,*/}*.ts',
+                  '!<%= yeoman.test %>/spec/{,*/}*.d.ts'],
           tasks: ['ts:dev']
       }
     },
@@ -60,7 +65,12 @@ module.exports = function (grunt) {
         //comments: false // true | false (default)
     },
     dev: { // a particular target
-        src: ['<%= yeoman.app %>/scripts/{,*/}*.ts', '!<%= yeoman.app %>/scripts/reference.ts', '!<%= yeoman.app %>/scripts/{,*/}*.d.ts'], // The source typescript files, http://gruntjs.com/configuring-tasks#files
+        src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
+              '!<%= yeoman.app %>/scripts/reference.ts',
+              '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
+              '<%= yeoman.test %>/spec/{,*/}*.ts',
+              '!<%= yeoman.test %>/spec/{,*/}*.d.ts'
+              ], // The source typescript files, http://gruntjs.com/configuring-tasks#files
         reference: '<%= yeoman.app %>/scripts/reference.ts', // If specified, generate this file that you can use for your reference management
         // out: '<%= yeoman.app %>/scripts/out.js', // If specified, generate an out.js file which is the merged js file
         options: { // override the main options, http://gruntjs.com/configuring-tasks#options

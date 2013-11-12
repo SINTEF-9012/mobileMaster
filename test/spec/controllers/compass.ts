@@ -1,21 +1,22 @@
+/// <reference path="./../../../app/scripts/reference.ts" />
+
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: CompassCtrl', function () {
 
   // load the controller's module
   beforeEach(module('mobileMasterApp'));
 
-  var MainCtrl,
+  var CompassCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    CompassCtrl = $controller('CompassCtrl', {
       $scope: scope
     });
   }));
-
   it('should attach a list of awesomeThings to the scope', function () {
     expect(scope.awesomeThings.length).toBe(3);
   });
