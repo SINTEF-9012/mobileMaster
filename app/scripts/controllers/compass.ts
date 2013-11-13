@@ -9,9 +9,15 @@ angular.module('mobileMasterApp')
       'AngularJS',
       'Karma'
     ];
-    
+
     $scope.distance = {lat:43.474894, lng: 5.97361};
-    $scope.canard = {lat:0.0, lng: 0.0};
+
+    $window.navigator.geolocation.watchPosition(function(pos){
+      $scope.distance = {lat:pos.coords.latitude, lng: pos.coords.longitude};
+      $scope.$apply();
+    }, function() {}, {enableHighAccuracy:true});
+    
+    $scope.canard = {lat:59.945043, lng: 10.713};
     $scope.direction = 56.0;
 
     // if ($window.navigator salut)

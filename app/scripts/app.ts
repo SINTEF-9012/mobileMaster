@@ -1,4 +1,5 @@
 /// <reference path="./references/angularjs/angular.d.ts" />
+/// <reference path="./references/leaflet/leaflet.d.ts" />
 
 'use strict';
 
