@@ -14,6 +14,10 @@ angular.module('mobileMasterApp', [])
         templateUrl: 'views/compass.html',
         controller: 'CompassCtrl'
       })
+      .when('/map', {
+        templateUrl: 'views/map.html',
+        controller: 'MapCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
