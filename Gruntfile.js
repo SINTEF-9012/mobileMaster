@@ -7,17 +7,25 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+
 module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
 
+  // https://github.com/yeoman/generator-angular/issues/433#issuecomment-28280870
+  var modRewrite = require('connect-modrewrite')([
+    '!\\.ttf|\\.woff|\\.ttf|\\.eot|\\.html|\\.js|\\.coffee|\\.css|\\.png|\\.jpg|\\.gif|\\.svg$ /index.html [L]'
+  ]);
+
+  var yeoman = {
+    // configurable paths
+    app: require('./bower.json').appPath || 'app',
+    dist: 'dist',
+    test: 'test'
+  };
+
   grunt.initConfig({
-    yeoman: {
-      // configurable paths
-      app: require('./bower.json').appPath || 'app',
-      dist: 'dist',
-      test: 'test'
-    },
+    yeoman: yeoman,
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
@@ -102,16 +110,20 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: '192.168.1.5',
+        hostname: '127.0.0.1',
         livereload: 35729
       },
       livereload: {
         options: {
           open: true,
-          base: [
-            '.tmp',
-            '<%= yeoman.app %>'
-          ]
+          middleware: function (connect, options) {
+            return [
+              modRewrite,
+              // require('connect-livereload')(),
+              connect.static('.tmp'),
+              connect.static(yeoman.app)
+            ];
+          }
         }
       },
       test: {

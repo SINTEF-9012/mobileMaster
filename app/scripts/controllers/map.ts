@@ -44,7 +44,7 @@ angular.module('mobileMasterApp')
 
 	        // create a DOM element and put it into one of the map panes
 	        this._el = L.DomUtil.create('div', 'shadow-layer');
-	        this._title = L.DomUtil.create('h1');
+	        this._title = L.DomUtil.create('h1', '');
 	        this._title.appendChild(document.createTextNode("Set your location"));
 	        // map.getPanes().overlayPane.appendChild(this._el);
 	        this._el.appendChild(this._title);
