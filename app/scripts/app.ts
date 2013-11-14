@@ -3,23 +3,24 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', [])
-  .config(function ($routeProvider, $locationProvider) {
+angular.module('mobileMasterApp', ['ui.router'])
+  .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
     $locationProvider.html5Mode(true);
-    $routeProvider
-      .when('/', {
+    $urlRouterProvider.otherwise("/");
+    $stateProvider
+      .state('main', {
+        url: "/",
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/compass', {
+      .state('compass', {
+        url: '/compass',
         templateUrl: 'views/compass.html',
         controller: 'CompassCtrl'
       })
-      .when('/map', {
+      .state('map', {
+        url: '/map',
         templateUrl: 'views/map.html',
         controller: 'MapCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
   });

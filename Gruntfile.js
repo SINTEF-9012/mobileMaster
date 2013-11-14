@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 
   // https://github.com/yeoman/generator-angular/issues/433#issuecomment-28280870
   var modRewrite = require('connect-modrewrite')([
-    '!\\.ttf|\\.woff|\\.ttf|\\.eot|\\.html|\\.js|\\.coffee|\\.css|\\.png|\\.jpg|\\.gif|\\.svg$ /index.html [L]'
+    '!\\.ttf|\\.woff|\\.ttf|\\.eot|\\.html|\\.js|\\.coffee|\\.css|\\.png|\\.jpg|\\.gif|\\.svg|\\.map$ /index.html [L]'
   ]);
 
   var yeoman = {
