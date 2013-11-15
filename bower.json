@@ -4,11 +4,11 @@
   "dependencies": {
     "1579671": "https://gist.github.com/1579671.git",
     "angular": "~1.2.0",
+    "angular-route": "~1.2.0",
     "json3": "~3.2.4",
     "jquery": "~1.10.0",
     "bootstrap-sass": "~3.0.2",
     "es5-shim": "~2.1.0",
-	"angular-route": "~1.2.0",
     "iscroll": "~5.0.6",
     "leaflet-dist": "~0.6.4",
     "angular-ui-router": "~0.2.0",

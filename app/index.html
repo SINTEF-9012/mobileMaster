@@ -11,17 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/bootstrap.css">
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
-        <link rel="stylesheet" href="bower_components/leaflet-dist/leaflet.css">
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" href="bower_components/leaflet-dist/leaflet.css">
 </head>
   <body ng-app="mobileMasterApp">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
     <!--[if lt IE 9]>
       <script src="bower_components/es5-shim/es5-shim.js"></script>
       <script src="bower_components/json3/lib/json3.min.js"></script>
@@ -30,22 +26,27 @@
     <!-- Add your site or application content here -->
     <div class="_container" ui-view=""></div>
 
+    <!-- build:js scripts/plugins.js -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/iscroll/build/iscroll.js"></script>
     <script src="bower_components/leaflet-dist/leaflet-src.js"></script>
+    <script src="bower_components/1579671/rAF.js"></script>
+    <script src="bower_components/compass.js/lib/compass.js"></script>
+    <!-- endbuild -->
 
-        <!-- build:js scripts/plugins.js -->
-        <!-- endbuild -->
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/compass.js"></script>
-        <script src="scripts/filters/distance.js"></script>
-        <script src="scripts/filters/humanizeDistance.js"></script>
-        <script src="scripts/controllers/map.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/compass.js"></script>
+    <script src="scripts/filters/distance.js"></script>
+    <script src="scripts/filters/humanizeDistance.js"></script>
+    <script src="scripts/controllers/map.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

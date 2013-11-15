@@ -1,11 +1,16 @@
 /// <reference path="./references/angularjs/angular.d.ts" />
 /// <reference path="./references/leaflet/leaflet.d.ts" />
+/// <reference path="./references/phonegap/phonegap.d.ts" />
 
 'use strict';
 
 angular.module('mobileMasterApp', ['ui.router'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
-    $locationProvider.html5Mode(true);
+
+    if (!window.navigator.device) {
+      $locationProvider.html5Mode(true);
+    }
+
     $urlRouterProvider.otherwise("/");
     $stateProvider
       .state('main', {

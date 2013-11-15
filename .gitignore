@@ -6,7 +6,7 @@ app/bower_components
 app/scripts/**/*.d.ts
 app/scripts/**/*.js
 app/scripts/**/*.js.map
-app/scripts/**/*.d.ts
+!app/scripts/references/**/*.d.ts
 test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts

@@ -64,37 +64,43 @@ module.exports = function (grunt) {
       }
     },
     ts: {
-    options: { // use to override the default options, http://gruntjs.com/configuring-tasks#options
-        target: 'es3', // es3 (default) / or es5
-        //module: 'commonjs', // amd , commonjs (default)
-        sourcemap: true, // true (default) | false
-        //declaration: false, // true | false (default)
-        //nolib: false, // true | false (default)
-        //comments: false // true | false (default)
-    },
-    dev: { // a particular target
-        src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
-              '!<%= yeoman.app %>/scripts/reference.ts',
-              '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
-              '<%= yeoman.test %>/spec/{,*/}*.ts',
-              '!<%= yeoman.test %>/spec/{,*/}*.d.ts'
-              ], // The source typescript files, http://gruntjs.com/configuring-tasks#files
-        reference: '<%= yeoman.app %>/scripts/reference.ts', // If specified, generate this file that you can use for your reference management
-        // out: '<%= yeoman.app %>/scripts/out.js', // If specified, generate an out.js file which is the merged js file
-        options: { // override the main options, http://gruntjs.com/configuring-tasks#options
-            sourcemap: true,
-            declaration: true,
-            comments: true,
-            target: 'es5'
-        },
-    },
-    build: { // another target
-        src: ['<%= yeoman.app %>/scripts/*.ts'],
-        options: { // overide the main options for this target
-            sourcemap: false,
-        }
-    },
-},
+      options: { // use to override the default options, http://gruntjs.com/configuring-tasks#options
+          target: 'es3', // es3 (default) / or es5
+          //module: 'commonjs', // amd , commonjs (default)
+          sourcemap: true, // true (default) | false
+          //declaration: false, // true | false (default)
+          //nolib: false, // true | false (default)
+          //comments: false // true | false (default)
+      },
+      dev: { // a particular target
+          src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
+                '!<%= yeoman.app %>/scripts/reference.ts',
+                '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
+                '<%= yeoman.test %>/spec/{,*/}*.ts',
+                '!<%= yeoman.test %>/spec/{,*/}*.d.ts'
+                ], // The source typescript files, http://gruntjs.com/configuring-tasks#files
+          reference: '<%= yeoman.app %>/scripts/reference.ts', // If specified, generate this file that you can use for your reference management
+          // out: '<%= yeoman.app %>/scripts/out.js', // If specified, generate an out.js file which is the merged js file
+          options: { // override the main options, http://gruntjs.com/configuring-tasks#options
+              sourcemap: true,
+              declaration: true,
+              comments: true,
+              target: 'es5'
+          },
+      },
+      build: { // another target
+          src: 
+          ['<%= yeoman.app %>/scripts/{,*/}*.ts',
+                '!<%= yeoman.app %>/scripts/reference.ts',
+                '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
+                '<%= yeoman.test %>/spec/{,*/}*.ts',
+                '!<%= yeoman.test %>/spec/{,*/}*.d.ts'
+                ],
+          options: { // overidet he main options for this target
+              sourcemap: false,
+          }
+      },
+  },
     autoprefixer: {
       options: ['last 1 version'],
       dist: {
@@ -236,7 +242,7 @@ module.exports = function (grunt) {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>']
+        dirs: ['<%= yeoman.dist %>']
       }
     },
     imagemin: {
@@ -402,18 +408,18 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'ts',
+    'ts:build',
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
     'concat',
+    'ngmin',
     'copy:dist',
     // 'cdnify', I dislike CDN
-    'ngmin',
     'cssmin',
-    // 'uglify',
-    'rev',
+    'uglify',
+    // 'rev',
     'usemin'
   ]);
 
