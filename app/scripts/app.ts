@@ -2,6 +2,8 @@
 /// <reference path="./references/leaflet/leaflet.d.ts" />
 /// <reference path="./references/phonegap/phonegap.d.ts" />
 
+/// <reference path="./masterScope.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp', ['ui.router'])
@@ -27,5 +29,9 @@ angular.module('mobileMasterApp', ['ui.router'])
         url: '/map',
         templateUrl: 'views/map.html',
         controller: 'MapCtrl'
+      }).state('map.layers', {
+        url: '/layers',
+        templateUrl: 'views/layers.html',
+        controller: 'LayersCtrl'
       });
   });

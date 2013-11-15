@@ -16,13 +16,14 @@ angular.module('mobileMasterApp')
    		attributionControl: false
    		});
 
+   	$scope.map = map;
     // var openStreetMapLayer = new L.TileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         // attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     // });
     // openStreetMapLayer.addTo(map);
-    var openStreetMapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
-    });
-    openStreetMapLayer.addTo(map);
+    // var openStreetMapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
+    // });
+    // openStreetMapLayer.addTo(map);
 
   	// L.tileLayer.wms("http://openwms.statkart.no/skwms1/wms.topo2",{
   	// 	layers: 'topo2_WMS',
