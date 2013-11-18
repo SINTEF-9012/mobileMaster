@@ -3618,7 +3618,7 @@ declare module L {
 
     module TileLayer {
 
-        export class WMS {
+        export class WMS extends TileLayer {
 
             /**
               * Instantiates a WMS tile layer object given a base URL of the WMS service and
