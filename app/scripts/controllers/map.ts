@@ -2,21 +2,47 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-  .controller('MapCtrl', function ($scope) {
+  .config(function(masterMapProvider : Master.MapConfig) {
+   	masterMapProvider.setOptions({
+   		zoom: 13,
+   		center: new L.LatLng(59.911111,  	10.752778),
+   		zoomControl: false,
+   		attributionControl: false,
+   		detectRetina: true
+   		})
+   	.declareTileLayer({
+		name: "test",
+		iconPath:"/test",
+		create: function() {
+		    return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
+			});
+		}
+  	})
+  	.declareTileLayer({
+  		name: "test2",
+		iconPath:"/test",
+		create: function() {
+			return L.tileLayer.wms("http://openwms.statkart.no/skwms1/wms.topo2",{
+					layers: 'topo2_WMS',
+					transparent: true,
+					format: 'image/png',
+					version: '1.1.1'
+				});
+		}
+	})
+	.setDefaultTileLayer("test");
+  })
+  .controller('MapCtrl', function ($scope, masterMap : Master.Map) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
 
-   	var map = L.map(document.getElementById('map'), {
-   		zoom: 13,
-   		center: new L.LatLng(59.911111,  	10.752778),
-   		zoomControl: false,
-   		attributionControl: false
-   		});
+    $('#map').append(masterMap.getContainer());
 
-   	$scope.map = map;
+    masterMap.invalidateSize({});
+   	// $scope.map = map;
     // var openStreetMapLayer = new L.TileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         // attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     // });
@@ -69,6 +95,6 @@ angular.module('mobileMasterApp')
 	        L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
 	    }
 	});
-	map.addLayer(new MyCustomLayer([0,0]));
+	masterMap.addLayer(new MyCustomLayer([0,0]));
 
   });
