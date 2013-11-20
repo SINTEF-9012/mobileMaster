@@ -8,13 +8,13 @@ angular.module('mobileMasterApp')
    		center: new L.LatLng(59.911111,  	10.752778),
    		zoomControl: false,
    		attributionControl: false,
-   		detectRetina: true
    		})
    	.declareTileLayer({
 		name: "test",
 		iconPath:"/test",
 		create: function() {
 		    return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
+		    	detectRetina:true
 			});
 		}
   	})
@@ -22,15 +22,16 @@ angular.module('mobileMasterApp')
   		name: "test2",
 		iconPath:"/test",
 		create: function() {
-			return L.tileLayer.wms("http://openwms.statkart.no/skwms1/wms.topo2",{
-					layers: 'topo2_WMS',
+			return L.tileLayer.wms("http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS",{
+					name: 'topo2',
+					layers: 'topo2',
 					transparent: true,
 					format: 'image/png',
 					version: '1.1.1'
 				});
 		}
 	})
-	.setDefaultTileLayer("test");
+	.setDefaultTileLayer("test2");
   })
   .controller('MapCtrl', function ($scope, masterMap : Master.Map) {
     $scope.awesomeThings = [
