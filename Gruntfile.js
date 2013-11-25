@@ -59,7 +59,8 @@ module.exports = function (grunt) {
                   '!<%= yeoman.app %>/scripts/reference.ts',
                   '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
                   '<%= yeoman.test %>/spec/{,*/}*.ts',
-                  '!<%= yeoman.test %>/spec/{,*/}*.d.ts'],
+                  '!<%= yeoman.test %>/spec/{,*/}*.d.ts',
+                  '<%= yeoman.app %>/scripts/masterScope.d.ts'],
           tasks: ['ts:dev']
       }
     },
