@@ -5,6 +5,7 @@ declare module MasterScope {
 
         closeLayerList() : void;
         layerClick(layer : Layer) : void;
+        patients: {[ID: string] : NodeMaster.IPatientModel;};
     }
     interface Layer {
         name: string;

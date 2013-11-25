@@ -60,69 +60,18 @@
 <table class="table table-striped" >
 	<thead>
 		<tr>
-			<th>Police</th>
-			<th>ID</th>
-			<th>Type</th>
-			<th>Status</th>
-			<th>District</th>
+			<th>Patient</th>
+			<th>Age</th>
+			<th>Lat</th>
+			<th>Lng</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<th>ABC</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>DEF</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>GHI</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>KLM</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>NOP</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>QRS</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>TUV</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>WYZ</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
+		<tr ng-repeat="patient in patients">
+			<th>{{patient.ID}}</th>
+			<td>{{patient.Age.Value}}</td>
+			<td>{{patient.Location.lat}}</td>
+			<td>{{patient.Location.lng}}</td>
 		</tr>
 	</tbody>
 </table>

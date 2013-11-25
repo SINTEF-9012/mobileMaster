@@ -35,7 +35,7 @@ angular.module('mobileMasterApp')
 	.setDefaultTileLayer("test");
 
 
-    nodeMasterProvider.setConnection("ws://localhost:8181");
+    nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
   })
   .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any) {
     $scope.awesomeThings = [
@@ -101,5 +101,21 @@ angular.module('mobileMasterApp')
 	    }
 	});
 	masterMap.addLayer(new MyCustomLayer([0,0]));
+
+	var markers : {[key: string] : L.Marker} = {};
+
+	$scope.$watch('patients', function(patients: MasterScope.Root.patients) {
+
+		angular.forEach(patients, function(patient : NodeMaster.IPatientModel) {
+			var location = new L.LatLng(patient.Location.lat,patient.Location.lng);
+			if (markers[patient.ID]) {
+				markers[patient.ID].setLatLng(location);
+			} else {
+				markers[patient.ID] = new L.Marker(location);
+
+				markers[patient.ID].addTo(masterMap);
+			}
+		});
+	}, true);
 
   });
