@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-  .config(function(masterMapProvider : Master.MapConfig) {
+  .config(function(masterMapProvider : Master.MapConfig,
+  	nodeMasterProvider : any) {
    	masterMapProvider.setOptions({
    		zoom: 13,
    		center: new L.LatLng(59.911111,  	10.752778),
@@ -31,9 +32,12 @@ angular.module('mobileMasterApp')
 				});
 		}
 	})
-	.setDefaultTileLayer("test2");
+	.setDefaultTileLayer("test");
+
+
+    nodeMasterProvider.setConnection("ws://localhost:8181");
   })
-  .controller('MapCtrl', function ($scope, masterMap : Master.Map) {
+  .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

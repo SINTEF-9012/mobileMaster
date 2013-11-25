@@ -7,8 +7,11 @@ declare module Master {
     declareTileLayer(layer : MasterScope.Layer) : void;
     getTilesLayers() : MasterScope.Layer[];
 
-    showTileLayer(name : string) : MapConfig;
-    hideTileLayer(name : string) : MapConfig;
+    showTileLayer(name : string) : Map;
+    hideTileLayer(name : string) : Map;
+
+    enableInteractions() : Map;
+    disableInteractions() : Map;
   }
 
   export interface MapConfig {
@@ -101,6 +104,29 @@ angular.module('mobileMasterApp')
           }
         }
 
+        return this;
+      };
+
+      instance.enableInteractions = function() {
+        instance.dragging.enable();
+        instance.touchZoom.enable();
+        instance.doubleClickZoom.enable();
+        instance.scrollWheelZoom.enable();
+        instance.boxZoom.enable();
+        instance.keyboard.enable();
+
+        instance.tap&&instance.tap.enable();
+        return this;
+      };
+
+      instance.disableInteractions = function() {
+        instance.dragging.disable();
+        instance.touchZoom.disable();
+        instance.doubleClickZoom.disable();
+        instance.scrollWheelZoom.disable();
+        instance.boxZoom.disable();
+        instance.keyboard.disable();
+        instance.tap&&instance.tap.disable();
         return this;
       };
 

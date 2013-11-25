@@ -7,7 +7,12 @@
 	bottom:0;
 	left:0;
 	background:lighten(#000, 33.5%);
+
+	.map {
+		height:100%;
+	}
 }
+
 
 .leaflet-container {
 	.shadow-layer {

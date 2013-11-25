@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 
   // https://github.com/yeoman/generator-angular/issues/433#issuecomment-28280870
   var modRewrite = require('connect-modrewrite')([
-    '!\\.ttf|\\.woff|\\.ttf|\\.eot|\\.html|\\.js|\\.coffee|\\.css|\\.png|\\.jpg|\\.gif|\\.svg|\\.map$ /index.html [L]'
+    '!\\.ttf|\\.woff|\\.ttf|\\.eot|\\.html|\\.js|\\.coffee|\\.css|\\.png|\\.jpg|\\.gif|\\.svg|\\.map|\\.proto$ /index.html [L]'
   ]);
 
   var yeoman = {
@@ -372,15 +372,7 @@ module.exports = function (grunt) {
         }]
       }
     },
-    uglify: {
-      dist: {
-        files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '<%= yeoman.dist %>/scripts/scripts.js'
-          ]
-        }
-      }
-    }
+    
   });
 
   grunt.registerTask('server', function (target) {
