@@ -14,7 +14,8 @@
     "compass.js": "https://github.com/ai/compass.js.git#~0.1.1",
     "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.zip",
     "yetAnotherPanelsLibrary": "~0.1.0",
-    "protobuf": "~1.5.2"
+    "protobuf": "~1.5.2",
+    "leaflet.markerclusterer": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

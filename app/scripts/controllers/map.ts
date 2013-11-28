@@ -1,21 +1,28 @@
 /// <reference path="./../references/angularjs/angular.d.ts" />
 'use strict';
 
+declare module L{
+	export var MarkerClusterGroup;
+}
+
 angular.module('mobileMasterApp')
   .config(function(masterMapProvider : Master.MapConfig,
   	nodeMasterProvider : any) {
+  	window.L_PREFER_CANVAS = true;
    	masterMapProvider.setOptions({
    		zoom: 13,
    		center: new L.LatLng(59.911111,  	10.752778),
    		zoomControl: false,
    		attributionControl: false,
+   		maxZoom:18
    		})
    	.declareTileLayer({
 		name: "test",
 		iconPath:"/test",
 		create: function() {
 		    return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
-		    	detectRetina:true
+		    	detectRetina:true,
+		    	maxNativeZoom:17
 			});
 		}
   	})
@@ -100,22 +107,43 @@ angular.module('mobileMasterApp')
 	        L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
 	    }
 	});
-	masterMap.addLayer(new MyCustomLayer([0,0]));
+	// masterMap.addLayer(new MyCustomLayer([0,0]));
 
+	var cluster = new L.MarkerClusterGroup({
+		disableClusteringAtZoom: 18,
+		spiderfyOnMaxZoom:false,
+		showCoverageOnHover: false});
 	var markers : {[key: string] : L.Marker} = {};
 
-	$scope.$watch('patients', function(patients: MasterScope.Root.patients) {
+	var cpt = 0;
+	$scope.$watch('patients', function(patients: {[ID: string] : NodeMaster.IPatientModel}) {
+		// cluster.clearLayers();
 
-		angular.forEach(patients, function(patient : NodeMaster.IPatientModel) {
+		var update = ++cpt === 60;
+
+		if (update) {
+			cpt = 0;
+			cluster.clearLayers();	
+		}
+		angular.forEach(patients, function(patient : NodeMaster.IPatientModel, ID:string) {
 			var location = new L.LatLng(patient.Location.lat,patient.Location.lng);
-			if (markers[patient.ID]) {
-				markers[patient.ID].setLatLng(location);
+			if (markers[ID]) {
+				// cluster.removeLayer(markers[ID]);
+				markers[ID].setLatLng(location);
+				if (update) {
+					cluster.addLayer(markers[ID]);
+				}
 			} else {
-				markers[patient.ID] = new L.Marker(location);
+				markers[ID] = new L.Marker(location);
 
-				markers[patient.ID].addTo(masterMap);
+				// markers[ID].addTo(masterMap);
+				cluster.addLayer(markers[ID]);
 			}
+
 		});
+
 	}, true);
+
+	masterMap.addLayer(cluster);
 
   });
