@@ -1,15 +1,20 @@
 @import "compass";
 
 #map {
-	position:absolute;
-	top:0;
-	right:0;
-	bottom:0;
-	left:0;
+	// position:relative;
+		height:100%;
+
 	background:lighten(#000, 33.5%);
+
 
 	.map {
 		height:100%;
+	}
+
+	.leaflet-marker-icon, .leaflet-marker-shadow {
+		-moz-transition:transform 0.5s linear;
+		-webkit-transition:transform 0.5s linear;
+		transition:transform 0.5s linear;
 	}
 }
 
@@ -57,4 +62,45 @@ margin-left:1.65em;
 	width:200px;
 	margin:auto;
 	border-bottom:10px solid white;
+}
+
+#wrapper {
+        position:absolute;
+        z-index: 1;
+        top:0;
+        left:0;
+        bottom:0;
+        right: 0;
+        overflow: hidden;
+        -ms-touch-action: none;
+}
+
+#scroller {
+        position:absolute;
+        z-index: 1;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        // -webkit-transform: translateZ(0);
+        // -moz-transform: translateZ(0);
+        // -ms-transform: translateZ(0);
+        // -o-transform: translateZ(0);
+        // transform: translateZ(0);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+        -o-text-size-adjust: none;
+        text-size-adjust: none;
+
+        .canard_panel {
+	        position:absolute;
+        }
+}
+
+#top-menu {
+	height:170px;
+    background:blue;
 }

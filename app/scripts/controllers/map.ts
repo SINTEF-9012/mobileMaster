@@ -1,9 +1,17 @@
 /// <reference path="./../references/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';
 
 declare module L{
 	export var MarkerClusterGroup;
 }
+
+interface Window {
+	L_PREFER_CANVAS : boolean;
+	canard:any;
+}
+
+declare var OSMBuildings;
 
 angular.module('mobileMasterApp')
   .config(function(masterMapProvider : Master.MapConfig,
@@ -45,15 +53,119 @@ angular.module('mobileMasterApp')
     nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
   })
   .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
 
-    $('#map').append(masterMap.getContainer());
+    var jMap = $('#map');
 
-    masterMap.invalidateSize({});
+    jMap.append(masterMap.getContainer());
+
+    var layout = new yetAnotherPanelsLibrary($('#main'), {
+        autoHideOnClose: true,
+
+        // mainPanelMask:true,
+        preventDefault:false 
+	});
+
+
+var panelOpen = false;
+layout.setTopPanel($('#top-menu'), true, function() {
+console.log("cool open");
+// map.dragging.disable();
+// map.touchZoom.disable();
+// map.doubleClickZoom.disable();
+// map.scrollWheelZoom.disable();
+// map.boxZoom.disable();
+// map.keyboard.disable();
+// map.tap&&map.tap.disable();
+panelOpen = true;
+        },
+function() {
+        console.log("cool close");
+panelOpen = false;
+
+// map.dragging.enable();
+// map.touchZoom.enable();
+// map.doubleClickZoom.enable();
+// map.scrollWheelZoom.enable();
+// map.boxZoom.enable();
+// map.keyboard.enable();
+// map.tap&&map.tap.enable();
+}
+        )
+        // .updateView();
+
+        window.canard = layout;
+
+    // masterMap.invalidateSize({});
+       // layout.showTopPanel();
+       layout.updateView();
+       window.setTimeout(function() {
+	   	masterMap.invalidateSize({});
+       	// layout.showTopPanel();
+       }, 1);
+
+    var nbTouchs = 0, lastTouchMove = 0, touchEnabled = true;
+	$('#map .map').on('touchstart pointerdown', function(e) {
+        ++nbTouchs;
+        console.log(nbTouchs);
+        if (nbTouchs == 3) {
+                e.preventDefault();
+                if (touchEnabled) {
+
+touchEnabled = false;
+masterMap.dragging.disable();
+masterMap.touchZoom.disable();
+masterMap.doubleClickZoom.disable();
+masterMap.scrollWheelZoom.disable();
+masterMap.boxZoom.disable();
+masterMap.keyboard.disable();
+masterMap.tap&&masterMap.tap.disable();
+                }
+                // layout.mainPanelMask.show();
+                // $('#wrapper').trigger('touchstart');
+                // $('#wrapper').trigger('touchstart');
+                // $('#wrapper').trigger('touchstart');
+        }
+}).on('touchend pointerup', function(e) {
+        if (nbTouchs) {
+                --nbTouchs;
+        }
+        console.log(nbTouchs);
+        if (nbTouchs == 2) {
+                e.preventDefault();
+                if (!touchEnabled) {
+                        touchEnabled = true
+masterMap.dragging.enable();
+masterMap.touchZoom.enable();
+masterMap.doubleClickZoom.enable();
+masterMap.scrollWheelZoom.enable();
+masterMap.boxZoom.enable();
+masterMap.keyboard.enable();
+masterMap.tap&&masterMap.tap.enable();
+                }
+                // layout.mainPanelMask.hide();
+        }
+}).on('touchmove pointermove', function() {
+        lastTouchMove = +new Date();
+});
+
+window.setInterval(function(){
+        if ((+new Date()) - lastTouchMove > 500) {
+                nbTouchs = 0;
+if (!touchEnabled) {
+
+        masterMap.dragging.enable();
+masterMap.touchZoom.enable();
+masterMap.doubleClickZoom.enable();
+masterMap.scrollWheelZoom.enable();
+masterMap.boxZoom.enable();
+masterMap.keyboard.enable();
+masterMap.tap&&masterMap.tap.enable();
+}
+        }
+}, 500);
+
+
+
    	// $scope.map = map;
     // var openStreetMapLayer = new L.TileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         // attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -144,6 +256,12 @@ angular.module('mobileMasterApp')
 
 	}, true);
 
-	masterMap.addLayer(cluster);
+	// masterMap.addLayer(cluster);
 
+	// new OSMBuildings(masterMap)
+	// 	.setStyle({
+	// 		wallColor:"rgb(106,131,136)",
+	// 		roofColor:"rgb(176,189,195)"
+	// 		})
+	// 	.loadData();
   });
