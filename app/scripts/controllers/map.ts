@@ -8,10 +8,11 @@ declare module L{
 
 interface Window {
 	L_PREFER_CANVAS : boolean;
-	canard:any;
+	// canard:any;
 }
 
 declare var OSMBuildings;
+declare var rebound;
 
 angular.module('mobileMasterApp')
   .config(function(masterMapProvider : Master.MapConfig,
@@ -22,7 +23,8 @@ angular.module('mobileMasterApp')
    		center: new L.LatLng(59.911111,  	10.752778),
    		zoomControl: false,
    		attributionControl: false,
-   		maxZoom:18
+   		maxZoom:18,
+   		keyboard: false
    		})
    	.declareTileLayer({
 		name: "test",
@@ -54,11 +56,70 @@ angular.module('mobileMasterApp')
   })
   .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any) {
 
-    var jMap = $('#map');
+    var jMap = $('#map'), jScroller= $('#scroller'), scroller = jScroller.get(0);
 
     jMap.append(masterMap.getContainer());
 
-    var layout = new yetAnotherPanelsLibrary($('#main'), {
+    jMap.height(jScroller.height());
+	masterMap.invalidateSize({});
+
+	var springSystem = new rebound.SpringSystem();
+
+	var spring = springSystem.createSpring();
+    var springConfig = rebound.SpringConfig.fromQcTensionAndFriction(40, 3);
+    spring.setSpringConfig(springConfig);
+    spring.setCurrentValue(0);
+
+    var lastRoundValue = 0.0;
+    spring.addListener({
+    	onSpringUpdate: function() {
+    		var newValue = Math.round(spring.getCurrentValue() * 200);
+
+    		if (newValue != lastRoundValue) {
+    			lastRoundValue = newValue;
+		    	// console.log(newValue);
+		    	// jScroller.scrollTop(newValue);
+		    	scroller.scrollTop = newValue+200;
+		    	// jScroller.css('transform','translate(0px,'+(200-newValue)+'px)');
+    		}
+	    },
+
+	    onSpringActivate: function() {
+	    	jScroller.css('padding-bottom', 200)
+	    		.css('padding-top', 200);
+	    		lastRoundValue = 0;
+	    	// jScroller.scrollTop(jScroller.scrollTop()+200);
+	    	jScroller.scrollTop(jScroller.scrollTop()*spring.getCurrentValue()+200);
+	    },
+
+	    onSpringAtRest: function() {
+	    	jScroller.css('padding-bottom', 0)
+	    		.css('padding-top', 0);
+	    		lastRoundValue = 0;
+	    	jScroller.scrollTop(jScroller.scrollTop()*spring.getCurrentValue());
+	    }
+    });
+
+    window.canard = spring;
+
+    spring.setEndValue(1);
+	jScroller.scrollTop(200);
+
+    jScroller.on('touchend', function() {
+    	// console.log(spring.getCurrentValue());
+    	
+    	spring.setCurrentValue(scroller.scrollTop/200);
+    	jScroller.scrollTop(jScroller.scrollTop()*spring.getCurrentValue());
+    	// console.log(spring.getCurrentValue());
+    	spring.setEndValue(1);
+		// jScroller.scrollTop(200);
+    	console.log("touchend");
+    	
+   	}).on('touchstart', function() {
+   		spring.setEndValue(spring.getCurrentValue());
+	});
+
+   /* var layout = new yetAnotherPanelsLibrary($('#main'), {
         autoHideOnClose: true,
 
         // mainPanelMask:true,
@@ -162,7 +223,7 @@ masterMap.keyboard.enable();
 masterMap.tap&&masterMap.tap.enable();
 }
         }
-}, 500);
+}, 500);*/
 
 
 
