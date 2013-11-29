@@ -43,3 +43,11 @@ angular.module('mobileMasterApp', ['ui.router'])
       });
 
   });
+
+if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i)) {
+  document.body.parentElement.className = "ipad ios7";
+
+  window.addEventListener('orientationchange', function () {
+    window.scrollTo(0, 0);
+  });
+}

@@ -8,21 +8,24 @@ declare module L{
 
 interface Window {
 	L_PREFER_CANVAS : boolean;
-	canard:any;
 }
 
 declare var OSMBuildings;
+declare var rebound;
 
 angular.module('mobileMasterApp')
   .config(function(masterMapProvider : Master.MapConfig,
   	nodeMasterProvider : any) {
+
   	window.L_PREFER_CANVAS = true;
+
    	masterMapProvider.setOptions({
    		zoom: 13,
    		center: new L.LatLng(59.911111,  	10.752778),
    		zoomControl: false,
    		attributionControl: false,
-   		maxZoom:18
+   		maxZoom:18,
+   		keyboard:false
    		})
    	.declareTileLayer({
 		name: "test",
@@ -58,11 +61,35 @@ angular.module('mobileMasterApp')
 
     jMap.append(masterMap.getContainer());
 
+   	var springSystem = new rebound.SpringSystem();
+
+	var spring = springSystem.createSpring();
+    var springConfig = rebound.SpringConfig.fromQcTensionAndFriction(40, 3);
+    spring.setSpringConfig(springConfig);
+    spring.setCurrentValue(0);
+
     var layout = new yetAnotherPanelsLibrary($('#main'), {
         autoHideOnClose: true,
 
         // mainPanelMask:true,
-        preventDefault:false 
+        // preventDefault:false,
+        // bounceEasing: 'bounce',
+        bounceEasing: {
+        	'style':'',
+        	fn: function(k) {
+        		if (k === 0) {
+        			spring.setCurrentValue(0);
+        			spring.setEndValue(1);
+        		}
+        		// console.log(k);
+        		
+        		// return k*0.1;
+        		return spring.getCurrentValue();
+        	}
+        },
+        animationDuration: 1000,
+        bounceTime: 1000,
+        snapSpeed: 1000
 	});
 
 
