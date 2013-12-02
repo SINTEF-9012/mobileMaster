@@ -2,6 +2,7 @@
 /// <reference path="./references/leaflet/leaflet.d.ts" />
 /// <reference path="./references/phonegap/phonegap.d.ts" />
 /// <reference path="./references/NodeMaster.d.ts" />
+/// <reference path="./references/Touch.d.ts" />
 /// <reference path="./masterScope.d.ts" />
 
 'use strict';

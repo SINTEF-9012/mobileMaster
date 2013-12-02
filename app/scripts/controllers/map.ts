@@ -4,6 +4,7 @@
 
 declare module L{
 	export var MarkerClusterGroup;
+  export var BingLayer;
 }
 
 interface Window {
@@ -73,9 +74,9 @@ angular.module('mobileMasterApp')
     name: "test5",
     iconPath:"layer_test5.png",
     create: function() {
-                return L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+                return new L.TileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
           attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-          subdomains: 'abcd',
+          subdomains: ['a', 'b', 'c', 'd'],
           detectRetina:true,
           minZoom: 3,
           maxZoom: 16
@@ -215,8 +216,9 @@ topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
       // });
 
       $('#map .map').on('touchstart pointerdown', function(e) {
-        if (e.originalEvent.touches && e.originalEvent.touches.length>= 3) {
-        console.log(e.originalEvent.touches.length)
+        var oe = <TouchEvent><any> e.originalEvent;
+
+        if (oe.touches && oe.touches.length>= 3) {
 
           if (mapEnabled) {
             mapEnabled = false;
@@ -230,8 +232,9 @@ topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
           }
         }
       }).on('touchend pointerup', function(e) {
-        // console.log(e.originalEvent.touches.length)
-        if (!mapEnabled && (!e.originalEvent.touches || e.originalEvent.touches.length < 3)) {
+
+        var oe = <TouchEvent><any> e.originalEvent;
+        if (!mapEnabled && (!oe.touches || oe.touches.length < 3)) {
           mapEnabled = true;
           masterMap.dragging.enable();
           masterMap.touchZoom.enable();
