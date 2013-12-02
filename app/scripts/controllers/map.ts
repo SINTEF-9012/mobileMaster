@@ -2,22 +2,6 @@
 /// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';
 
-declare module L{
-	export var MarkerClusterGroup;
-  export var BingLayer;
-}
-
-interface JQuery{
-  bootstrapSwitch : any;
-}
-
-interface Window {
-	L_PREFER_CANVAS : boolean;
-}
-
-declare var OSMBuildings;
-declare var rebound;
-
 angular.module('mobileMasterApp')
   .config(function(masterMapProvider : Master.MapConfig,
   	nodeMasterProvider : any) {

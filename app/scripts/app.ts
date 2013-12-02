@@ -3,6 +3,7 @@
 /// <reference path="./references/phonegap/phonegap.d.ts" />
 /// <reference path="./references/NodeMaster.d.ts" />
 /// <reference path="./references/Touch.d.ts" />
+/// <reference path="./references/generic.d.ts" />
 /// <reference path="./masterScope.d.ts" />
 
 'use strict';
@@ -46,10 +47,6 @@ angular.module('mobileMasterApp', ['ui.router'])
       });
 
   });
-
-interface Navigator {
-  standalone : boolean;
-}
 
 if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {
   document.body.parentElement.className = "ipad ios7";
