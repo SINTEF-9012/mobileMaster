@@ -56,27 +56,17 @@ angular.module('mobileMasterApp')
 
 	// // $scope.layers[0].select();
 
-	$(masterMap.getContainer()).one("click", function() {
-		$scope.closeLayerList();
-	});
+	// $(masterMap.getContainer()).one("click", function() {
+	// 	$scope.closeLayerList();
+	// });
 
-	$scope.layerClick = function(layer : MasterScope.Layer) {
 
-		if (!layer.active) {
-			angular.forEach($scope.layers, function(iLayer: MasterScope.Layer){
 
-				masterMap.hideTileLayer(iLayer.name);
-			});
+	// $scope.closeLayerList = function(){
+	// 	$state.go("^");
+	// }
 
-			masterMap.showTileLayer(layer.name);
-		}
-	}
-
-	$scope.closeLayerList = function(){
-		$state.go("^");
-	}
-
-	$scope.layers = masterMap.getTilesLayers();
+	// $scope.layers = masterMap.getTilesLayers();
 
 
 });

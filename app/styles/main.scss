@@ -102,8 +102,33 @@ margin-left:1.65em;
 
 #top-menu {
 	height:170px;
-    background:blue;
+	// padding-top:12px;
+    // background:blue;
+    border-bottom:1px solid #cdcdcd;
+    margin-top:-1px;
+    // padding-top:10px;
+    // padding-bottom:10px;
+
+    button {
+    	background-size: cover;
+    	height:110px;
+    	width:172px;
+    	margin-left:10px;
+    	margin-bottom:10px;
+    }
+
+    h3 {
+    	color:#333;
+    	margin:10px;
+
+    }
+
+    .content {
+    	padding-bottom:10px;
+    }
+
 }
+
 
 @media (orientation:landscape) {
     html.ipad.ios7 > body #wrapper {

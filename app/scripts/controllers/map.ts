@@ -29,7 +29,7 @@ angular.module('mobileMasterApp')
    		})
    	.declareTileLayer({
 		name: "test",
-		iconPath:"/test",
+		iconPath:"layer_test.png",
 		create: function() {
 		    return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
 		    	detectRetina:true,
@@ -39,7 +39,7 @@ angular.module('mobileMasterApp')
   	})
   	.declareTileLayer({
   		name: "test2",
-		iconPath:"/test",
+		iconPath:"layer_test2.png",
 		create: function() {
 			return L.tileLayer.wms("http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS",{
 					name: 'topo2',
@@ -50,12 +50,57 @@ angular.module('mobileMasterApp')
 				});
 		}
 	})
+    .declareTileLayer({
+    name: "test3",
+    iconPath:"layer_test3.png",
+    create: function() {
+        return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
+          detectRetina:true,
+          maxNativeZoom:17
+      });
+    }
+    })
+    // .declareTileLayer({
+    // name: "test4",
+    // iconPath:"layer_test.png",
+    // create: function() {
+    //    return L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    //     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    //   }); 
+    // }
+    // })
+    .declareTileLayer({
+    name: "test5",
+    iconPath:"layer_test5.png",
+    create: function() {
+                return L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+          attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+          subdomains: 'abcd',
+          detectRetina:true,
+          minZoom: 3,
+          maxZoom: 16
+        });
+    }})
+
+        .declareTileLayer({
+    name: "test6",
+    iconPath:"layer_test6.png",
+    create: function() {
+
+      return new L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9",{
+        detectRetina:true
+        });
+      //  return L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      //   attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      // }); 
+    }
+    })
 	.setDefaultTileLayer("test");
 
 
     nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
   })
-  .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any) {
+  .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any) {
 
     var jMap = $('#map');
 
@@ -89,13 +134,19 @@ angular.module('mobileMasterApp')
         },
         animationDuration: 1000,
         bounceTime: 1000,
-        snapSpeed: 1000
+        snapSpeed: 1000,
+         // preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|BUTTON)$/, className: /^(canard_panel)$/ }
 	});
 
 
 var panelOpen = false;
-layout.setTopPanel($('#top-menu'), true, function() {
+var topMenu = $('#top-menu');
+topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
+layout.setTopPanel(topMenu, true, function() {
 console.log("cool open");
+
+$state.go('map.layers');
+
 // map.dragging.disable();
 // map.touchZoom.disable();
 // map.doubleClickZoom.disable();
@@ -107,6 +158,7 @@ panelOpen = true;
         },
 function() {
         console.log("cool close");
+$state.go('^');
 panelOpen = false;
 
 // map.dragging.enable();
@@ -116,81 +168,148 @@ panelOpen = false;
 // map.boxZoom.enable();
 // map.keyboard.enable();
 // map.tap&&map.tap.enable();
-}
-        )
+});
+
         // .updateView();
+$scope.$on('layers_enter', function() {
+  layout.showTopPanel();
+});
+
+$scope.$on('layers_exit', function() {
+  layout.showMainPanel();
+});
 
         window.canard = layout;
 
     // masterMap.invalidateSize({});
        // layout.showTopPanel();
        layout.updateView();
+
+       if ($state.is('map.layers')) {
+          layout.showTopPanel();
+       }
        window.setTimeout(function() {
 	   	masterMap.invalidateSize({});
+topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
+        layout.updateView();
+        // if (panelOpen)
        	// layout.showTopPanel();
        }, 1);
 
-    var nbTouchs = 0, lastTouchMove = 0, touchEnabled = true;
-	$('#map .map').on('touchstart pointerdown', function(e) {
-        ++nbTouchs;
-        console.log(nbTouchs);
-        if (nbTouchs == 3) {
-                e.preventDefault();
-                if (touchEnabled) {
 
-touchEnabled = false;
-masterMap.dragging.disable();
-masterMap.touchZoom.disable();
-masterMap.doubleClickZoom.disable();
-masterMap.scrollWheelZoom.disable();
-masterMap.boxZoom.disable();
-masterMap.keyboard.disable();
-masterMap.tap&&masterMap.tap.disable();
-                }
-                // layout.mainPanelMask.show();
-                // $('#wrapper').trigger('touchstart');
-                // $('#wrapper').trigger('touchstart');
-                // $('#wrapper').trigger('touchstart');
-        }
-}).on('touchend pointerup', function(e) {
-        if (nbTouchs) {
-                --nbTouchs;
-        }
-        console.log(nbTouchs);
-        if (nbTouchs == 2) {
-                e.preventDefault();
-                if (!touchEnabled) {
-                        touchEnabled = true
-masterMap.dragging.enable();
-masterMap.touchZoom.enable();
-masterMap.doubleClickZoom.enable();
-masterMap.scrollWheelZoom.enable();
-masterMap.boxZoom.enable();
-masterMap.keyboard.enable();
-masterMap.tap&&masterMap.tap.enable();
-                }
-                // layout.mainPanelMask.hide();
-        }
-}).on('touchmove pointermove', function() {
-        lastTouchMove = +new Date();
-});
+       $(window).resize(function() {
+        window.setTimeout(function() {
 
-window.setInterval(function(){
-        if ((+new Date()) - lastTouchMove > 500) {
-                nbTouchs = 0;
-if (!touchEnabled) {
+topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
+        layout.updateView();
+        // layout.showMainPanel();
+          },1);
+       });//.trigger('resize');
 
-        masterMap.dragging.enable();
-masterMap.touchZoom.enable();
-masterMap.doubleClickZoom.enable();
-masterMap.scrollWheelZoom.enable();
-masterMap.boxZoom.enable();
-masterMap.keyboard.enable();
-masterMap.tap&&masterMap.tap.enable();
-}
+       var mapEnabled = true;
+
+      // $('#map .map').on('pointerdown', function(e) {
+      //   console.log(e.originalEvent);
+      // }).on('pointerup', function(e) {
+      //   console.log(e.originalEvent);
+      // });
+
+      $('#map .map').on('touchstart pointerdown', function(e) {
+        if (e.originalEvent.touches && e.originalEvent.touches.length>= 3) {
+        console.log(e.originalEvent.touches.length)
+
+          if (mapEnabled) {
+            mapEnabled = false;
+            masterMap.dragging.disable();
+            masterMap.touchZoom.disable();
+            masterMap.doubleClickZoom.disable();
+            masterMap.scrollWheelZoom.disable();
+            masterMap.boxZoom.disable();
+            masterMap.keyboard.disable();
+            masterMap.tap&&masterMap.tap.disable();
+          }
         }
-}, 500);
+      }).on('touchend pointerup', function(e) {
+        // console.log(e.originalEvent.touches.length)
+        if (!mapEnabled && (!e.originalEvent.touches || e.originalEvent.touches.length < 3)) {
+          mapEnabled = true;
+          masterMap.dragging.enable();
+          masterMap.touchZoom.enable();
+          masterMap.doubleClickZoom.enable();
+          masterMap.scrollWheelZoom.enable();
+          masterMap.boxZoom.enable();
+          masterMap.keyboard.enable();
+          masterMap.tap&&masterMap.tap.enable();
+        }
+      });
 
+//     var nbTouchs = 0, lastTouchMove = 0, touchEnabled = true, first = true;
+// 	$('#map .map').on('touchstart pointerdown', function(e) {
+//         ++nbTouchs;
+//         console.log(nbTouchs);
+//         if (nbTouchs == 3) {
+//                 e.preventDefault();
+//                 if (touchEnabled) {
+
+// touchEnabled = false;
+// masterMap.dragging.disable();
+// masterMap.touchZoom.disable();
+// masterMap.doubleClickZoom.disable();
+// masterMap.scrollWheelZoom.disable();
+// masterMap.boxZoom.disable();
+// masterMap.keyboard.disable();
+// masterMap.tap&&masterMap.tap.disable();
+//                 }
+//                 // layout.mainPanelMask.show();
+//                 // $('#wrapper').trigger('touchstart');
+//                 // $('#wrapper').trigger('touchstart');
+//                 // $('#wrapper').trigger('touchstart');
+//         }
+// }).on('touchend pointerup', function(e) {
+//         if (nbTouchs) {
+//                 --nbTouchs;
+//         }
+//         console.log(nbTouchs);
+//         if (nbTouchs == 2) {
+//                 e.preventDefault();
+//                 if (!touchEnabled) {
+//                         touchEnabled = true
+// masterMap.dragging.enable();
+// masterMap.touchZoom.enable();
+// masterMap.doubleClickZoom.enable();
+// masterMap.scrollWheelZoom.enable();
+// masterMap.boxZoom.enable();
+// masterMap.keyboard.enable();
+// masterMap.tap&&masterMap.tap.enable();
+//                 }
+//                 // layout.mainPanelMask.hide();
+//         }
+// }).on('touchmove pointermove', function() {
+//         lastTouchMove = +new Date();
+// });
+
+// window.setInterval(function(){
+//         if ((+new Date()) - lastTouchMove > 300) {
+//           if (first) {
+//             first = false;
+//             return;
+//           }
+//                 nbTouchs = 0;
+// if (!touchEnabled) {
+
+//         masterMap.dragging.enable();
+// masterMap.touchZoom.enable();
+// masterMap.doubleClickZoom.enable();
+// masterMap.scrollWheelZoom.enable();
+// masterMap.boxZoom.enable();
+// masterMap.keyboard.enable();
+// masterMap.tap&&masterMap.tap.enable();
+// }
+//         }
+// }, 300);
+
+
+    
 
 
    	// $scope.map = map;
@@ -283,12 +402,41 @@ masterMap.tap&&masterMap.tap.enable();
 
 	}, true);
 
+  $scope.layers = masterMap.getTilesLayers();
+
+  $scope.layerClick = function(layer : MasterScope.Layer) {
+
+    if (!layer.active) {
+      angular.forEach($scope.layers, function(iLayer: MasterScope.Layer){
+
+        masterMap.hideTileLayer(iLayer.name);
+      });
+
+      masterMap.showTileLayer(layer.name);
+    }
+  };
 	// masterMap.addLayer(cluster);
 
-	// new OSMBuildings(masterMap)
-	// 	.setStyle({
-	// 		wallColor:"rgb(106,131,136)",
-	// 		roofColor:"rgb(176,189,195)"
-	// 		})
-	// 	.loadData();
+  var buildings = null;
+  $scope.$watch('buildings', function(value) {
+    console.log("buildings", value);
+    
+    if (value) {
+      if (buildings) {
+        masterMap.addLayer(buildings);
+      } else {
+        buildings = new OSMBuildings(masterMap)
+         .setStyle({
+           wallColor:"rgb(106,131,136)",
+           roofColor:"rgb(176,189,195)"
+           })
+         .loadData();
+      }
+    } else {
+      if (buildings) {
+        masterMap.removeLayer(buildings);
+      }
+    }
+  });
+
   });

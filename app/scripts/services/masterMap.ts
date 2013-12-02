@@ -87,7 +87,7 @@ angular.module('mobileMasterApp')
 
         if (!layer.active) {
           layer.active = true;
-          instance.addLayer(leafletLayer);
+          instance.addLayer(leafletLayer, true);
         }
 
         return this;

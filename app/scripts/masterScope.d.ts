@@ -1,6 +1,7 @@
 declare module MasterScope {
     interface Root extends ng.IScope {
         layers: Layer[];
+        buildings: boolean;
         map: L.Map;
 
         closeLayerList() : void;
