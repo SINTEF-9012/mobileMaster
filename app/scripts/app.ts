@@ -33,12 +33,14 @@ angular.module('mobileMasterApp', ['ui.router'])
         url: '/layers',
         templateUrl: 'views/layers.html',
         controller: 'LayersCtrl',
-        onEnter: function(masterMap : Master.Map) {
-          masterMap.disableInteractions();
+        onEnter: function(masterMap : Master.Map, $rootScope : MasterScope.Root) {
+          $rootScope.$broadcast('layers_enter');
+          // masterMap.disableInteractions();
         },
         
-        onExit: function(masterMap : Master.Map) {
-          masterMap.enableInteractions();
+        onExit: function(masterMap : Master.Map, $rootScope : MasterScope.Root) {
+          $rootScope.$broadcast('layers_exit');
+          // masterMap.enableInteractions();
         }
       });
 
