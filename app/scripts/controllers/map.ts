@@ -7,6 +7,10 @@ declare module L{
   export var BingLayer;
 }
 
+interface JQuery{
+  bootstrapSwitch : any;
+}
+
 interface Window {
 	L_PREFER_CANVAS : boolean;
 }
@@ -439,5 +443,11 @@ topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
       }
     }
   });
+
+  $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
+    $scope.buildings = data.value;
+    $scope.$apply(); 
+    });
+
 
   });
