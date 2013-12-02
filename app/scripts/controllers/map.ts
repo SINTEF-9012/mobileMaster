@@ -102,7 +102,7 @@ angular.module('mobileMasterApp')
   })
   .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any) {
 
-    var jMap = $('#map');
+    var jMap = $('#map'), jScroller= $('#scroller'), scroller = jScroller.get(0);
 
     jMap.append(masterMap.getContainer());
 
@@ -308,8 +308,6 @@ topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
 //         }
 // }, 300);
 
-
-    
 
 
    	// $scope.map = map;
