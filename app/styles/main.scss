@@ -109,12 +109,47 @@ margin-left:1.65em;
     // padding-top:10px;
     // padding-bottom:10px;
 
-    button {
-    	background-size: cover;
+    .row {
+    	margin-left: 0;
+		margin-right: 0;
+    }
+
+    .layerOption {
     	height:110px;
-    	width:172px;
-    	margin-left:10px;
+    	margin:0;
+    	display:inline-block;
+    	text-align: center;
+
+    	.has-switch {
+    		border:none;
+
+    		span.switch-left {
+    			background:#16a085;
+    			text-shadow: none;
+    		}
+
+    		label.switch-large {
+    			background:white;
+    			border:none;
+    		}
+
+    		span.switch-right {
+    			background:#95a5a6;
+    			text-shadow:none;
+    			color:white;
+    		}
+    	}
+    }
+
+    button {
+    	// width:172px;
+    	background-size: cover;
     	margin-bottom:10px;
+    	height:110px;
+    }
+
+    button, .layerOption {
+    	margin-left:10px;
     }
 
     h3 {

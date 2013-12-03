@@ -6,11 +6,16 @@
 				<h3>Layers</h3>
 				<!-- <div ui-view></div> -->
 				<!-- <input type="checkbox" ng-model="buildings"> -->
-				<div class="buildings-switch make-switch switch-large">
-					<input type="checkbox" ng-model="buildings">
+
+				<div class="row">
+					<div class="layerOption col-xs-5 col-sm-2 col-lg-1">
+						<div class="buildings-switch make-switch switch-large">
+							<input type="checkbox" ng-model="buildings">
+						</div>
+					</div>
+					<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers">
+					</button>
 				</div>
-				<button class="btn btn-default" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers">
-				</button>
 			</div>
 		</div>
 		<div id="main" class="canard_panel">
