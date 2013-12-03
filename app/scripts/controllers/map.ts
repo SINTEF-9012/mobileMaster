@@ -81,7 +81,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         $scope.buildings = data.value;
         $scope.$apply(); 
     });
-    
+
     var jMap = $('#map'),
         jScroller= $('#scroller'),
         scroller = jScroller.get(0);
@@ -154,6 +154,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     // Update the panel height after the layout initialization
     window.setTimeout(function() {
         masterMap.invalidateSize({});
+        layout.updateView();
         topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
         layout.updateView();
     }, 1);
@@ -253,8 +254,41 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
     var cpt = 0;
 
+    var canChangePosition = true;
+
+    masterMap.on('movestart zoomstart', function() {
+        canChangePosition = false;
+    }).on('moveend zoomend', function() {
+        // canChangePosition = true;
+            window.setTimeout(function() {
+            canChangePosition = true;
+            }, 222);
+    });
+
+    var hackLayout = <any>layout;
+    hackLayout.iscroll.on('scrollEnd', function() {
+        canChangePosition = true;
+    });
+    hackLayout.iscroll.on('scrollStart', function() {
+        canChangePosition = false;
+    });
+
+    // $(window).on('touchstart', function() {
+    //     canChangePosition = false;
+    //     }).on('touchend', function() {
+
+    //         window.setTimeout(function() {
+    //         canChangePosition = true;
+    //         }, 1000);});
+
+    // window.addEventListener("touchstart", function() {
+    //     canChangePosition = false;
+    // }, true);
+
     // Manage markers
     $scope.$watch('patients', function(patients: {[ID: string] : NodeMaster.IPatientModel}) {
+        // TODO send an event when it's OK
+        if (!canChangePosition) return;
 
         // TODO reset every 60 iterations
         var update = ++cpt === 60;
@@ -281,6 +315,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             }
         });
     }, true);
+
+    masterMap.addLayer(cluster);
 
     // Register the layers into the scope
     $scope.layers = masterMap.getTilesLayers();
