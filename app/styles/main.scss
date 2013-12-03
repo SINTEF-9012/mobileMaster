@@ -204,8 +204,9 @@ margin-bottom:20px;
 		left:50%;
 		z-index:1;
 		margin:0 auto;
-		height:38px;
-		padding-top:5px;
+		height:53px;
+		padding-top:12px;
+        font-size:2.1rem;
 		padding-left:5px;
 		background:#eeeeee;//rgba(255,255,255,0.93);
 		background:rgba(238,238,238,0.93);
@@ -213,11 +214,12 @@ margin-bottom:20px;
 		// border-top:2px solid #eeeeee;
 
 		color:black;
-		$infosWidth:50em;
-		width:$infosWidth;
+		$infosWidth:40em;
+		min-width:$infosWidth;
 		margin-left:-$infosWidth/2;
 
 		border-bottom-left-radius: 6px;
 		border-bottom-right-radius: 6px;
+
 	}
 }
