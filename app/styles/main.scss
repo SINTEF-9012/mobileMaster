@@ -16,6 +16,7 @@
 		-webkit-transition:transform 0.5s linear;
 		transition:transform 0.5s linear;
 	}
+
 }
 
 
@@ -104,10 +105,11 @@ margin-left:1.65em;
 	height:170px;
 	// padding-top:12px;
     // background:blue;
-    border-bottom:1px solid #cdcdcd;
-    margin-top:-1px;
+    // border-bottom:1px solid #cdcdcd;
+    // margin-top:-1px;
     // padding-top:10px;
     // padding-bottom:10px;
+    color:black;
 
     .row {
     	margin-left: 0;
@@ -115,13 +117,19 @@ margin-left:1.65em;
     }
 
     .layerOption {
-    	height:110px;
+    	// height:110px;
+    	height:50px;
     	margin:0;
-    	display:inline-block;
-    	text-align: center;
+    	// display:inline-block;
+    	// text-align: center;
 
     	.has-switch {
-    		border:none;
+    		border-color:transparent;
+    		margin-left:1em;
+
+    		// &.switch-large {
+    		// 	min-width:100px;
+    		// }
 
     		span.switch-left {
     			background:#16a085;
@@ -131,6 +139,7 @@ margin-left:1.65em;
     		label.switch-large {
     			background:white;
     			border:none;
+    		border-color:transparent;
     		}
 
     		span.switch-right {
@@ -146,6 +155,11 @@ margin-left:1.65em;
     	background-size: cover;
     	margin-bottom:10px;
     	height:110px;
+    	border:0;
+
+    	&:hover {
+    		box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    	}
     }
 
     button, .layerOption {
@@ -175,4 +189,34 @@ height: 672px !important;
 /*border-bottom:40px solid green;*/
 margin-bottom:20px;
     }
+}
+
+#main {
+	.infos {
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        -o-transform: translateZ(0);
+        transform: translateZ(0);
+		position:absolute;
+		top:-2px;
+		left:50%;
+		z-index:1;
+		margin:0 auto;
+		height:38px;
+		padding-top:5px;
+		padding-left:5px;
+		background:#eeeeee;//rgba(255,255,255,0.93);
+		background:rgba(238,238,238,0.93);
+		// border:1px solid #cdcdcd;
+		// border-top:2px solid #eeeeee;
+
+		color:black;
+		$infosWidth:42em;
+		width:$infosWidth;
+		margin-left:-$infosWidth/2;
+
+		border-bottom-left-radius: 6px;
+		border-bottom-right-radius: 6px;
+	}
 }
