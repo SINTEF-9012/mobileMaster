@@ -254,42 +254,11 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
     var cpt = 0;
 
-    var canChangePosition = true;
-
-    masterMap.on('movestart zoomstart', function() {
-        canChangePosition = false;
-    }).on('moveend zoomend', function() {
-        // canChangePosition = true;
-            window.setTimeout(function() {
-            canChangePosition = true;
-            }, 222);
-    });
-
-    var hackLayout = <any>layout;
-    hackLayout.iscroll.on('scrollEnd', function() {
-        canChangePosition = true;
-    });
-    hackLayout.iscroll.on('scrollStart', function() {
-        canChangePosition = false;
-    });
-
-    // $(window).on('touchstart', function() {
-    //     canChangePosition = false;
-    //     }).on('touchend', function() {
-
-    //         window.setTimeout(function() {
-    //         canChangePosition = true;
-    //         }, 1000);});
-
-    // window.addEventListener("touchstart", function() {
-    //     canChangePosition = false;
-    // }, true);
+    var canChangePosition = true, updatePositionsAtEnd = false;
 
     // Manage markers
-    $scope.$watch('patients', function(patients: {[ID: string] : NodeMaster.IPatientModel}) {
-        // TODO send an event when it's OK
-        if (!canChangePosition) return;
 
+    function updatePatientsPositions() {
         // TODO reset every 60 iterations
         var update = ++cpt === 60;
 
@@ -298,7 +267,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             cluster.clearLayers();	
         }
 
-        angular.forEach(patients, function(patient : NodeMaster.IPatientModel, ID:string) {
+        angular.forEach($scope.patients, function(patient : NodeMaster.IPatientModel, ID:string) {
 
             var location = new L.LatLng(patient.Location.lat,patient.Location.lng);
            
@@ -314,7 +283,41 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
                 cluster.addLayer(markers[ID]);
             }
         });
+    }
+
+    $scope.$watch('patients', function() {
+        // TODO send an event when it's OK
+        if (canChangePosition) {
+            updatePatientsPositions();
+        } else {
+            updatePositionsAtEnd = true;
+        }
     }, true);
+
+    masterMap.on('movestart zoomstart', function() {
+        canChangePosition = false;
+    }).on('moveend zoomend', function() {
+        // canChangePosition = true;
+        window.setTimeout(function() {
+            canChangePosition = true;
+
+            if (updatePositionsAtEnd) {
+                updatePatientsPositions();
+            }
+        }, 222);
+    });
+
+    var hackLayout = <any>layout;
+    hackLayout.iscroll.on('scrollEnd', function() {
+        canChangePosition = true;
+    });
+    hackLayout.iscroll.on('scrollStart', function() {
+        canChangePosition = false;
+        
+        if (updatePositionsAtEnd) {
+            updatePatientsPositions();
+        }
+    });
 
     masterMap.addLayer(cluster);
 
