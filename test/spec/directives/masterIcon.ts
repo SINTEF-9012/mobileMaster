@@ -12,9 +12,10 @@ describe('Directive: masterIcon', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<master-icon></master-icon>');
+  it('should contain the correct text', inject(function ($compile) {
+    element = angular.element('<master-icon category="generic" type="incident"></master-icon>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the masterIcon directive');
+    expect(element.text()).toBe('0c');
+    expect(element.children().attr('class')).toBe('incident');
   }));
 });

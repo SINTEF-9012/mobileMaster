@@ -9,35 +9,83 @@
     font-style: normal;
 }
 
-master-icon {
-	font-size:2em;
-	display:inline-block;
-	float:right;
-	margin-top:-4px;
-	margin-right:3px;
+.info-number {
+	display: inline-block;
+	// width: 3em;
+	text-align: left;
+	position: relative;
+	font-weight: bold;
+	padding-left: 2.2em;
+	padding-right: 0.2em;
+}
 
-	.incident {
+master-icon {
+	font-size: 2.05em;
+	display: inline-block;
+	position: absolute;
+	margin-top: -8px;
+	left: 0;
+	font-weight: normal;
+
+	& > div {
+		text-rendering:geometricPrecision;
 		font-family: 'bridgeiconsregular';
 		position: relative;
 		display: inline-block;
-		color:orange;
 		// line-height:0;
 		// font-size:2em;
 		// top:0.4em;
 		// top:-2px;
+
+		.type {
+			color:black;
+			position:absolute;
+			top:0;
+		}
+
+		&:before {
+			content:" ";
+			position:absolute;
+			z-index:1;
+		}
 	}
 
-	.incident:before {
-		content:"i";
-		position:absolute;
-		color:red;
-		z-index:1;
+	.incident {
+		color:orange;
+
+		&:before {
+			content:"i";
+			color:red;
+		}
 	}
 
-	.incident .type, .response .type, .resource .type, .risk .type {
-		color:black;
-		position:absolute;
-		top:0;
+	.resource {
+		color:green;
+
+		&.health-personnel, &.health-vehicle {
+			color:rgb(146,208,80);
+		}
+
+		&.fire-and-rescue-personnel, &.fire-and-rescue-vehicle {
+			color:red;
+		}
+
+		&.police-personnel, &.police-vehicle {
+			color:rgb(0,201,255);
+		}
+
+		.type {
+			color:white;
+		}
+
+		&.red-cross .type {
+			color:red;
+		}
+
+		&:before {
+			content:"r";
+			color:white;
+		}
 	}
 }
 

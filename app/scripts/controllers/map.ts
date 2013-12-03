@@ -76,6 +76,12 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 })
 .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any) {
 
+    // TODO ugly bootstrap-switch integration with angular-js
+    $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
+        $scope.buildings = data.value;
+        $scope.$apply(); 
+    });
+    
     var jMap = $('#map'),
         jScroller= $('#scroller'),
         scroller = jScroller.get(0);
@@ -313,9 +319,4 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     });
 
 
-    // TODO ugly bootstrap-switch integration with angular-js
-    $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
-        $scope.buildings = data.value;
-        $scope.$apply(); 
-    });
 });
