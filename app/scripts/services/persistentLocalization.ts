@@ -27,6 +27,7 @@ angular.module('mobileMasterApp')
   			zoom = null;
 
 
+  		// Load the saved position if it exist
   		var storage = window.localStorage.getItem("persistentLocalization");
   		if (storage !== null) {
   			var data : PersistentLocalization.Storage = JSON.parse(storage);
@@ -39,9 +40,11 @@ angular.module('mobileMasterApp')
   				center = new L.LatLng(data.lat, data.lng);
   			}
 
+  			// Update the map view to the saved position
   			map.setView(center ? center : map.getCenter(), zoom ? zoom : map.getZoom());
   		}
 
+  		// Save the position in the local storage
   		function save() {
   			var data : PersistentLocalization.Storage = {};
 
@@ -58,6 +61,7 @@ angular.module('mobileMasterApp')
   				JSON.stringify(data));
   		}
 
+  		// Bind leaflet events, and save position
   		map.on('moveend', function() {
   			center = map.getCenter();
   			save();
