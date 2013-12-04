@@ -1,4 +1,10 @@
 /// <reference path="./../references/angularjs/angular.d.ts" />
+/// <reference path="./../references/leaflet/leaflet.d.ts" />
+/// <reference path="./../references/Touch.d.ts" />
+/// <reference path="./../references/NodeMaster.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
+/// <reference path="./../services/masterMap.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
 /// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';
 
@@ -304,7 +310,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             if (updatePositionsAtEnd) {
                 updatePatientsPositions();
             }
-        }, 222);
+        }, 300);
+        // }, 222);
     });
 
     var hackLayout = <any>layout;

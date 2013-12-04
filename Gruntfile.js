@@ -61,7 +61,10 @@ module.exports = function (grunt) {
                   '<%= yeoman.test %>/spec/{,*/}*.ts',
                   '!<%= yeoman.test %>/spec/{,*/}*.d.ts',
                   '<%= yeoman.app %>/scripts/masterScope.d.ts'],
-          tasks: ['ts:dev']
+          tasks: ['ts:dynamic'],
+          options: {
+            spawn: false, //important so that the task runs in the same context
+          }
       }
     },
     ts: {
@@ -72,6 +75,15 @@ module.exports = function (grunt) {
           //declaration: false, // true | false (default)
           //nolib: false, // true | false (default)
           //comments: false // true | false (default)
+      },
+      dynamic: {
+          src: [],
+          options: { // override the main options, http://gruntjs.com/configuring-tasks#options
+              sourcemap: true,
+              declaration: true,
+              comments: true,
+              target: 'es5'
+          }
       },
       dev: { // a particular target
           src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
@@ -374,6 +386,16 @@ module.exports = function (grunt) {
       }
     },
     
+  });
+
+  grunt.event.on('watch', function(action, filepath) {
+    var tsConfig = grunt.config("ts" );
+
+    console.log(filepath);
+
+    if (filepath.match(/\.ts$/)) {
+      grunt.config("ts.dynamic.src", [filepath]);
+    }
   });
 
   grunt.registerTask('server', function (target) {
