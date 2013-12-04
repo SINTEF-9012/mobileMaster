@@ -1,3 +1,7 @@
+/// <reference path="./../references/angularjs/angular.d.ts" />
+/// <reference path="./../references/leaflet/leaflet.d.ts" />
+/// <reference path="./../references/NodeMaster.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
 'use strict';
 
 declare module Master {
@@ -21,7 +25,6 @@ declare module Master {
     setDefaultTileLayer(name : string) : MapConfig;
   }
 }
-console.log("canard");
 
 angular.module('mobileMasterApp')
   .provider('masterMap', function () {

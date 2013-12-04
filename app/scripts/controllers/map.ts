@@ -4,6 +4,7 @@
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../services/masterMap.d.ts" />
+/// <reference path="./../services/persistentLocalization.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 /// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';
@@ -80,7 +81,9 @@ angular.module('mobileMasterApp')
 
 nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 })
-.controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any) {
+.controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any, persistentLocalization : PersistentLocalization) {
+
+    persistentLocalization.bindToMasterMap(masterMap);
 
     // TODO ugly bootstrap-switch integration with angular-js
     $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
