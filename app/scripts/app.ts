@@ -1,10 +1,7 @@
 /// <reference path="./references/angularjs/angular.d.ts" />
-/// <reference path="./references/leaflet/leaflet.d.ts" />
 /// <reference path="./references/phonegap/phonegap.d.ts" />
-/// <reference path="./references/NodeMaster.d.ts" />
-/// <reference path="./references/Touch.d.ts" />
 /// <reference path="./references/generic.d.ts" />
-/// <reference path="./services/masterMap.d.ts" />
+/// <reference path="./references/app.d.ts" />
 /// <reference path="./masterScope.d.ts" />
 
 'use strict';

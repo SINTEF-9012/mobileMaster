@@ -3,8 +3,6 @@
 /// <reference path="./../references/Touch.d.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
-/// <reference path="./../services/masterMap.d.ts" />
-/// <reference path="./../services/persistentLocalization.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 /// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';

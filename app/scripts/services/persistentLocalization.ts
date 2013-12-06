@@ -1,18 +1,7 @@
 /// <reference path="./../references/angularjs/angular.d.ts" />
-/// <reference path="./masterMap.d.ts" />
+/// <reference path="./../references/app.d.ts" />
+
 'use strict';
-
-interface PersistentLocalization {
-	bindToMasterMap(map : Master.Map);
-}
-
-module PersistentLocalization {
-	export interface Storage {
-		zoom?: number;
-		lat?: number;
-		lng?: number;
-	}
-}
 
 angular.module('mobileMasterApp')
   .service('persistentLocalization', function Persistentlocalization() {

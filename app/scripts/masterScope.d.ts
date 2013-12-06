@@ -1,3 +1,7 @@
+/// <reference path="./references/angularjs/angular.d.ts" />
+/// <reference path="./references/leaflet/leaflet.d.ts" />
+/// <reference path="./references/NodeMaster.d.ts" />
+
 declare module MasterScope {
     interface Root extends ng.IScope {
         layers: Layer[];
