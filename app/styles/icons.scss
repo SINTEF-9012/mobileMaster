@@ -2,7 +2,7 @@
     font-family: 'bridgeiconsregular';
     src: url('/fonts/font4799-webfont.eot');
     src: url('/fonts/font4799-webfont.eot?#iefix') format('embedded-opentype'),
-         // url('/fonts/font4799-webfont.woff') format('woff'),
+         url('/fonts/font4799-webfont.woff') format('woff'),
          // url('/fonts/font4799-webfont.ttf') format('truetype'),
          url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
     font-weight: normal;
@@ -12,8 +12,10 @@
 // TODO chrome hack
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	@font-face {
-		font-family: 'chunk-webfont';
+	    font-family: 'bridgeiconsregular';
 		src: url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
+	    font-weight: normal;
+	    font-style: normal;
 	}
 }
 

@@ -3,6 +3,7 @@
 /// <reference path="./../references/Touch.d.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
+/// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 /// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';
@@ -267,7 +268,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
     function updatePatientsPositions() {
         // TODO reset every 60 iterations
-        var update = ++cpt === 60;
+        var update = ++cpt === 60000;
 
         if (update) {
             cpt = 0;
@@ -313,6 +314,12 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             }
         }, 300);
         // }, 222);
+    });
+
+    masterMap.on('zoomstart', function() {
+        $('body').addClass("disable-markers-animations");
+    }).on('zoomend', function() {
+        $('body').removeClass("disable-markers-animations");
     });
 
     var hackLayout = <any>layout;

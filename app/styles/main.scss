@@ -1,5 +1,6 @@
 @import "compass";
 @import "icons.scss";
+@import "bootstrap-sass/lib/_variables";
 
 #map {
 	// position:relative;
@@ -11,13 +12,14 @@
 	.map {
 		height:100%;
 	}
+}
 
-	.leaflet-marker-icon, .leaflet-marker-shadow {
-		-moz-transition:transform 0.5s linear;
-		-webkit-transition:transform 0.5s linear;
-		transition:transform 0.5s linear;
-	}
-
+body:not(.disable-markers-animations) #map {
+    .leaflet-marker-icon, .leaflet-marker-shadow {
+        -webkit-transition:transform 0.5s linear;
+        transition:transform 0.5s linear;
+        -moz-transition:transform 0.5s linear;
+    }
 }
 
 
@@ -218,8 +220,21 @@ margin-bottom:20px;
 		min-width:$infosWidth;
 		margin-left:-$infosWidth/2;
 
-		border-bottom-left-radius: 6px;
-		border-bottom-right-radius: 6px;
+		// border-bottom-left-radius: 6px;
+		// border-bottom-right-radius: 6px;
 
 	}
+
+
+}
+
+
+@media (max-width: $screen-md-min) {
+    #main {
+        .infos {
+            left:0;
+            right:0;
+            margin-left:0;
+        }
+    }
 }
