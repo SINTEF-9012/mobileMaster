@@ -22,6 +22,9 @@ declare module Master {
 
 interface PersistentLocalization {
 	bindToMasterMap(map : Master.Map);
+  saveCurrentLayer(layer : MasterScope.Layer);
+  restorePersistentLayer();
+  clear();
 }
 
 declare module PersistentLocalization {
@@ -29,5 +32,6 @@ declare module PersistentLocalization {
 		zoom?: number;
 		lat?: number;
 		lng?: number;
+    layer?: string;
 	}
 }

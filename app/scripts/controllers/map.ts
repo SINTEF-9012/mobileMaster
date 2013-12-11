@@ -83,6 +83,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 .controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any, persistentLocalization : PersistentLocalization) {
 
     persistentLocalization.bindToMasterMap(masterMap);
+    persistentLocalization.restorePersistentLayer();
 
     // TODO ugly bootstrap-switch integration with angular-js
     $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
@@ -347,6 +348,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             });
 
             masterMap.showTileLayer(layer.name);
+            persistentLocalization.saveCurrentLayer(layer);
         }
     };
 
