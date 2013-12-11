@@ -1,3 +1,5 @@
+/// <reference path="./../references/angularjs/angular.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -53,7 +55,7 @@ angular.module('mobileMasterApp')
 				wrapper.firstChild.data = "?";
 			}
 
-			wrapper.setAttribute("class", attrs.category + " " + attrs.type.replace(/\s+/, "-"));
+			wrapper.setAttribute("class", attrs.category + " " + attrs.type.replace(/\s+/g, "-"));
 
 			if (!wrapper.lastChild.firstChild) {
 				wrapper.removeChild(wrapper.lastChild);

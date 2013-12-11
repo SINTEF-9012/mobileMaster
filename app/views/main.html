@@ -4,9 +4,10 @@
 	width:auto;
 	/*height:400px;*/
 	white-space:nowrap;
+	color:white;
 }
 .inline-table {
-	max-width:768px;
+	/*max-width:768px;*/
 	display:inline-block;
 	vertical-align: top;
 	margin-left:1.5em;
@@ -61,312 +62,50 @@
 	<thead>
 		<tr>
 			<th>Patient</th>
+			<th>Name</th>
+			<th>Sex</th>
 			<th>Age</th>
-			<th>Lat</th>
-			<th>Lng</th>
+			<th>Location</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="patient in patients">
 			<th>{{patient.ID}}</th>
+			<td>{{patient.Name}}</td>
+			<td>{{patient.Sex}}</td>
 			<td>{{patient.Age.Value}}</td>
-			<td>{{patient.Location.lat}}</td>
-			<td>{{patient.Location.lng}}</td>
+			<td>{{patient.Location.lat}} - {{patient.Location.lng}}</td>
 		</tr>
 	</tbody>
 </table>
 </div>
-<div class="inline-table">
 
+<div class="inline-table">
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>Police</th>
-			<th>ID</th>
+			<th>Resource</th>
 			<th>Type</th>
+			<th>Name</th>
+			<th>Assignment</th>
 			<th>Status</th>
-			<th>District</th>
+			<th>Location</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<th>ABC</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>DEF</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>GHI</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>KLM</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>NOP</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>QRS</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>TUV</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>WYZ</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>0000</th>
-			<td>0000-0000-0000-0000</td>
-			<td>?</td>
-			<td>?</td>
-			<td>*</td>
+		<tr ng-repeat="resource in resources">
+			<th>{{resource.ID}}</th>
+			<td>{{resource.type}}</td>
+			<td>{{resource.Name}}</td>
+			<td>{{resource.Assignment}}</td>
+			<td>{{resource.Status}}</td>
+			<td>{{resource.Location.lat}} - {{resource.Location.lng}}</td>
 		</tr>
 	</tbody>
 </table>
 </div>
-<div class="inline-table">
 
+<div class="inline-table">
 <table class="table table-striped">
 	<thead>
 		<tr>

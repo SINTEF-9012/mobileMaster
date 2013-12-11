@@ -41,6 +41,21 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 				}
 			});
 
+		angular.forEach(transaction.PublishList.ResourceStatusList,
+			function(value : any) {
+				var resource = scope.resources[value.ID];
+				if (!resource) {
+					scope.resources[value.ID] = value;
+				} else {
+					angular.forEach(value, function(property: string, key: any) {
+						if (property !== null) {
+							// console.log(property);
+							resource[key] = property;
+						}
+					});
+				}
+			});
+
 		scope.$digest();
 	}
 
@@ -70,6 +85,7 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 	var onOpen = function() {
 		console.log("Open connection");
 		scope.patients = {};
+		scope.resources = {};
 	}
 
 	var obj = this;

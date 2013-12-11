@@ -80,7 +80,13 @@ angular.module('mobileMasterApp')
 
 nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 })
-.controller('MapCtrl', function ($scope, masterMap : Master.Map, nodeMaster : any, $state : any, persistentLocalization : PersistentLocalization) {
+.controller('MapCtrl', function (
+    $scope,
+    masterMap : Master.Map,
+    nodeMaster : any,
+    $state : any,
+    persistentLocalization : PersistentLocalization,
+    $compile : ng.ICompileService) {
 
     persistentLocalization.bindToMasterMap(masterMap);
     persistentLocalization.restorePersistentLayer();
@@ -298,6 +304,54 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         // TODO send an event when it's OK
         if (canChangePosition) {
             updatePatientsPositions();
+        } else {
+            updatePositionsAtEnd = true;
+        }
+    }, true);
+
+    var resourceElement = angular.element('<master-icon category="resource" type="fire and rescue vehicle"></master-icon>');
+    var resourceElement2 = $compile(resourceElement)($scope);
+
+    console.log(resourceElement2.html());
+
+    var resourceIcon = L.divIcon({
+        className: "resource-icon",
+        html: '<master-icon>'+resourceElement2.html()+'</master-icon>'
+    });
+
+    function updateResourcesPositions() {
+        // TODO reset every 60 iterations
+        var update = ++cpt === 60000;
+
+        if (update) {
+            cpt = 0;
+            cluster.clearLayers();  
+        }
+
+        angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
+
+            var location = new L.LatLng(resource.Location.lat,resource.Location.lng);
+           
+            if (markers[ID]) {
+                markers[ID].setLatLng(location);
+
+                if (update) {
+                    cluster.addLayer(markers[ID]);
+                }
+            } else {
+                markers[ID] = new L.Marker(location, {
+                    icon: resourceIcon
+                    });
+
+                cluster.addLayer(markers[ID]);
+            }
+        });
+    }
+
+    $scope.$watch('resources', function() {
+        // TODO send an event when it's OK
+        if (canChangePosition) {
+            updateResourcesPositions();
         } else {
             updatePositionsAtEnd = true;
         }
