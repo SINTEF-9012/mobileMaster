@@ -30,47 +30,52 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 		// console.log(transaction);
 		
 
-		angular.forEach(transaction.RemoveList.PatientList,
-			function(value : any) {
-				delete scope.patients[value.ID];
-			});
+		if (transaction.RemoveList) {
+			angular.forEach(transaction.RemoveList.PatientList,
+				function(value : any) {
+					delete scope.patients[value.ID];
+				});
+
+			angular.forEach(transaction.RemoveList.ResourceStatusList,
+				function(value : any) {
+					delete scope.resources[value.ID];
+				});
+		}
 
 
-		angular.forEach(transaction.PublishList.PatientList,
-			function(value : any) {
-				var patient = scope.patients[value.ID];
-				if (!patient) {
-					scope.patients[value.ID] = value;
-				} else {
-					angular.forEach(value, function(property: string, key: any) {
-						if (property !== null) {
-							// console.log(property);
-							patient[key] = property;
-						}
-					});
-				}
+		if (transaction.PublishList) {
+			angular.forEach(transaction.PublishList.PatientList,
+				function(value : any) {
+					var patient = scope.patients[value.ID];
+					if (!patient) {
+						scope.patients[value.ID] = value;
+					} else {
+						angular.forEach(value, function(property: string, key: any) {
+							if (property !== null) {
+								// console.log(property);
+								patient[key] = property;
+							}
+						});
+					}
 
-			});
+				});
 
-		angular.forEach(transaction.RemoveList.ResourceStatusList,
-			function(value : any) {
-				delete scope.resources[value.ID];
-			});
 
-		angular.forEach(transaction.PublishList.ResourceStatusList,
-			function(value : any) {
-				var resource = scope.resources[value.ID];
-				if (!resource) {
-					scope.resources[value.ID] = value;
-				} else {
-					angular.forEach(value, function(property: string, key: any) {
-						if (property !== null) {
-							// console.log(property);
-							resource[key] = property;
-						}
-					});
-				}
-			});
+			angular.forEach(transaction.PublishList.ResourceStatusList,
+				function(value : any) {
+					var resource = scope.resources[value.ID];
+					if (!resource) {
+						scope.resources[value.ID] = value;
+					} else {
+						angular.forEach(value, function(property: string, key: any) {
+							if (property !== null) {
+								// console.log(property);
+								resource[key] = property;
+							}
+						});
+					}
+				});
+		}
 
 		scope.$digest();
 	}
