@@ -1,3 +1,7 @@
+/// <reference path="./../references/angularjs/angular.d.ts" />
+/// <reference path="./../references/NodeMaster.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
+
 'use strict';
 
 declare var dcodeIO : any;
@@ -26,6 +30,8 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 		// console.log(transaction);
 		
 
+		var PatientIDList : {[key: string] : boolean} = {};
+
 		angular.forEach(transaction.PublishList.PatientList,
 			function(value : any) {
 				var patient = scope.patients[value.ID];
@@ -39,7 +45,17 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 						}
 					});
 				}
+
+				PatientIDList[value.ID] = true;
 			});
+
+		angular.forEach(scope.patients, function(value: any) {
+			if (!PatientIDList[value.ID]) {
+				delete scope.patients[value.ID];
+			}
+		});
+
+		var ResourceStatusIDList : {[key: string] : boolean} = {};
 
 		angular.forEach(transaction.PublishList.ResourceStatusList,
 			function(value : any) {
@@ -54,7 +70,15 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 						}
 					});
 				}
+
+				ResourceStatusIDList[value.ID] = true;
 			});
+
+		angular.forEach(scope.resources, function(value: any) {
+			if (!ResourceStatusIDList[value.ID]) {
+				delete scope.resources[value.ID];
+			}
+		});
 
 		scope.$digest();
 	}
