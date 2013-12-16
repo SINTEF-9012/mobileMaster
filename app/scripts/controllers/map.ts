@@ -260,12 +260,13 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
     // Cluster for markers (best performances)
     var cluster = new L.MarkerClusterGroup({
-        disableClusteringAtZoom: 18,
+        disableClusteringAtZoom: 10,
         spiderfyOnMaxZoom:false,
         showCoverageOnHover: false
     });
 
-    var markers : {[key: string] : L.Marker} = {};
+    var markersPatients : {[key: string] : L.Marker} = {};
+    var markersResources : {[key: string] : L.Marker} = {};
 
     var cpt = 0;
 
@@ -286,16 +287,23 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
             var location = new L.LatLng(patient.Location.lat,patient.Location.lng);
            
-            if (markers[ID]) {
-                markers[ID].setLatLng(location);
+            if (markersPatients[ID]) {
+                markersPatients[ID].setLatLng(location);
 
                 if (update) {
-                    cluster.addLayer(markers[ID]);
+                    cluster.addLayer(markersPatients[ID]);
                 }
             } else {
-                markers[ID] = new L.Marker(location);
+                markersPatients[ID] = new L.Marker(location);
 
-                cluster.addLayer(markers[ID]);
+                cluster.addLayer(markersPatients[ID]);
+            }
+        });
+
+        angular.forEach(markersPatients, function(marker : L.Marker, ID: string) {
+            if (!$scope.patients[ID]) {
+                masterMap.removeLayer(marker);
+                delete markersPatients[ID];
             }
         });
     }
@@ -332,18 +340,25 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
             var location = new L.LatLng(resource.Location.lat,resource.Location.lng);
            
-            if (markers[ID]) {
-                markers[ID].setLatLng(location);
+            if (markersResources[ID]) {
+                markersResources[ID].setLatLng(location);
 
                 if (update) {
-                    cluster.addLayer(markers[ID]);
+                    cluster.addLayer(markersResources[ID]);
                 }
             } else {
-                markers[ID] = new L.Marker(location, {
+                markersResources[ID] = new L.Marker(location, {
                     icon: resourceIcon
                     });
 
-                cluster.addLayer(markers[ID]);
+                cluster.addLayer(markersResources[ID]);
+            }
+        });
+
+        angular.forEach(markersResources, function(marker : L.Marker, ID: string) {
+            if (!$scope.resources[ID]) {
+                masterMap.removeLayer(marker);
+                delete markersResources[ID];
             }
         });
     }
