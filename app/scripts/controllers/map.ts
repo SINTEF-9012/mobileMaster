@@ -140,7 +140,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         bounceTime: 1000,
         snapSpeed: 1000
     });
-
+    var hackLayout = <any>layout;
 
     var panelOpen = false;
    
@@ -169,10 +169,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         layout.showMainPanel();
     });
 
-
     // If the application is loaded with the panel openned
     if ($state.is('map.layers')) {
-        layout.showTopPanel();
         panelOpen = true;
     }
 
@@ -180,8 +178,16 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     window.setTimeout(function() {
         masterMap.invalidateSize({});
         layout.updateView();
-        topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
+        var h = Math.max(topMenu.children().innerHeight(), 100);
+        topMenu.height(h);
         layout.updateView();
+        if (!panelOpen) {
+            window.setTimeout(function() {
+                hackLayout.iscroll.scrollTo(0,-h);
+            }, 1);
+        } else {
+            layout.showTopPanel();
+        }
     }, 1);
 
 
@@ -402,7 +408,6 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         $('body').removeClass("disable-markers-animations");
     });
 
-    var hackLayout = <any>layout;
     hackLayout.iscroll.on('scrollEnd', function() {
         canChangePosition = true;
     });
