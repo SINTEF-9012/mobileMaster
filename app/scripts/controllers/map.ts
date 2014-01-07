@@ -56,6 +56,16 @@ angular.module('mobileMasterApp')
         }
     })
     .declareTileLayer({
+        name: "MapBox Grey",
+        iconPath:"layer_test4.png",
+        create: function() {
+            return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
+                detectRetina:true,
+                maxNativeZoom:17
+            });
+        }
+    })
+    .declareTileLayer({
         name: "Watercolor",
         iconPath:"layer_test5.png",
         create: function() {
