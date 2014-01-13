@@ -459,4 +459,18 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     });
 
 
+    $scope.centerView = function() {
+        var bounds  = new L.LatLngBounds();
+
+        angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
+            bounds.extend(L.latLng(resource.Location.lat, resource.Location.lng));
+        });
+
+        angular.forEach($scope.patients, function(patient : NodeMaster.IPatientModel, ID:string) {
+            bounds.extend(L.latLng(patient.Location.lat, patient.Location.lng));
+        });
+
+        // alert(bounds.getCenter().toString())
+        masterMap.fitBounds(bounds);
+    };
 });

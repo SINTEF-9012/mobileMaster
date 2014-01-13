@@ -10,6 +10,7 @@ declare module MasterScope {
 
         closeLayerList() : void;
         layerClick(layer : Layer) : void;
+        centerView() : void;
         patients: {[ID: string] : NodeMaster.IPatientModel;};
         resources: {[ID: string] : NodeMaster.ResourceStatusModel;};
     }

@@ -1458,6 +1458,9 @@ declare module L {
           */
         constructor(latlngs: LatLng[]);
 
+        // TODO add documentation ?
+        constructor();
+
         /**
           * Extends the bounds to contain the given point.
           */
