@@ -1,4 +1,4 @@
-/// <reference path="./../references/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 

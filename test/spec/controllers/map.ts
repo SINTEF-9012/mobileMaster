@@ -1,5 +1,6 @@
-'use strict';
+/// <reference path="./../../../app/bower_components/DefinitelyTyped/angularjs/angular-mocks.d.ts" />
 
+'use strict';
 describe('Controller: MapCtrl', function () {
 
   // load the controller's module

@@ -1,3 +1,4 @@
+/// <reference path="./../../../app/bower_components/DefinitelyTyped/angularjs/angular-mocks.d.ts" />
 'use strict';
 
 describe('Controller: MainCtrl', function () {

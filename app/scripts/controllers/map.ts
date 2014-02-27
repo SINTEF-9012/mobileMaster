@@ -1,5 +1,5 @@
-/// <reference path="./../references/angularjs/angular.d.ts" />
-/// <reference path="./../references/leaflet/leaflet.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../references/Touch.d.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
@@ -460,7 +460,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
 
     $scope.centerView = function() {
-        var bounds  = new L.LatLngBounds();
+        var bounds  = new L.LatLngBounds(null,null);
 
         angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
             bounds.extend(L.latLng(resource.Location.lat, resource.Location.lng));

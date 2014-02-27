@@ -1,5 +1,6 @@
-/// <reference path="./references/angularjs/angular.d.ts" />
-/// <reference path="./references/phonegap/phonegap.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
+
 /// <reference path="./references/generic.d.ts" />
 /// <reference path="./references/app.d.ts" />
 /// <reference path="./masterScope.d.ts" />

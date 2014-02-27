@@ -1,5 +1,6 @@
 /// <reference path="./../../../app/scripts/reference.ts" />
-/// <reference path="./../../../app/scripts/references/jasmine/jasmine.d.ts" />
+/// <reference path="./../../../app/bower_components/DefinitelyTyped/angularjs/angular-mocks.d.ts" />
+/// <reference path="./../../../app/bower_components/DefinitelyTyped/jasmine/jasmine.d.ts" />
 
 'use strict';
 

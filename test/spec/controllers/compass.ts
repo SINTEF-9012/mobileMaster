@@ -1,3 +1,4 @@
+/// <reference path="./../../../app/bower_components/DefinitelyTyped/angularjs/angular-mocks.d.ts" />
 /// <reference path="./../../../app/scripts/reference.ts" />
 
 'use strict';
