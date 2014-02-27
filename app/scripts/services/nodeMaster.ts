@@ -19,12 +19,12 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 	this.setConnection = function(connection : string) {
 		this.connection = connection;
 		return this;
-	}
+	};
 
 	this.setClientID = function(clientID : string) {
 		this.clientID = clientID;
 		return this;
-	}
+	};
 
 	var synchronizeScope = function(transaction : any) {
 		// console.log(transaction);
@@ -78,7 +78,7 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 		}
 
 		scope.$digest();
-	}
+	};
 
 	var protoTransaction : NodeMaster.TransactionBuilder = null;
 
@@ -95,19 +95,19 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 
 			synchronizeScope(message)
 			// console.log(message);
-		}
-	}
+		};
+	};
 
 	var onClose = function() {
 		console.log("Connection lost");
 		window.setTimeout(openConnection, 2000);
-	}
+	};
 
 	var onOpen = function() {
 		console.log("Open connection");
 		scope.patients = {};
 		scope.resources = {};
-	}
+	};
 
 	var obj = this;
 
@@ -116,10 +116,11 @@ angular.module('mobileMasterApp').provider("nodeMaster", function() {
 		service.onclose = onClose;
 		service.onopen = onOpen;
 		service.onmessage = onMessage;
-	}
+	};
 
 	this.$get = function($rootScope : MasterScope.Root) {
 
+		console.log("canard");
 		scope = $rootScope;
 
 		dcodeIO.ProtoBuf.protoFromFile("scripts/references/NodeMaster.proto", function(protoBufBuilder : any) {

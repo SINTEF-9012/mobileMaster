@@ -36,7 +36,7 @@ angular.module('mobileMasterApp')
         name: "StatKart",
         iconPath:"layer_test2.png",
         create: function() {
-            return L.tileLayer.wms("http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS",{
+            return <L.TileLayer><any> L.tileLayer.wms("http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS",{
                 name: 'topo2',
                 layers: 'topo2',
                 transparent: true,
@@ -93,7 +93,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 .controller('MapCtrl', function (
     $scope,
     masterMap : Master.Map,
-    nodeMaster : any,
+    thingModel : any,
     $state : any,
     persistentLocalization : PersistentLocalization,
     $compile : ng.ICompileService) {
@@ -248,8 +248,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
             // create a DOM element and put it into one of the map panes
             this._el = L.DomUtil.create('div', 'shadow-layer');
-            this._title = L.DomUtil.create('h1', '');
-            this._title.appendChild(document.createTextNode("Set your location"));
+			this._title = L.DomUtil.create('h1', '');
+			this._title.appendChild(document.createTextNode("Set your location"));
             // map.getPanes().overlayPane.appendChild(this._el);
             this._el.appendChild(this._title);
             map.getContainer().appendChild(this._el);
