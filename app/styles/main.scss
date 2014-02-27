@@ -102,6 +102,14 @@ margin-left:1.65em;
         .canard_panel {
 	        position:absolute;
         }
+
+        caption {
+            color:black;
+        }
+
+        th:first-letter {
+            text-transform: uppercase;
+        }
 }
 
 #top-menu {

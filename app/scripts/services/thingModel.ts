@@ -33,18 +33,34 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		}
 	};
 
-	this.$get = ($rootScope: MasterScope.Root) => {
+	this.$get = ($rootScope: MasterScope.Root, Knowledge : KnowledgeModule) => {
 		this.wharehouse = new ThingModel.Wharehouse();
 
+		$rootScope.types = {};
+
 		this.wharehouse.RegisterObserver({
-			New: (thing : ThingModel.Thing) => {
-				console.log(thing);
-				if (!$rootScope.patients) {
-					$rootScope.patients = {};
-				} else {
-					$rootScope.patients[thing.ID] = thing;
+			New: (thing: ThingModel.Thing) => {
+
+				if (!thing.Type && !$rootScope.types['Thing']) {
+					var type = ThingModel.BuildANewThingType
+						.Named('Thing').WhichIs('The default type').Build();
+					$rootScope.types['Thing'] = {
+						type: type,
+						tableProperties: Knowledge.getPropertiesOrder(type)
+					};
 				}
-				thing.Name = thing.GetProperty<ThingModel.Property.String>("name", ThingModel.Type.String).Value;
+				var typeName = thing.Type ? thing.Type.Name : "Thing";
+
+				if (!$rootScope.things) {
+					$rootScope.things = {};
+					$rootScope.things[typeName] = {};
+				} else if (!$rootScope.things[typeName]){
+					$rootScope.things[typeName] = {};
+				}
+
+				$rootScope.things[typeName][thing.ID] = thing;
+
+//				thing.Name = thing.GetProperty<ThingModel.Property.String>("name", ThingModel.Type.String).Value;
 				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location).Value;
 				thing.Location = {
 					lat: loc.X,
@@ -53,17 +69,19 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 				synchronizeScope($rootScope);
 			},
 			Updated: (thing : ThingModel.Thing) => {
-				if (!$rootScope.patients) {
-					$rootScope.patients = {};
-				} else {
-					$rootScope.patients[thing.ID] = thing;
-				}
-				thing.Name = thing.GetProperty<ThingModel.Property.String>("name", ThingModel.Type.String).Value;
-				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location).Value;
-				thing.Location = {
-					lat: loc.X,
-					lng: loc.Y
-				};
+//				if (!$rootScope.things) {
+//					$rootScope.things = {};
+//				} else {
+//					$rootScope.things[thing.ID] = thing;
+//				}
+//				thing.Name = thing.GetProperty<ThingModel.Property.String>("name", ThingModel.Type.String).Value;
+//				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location).Value;
+//				thing.Location = {
+//					lat: loc.X,
+//					lng: loc.Y
+//				};
+				var typeName = thing.Type ? thing.Type.Name : "Thing";
+				$rootScope.things[typeName][thing.ID] = thing;
 				synchronizeScope($rootScope);
 			},
 			Deleted: (thing : ThingModel.Thing) => {
@@ -75,7 +93,10 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					$rootScope.types = {};
 				}
 
-				$rootScope.types[thingType.Name] = thingType;
+				$rootScope.types[thingType.Name] = {
+					type: thingType,
+					tableProperties: Knowledge.getPropertiesOrder(thingType)
+				};
 				synchronizeScope($rootScope);
 			}
 		});

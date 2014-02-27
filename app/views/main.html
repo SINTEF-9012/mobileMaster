@@ -57,138 +57,31 @@
 </style>
 <div id="wrapper">
 <div class="canard" id="scroller">
-<div class="inline-table" ng-r>
+<div class="inline-table" ng-repeat="type in types">
 <table class="table table-striped" >
+	<caption>{{type.type.Name}} - {{type.type.Description}}</caption>
 	<thead>
 		<tr>
-			<th>Patient</th>
-			<th>Name</th>
-			<th>Sex</th>
-			<th>Age</th>
-			<th>Location</th>
+			<th>ID</th>
+			<th ng-repeat="property in type.tableProperties">{{property.property.Name || property.key}}</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="patient in types">
-			<td>{{patient.Name}}</td>
-			<td>{{patient.Description}}</td>
+		<tr ng-repeat="thing in things[type.type.Name]">
+			<td>{{thing.ID}}</td>
+			<td ng-repeat="property in type.tableProperties">
+				{{thing.GetProperty(property.key).Value}}
+			</td>
 		</tr>
-		<tr ng-repeat="patient in patients">
-			<!-- <td><thing></thing></td> -->
+<!-- 		<tr ng-repeat="patient in patients">
+			<td><thing></thing></td>
 			<th>{{patient.ID}}</th>
 			<td>{{patient.Name}}</td>
 			<td>{{patient.Sex}}</td>
 			<td>{{patient.Age.Value}}</td>
 			<td>{{patient.Location.lat}} - {{patient.Location.lng}}</td>
 		</tr>
-	</tbody>
+ -->	</tbody>
 </table>
 </div>
-
-<div class="inline-table">
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Resource</th>
-			<th>Type</th>
-			<th>Name</th>
-			<th>Assignment</th>
-			<th>Status</th>
-			<th>Location</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="resource in resources">
-			<th>{{resource.ID}}</th>
-			<td>{{resource.g}}</td>
-			<td>{{resource.Name}}</td>
-			<td>{{resource.Assignment}}</td>
-			<td>{{resource.Status}}</td>
-			<td>{{resource.Location.lat}} - {{resource.Location.lng}}</td>
-		</tr>
-	</tbody>
-</table>
-</div>
-
-<div class="inline-table">
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Police</th>
-			<th>ID</th>
-			<th>Type</th>
-			<th>Status</th>
-			<th>District</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th>ABC</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>DEF</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>GHI</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>KLM</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>NOP</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>QRS</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>TUV</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-		<tr>
-			<th>WYZ</th>
-			<td>nsrt-auie-878b-5645</td>
-			<td>Policeman</td>
-			<td>Waiting</td>
-			<td>*</td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
-<script>
-
-console.log("canard", $("#scroller"));
-// myScroll = new IScroll('#wrapper', { eventPassthrough: true, scrollX: true, scrollY: true});
-
-// $("#wrapper").height($("#scroller").height())
-// $(window).resize(function() {
-	// $("#wrapper").height($("#scroller").height())
-// });
 </script>
