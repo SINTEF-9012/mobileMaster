@@ -57,7 +57,7 @@
 </style>
 <div id="wrapper">
 <div class="canard" id="scroller">
-<div class="inline-table">
+<div class="inline-table" ng-r>
 <table class="table table-striped" >
 	<thead>
 		<tr>
@@ -69,7 +69,12 @@
 		</tr>
 	</thead>
 	<tbody>
+		<tr ng-repeat="patient in types">
+			<td>{{patient.Name}}</td>
+			<td>{{patient.Description}}</td>
+		</tr>
 		<tr ng-repeat="patient in patients">
+			<!-- <td><thing></thing></td> -->
 			<th>{{patient.ID}}</th>
 			<td>{{patient.Name}}</td>
 			<td>{{patient.Sex}}</td>
@@ -95,7 +100,7 @@
 	<tbody>
 		<tr ng-repeat="resource in resources">
 			<th>{{resource.ID}}</th>
-			<td>{{resource.type}}</td>
+			<td>{{resource.g}}</td>
 			<td>{{resource.Name}}</td>
 			<td>{{resource.Assignment}}</td>
 			<td>{{resource.Status}}</td>

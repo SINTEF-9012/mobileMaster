@@ -16,6 +16,23 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		return this;
 	};
 
+	var digestLock = false,
+		digestNeeded = false;
+
+	var setImmediateId = 0;
+	var synchronizeScope = (scope) => {
+		if (!setImmediateId) {
+			setImmediateId = window.setImmediate(() => {
+				setImmediateId = 0;
+				if (digestLock) {
+					digestNeeded = true;
+				} else {
+					scope.$digest();
+				}
+			});
+		}
+	};
+
 	this.$get = ($rootScope: MasterScope.Root) => {
 		this.wharehouse = new ThingModel.Wharehouse();
 
@@ -33,6 +50,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					lat: loc.X,
 					lng: loc.Y
 				};
+				synchronizeScope($rootScope);
 			},
 			Updated: (thing : ThingModel.Thing) => {
 				if (!$rootScope.patients) {
@@ -46,19 +64,32 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					lat: loc.X,
 					lng: loc.Y
 				};
+				synchronizeScope($rootScope);
 			},
 			Deleted: (thing : ThingModel.Thing) => {
 				console.log(thing);
+				synchronizeScope($rootScope);
 			},
-			Define: (thingType: ThingModel.ThingType)=> {
-				
+			Define: (thingType: ThingModel.ThingType) => {
+				if (!$rootScope.types) {
+					$rootScope.types = {};
+				}
+
+				$rootScope.types[thingType.Name] = thingType;
+				synchronizeScope($rootScope);
 			}
 		});
 
-		client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.wharehouse);
+		$(window).on('touchstart mousedown', ()=> {
+			digestLock = true;
+		}).on('touchend mouseup', () => {
+			if (digestNeeded) {
+				$rootScope.$digest();
+			}
+			digestLock = false;
+			digestNeeded = false;
+		});
 
-		window.setInterval(()=> {
-			$rootScope.$digest();
-		}, 500);
+		client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.wharehouse);
 	};
 });

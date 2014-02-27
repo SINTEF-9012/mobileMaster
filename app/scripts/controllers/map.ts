@@ -174,29 +174,29 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         panelOpen = true;
     }
 
-    // Update the panel height after the layout initialization
-    window.setTimeout(function() {
+		// Update the panel height after the layout initialization
+		window.setImmediate(function () {
         masterMap.invalidateSize({});
         layout.updateView();
         var h = Math.max(topMenu.children().innerHeight(), 100);
         topMenu.height(h);
         layout.updateView();
-        if (!panelOpen) {
-            window.setTimeout(function() {
+		if (!panelOpen) {
+			window.setImmediate(function () {
                 hackLayout.iscroll.scrollTo(0,-h);
-            }, 1);
+            });
         } else {
             layout.showTopPanel();
         }
-    }, 1);
+    });
 
 
     // Update the panel height when the layout change
     $(window).resize(function() {
-        window.setTimeout(function() {
+        window.setImmediate(function() {
             topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
             layout.updateView();
-        },1);
+        });
     });
 
 
@@ -219,6 +219,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
                 masterMap.tap&&masterMap.tap.disable();
             }
         }
+	    $(window).trigger('touchstart');
     }).on('touchend pointerup', function(e) {
 
         var oe = <TouchEvent><any> e.originalEvent;
@@ -232,7 +233,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             masterMap.boxZoom.enable();
             masterMap.keyboard.enable();
             masterMap.tap&&masterMap.tap.enable();
-        }
+		}
+	    $(window).trigger('touchend');
     });
 
     // TODO Change position layer

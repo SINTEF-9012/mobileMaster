@@ -20,7 +20,8 @@
     "rebound": "facebook/rebound#master",
     "bootstrap-switch": "*",
     "ThingModel": "~0.4.0",
-    "DefinitelyTyped": "*"
+    "DefinitelyTyped": "*",
+    "setimmediate": "~1.0.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

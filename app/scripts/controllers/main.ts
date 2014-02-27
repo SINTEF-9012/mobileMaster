@@ -9,9 +9,9 @@ angular.module('mobileMasterApp')
   	
 	var myScroll = new IScroll('#wrapper', { mouseWheel: true, scrollX: true, scrollY: true, zoom:true});
 
-//	$scope.$watch('[patients, resources]', function() {
-//		window.setTimeout(function() {
-//			myScroll.refresh();
-//		},1); 	
-//	});
+	$scope.$watch('patients', () => {
+		window.setImmediate(() => {
+			myScroll.refresh();
+		}); 	
+	});
   });
