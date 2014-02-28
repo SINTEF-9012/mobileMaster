@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>scroll test</title>
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=device-dpi" />
+
+</head>
+<body>
+<div id="top">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+<div id="slidder"></div>
+<div id="bottom">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+
+<style type="text/css" media="screen">
+html,body {
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	color:white;
+	font-size:2.4em;
+}
+#top, #bottom {
+	overflow:hidden;
+}
+#top {
+	background: blue;
+	height:100%;
+	z-index: 1;
+}	
+#bottom {
+	background:green;
+}
+
+#slidder {
+	background:purple;
+	height:60px;
+}
+</style>
+<script>
+var ttop = document.getElementById("top"),
+	tbottom = document.getElementById("bottom"),
+	tslidder = document.getElementById("slidder");
+
+function layout() {
+	var height = window.innerHeight-60;
+	ttop.style.height = height+'px';
+	tbottom.style.height = height+'px'; 
+}
+
+layout();
+
+document.addEventListener('resize', layout);
+
+var startY = 0, currentY = 0, scrollTopStart = 0, diffA = 0, diffB = 0;
+
+function stopIt(){
+	document.removeEventListener('mousemove', documentMouseMoveListener);
+	document.removeEventListener('mouseup', stopIt);
+
+	// start inertia
+	console.log(diffA, diffB);
+
+
+	var speed = diffA + diffB;
+
+	if (speed > 20 || speed < -20) {
+		if (speed > 100 || speed < -100) {
+			speed *= 2; // some boost
+		}
+		animate(speed, 1);
+	}
+
+	diffA = 0;
+	diffB = 0;
+}
+
+function animate(move, op) {
+	var dir = Math.round(move * 0.15);
+	document.body.scrollTop += dir;
+	window.scrollBy(0,dir);
+	// window.scrollTo(0, window.scrollTop+dir);
+	move -= dir;
+	if (dir > 1 || dir < -1) {
+		window.requestAnimationFrame(function() {
+			animate(move, op+1);
+		});
+	}
+} 
+
+function nan(e) {
+	e.preventDefault();
+}
+
+// ttop.addEventListener('mousewheel', nan);
+// ttop.addEventListener('touchstart', nan);
+// tbottom.addEventListener('mousewheel', nan);
+// tbottom.addEventListener('touchstart', nan);
+
+function documentMouseMoveListener(e) {
+	var y = e.clientY;
+
+	if (y === currentY) return;
+
+	diffB = diffA;
+	diffA = currentY - y;
+
+	currentY = y;
+
+	window.scrollTo(0, scrollTopStart + startY - currentY);
+}
+
+tslidder.addEventListener('mousedown', function(e) {
+	startY = e.clientY;
+	scrollTopStart = window.scrollTop;
+	if (scrollTopStart === undefined) {
+		scrollTopStart = window.pageYOffset;
+	}
+	e.preventDefault();
+
+	document.addEventListener('mousemove', documentMouseMoveListener);
+	document.addEventListener('mouseup', stopIt);
+});
+
+</script>
+</body>
+</html>
