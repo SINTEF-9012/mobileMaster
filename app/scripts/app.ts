@@ -1,4 +1,4 @@
-/// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+﻿/// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
 
 /// <reference path="./references/generic.d.ts" />
@@ -18,8 +18,19 @@ angular.module('mobileMasterApp', ['ui.router'])
     $stateProvider
       .state('main', {
         url: "/",
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+		views: {
+			top: {
+				templateUrl: 'views/map.html',
+				controller: 'MapCtrl',
+			},
+			bottom: {
+				controller: 'MainCtrl',
+				templateUrl: 'views/main.html'
+			},
+			slidder: {
+				templateUrl: 'views/slidder.html'
+			}
+		}
       })
       .state('compass', {
         url: '/compass',

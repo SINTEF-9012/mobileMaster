@@ -2,6 +2,34 @@
 @import "icons.scss";
 @import "bootstrap-sass/lib/_variables";
 
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+}
+
+#layout-top, #layout-bottom, #layout-slidder {
+    #view-top, #view-bottom,#view-slidder {
+        position:relative;
+        height:100%;
+        width:100%;
+    }
+}
+
+#layout-top {
+    height:100%;
+    background:black;
+}
+
+#view-bottom {
+    overflow-y:hidden;
+}
+
+#layout-slidder {
+    background:grey;
+    height:60px;
+}
 #map {
 	// position:relative;
 		height:100%;

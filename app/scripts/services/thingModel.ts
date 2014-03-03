@@ -101,9 +101,9 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			}
 		});
 
-		$(window).on('touchstart mousedown', ()=> {
+		$(window).on('touchstart mousedown leafletstart', ()=> {
 			digestLock = true;
-		}).on('touchend mouseup', () => {
+		}).on('touchend mouseup leafletend', () => {
 			if (digestNeeded) {
 				$rootScope.$digest();
 			}

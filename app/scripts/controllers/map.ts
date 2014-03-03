@@ -5,7 +5,6 @@
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
-/// <reference path="./../../bower_components/yetAnotherPanelsLibrary/lib/yapl.d.ts" />
 'use strict';
 
 // Module configuration
@@ -107,9 +106,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         $scope.$apply(); 
     });
 
-    var jMap = $('#map'),
-        jScroller= $('#scroller'),
-        scroller = jScroller.get(0);
+    var jMap = $('#map');
 
     jMap.append(masterMap.getContainer());
 
@@ -121,75 +118,75 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     spring.setSpringConfig(springConfig);
     spring.setCurrentValue(0);
 
-    var layout = new yetAnotherPanelsLibrary($('#main'), {
-        autoHideOnClose: true,
+		/*var layout = new yetAnotherPanelsLibrary($('#main'), {
+			autoHideOnClose: true,
 
-        // Connect the iScroll bounce easing to the spring
-        bounceEasing: {
-            'style':'',
-            fn: function(k) {
-                if (k === 0) {
-                    spring.setCurrentValue(0);
-                    spring.setEndValue(1);
-                }
+			// Connect the iScroll bounce easing to the spring
+			bounceEasing: {
+				'style':'',
+				fn: function(k) {
+					if (k === 0) {
+						spring.setCurrentValue(0);
+						spring.setEndValue(1);
+					}
 
-                return spring.getCurrentValue();
-            }
-        },
-        animationDuration: 1000,
-        bounceTime: 1000,
-        snapSpeed: 1000
-    });
-    var hackLayout = <any>layout;
+					return spring.getCurrentValue();
+				}
+			},
+			animationDuration: 1000,
+			bounceTime: 1000,
+			snapSpeed: 1000
+		});
+		var hackLayout = <any>layout;
 
-    var panelOpen = false;
+		var panelOpen = false;
    
-    var topMenu = $('#top-menu');
+		var topMenu = $('#top-menu');
 
-    // Set a minimum height
-    topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
-    layout.updateView();
+		// Set a minimum height
+		topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
+		layout.updateView();
   
-    layout.setTopPanel(topMenu, true,
-        function() {
-            $state.go('map.layers');
-            panelOpen = true;
-        },
-        function() {
-            $state.go('^');
-            panelOpen = false;
-        });
+		layout.setTopPanel(topMenu, true,
+			function() {
+				$state.go('map.layers');
+				panelOpen = true;
+			},
+			function() {
+				$state.go('^');
+				panelOpen = false;
+			});
 
-    // Connect ui-router events
-    $scope.$on('layers_enter', function() {
-        layout.showTopPanel();
-    });
+		// Connect ui-router events
+		$scope.$on('layers_enter', function() {
+			layout.showTopPanel();
+		});
 
-    $scope.$on('layers_exit', function() {
-        layout.showMainPanel();
-    });
+		$scope.$on('layers_exit', function() {
+			layout.showMainPanel();
+		});
 
-    // If the application is loaded with the panel openned
-    if ($state.is('map.layers')) {
-        panelOpen = true;
-    }
-
+		// If the application is loaded with the panel openned
+		if ($state.is('map.layers')) {
+			panelOpen = true;
+		}
+	*/
 		// Update the panel height after the layout initialization
-		window.setImmediate(function () {
-        masterMap.invalidateSize({});
-        layout.updateView();
-        var h = Math.max(topMenu.children().innerHeight(), 100);
-        topMenu.height(h);
-        layout.updateView();
-		if (!panelOpen) {
-			window.setImmediate(function () {
-                hackLayout.iscroll.scrollTo(0,-h);
-            });
-        } else {
-            layout.showTopPanel();
-        }
-    });
-
+		window.setImmediate(() => {
+			masterMap.invalidateSize({});
+			//        layout.updateView();
+			//        var h = Math.max(topMenu.children().innerHeight(), 100);
+			//        topMenu.height(h);
+			//        layout.updateView();
+			//		if (!panelOpen) {
+			//			window.setImmediate(function () {
+			//                hackLayout.iscroll.scrollTo(0,-h);
+			//            });
+			//        } else {
+			//            layout.showTopPanel();
+		});
+//    });
+/*
 
     // Update the panel height when the layout change
     $(window).resize(function() {
@@ -197,13 +194,14 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
             layout.updateView();
         });
-    });
+    });*/
 
+	var jwindow = $(window);
 
     // Manage the 3 fingers drag and drop
     var mapEnabled = true;
 
-    $('#map .map').on('touchstart pointerdown', function(e) {
+	$('#map .map').on('touchstart pointerdown', function (e) {
         var oe = <TouchEvent><any> e.originalEvent;
 
         if (oe.touches && oe.touches.length>= 3) {
@@ -219,7 +217,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
                 masterMap.tap&&masterMap.tap.disable();
             }
         }
-	    $(window).trigger('touchstart');
+	    jwindow.trigger('leafletstart');
     }).on('touchend pointerup', function(e) {
 
         var oe = <TouchEvent><any> e.originalEvent;
@@ -234,7 +232,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             masterMap.keyboard.enable();
             masterMap.tap&&masterMap.tap.enable();
 		}
-	    $(window).trigger('touchend');
+		jwindow.trigger('leafletend');
     });
 
     // TODO Change position layer
@@ -301,32 +299,34 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             cluster.clearLayers();	
         }
 
-        angular.forEach($scope.patients, function(patient : NodeMaster.IPatientModel, ID:string) {
+	    angular.forEach($scope.things, function(tata) {
+		    angular.forEach(tata, function(patient: NodeMaster.IPatientModel, ID: string) {
 
-            var location = new L.LatLng(patient.Location.lat,patient.Location.lng);
-           
-            if (markersPatients[ID]) {
-                markersPatients[ID].setLatLng(location);
+			    var location = new L.LatLng(patient.Location.lat, patient.Location.lng);
 
-                if (update) {
-                    cluster.addLayer(markersPatients[ID]);
-                }
-            } else {
-                markersPatients[ID] = new L.Marker(location);
+			    if (markersPatients[ID]) {
+				    markersPatients[ID].setLatLng(location);
 
-                cluster.addLayer(markersPatients[ID]);
-            }
-        });
+				    if (update) {
+					    cluster.addLayer(markersPatients[ID]);
+				    }
+			    } else {
+				    markersPatients[ID] = new L.Marker(location);
 
-        angular.forEach(markersPatients, function(marker : L.Marker, ID: string) {
-            if (!$scope.patients[ID]) {
-                masterMap.removeLayer(marker);
-                delete markersPatients[ID];
-            }
-        });
+				    cluster.addLayer(markersPatients[ID]);
+			    }
+		    });
+
+//		    angular.forEach(markersPatients, function(marker: L.Marker, ID: string) {
+//			    if (!$scope.patients[ID]) {
+//				    masterMap.removeLayer(marker);
+//				    delete markersPatients[ID];
+//			    }
+//		    });
+	    });
     }
 
-    $scope.$watch('patients', function() {
+    $scope.$watch('things', function() {
         // TODO send an event when it's OK
         if (canChangePosition) {
             updatePatientsPositions();
@@ -340,7 +340,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
     console.log(resourceElement2.html());
 
-    var resourceIcon = L.divIcon({
+		var resourceIcon = L.divIcon({
         className: "resource-icon",
         html: '<master-icon>'+resourceElement2.html()+'</master-icon>'
     });
@@ -369,7 +369,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
                     icon: resourceIcon
                     });
 
-                cluster.addLayer(markersResources[ID]);
+				cluster.addLayer(markersResources[ID]);
             }
         });
 
@@ -410,16 +410,16 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         $('body').removeClass("disable-markers-animations");
     });
 
-    hackLayout.iscroll.on('scrollEnd', function() {
-        canChangePosition = true;
-    });
-    hackLayout.iscroll.on('scrollStart', function() {
-        canChangePosition = false;
-        
-        if (updatePositionsAtEnd) {
-            updatePatientsPositions();
-        }
-    });
+//    hackLayout.iscroll.on('scrollEnd', function() {
+//        canChangePosition = true;
+//    });
+//    hackLayout.iscroll.on('scrollStart', function() {
+//        canChangePosition = false;
+//        
+//        if (updatePositionsAtEnd) {
+//            updatePatientsPositions();
+//        }
+//    });
 
     masterMap.addLayer(cluster);
 

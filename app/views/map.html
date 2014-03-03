@@ -1,82 +1,35 @@
-<div id="wrapper">
-	<div id="scroller">
-		<div id="top-menu" class="canard_panel">
-			<div class="content" id="top-menu-scroller">
-			
-				<div class="layers">	
-					<h3>Layers</h3>
-					<!-- <div ui-view></div> -->
-					<!-- <input type="checkbox" ng-model="buildings"> -->
+<!-- 	<div id="top-menu" class="canard_panel">
+		<div class="content" id="top-menu-scroller">
+		
+			<div class="layers">	
+				<h3>Layers</h3>
 
-					<div class="row">
-						<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers">
-						</button>
-					</div>
-					<div class="row">
-						<div class="layerOption col-xs-6">
-							<span>3D buildings </span>
-							<div class="buildings-switch make-switch switch-large">
-								<input type="checkbox" ng-model="buildings">
-							</div>
+				<div class="row">
+					<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers">
+					</button>
+				</div>
+				<div class="row">
+					<div class="layerOption col-xs-6">
+						<span>3D buildings </span>
+						<div class="buildings-switch make-switch switch-large">
+							<input type="checkbox" ng-model="buildings">
 						</div>
 					</div>
 				</div>
+			</div>
 
-				<div class="tools">
-					<h3>Tools</h3>
-					<button type="button" class="btn btn-default" ng-click="centerView();">Zoom to situation</button>
-				</div>
+			<div class="tools">
+				<h3>Tools</h3>
+				<button type="button" class="btn btn-default" ng-click="centerView();">Zoom to situation</button>
 			</div>
 		</div>
-		<div id="main" class="canard_panel">
-			<div class="infos">
-				Tout va bien à Oslo
-<!-- 				<master-icon category="incident" type="automobile"></master-icon>
-				<master-icon category="incident" type=""></master-icon>
-				<master-icon category="incident" type="bomb"></master-icon>
- -->			
- 				<span class="info-number">
-	 				<master-icon category="resource" type="health personnel"></master-icon> 3
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="health vehicle"></master-icon> 1
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="fire and rescue personnel"></master-icon> 2
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="fire and rescue vehicle"></master-icon> 0
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="police personnel"></master-icon> 10
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="police vehicle"></master-icon> 3
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="civil defence"></master-icon> 0
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="norwegian people aid"></master-icon> 0
-				</span>
- 				<span class="info-number">
-					<master-icon category="resource" type="red cross"></master-icon> 0
-				</span>
-
-<!-- 				<button type="button" class="btn btn-sm btn-default">Canard</button>
-				<button type="button" class="btn btn-sm btn-default">poisson</button>
- -->				<button type="button" class="btn btn-sm btn-info">Lapin</button>
-			</div>
-
-			<div id="map"></div>
-			<div class="map-buttons" style="display:none">
-				<button type="button" class="btn btn-default">Set</button>
-				<button type="button" class="btn btn-default">Cancel</button>
-				<button type="button" class="btn btn-default" onclick="canard.showTopPanel()">Canard</button>
-				<a class="btn btn-default" ui-sref="map.layers">Show List</a>
-			</div>
-		</div>	
 	</div>
-</div>
-
-
+	<div id="main" class="canard_panel">
+ -->
+		<div id="map"></div>
+		<div class="map-buttons" style="display:none">
+			<button type="button" class="btn btn-default">Set</button>
+			<button type="button" class="btn btn-default">Cancel</button>
+			<button type="button" class="btn btn-default" onclick="canard.showTopPanel()">Canard</button>
+			<a class="btn btn-default" ui-sref="map.layers">Show List</a>
+		</div>
