@@ -24,13 +24,13 @@ angular.module('mobileMasterApp')
     $scope.direction = 56.0;
 
     Compass.noSupport(function() {
-      alert("no support");
+//      alert("no support");
       }).needGPS(function() {
-      alert("Need GPS");
+//      alert("Need GPS");
       }).needMove(function(){
-        alert("need move");
+//        alert("need move");
         }).init(function() {
-          alert("ok")
+//          alert("ok")
           });
     Compass.watch(function(heading) {
       heading = heading;

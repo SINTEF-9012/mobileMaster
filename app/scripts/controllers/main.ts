@@ -12,7 +12,14 @@ angular.module('mobileMasterApp')
 	})
   .controller('MainCtrl', function ($scope, thingModel, $timeout : ng.ITimeoutService, Knowledge) {
 
-	var myScroll = new IScroll('#wrapper', { mouseWheel: true, scrollX: true, scrollY: true, zoom:true, preventDefault:false});
+	var myScroll = new IScroll('#wrapper', {
+		mouseWheel: true,
+		scrollX: true,
+		scrollY: true,
+		zoom: true,
+		preventDefault: false,
+		margin:0
+	});
 
 	var immediateRefreshId = 0;
 	  var refresh = () => {
@@ -51,5 +58,11 @@ angular.module('mobileMasterApp')
 		}
     });
 
+	  $scope.$on('$viewContentLoaded', () => {
+		  console.log("aaaah")
+		  window.setTimeout(() => {
+			  $(window).trigger('resize'); // TODO CRAAAADE
+		  }, 1);
+	  });
 	 $(window).on('layout-scroll-end', refresh);
   });

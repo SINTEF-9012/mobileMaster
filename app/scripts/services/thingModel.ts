@@ -60,26 +60,9 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 
 				$rootScope.things[typeName][thing.ID] = thing;
 
-//				thing.Name = thing.GetProperty<ThingModel.Property.String>("name", ThingModel.Type.String).Value;
-				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location).Value;
-				thing.Location = {
-					lat: loc.X,
-					lng: loc.Y
-				};
 				synchronizeScope($rootScope);
 			},
 			Updated: (thing : ThingModel.Thing) => {
-//				if (!$rootScope.things) {
-//					$rootScope.things = {};
-//				} else {
-//					$rootScope.things[thing.ID] = thing;
-//				}
-//				thing.Name = thing.GetProperty<ThingModel.Property.String>("name", ThingModel.Type.String).Value;
-//				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location).Value;
-//				thing.Location = {
-//					lat: loc.X,
-//					lng: loc.Y
-//				};
 				var typeName = thing.Type ? thing.Type.Name : "Thing";
 				$rootScope.things[typeName][thing.ID] = thing;
 				synchronizeScope($rootScope);

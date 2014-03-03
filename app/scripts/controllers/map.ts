@@ -93,108 +93,21 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     $scope,
     masterMap : Master.Map,
     thingModel : any,
-    $state : any,
+	$state: any,
     persistentLocalization : PersistentLocalization,
     $compile : ng.ICompileService) {
 
     persistentLocalization.bindToMasterMap(masterMap);
     persistentLocalization.restorePersistentLayer();
 
-    // TODO ugly bootstrap-switch integration with angular-js
-    $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
-        $scope.buildings = data.value;
-        $scope.$apply(); 
-    });
-
-    var jMap = $('#map');
+		var jMap = $('#map');
 
     jMap.append(masterMap.getContainer());
 
-    // Create Facebook rebound spring
-    var springSystem = new rebound.SpringSystem();
-
-    var spring = springSystem.createSpring();
-    var springConfig = rebound.SpringConfig.fromQcTensionAndFriction(40, 3);
-    spring.setSpringConfig(springConfig);
-    spring.setCurrentValue(0);
-
-		/*var layout = new yetAnotherPanelsLibrary($('#main'), {
-			autoHideOnClose: true,
-
-			// Connect the iScroll bounce easing to the spring
-			bounceEasing: {
-				'style':'',
-				fn: function(k) {
-					if (k === 0) {
-						spring.setCurrentValue(0);
-						spring.setEndValue(1);
-					}
-
-					return spring.getCurrentValue();
-				}
-			},
-			animationDuration: 1000,
-			bounceTime: 1000,
-			snapSpeed: 1000
-		});
-		var hackLayout = <any>layout;
-
-		var panelOpen = false;
-   
-		var topMenu = $('#top-menu');
-
-		// Set a minimum height
-		topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
-		layout.updateView();
-  
-		layout.setTopPanel(topMenu, true,
-			function() {
-				$state.go('map.layers');
-				panelOpen = true;
-			},
-			function() {
-				$state.go('^');
-				panelOpen = false;
-			});
-
-		// Connect ui-router events
-		$scope.$on('layers_enter', function() {
-			layout.showTopPanel();
-		});
-
-		$scope.$on('layers_exit', function() {
-			layout.showMainPanel();
-		});
-
-		// If the application is loaded with the panel openned
-		if ($state.is('map.layers')) {
-			panelOpen = true;
-		}
-	*/
-		// Update the panel height after the layout initialization
-		window.setImmediate(() => {
-			masterMap.invalidateSize({});
-			//        layout.updateView();
-			//        var h = Math.max(topMenu.children().innerHeight(), 100);
-			//        topMenu.height(h);
-			//        layout.updateView();
-			//		if (!panelOpen) {
-			//			window.setImmediate(function () {
-			//                hackLayout.iscroll.scrollTo(0,-h);
-			//            });
-			//        } else {
-			//            layout.showTopPanel();
-		});
-//    });
-/*
-
-    // Update the panel height when the layout change
-    $(window).resize(function() {
-        window.setImmediate(function() {
-            topMenu.height(Math.max(topMenu.children().innerHeight(), 100));
-            layout.updateView();
-        });
-    });*/
+	// Update the panel height after the layout initialization
+	window.setImmediate(() => {
+		masterMap.invalidateSize({});
+	});
 
 	var jwindow = $(window);
 
@@ -281,15 +194,13 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         showCoverageOnHover: false
     });
 
-    var markersPatients : {[key: string] : L.Marker} = {};
-    var markersResources : {[key: string] : L.Marker} = {};
+    var markersThings : {[ID: string] : L.Marker} = {};
 
     var cpt = 0;
 
     var canChangePosition = true, updatePositionsAtEnd = false;
 
     // Manage markers
-
     function updatePatientsPositions() {
         // TODO reset every 60 iterations
         var update = ++cpt === 60000;
@@ -299,21 +210,45 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             cluster.clearLayers();	
         }
 
-	    angular.forEach($scope.things, function(tata) {
-		    angular.forEach(tata, function(patient: NodeMaster.IPatientModel, ID: string) {
+	    angular.forEach($scope.things, (tata) => {
+		    angular.forEach(tata, (thing: ThingModel.Thing, ID: string) => {
 
-			    var location = new L.LatLng(patient.Location.lat, patient.Location.lng);
+				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location);
+				if (!loc) return;
+			    var loc2 = loc.Value;
+			    var location = new L.LatLng(loc2.X, loc2.Y);
 
-			    if (markersPatients[ID]) {
-				    markersPatients[ID].setLatLng(location);
+			    if (markersThings[ID]) {
+				    markersThings[ID].setLatLng(location);
 
 				    if (update) {
-					    cluster.addLayer(markersPatients[ID]);
+					    cluster.addLayer(markersThings[ID]);
 				    }
-			    } else {
-				    markersPatients[ID] = new L.Marker(location);
+				} else {
+					var type = thing.Type ? thing.Type.Name.replace(/:/g, '-') : "default";
 
-				    cluster.addLayer(markersPatients[ID]);
+					var iconClassName = 'thing-icon thing-icon-' + type;
+
+				    var triage = thing.GetProperty<ThingModel.Property.String>("triage_status", ThingModel.Type.String);
+					if (triage) {
+						iconClassName += ' triage-' + triage.Value;
+					}
+
+					if (type.indexOf("vehicle") >= 0) {
+					var resourceElement = angular.element('<master-icon category="resource" type="fire and rescue vehicle"></master-icon>');
+					var resourceElement2 = $compile(resourceElement)($scope);
+					}
+					var icon = L.divIcon({
+						className: iconClassName,
+						size: 22,
+						html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
+					});
+
+					var marker = new L.Marker(location, { icon: icon });
+				    marker.bindPopup("canard");
+				    markersThings[ID] = marker; 
+
+				    cluster.addLayer(markersThings[ID]);
 			    }
 		    });
 
@@ -345,50 +280,6 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         html: '<master-icon>'+resourceElement2.html()+'</master-icon>'
     });
 
-    function updateResourcesPositions() {
-        // TODO reset every 60 iterations
-        var update = ++cpt === 60000;
-
-        if (update) {
-            cpt = 0;
-            cluster.clearLayers();  
-        }
-
-        angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
-
-            var location = new L.LatLng(resource.Location.lat,resource.Location.lng);
-           
-            if (markersResources[ID]) {
-                markersResources[ID].setLatLng(location);
-
-                if (update) {
-                    cluster.addLayer(markersResources[ID]);
-                }
-            } else {
-                markersResources[ID] = new L.Marker(location, {
-                    icon: resourceIcon
-                    });
-
-				cluster.addLayer(markersResources[ID]);
-            }
-        });
-
-        angular.forEach(markersResources, function(marker : L.Marker, ID: string) {
-            if (!$scope.resources[ID]) {
-                masterMap.removeLayer(marker);
-                delete markersResources[ID];
-            }
-        });
-    }
-
-    $scope.$watch('resources', function() {
-        // TODO send an event when it's OK
-        if (canChangePosition) {
-            updateResourcesPositions();
-        } else {
-            updatePositionsAtEnd = true;
-        }
-    }, true);
 
     masterMap.on('movestart zoomstart', function() {
         canChangePosition = false;
@@ -405,60 +296,14 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     });
 
     masterMap.on('zoomstart', function() {
+
         $('body').addClass("disable-markers-animations");
     }).on('zoomend', function() {
         $('body').removeClass("disable-markers-animations");
     });
 
-//    hackLayout.iscroll.on('scrollEnd', function() {
-//        canChangePosition = true;
-//    });
-//    hackLayout.iscroll.on('scrollStart', function() {
-//        canChangePosition = false;
-//        
-//        if (updatePositionsAtEnd) {
-//            updatePatientsPositions();
-//        }
-//    });
-
     masterMap.addLayer(cluster);
 
-    // Register the layers into the scope
-    $scope.layers = masterMap.getTilesLayers();
-
-    $scope.layerClick = function(layer : MasterScope.Layer) {
-
-        if (!layer.active) {
-            angular.forEach($scope.layers, function(iLayer: MasterScope.Layer){
-                masterMap.hideTileLayer(iLayer.name);
-            });
-
-            masterMap.showTileLayer(layer.name);
-            persistentLocalization.saveCurrentLayer(layer);
-        }
-    };
-
-    // Manage special buildings layer (it can be used with every other layers)
-    var buildings = null;
-    $scope.$watch('buildings', function(value) {
-        console.log("buildings", value);
-
-        if (value) {
-            if (buildings) {
-                masterMap.addLayer(buildings);
-            } else {
-                buildings = new OSMBuildings(masterMap).setStyle({
-                    wallColor:"rgb(106,131,136)",
-                    roofColor:"rgb(176,189,195)"
-                })
-                .loadData();
-            }
-        } else {
-            if (buildings) {
-                masterMap.removeLayer(buildings);
-            }
-        }
-    });
 
 
     $scope.centerView = function() {

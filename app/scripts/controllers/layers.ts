@@ -2,8 +2,51 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-.controller('LayersCtrl', function ($scope : MasterScope.Root, $state, masterMap : Master.Map) {
+	.controller('LayersCtrl', function ($scope: MasterScope.Root, $state,
+	    persistentLocalization : PersistentLocalization,
+		masterMap: Master.Map) {
 
+    // Register the layers into the scope
+    $scope.layers = masterMap.getTilesLayers();
+
+    $scope.layerClick = function(layer : MasterScope.Layer) {
+
+        if (!layer.active) {
+            angular.forEach($scope.layers, function(iLayer: MasterScope.Layer){
+                masterMap.hideTileLayer(iLayer.name);
+            });
+
+            masterMap.showTileLayer(layer.name);
+            persistentLocalization.saveCurrentLayer(layer);
+        }
+    };
+
+    // Manage special buildings layer (it can be used with every other layers)
+    var buildings = null;
+    $scope.$watch('buildings', function(value) {
+        console.log("buildings", value);
+
+        if (value) {
+            if (buildings) {
+                masterMap.addLayer(buildings);
+            } else {
+                buildings = new OSMBuildings(masterMap).setStyle({
+                    wallColor:"rgb(106,131,136)",
+                    roofColor:"rgb(176,189,195)"
+                })
+                .loadData();
+            }
+        } else {
+            if (buildings) {
+                masterMap.removeLayer(buildings);
+            }
+        }
+    });
+    // TODO ugly bootstrap-switch integration with angular-js
+//    $('.buildings-switch').bootstrapSwitch().on('switch-change', function(e, data) {
+//        $scope.buildings = data.value;
+//        $scope.$apply(); 
+//    });
 	// var selectFunction = function() {
 	// 	alert(this);
 	// }

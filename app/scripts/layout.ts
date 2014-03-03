@@ -4,17 +4,18 @@
 	var ttop = $("#layout-top"),
 		tbottom = $("#layout-bottom"),
 		tslidder = $("#layout-slidder"),
-		tbottomContent = tbottom.children();
+		tmenus = tbottom.children('#menus');
 
 	function layout() {
 		var height = window.innerHeight - tslidder.height();
 		ttop.height(height);
 		tbottom.height(height);
+		tbottom.children('#view-bottom').width(jwindow.width() - tmenus.width()).height(Math.max(0, jwindow.scrollTop()));
 	}
 
 	layout();
 
-	document.addEventListener('resize', layout);
+	jwindow.on('resize', layout);
 
 	var startY = 0, currentY = 0, scrollTopStart = 0, diffA = 0, diffB = 0;
 
@@ -81,7 +82,7 @@
 			window.clearTimeout(t);
 		}
 		t = window.setTimeout(() => {
-			tbottom.children().height(Math.max(0, jwindow.scrollTop()));
+			tbottom.children('#view-bottom').width(jwindow.width() - tmenus.width()).height(Math.max(0, jwindow.scrollTop()));
 			jwindow.trigger('layout-scroll-end');
 		},100);
 	});

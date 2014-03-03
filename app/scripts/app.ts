@@ -19,23 +19,43 @@ angular.module('mobileMasterApp', ['ui.router'])
       .state('main', {
         url: "/",
 		views: {
-			top: {
+			'top@': {
 				templateUrl: 'views/map.html',
 				controller: 'MapCtrl',
 			},
-			bottom: {
+			'bottom@': {
 				controller: 'MainCtrl',
 				templateUrl: 'views/main.html'
 			},
-			slidder: {
+			'slidder@': {
 				templateUrl: 'views/slidder.html'
 			}
 		}
       })
-      .state('compass', {
-        url: '/compass',
-        templateUrl: 'views/compass.html',
-        controller: 'CompassCtrl'
+      .state('main.compass', {
+        url: 'compass',
+		views: {
+//			top: {
+//				templateUrl: 'views/map.html',
+//				controller: 'MapCtrl',
+//			},
+			'bottom@': {
+				controller: 'CompassCtrl',
+				templateUrl: 'views/compass.html'
+			},
+//			slidder: {
+//				templateUrl: 'views/slidder.html'
+//			}
+		}
+      })
+      .state('main.settings', {
+        url: 'settings',
+		views: {
+			'bottom@': {
+				controller: 'LayersCtrl',
+				templateUrl: 'views/layers.html'
+			}
+		}
       })
       .state('map', {
         url: '/map',

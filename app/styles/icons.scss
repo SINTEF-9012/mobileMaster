@@ -100,3 +100,33 @@ master-icon {
 	}
 }
 
+#map {
+
+	.thing-icon {
+		background:orange;
+		border-radius:50%;
+		box-shadow:0 0 0 2px white, 0px 0px 0 3px black;
+	}
+
+	.thing-icon-ESS14-vehicle-wheeled {
+		background:red;
+	}
+
+	.thing-icon-ESS14-person-patient {
+		&.triage-BLACK {
+			background:black;
+		}
+		&.triage-RED {
+			background:red;
+		}
+		&.triage-YELLOW {
+			background:orange;
+		}
+		&.triage-ORANGE {
+			background:orange;
+		}
+		&.triage-GREEN {
+			background:green;
+		}
+	}
+}
