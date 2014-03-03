@@ -406,12 +406,20 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'concurrent:server',
-      'ts:dev',
       'autoprefixer',
       'connect:livereload',
       'watch'
     ]);
   });
+
+  grunt.registerTask('tsserver', [
+      'clean:server',
+      'concurrent:server',
+      'ts:dev',
+      'autoprefixer',
+      'connect:livereload',
+      'watch'
+    ]);
 
   grunt.registerTask('test', [
     'ts:dev',
