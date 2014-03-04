@@ -1,0 +1,12 @@
+$gray-darker:            lighten(#000, 13.5%) !default; // #222
+$gray-dark:              lighten(#000, 20%) !default;   // #333
+$gray:                   lighten(#000, 33.5%) !default; // #555
+$gray-light:             lighten(#000, 60%) !default;   // #999
+$gray-lighter:           lighten(#000, 95%) !default; // #pas eee
+
+$font-family-sans-serif: "Fira sans", sans-serif;
+$body-bg: $gray-lighter;
+$text-color: $gray-darker;
+$table-bg: darken($gray, 6);
+$table-bg-accent: darken($gray, 5);
+$table-border-color: darken($gray,12);

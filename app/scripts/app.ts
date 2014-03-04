@@ -7,7 +7,7 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', ['ui.router'])
+angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     if (!window.navigator.device) {
@@ -56,6 +56,19 @@ angular.module('mobileMasterApp', ['ui.router'])
 				templateUrl: 'views/layers.html'
 			}
 		}
+      })
+      .state('main.thing', {
+        url: 'thing/:id',
+		views: {
+			'popup@': {
+				controller: 'ThingCtrl',
+				templateUrl: 'views/thing.html'
+			}
+		}/*,
+	    onEnter: () => {
+			$('#layout-popup').show();
+		},
+		onExit: ()=> $('#layout-popup').hide()*/
       })
       .state('map', {
         url: '/map',

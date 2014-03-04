@@ -1,16 +1,16 @@
+/// <reference path="./../bower_components/DefinitelyTyped/jquery/jquery.d.ts" />
+
 (() => {
 	var jwindow = $(window);
 
 	var ttop = $("#layout-top"),
 		tbottom = $("#layout-bottom"),
-		tslidder = $("#layout-slidder"),
-		tmenus = tbottom.children('#menus');
+		tslidder = $("#layout-slidder");
 
 	function layout() {
 		var height = window.innerHeight - tslidder.height();
 		ttop.height(height);
 		tbottom.height(height);
-		tbottom.children('#view-bottom').width(jwindow.width() - tmenus.width()).height(Math.max(0, jwindow.scrollTop()));
 	}
 
 	layout();
@@ -82,7 +82,7 @@
 			window.clearTimeout(t);
 		}
 		t = window.setTimeout(() => {
-			tbottom.children('#view-bottom').width(jwindow.width() - tmenus.width()).height(Math.max(0, jwindow.scrollTop()));
+			tbottom.children('#view-bottom').height(Math.max(0, jwindow.scrollTop()));
 			jwindow.trigger('layout-scroll-end');
 		},100);
 	});

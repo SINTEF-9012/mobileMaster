@@ -50,11 +50,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="thing in things[type.type.Name]">
-			<td>{{thing.ID}}</td>
-			<td ng-repeat="property in type.tableProperties">
-				{{thing.GetProperty(property.key).Value}}
-			</td>
+		<tr ng-repeat="thing in things[type.type.Name]" >
+				<td><a ui-sref="main.thing({id: thing.ID})">{{thing.ID}}</a></td>
+				<td ng-repeat="property in type.tableProperties">
+					{{thing.GetProperty(property.key).Value}}
+				</td>
+			</a>
 		</tr>
 <!-- 		<tr ng-repeat="patient in patients">
 			<td><thing></thing></td>
