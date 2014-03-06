@@ -1,5 +1,11 @@
 <div class="popup-content">
-	<h1>{{things['ESS14:person:patient'][id].GetProperty("name", ThingModel.Type.String).Value}} <small>{{id}}</small></h1>
+	<h1>{{thing.name}}
+	<br/><small>{{types[things[id].typeName].type.Name}}</small>
+	</h1>
 	<hr/>
-	<p>blablabla</p>
+	<dl>
+		<dt ng-repeat-start="property in types[things[id].typeName].tableProperties">
+		{{property.property.Name || property.key}}</dt>
+		<dd ng-repeat-end>{{thing[property.key]}}</dd>
+	</dl>
 </div>

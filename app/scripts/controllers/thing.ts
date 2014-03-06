@@ -10,9 +10,14 @@ angular.module('mobileMasterApp')
 
 		var id = $stateParams.id;
 
-		$scope.id = id;
+			$scope.id = id;
 
-		$scope.$watch('things', () => {
+			$scope.$watch('things[id]', () => {
+				console.log("canard");
+				if ($scope.things) {
+					$scope.thing = $scope.things[id];
+				}
+				return;
 			angular.forEach($scope.things, (tata)=> {
 				var thing: ThingModel.Thing = tata[id];
 				if (!thing) return;

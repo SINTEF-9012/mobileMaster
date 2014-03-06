@@ -8,14 +8,14 @@ declare module MasterScope {
         buildings: boolean;
         map: L.Map;
 
-        closeLayerList() : void;
-        layerClick(layer : Layer) : void;
-        centerView() : void;
-        things: {[typeName: string] : {[ID:string] : ThingModel.Thing}};
-		resources: { [ID: string]: NodeMaster.ResourceStatusModel; };
+        //closeLayerList() : void;
+        //layerClick(layer : Layer) : void;
+		centerView(): void;
+
+        things: {[ID:string] : Thing};
 
 		types: {[name: string] : {
-
+			things: { [ID: string]: Thing };
 			tableProperties: {
 				key: string;
 				score:number;
@@ -24,7 +24,8 @@ declare module MasterScope {
 
 			type: ThingModel.ThingType;
 		}};
-    }
+	}
+
     interface Layer {
         name: string;
         iconPath: string;
@@ -32,7 +33,18 @@ declare module MasterScope {
         //leafletLayer?: L.ILayer;
 
         create() : L.TileLayer;
-    }
+	}
+
+	interface Thing {
+		ID: string;
+		name: string;
+		typeName: string;
+		location?: {
+			x: number;
+			y: number;
+			z: number;
+		};
+	}
 }
 
 interface Knowledge {

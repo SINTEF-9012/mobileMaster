@@ -50,10 +50,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="thing in things[type.type.Name]" >
+		<tr ng-repeat="thing in type.things" >
 				<td><a ui-sref="main.thing({id: thing.ID})">{{thing.ID}}</a></td>
 				<td ng-repeat="property in type.tableProperties">
-					{{thing.GetProperty(property.key).Value}}
+					{{thing[property.key]}}
 				</td>
 			</a>
 		</tr>

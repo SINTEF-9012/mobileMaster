@@ -148,6 +148,13 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 		jwindow.trigger('leafletend');
     });
 
+		masterMap.on('popupopen', () => {
+			//window.setTimeout(() =>
+			$(document.body).addClass('canard2');//, 1);
+		}).on('popupclose', () => {
+				$(document.body).removeClass('canard2');
+			});
+
     // TODO Change position layer
     var MyCustomLayer = L.Class.extend({
 
@@ -189,7 +196,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
     // Cluster for markers (best performances)
     var cluster = new L.MarkerClusterGroup({
-        disableClusteringAtZoom: 10,
+        disableClusteringAtZoom: 14,
         spiderfyOnMaxZoom:false,
         showCoverageOnHover: false
     });
@@ -210,28 +217,27 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             cluster.clearLayers();	
         }
 
-	    angular.forEach($scope.things, (tata) => {
-		    angular.forEach(tata, (thing: ThingModel.Thing, ID: string) => {
+	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
 
-				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location);
+				var loc = thing.location;
 				if (!loc) return;
-			    var loc2 = loc.Value;
-			    var location = new L.LatLng(loc2.X, loc2.Y);
+			    var location = new L.LatLng(loc.x, loc.y);
 
 			    if (markersThings[ID]) {
-				    markersThings[ID].setLatLng(location);
+					markersThings[ID].setLatLng(location)
+						.getPopup()/*.setLatLng(location)*/.setContent(thing.name).update();
 
 				    if (update) {
 					    cluster.addLayer(markersThings[ID]);
 				    }
 				} else {
-					var type = thing.Type ? thing.Type.Name.replace(/:/g, '-') : "default";
+					var type = thing.typeName.replace(/:/g, '-');
 
 					var iconClassName = 'thing-icon thing-icon-' + type;
 
-				    var triage = thing.GetProperty<ThingModel.Property.String>("triage_status", ThingModel.Type.String);
+					var triage = thing.triage_status;
 					if (triage) {
-						iconClassName += ' triage-' + triage.Value;
+						iconClassName += ' triage-' + triage;
 					}
 
 					if (type.indexOf("vehicle") >= 0) {
@@ -240,13 +246,20 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					}
 					var icon = L.divIcon({
 						className: iconClassName,
-						size: 22,
+						iconSize: new L.Point(24, 24),
+						iconAnchor: new L.Point(13, 13),
 						html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
 					});
 
-					var marker = new L.Marker(location, { icon: icon });
-				    marker.bindPopup("canard");
-				    markersThings[ID] = marker; 
+					var marker = new L.Marker(location, { icon: icon, draggable: true });
+					marker.bindPopup(thing.name, {closeButton: false});
+					markersThings[ID] = marker;
+
+					marker.on('dragstart', () => {
+						masterMap.fire('markerdragstart');
+					}).on('dragend', () => {
+						masterMap.fire('markerdragend');
+					});
 
 				    cluster.addLayer(markersThings[ID]);
 			    }
@@ -258,7 +271,6 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 //				    delete markersPatients[ID];
 //			    }
 //		    });
-	    });
     }
 
     $scope.$watch('things', function() {
@@ -281,9 +293,9 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     });
 
 
-    masterMap.on('movestart zoomstart', function() {
+    masterMap.on('movestart zoomstart markerdragstart', function() {
         canChangePosition = false;
-    }).on('moveend zoomend', function() {
+    }).on('moveend zoomend markerdragend', function() {
         // canChangePosition = true;
         window.setTimeout(function() {
             canChangePosition = true;
@@ -295,10 +307,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         // }, 222);
     });
 
-    masterMap.on('zoomstart', function() {
+    masterMap.on('zoomstart markerdragstart', function() {
 
         $('body').addClass("disable-markers-animations");
-    }).on('zoomend', function() {
+    }).on('zoomend markerdragend', function() {
         $('body').removeClass("disable-markers-animations");
     });
 
