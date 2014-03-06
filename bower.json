@@ -12,7 +12,7 @@
     "iscroll": "~5.1.1",
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "compass.js": "https://github.com/ai/compass.js.git#~0.1.1",
-    "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.zip",
+    "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip",
     "leaflet.markerclusterer": "#master",
     "Bing.js": "https://raw.github.com/shramov/leaflet-plugins/master/layer/tile/Bing.js",
     "osmbuildings": "kekscom/osmbuildings#master",
