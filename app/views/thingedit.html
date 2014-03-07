@@ -1,0 +1,17 @@
+<div class="popup-content">
+	<button type="button" class="close" ui-sref="^.^" aria-hidden="true">&times;</button>
+	<form class="form-horizontal" role="form">
+		<input type="text" value="{{thing.name}}" name="name"/>
+		<h1/><small>{{types[things[id].typeName].type.Name}}</small>
+		</h1>
+		<hr/>
+		<div class="form-group" ng-repeat="property in types[things[id].typeName].tableProperties">
+			<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.property.Name || property.key}}</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{thing[property.key]}}" />
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Save</button>
+		<button type="button" class="btn btn-default" ui-sref="^">Cancel</button>
+	</form>
+</div>

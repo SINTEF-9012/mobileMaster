@@ -69,7 +69,16 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 			$('#layout-popup').show();
 		},
 		onExit: ()=> $('#layout-popup').hide()*/
-      })
+	  })
+		.state('main.thing.edit', {
+			url: 'thing/:id/edit',
+			views: {
+				'popup@': {
+					controller: 'ThingCtrl',
+					templateUrl: 'views/thingedit.html'
+				}
+			}
+	})
       .state('map', {
         url: '/map',
         templateUrl: 'views/map.html',
