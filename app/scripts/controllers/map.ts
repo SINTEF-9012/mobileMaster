@@ -196,6 +196,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
 		var popup = L.popup({ closeButton: false });
 		popup._thingID = null;
+		popup._initLayout();
+		popup._container.addEventListener('click', (e) => {
+			$state.go('main.thing', { id: popup._thingID });
+		});
 
     // Cluster for markers (best performances)
     var cluster = new L.MarkerClusterGroup({
@@ -260,7 +264,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					var icon = L.divIcon({
 						className: iconClassName,
 						iconSize: new L.Point(24, 24),
-						iconAnchor: new L.Point(13, 13),
+						iconAnchor: new L.Point(13, 0/*13*/),
 						html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
 					});
 
@@ -272,13 +276,17 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					marker.on('dragstart', () => {
 						masterMap.fire('markerdragstart');
 					}).on('dragend', () => {
-						masterMap.fire('markerdragend');
-					}).on('click', () => {
-						popup.setLatLng(marker.getLatLng());
-						popup.setContent($scope.things[ID].name);
-						popup.openOn(masterMap);
-						popup._thingID = ID;
-					});
+							masterMap.fire('markerdragend');
+					}).on('click dblclick', () => {
+						//window.setTimeout(() => {
+							popup.setLatLng(marker.getLatLng());
+							popup.setContent($scope.things[ID].name);
+							popup.openOn(masterMap);
+							popup._thingID = ID;
+						//}, 200);
+						}).on('dblclick', () => {
+							$state.go('main.thing', { id: ID });
+						});
 
 				    cluster.addLayer(markersThings[ID]);
 			    }
