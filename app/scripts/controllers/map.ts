@@ -192,7 +192,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
         }
     });
-    // masterMap.addLayer(new MyCustomLayer([0,0]));
+		// masterMap.addLayer(new MyCustomLayer([0,0]));
+
+		var popup = L.popup({ closeButton: false });
+		popup._thingID = null;
 
     // Cluster for markers (best performances)
     var cluster = new L.MarkerClusterGroup({
@@ -224,8 +227,18 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 			    var location = new L.LatLng(loc.x, loc.y);
 
 			    if (markersThings[ID]) {
-					markersThings[ID].setLatLng(location)
-						.getPopup()/*.setLatLng(location)*/.setContent(thing.name).update();
+					markersThings[ID].setLatLng(location);
+
+					if (popup._thingID === ID) {
+						popup.setLatLng(location);
+
+						if (popup.getContent() !== thing.name) {
+							popup.setContent(thing.name);
+						}
+						popup.update();
+					}
+
+					//.getPopup()/*.setLatLng(location)*/.setContent(thing.name).update();
 
 				    if (update) {
 					    cluster.addLayer(markersThings[ID]);
@@ -252,13 +265,19 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					});
 
 					var marker = new L.Marker(location, { icon: icon, draggable: true });
-					marker.bindPopup(thing.name, {closeButton: false});
+					//marker.bindPopup(thing.name, {closeButton: false});
+
 					markersThings[ID] = marker;
 
 					marker.on('dragstart', () => {
 						masterMap.fire('markerdragstart');
 					}).on('dragend', () => {
 						masterMap.fire('markerdragend');
+					}).on('click', () => {
+						popup.setLatLng(marker.getLatLng());
+						popup.setContent($scope.things[ID].name);
+						popup.openOn(masterMap);
+						popup._thingID = ID;
 					});
 
 				    cluster.addLayer(markersThings[ID]);
