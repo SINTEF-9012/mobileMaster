@@ -13,7 +13,7 @@ angular.module('mobileMasterApp')
 			$scope.id = id;
 
 			$scope.$watch('things[id]', () => {
-				console.log("canard");
+				//console.log("canard");
 				if ($scope.things) {
 					$scope.thing = $scope.things[id];
 				}

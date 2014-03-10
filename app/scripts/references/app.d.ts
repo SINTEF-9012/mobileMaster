@@ -9,7 +9,10 @@ declare module Master {
     hideTileLayer(name : string) : Map;
 
     enableInteractions() : Map;
-    disableInteractions() : Map;
+	disableInteractions(): Map;
+
+	getLayerClass(name: string): L.ILayer;
+
   }
 
   export interface MapConfig {
@@ -17,6 +20,7 @@ declare module Master {
     setOptions(options : L.MapOptions) : MapConfig;
     declareTileLayer(layer : MasterScope.Layer) : MapConfig;
     setDefaultTileLayer(name : string) : MapConfig;
+	declareLayerClass(name: string, layer: L.ILayer);
   }
 }
 

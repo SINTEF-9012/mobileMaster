@@ -302,6 +302,10 @@ position: fixed;
 z-index:3;
 top: 1em;
 left: 1em;
+    &.popup-order {
+        left:3em;
+        right:3em;
+    }
 }
 
 #view-popup {
@@ -317,6 +321,15 @@ box-shadow: 0 0 12px rgba(0,0,0,0.33);
 padding: 1em;
 // transition: all 2s;
 // -webkit-transition: all 2s;
+}
+
+.popup-order {
+    #view-popup {
+        position:relative;
+    }
+    .popup-content {
+        width:100%;
+    }
 }
 
 #layout-popup {
@@ -403,4 +416,8 @@ padding: 1em;
 
 .popup-content h1 input {
     width:100%;
+}
+
+.shadow-layer h1 {
+    color:white;
 }

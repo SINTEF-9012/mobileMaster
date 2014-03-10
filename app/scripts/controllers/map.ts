@@ -10,9 +10,6 @@
 // Module configuration
 angular.module('mobileMasterApp')
 .config(function(masterMapProvider : Master.MapConfig, nodeMasterProvider : any) {
-    // Leaflet global variable setting (ugly)
-    window.L_PREFER_CANVAS = true;
-
     masterMapProvider.setOptions({
         zoom: 13,
         center: new L.LatLng(59.911111,  	10.752778),
@@ -24,7 +21,7 @@ angular.module('mobileMasterApp')
     .declareTileLayer({
         name: "MapBoxBlue",
         iconPath:"layer_test.png",
-        create: function() {
+        create: () => {
             return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
@@ -34,7 +31,7 @@ angular.module('mobileMasterApp')
     .declareTileLayer({
         name: "StatKart",
         iconPath:"layer_test2.png",
-        create: function() {
+        create: () => {
             return <L.TileLayer><any> L.tileLayer.wms("http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS",{
                 name: 'topo2',
                 layers: 'topo2',
@@ -47,7 +44,7 @@ angular.module('mobileMasterApp')
     .declareTileLayer({
         name: "MapBox",
         iconPath:"layer_test3.png",
-        create: function() {
+        create: () => {
             return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
@@ -57,7 +54,7 @@ angular.module('mobileMasterApp')
     .declareTileLayer({
         name: "MapBox Grey",
         iconPath:"layer_test4.png",
-        create: function() {
+        create: () => {
             return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
@@ -67,7 +64,7 @@ angular.module('mobileMasterApp')
     .declareTileLayer({
         name: "Watercolor",
         iconPath:"layer_test5.png",
-        create: function() {
+        create: () => {
             return new L.TileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
                 subdomains: ['a', 'b', 'c', 'd'],
                 detectRetina:true,
@@ -79,7 +76,7 @@ angular.module('mobileMasterApp')
     .declareTileLayer({
         name: "Bing",
         iconPath:"layer_test6.png",
-        create: function() {
+        create: () => {
             return new L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9",{
              detectRetina:true
             });
@@ -155,45 +152,6 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 				$(document.body).removeClass('canard2');
 			});
 
-    // TODO Change position layer
-    var MyCustomLayer = L.Class.extend({
-
-        initialize: function (latlng) {
-            // save position of the layer or any options from the constructor
-            this._latlng = latlng;
-        },
-
-        onAdd: function (map : L.Map) {
-            this._map = map;
-
-            // create a DOM element and put it into one of the map panes
-            this._el = L.DomUtil.create('div', 'shadow-layer');
-			this._title = L.DomUtil.create('h1', '');
-			this._title.appendChild(document.createTextNode("Set your location"));
-            // map.getPanes().overlayPane.appendChild(this._el);
-            this._el.appendChild(this._title);
-            map.getContainer().appendChild(this._el);
-
-            // add a viewreset event listener for updating layer's position, do the latter
-            // map.on('viewreset move', this._reset, this);
-            //this._reset();
-        },
-
-        onRemove: function (map) {
-            // remove layer's DOM elements and listeners
-            // map.getPanes().overlayPane.removeChild(this._el);
-            map.off('viewreset move', this._reset, this);
-        },
-
-        _reset: function () {
-            // update layer's position
-            //var pos = this._map.latLngToLayerPoint(this._latlng);
-            //L.DomUtil.setPosition(this._el, pos);
-            L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
-        }
-    });
-		// masterMap.addLayer(new MyCustomLayer([0,0]));
-
 		var popup = L.popup({ closeButton: false, offset: L.point(0,-3) });
 		popup._thingID = null;
 		popup._initLayout();
@@ -215,7 +173,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 	var canChangePosition = true, updatePositionsAtEnd = false;
 
 	var dragLineLatLng = [L.latLng(0, 0), L.latLng(0, 0)];
-	var dragLine = L.polyline(dragLineLatLng, { color: 'red', 'clickable': false });
+	var dragLine = L.polyline(dragLineLatLng, {'clickable': false });
 	var onMap = false;
 
     // Manage markers
@@ -280,11 +238,18 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
 					marker.on('dragstart', (e) => {
 						e.marker = marker;
+						var pos = marker.getLatLng();
+						marker._oldLatLng = new L.LatLng(pos.lat, pos.lng);
 						masterMap.closePopup();
 						masterMap.fire('markerdragstart', e);
 					}).on('dragend', (e) => {
 						e.marker = marker;
+						masterMap.panTo(marker.getLatLng());
+						marker.setLatLng(marker._oldLatLng);
+						window.setImmediate(()=> {
 							masterMap.fire('markerdragend', e);
+						});
+						$state.go('main.thing.order', { id: ID });
 					}).on('click dblclick', () => {
 						//window.setTimeout(() => {
 						var body = $(document.body);
@@ -295,7 +260,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 							popup._thingID = ID;
 							body.removeClass('disable-markers-animations');
 						//}, 200);
-						}).on('dblclick', () => {
+					}).on('dblclick', () => {
 							$state.go('main.thing', { id: ID });
 						}).on('drag', (e) => {
 							var loc = marker.getLatLng();

@@ -15,70 +15,98 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
     }
 
     $urlRouterProvider.otherwise("/");
-    $stateProvider
-      .state('main', {
-        url: "/",
-		views: {
-			'top@': {
-				templateUrl: 'views/map.html',
-				controller: 'MapCtrl',
-			},
-			'bottom@': {
-				controller: 'MainCtrl',
-				templateUrl: 'views/main.html'
-			},
-			'slidder@': {
-				templateUrl: 'views/slidder.html'
-			}
-		}
-      })
-      .state('main.compass', {
-        url: 'compass',
-		views: {
+		$stateProvider
+			.state('main', {
+				url: "/",
+				views: {
+					'top@': {
+						templateUrl: 'views/map.html',
+						controller: 'MapCtrl',
+					},
+					'bottom@': {
+						controller: 'MainCtrl',
+						templateUrl: 'views/main.html'
+					},
+					'slidder@': {
+						templateUrl: 'views/slidder.html'
+					}
+				}
+			})
+			.state('main.compass', {
+				url: 'compass',
+				views: {
 //			top: {
 //				templateUrl: 'views/map.html',
 //				controller: 'MapCtrl',
 //			},
-			'bottom@': {
-				controller: 'CompassCtrl',
-				templateUrl: 'views/compass.html'
-			},
+					'bottom@': {
+						controller: 'CompassCtrl',
+						templateUrl: 'views/compass.html'
+					},
 //			slidder: {
 //				templateUrl: 'views/slidder.html'
 //			}
-		}
-      })
-      .state('main.settings', {
-        url: 'settings',
-		views: {
-			'bottom@': {
-				controller: 'LayersCtrl',
-				templateUrl: 'views/layers.html'
-			}
-		}
-      })
-      .state('main.thing', {
-        url: 'thing/:id',
-		views: {
-			'popup@': {
-				controller: 'ThingCtrl',
-				templateUrl: 'views/thing.html'
-			}
-		}/*,
+				}
+			})
+			.state('main.settings', {
+				url: 'settings',
+				views: {
+					'bottom@': {
+						controller: 'LayersCtrl',
+						templateUrl: 'views/layers.html'
+					}
+				}
+			})
+			.state('main.thing', {
+				url: 'thing/:id',
+				views: {
+					'popup@': {
+						controller: 'ThingCtrl',
+						templateUrl: 'views/thing.html'
+					}
+				} /*,
 	    onEnter: () => {
 			$('#layout-popup').show();
 		},
 		onExit: ()=> $('#layout-popup').hide()*/
-	  })
-		.state('main.thing.edit', {
-			url: 'thing/:id/edit',
-			views: {
-				'popup@': {
-					controller: 'ThingCtrl',
-					templateUrl: 'views/thingedit.html'
+			})
+			.state('main.thing.edit', {
+				url: 'thing/:id/edit',
+				views: {
+					'popup@': {
+						controller: 'ThingCtrl',
+						templateUrl: 'views/thingedit.html'
+					}
 				}
-			}
-	})
+			})
+			.state('main.thing.order', {
+				url: 'thing/:id/order',
+				views: {
+					'popup@': false,
+					'bottom@': {
+						controller: 'OrderCtrl',
+						templateUrl: 'views/order.html'
+					},
+					'slidder@': {
+						templateUrl: 'views/ordertoolbar.html'
+					}
+				},
+				onExit: () => {
+					// TODO find a better way
+					$(document).trigger('main.thing.order.exit');
+				}
+			})/*{
+					controller: 'OrderCtrl',
+					templateUrl: 'views/order.html'
+				}
+			}/*,
+			onEnter: () => {
+				window.setImmediate(()=>$('#layout-popup').addClass('popup-order'));
+			},
+			,onExit: ()=> {
+				//window.setImmediate(()=>$('#layout-popup').removeClass('popup-order'));
+				return false;
+			}*/
       .state('map', {
         url: '/map',
         templateUrl: 'views/map.html',

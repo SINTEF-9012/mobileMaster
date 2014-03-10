@@ -5,118 +5,121 @@
 /// <reference path="./../masterScope.d.ts" />
 'use strict';
 
+
 angular.module('mobileMasterApp')
-  .provider('masterMap', function () {
+	.provider('masterMap', function() {
 
-    var layersTable = {},
-        leafletsLayersTable = {},
-        layersList = [];
+		var layersTable = {},
+			leafletsLayersTable = {},
+			layersList = [];
 
-    this.declareTileLayer = function(layer : MasterScope.Layer) {
-      layersTable[layer.name] = layer;
-      layersList.push(layer);
-      return this;
-    }
+		this.declareTileLayer = (layer: MasterScope.Layer) => {
+			layersTable[layer.name] = layer;
+			layersList.push(layer);
+			return this;
+		};
+		this.container = document.createElement("div");
+		this.container.className = "map";
+		this.setContainer = (container: HTMLElement) => {
+			this.container = container;
+			return this;
+		};
+		this.options = {};
+
+		this.setOptions = (options: L.MapOptions) => {
+			this.options = options;
+			return this;
+		};
+		var defaultLayerName: string = null;
+		this.setDefaultTileLayer = (name: string) => {
+			defaultLayerName = name;
+			return this;
+		};
+
+		this.layerClasses = {};
+		this.declareLayerClass = (name: string, layer: L.ILayer) => {
+			this.layerClasses[name] = layer;
+		};
+
+		this.$get = function() {
+			var instance = <Master.Map> L.map(this.container, this.options);
 
 
-    this.container = document.createElement("div");
-    this.container.className = "map";
-    this.setContainer = function(container : HTMLElement) {
-      this.container = container;
-      return this;
-    }
+			instance.declareTileLayer = function(layer) {
+				layersTable[layer.name] = layer;
+				layersList.push(layer);
+				return instance;
+			};
 
-    this.options = {};
+			instance.getTilesLayers = function() {
+				return layersList;
+			};
 
-    this.setOptions = function(options : L.MapOptions) {
-      this.options = options;
-      return this;
-    }
+			instance.showTileLayer = function(name: string) {
 
-    var defaultLayerName : string = null;
-    this.setDefaultTileLayer = function(name : string) {
-      defaultLayerName = name;
-      return this;
-    }
+				var layer = layersTable[name];
+				if (!layer) {
+					throw "Unknown layer";
+				}
 
-    this.$get = function() {
-      var instance = <Master.Map> L.map(this.container, this.options);
+				var leafletLayer = leafletsLayersTable[layer.name];
 
+				if (!leafletLayer) {
+					leafletLayer = layer.create();
+					leafletsLayersTable[layer.name] = leafletLayer;
+				}
 
-      instance.declareTileLayer = function(layer) {
-        layersTable[layer.name] = layer;
-        layersList.push(layer);
-        return instance;
-      };
+				if (!layer.active) {
+					layer.active = true;
+					instance.addLayer(leafletLayer, true);
+				}
 
-      instance.getTilesLayers = function() {
-        return layersList;
-      };
+				return this;
 
-      instance.showTileLayer = function(name : string) {
+			};
 
-        var layer = layersTable[name];
-        if (!layer) {
-          throw "Unknown layer";
-        }
+			instance.hideTileLayer = (name: string)=> {
+				if (layersTable.hasOwnProperty(name)) {
+					var layer: MasterScope.Layer = layersTable[name];
 
-        var leafletLayer = leafletsLayersTable[layer.name];
+					if (layer.active) {
+						layer.active = false;
+						instance.removeLayer(leafletsLayersTable[name]);
+					}
+				}
 
-        if (!leafletLayer){
-          leafletLayer  = layer.create();
-          leafletsLayersTable[layer.name] = leafletLayer;
-        }
+				return this;
+			};
 
-        if (!layer.active) {
-          layer.active = true;
-          instance.addLayer(leafletLayer, true);
-        }
+			instance.enableInteractions = ()=> {
+				instance.dragging.enable();
+				instance.touchZoom.enable();
+				instance.doubleClickZoom.enable();
+				instance.scrollWheelZoom.enable();
+				instance.boxZoom.enable();
+				instance.keyboard.enable();
 
-        return this;
+				instance.tap && instance.tap.enable();
+				return this;
+			};
 
-      };
+			instance.disableInteractions = ()=> {
+				instance.dragging.disable();
+				instance.touchZoom.disable();
+				instance.doubleClickZoom.disable();
+				instance.scrollWheelZoom.disable();
+				instance.boxZoom.disable();
+				instance.keyboard.disable();
+				instance.tap && instance.tap.disable();
+				return this;
+			};
 
-      instance.hideTileLayer = function(name : string) {
-        if (layersTable.hasOwnProperty(name)) {
-          var layer : MasterScope.Layer = layersTable[name];
+			instance.getLayerClass = (name:string) => this.layerClasses[name];
 
-          if (layer.active) {
-            layer.active = false;
-            instance.removeLayer(leafletsLayersTable[name]);
-          }
-        }
+			if (defaultLayerName) {
+				instance.showTileLayer(defaultLayerName);
+			}
 
-        return this;
-      };
-
-      instance.enableInteractions = function() {
-        instance.dragging.enable();
-        instance.touchZoom.enable();
-        instance.doubleClickZoom.enable();
-        instance.scrollWheelZoom.enable();
-        instance.boxZoom.enable();
-        instance.keyboard.enable();
-
-        instance.tap&&instance.tap.enable();
-        return this;
-      };
-
-      instance.disableInteractions = function() {
-        instance.dragging.disable();
-        instance.touchZoom.disable();
-        instance.doubleClickZoom.disable();
-        instance.scrollWheelZoom.disable();
-        instance.boxZoom.disable();
-        instance.keyboard.disable();
-        instance.tap&&instance.tap.disable();
-        return this;
-      };
-
-      if (defaultLayerName) {
-        instance.showTileLayer(defaultLayerName);
-      }
-
-      return instance;
-    }
-
-  });
+			return instance;
+		};
+	});
