@@ -280,6 +280,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
 					marker.on('dragstart', (e) => {
 						e.marker = marker;
+						masterMap.closePopup();
 						masterMap.fire('markerdragstart', e);
 					}).on('dragend', (e) => {
 						e.marker = marker;
