@@ -194,7 +194,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     });
 		// masterMap.addLayer(new MyCustomLayer([0,0]));
 
-		var popup = L.popup({ closeButton: false });
+		var popup = L.popup({ closeButton: false, offset: L.point(0,-3) });
 		popup._thingID = null;
 		popup._initLayout();
 		popup._container.addEventListener('click', (e) => {
@@ -202,17 +202,21 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 		});
 
     // Cluster for markers (best performances)
-    var cluster = new L.MarkerClusterGroup({
+    /*var cluster = new L.MarkerClusterGroup({
         disableClusteringAtZoom: 14,
         spiderfyOnMaxZoom:false,
         showCoverageOnHover: false
-    });
+    });*/
 
     var markersThings : {[ID: string] : L.Marker} = {};
 
     var cpt = 0;
 
-    var canChangePosition = true, updatePositionsAtEnd = false;
+	var canChangePosition = true, updatePositionsAtEnd = false;
+
+	var dragLineLatLng = [L.latLng(0, 0), L.latLng(0, 0)];
+	var dragLine = L.polyline(dragLineLatLng, { color: 'red', 'clickable': false });
+	var onMap = false;
 
     // Manage markers
     function updatePatientsPositions() {
@@ -220,8 +224,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         var update = ++cpt === 60000;
 
         if (update) {
-            cpt = 0;
-            cluster.clearLayers();	
+			cpt = 0;
+			//cluster.clearLayers();	
         }
 
 	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
@@ -245,7 +249,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					//.getPopup()/*.setLatLng(location)*/.setContent(thing.name).update();
 
 				    if (update) {
-					    cluster.addLayer(markersThings[ID]);
+						//cluster.addLayer(markersThings[ID]);
+						masterMap.addLayer(markersThings[ID]);
 				    }
 				} else {
 					var type = thing.typeName.replace(/:/g, '-');
@@ -263,8 +268,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					}
 					var icon = L.divIcon({
 						className: iconClassName,
-						iconSize: new L.Point(24, 24),
-						iconAnchor: new L.Point(13, 0/*13*/),
+						iconSize: new L.Point(28, 28),
+						iconAnchor: new L.Point(14, 14),
 						html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
 					});
 
@@ -273,22 +278,37 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
 					markersThings[ID] = marker;
 
-					marker.on('dragstart', () => {
-						masterMap.fire('markerdragstart');
-					}).on('dragend', () => {
-							masterMap.fire('markerdragend');
+					marker.on('dragstart', (e) => {
+						e.marker = marker;
+						masterMap.fire('markerdragstart', e);
+					}).on('dragend', (e) => {
+						e.marker = marker;
+							masterMap.fire('markerdragend', e);
 					}).on('click dblclick', () => {
 						//window.setTimeout(() => {
+						var body = $(document.body);
+							body.addClass('disable-markers-animations');
 							popup.setLatLng(marker.getLatLng());
 							popup.setContent($scope.things[ID].name);
 							popup.openOn(masterMap);
 							popup._thingID = ID;
+							body.removeClass('disable-markers-animations');
 						//}, 200);
 						}).on('dblclick', () => {
 							$state.go('main.thing', { id: ID });
+						}).on('drag', (e) => {
+							var loc = marker.getLatLng();
+							dragLineLatLng[1].lat = loc.lat;
+							dragLineLatLng[1].lng = loc.lng;
+							dragLine.setLatLngs(dragLineLatLng);
+							if (!onMap) {
+								dragLine.addTo(masterMap).bringToBack();
+								onMap = true;
+							}
 						});
 
-				    cluster.addLayer(markersThings[ID]);
+					//cluster.addLayer(markersThings[ID]);
+					masterMap.addLayer(markersThings[ID]);
 			    }
 		    });
 
@@ -301,8 +321,8 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
     }
 
     $scope.$watch('things', function() {
-        // TODO send an event when it's OK
-        if (canChangePosition) {
+		// TODO send an event when it's OK
+		if (canChangePosition) {
             updatePatientsPositions();
         } else {
             updatePositionsAtEnd = true;
@@ -319,44 +339,77 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         html: '<master-icon>'+resourceElement2.html()+'</master-icon>'
     });
 
+	var endTimeoutId = 0, drag = false;
+	masterMap.on('movestart zoomstart markerdragstart', e=> {
+		canChangePosition = false;
 
-    masterMap.on('movestart zoomstart markerdragstart', function() {
-        canChangePosition = false;
-    }).on('moveend zoomend markerdragend', function() {
-        // canChangePosition = true;
-        window.setTimeout(function() {
-            canChangePosition = true;
+		if (e.type === "markerdragstart") {
+			drag = true;
+		}
 
-            if (updatePositionsAtEnd) {
-                updatePatientsPositions();
-            }
-        }, 300);
-        // }, 222);
+		if (endTimeoutId) {
+			window.clearTimeout(endTimeoutId);
+			endTimeoutId = 0;
+		}
+	}).on('moveend zoomend markerdragend', e=> {
+		if (!endTimeoutId) {
+			if (drag === false || e.type === "markerdragend") {
+				drag = false;
+				endTimeoutId = window.setTimeout(()=> {
+					endTimeoutId = 0;
+					canChangePosition = true;
+
+					if (updatePositionsAtEnd) {
+						updatePatientsPositions();
+					}
+				}, 300);
+			}
+		}
+		// }, 222);
+	});
+
+    masterMap.on('zoomstart markerdragstart', ()=> {
+
+	    $('body').addClass("disable-markers-animations");
+    }).on('zoomend markerdragend', function (e) {
+	    if (drag === false || e.type === "markerdragend") {
+		    $('body').removeClass("disable-markers-animations");
+	    }
     });
 
-    masterMap.on('zoomstart markerdragstart', function() {
-
-        $('body').addClass("disable-markers-animations");
-    }).on('zoomend markerdragend', function() {
-        $('body').removeClass("disable-markers-animations");
-    });
-
-    masterMap.addLayer(cluster);
+    //masterMap.addLayer(cluster);
 
 
+	var mousemove = (e: L.LeafletMouseEvent)=> {
+	};
 
-    $scope.centerView = function() {
-        var bounds  = new L.LatLngBounds(null,null);
+	masterMap.on('markerdragstart', (e: L.Marker) => {
+		var mLatLng = e.marker.getLatLng();
+		dragLineLatLng[0] = new L.LatLng(mLatLng.lat, mLatLng.lng);
 
-        angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
-            bounds.extend(L.latLng(resource.Location.lat, resource.Location.lng));
-        });
+//		dragLine.redraw();
+//		masterMap.on('mousemove', mousemove);
 
-        angular.forEach($scope.patients, function(patient : NodeMaster.IPatientModel, ID:string) {
-            bounds.extend(L.latLng(patient.Location.lat, patient.Location.lng));
-        });
+	}).on('markerdragend', (e: L.Marker)=> {
+//		masterMap.off('mousemove', mousemove);
+		if (onMap) {
+			masterMap.removeLayer(dragLine);
+			onMap = false;
+		}
+	});
 
-        // alert(bounds.getCenter().toString())
-        masterMap.fitBounds(bounds);
+    $scope.centerView = ()=> {
+	    var bounds  = new L.LatLngBounds(null,null);
+
+	    angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
+		    bounds.extend(L.latLng(resource.Location.lat, resource.Location.lng));
+	    });
+
+	    angular.forEach($scope.patients, function(patient : NodeMaster.IPatientModel, ID:string) {
+		    bounds.extend(L.latLng(patient.Location.lat, patient.Location.lng));
+	    });
+
+	    // alert(bounds.getCenter().toString())
+	    masterMap.fitBounds(bounds);
     };
 });
