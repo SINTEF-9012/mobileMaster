@@ -321,7 +321,7 @@ padding: 1em;
 
 #layout-popup {
 [ui-view].ng-enter, [ui-view].ng-leave {
-  position: absolute;
+  // position: absolute;
   left: 0;
   right: 0;
   // -webkit-transition:opacity .5s ease-in-out;
@@ -398,4 +398,9 @@ padding: 1em;
         font-family: serif;
         font-size: 23px;
     }
+
+}
+
+.popup-content h1 input {
+    width:100%;
 }
