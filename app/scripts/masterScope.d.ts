@@ -23,7 +23,13 @@ declare module MasterScope {
 			}[];
 
 			type: ThingModel.ThingType;
-		}};
+		}
+		};
+
+		add: {
+			category: string;
+			type: string;
+		}
 	}
 
     interface Layer {

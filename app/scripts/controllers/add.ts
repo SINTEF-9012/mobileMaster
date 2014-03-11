@@ -2,6 +2,7 @@
 
 angular.module('mobileMasterApp').controller('AddCtrl', (
 	$scope,
+	$rootScope : MasterScope.Root,
 	$state,
 	$stateParams,
     $compile : ng.ICompileService,
@@ -41,7 +42,6 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	$scope.types = {
 		"incident": {
 			title: "Incidents",
-			selected: 'in',	
 			items: {
 				"generic": "Generic",
 				"automobile": "Car",
@@ -65,7 +65,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	};
 
 
-	$scope.activate = (category:string,type:string)=> {
+	var updateIcon = (category: string, type: string)=> {
 		var iconClassName = 'thing-icon thing-icon-' + type.replace(/:/g, '-');
 		var resourceElement = angular.element('<master-icon category="'+category+'" type="'+type+'"></master-icon>');
 		var resourceElement2 = $compile(resourceElement)($scope);
@@ -75,10 +75,24 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 			iconAnchor: new L.Point(14, 14),
 			html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
 		});
+
 		marker.setIcon(icon);
 	};
 
-	$scope.activate('incident','generic');
+	$scope.activate = (category: string, type: string)=> {
+		$rootScope.add = {
+			category: category,
+			type: type
+		};
+
+		updateIcon(category, type);
+	};
+
+	if (!$rootScope.add) {
+		$scope.activate('incident', 'generic');
+	} else {
+		updateIcon($rootScope.add.category, $rootScope.add.type);
+	}
 
 	marker.addTo(masterMap);
 });
