@@ -36,6 +36,7 @@ angular.module('mobileMasterApp')
                 name: 'topo2',
                 layers: 'topo2',
                 transparent: true,
+				detectRetina:true,
                 format: 'image/png',
                 version: '1.1.1'
             });
