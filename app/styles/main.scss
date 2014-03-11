@@ -52,7 +52,7 @@ body:not(.disable-markers-animations) #map {
     }
 }
 
-body:not(.disable-markers-animations).canard2 .leaflet-popup{
+body:not(.disable-markers-animations).popup-transition .leaflet-popup{
     -webkit-transition:transform 0.5s linear;
     transition:transform 0.5s linear;
     -moz-transition:transform 0.5s linear;

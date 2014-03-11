@@ -102,15 +102,21 @@ master-icon {
 
 #map {
 
-	.thing-icon {
+	.thing-icon-standard {
 		background:orange;
 		border-radius:50%;
 		box-shadow:0 0 0 2px white, 0px 0px 0 3px black;
 		margin-left: -5px;
 		margin-top:-5px;
+
 	}
 
-	.thing-icon-ESS14-vehicle-wheeled {
+	.thing-icon {
+		master-icon {
+			font-size:40px;
+		}
+	}
+	:not(.thing-icon).thing-icon-ESS14-vehicle-wheeled {
 		background:red;
 	}
 
@@ -131,4 +137,8 @@ master-icon {
 			background:green;
 		}
 	}
+}
+.btn.btn-lg master-icon {
+    margin-top:-6px;
+    left:5px;
 }

@@ -143,14 +143,15 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
             masterMap.tap&&masterMap.tap.enable();
 		}
 		jwindow.trigger('leafletend');
-    });
+	});
 
-		masterMap.on('popupopen', () => {
-			//window.setTimeout(() =>
-			$(document.body).addClass('canard2');//, 1);
-		}).on('popupclose', () => {
-				$(document.body).removeClass('canard2');
-			});
+	var jbody = $(document.body);
+
+	masterMap.on('popupopen', () => {
+		jbody.addClass('popup-transition');
+	}).on('popupclose', () => {
+		jbody.removeClass('popup-transition');
+	});
 
 		var popup = L.popup({ closeButton: false, offset: L.point(0,-3) });
 		popup._thingID = null;
@@ -221,9 +222,12 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					}
 
 					if (type.indexOf("vehicle") >= 0) {
-					var resourceElement = angular.element('<master-icon category="resource" type="fire and rescue vehicle"></master-icon>');
-					var resourceElement2 = $compile(resourceElement)($scope);
+						var resourceElement = angular.element('<master-icon category="resource" type="fire and rescue vehicle"></master-icon>');
+						var resourceElement2 = $compile(resourceElement)($scope);
+					} else {
+						iconClassName += " thing-icon-standard";
 					}
+
 					var icon = L.divIcon({
 						className: iconClassName,
 						iconSize: new L.Point(28, 28),
@@ -350,6 +354,9 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 	};
 
 	masterMap.on('markerdragstart', (e: L.Marker) => {
+		if (!e.marker) {
+			return;
+		}
 		var mLatLng = e.marker.getLatLng();
 		dragLineLatLng[0] = new L.LatLng(mLatLng.lat, mLatLng.lng);
 
@@ -362,6 +369,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 			masterMap.removeLayer(dragLine);
 			onMap = false;
 		}
+	});
+
+	masterMap.on('contextmenu', (e : L.LeafletMouseEvent) => {
+		$state.go('main.add', e.latlng);
 	});
 
     $scope.centerView = ()=> {

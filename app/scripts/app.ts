@@ -95,6 +95,15 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 					// TODO find a better way
 					$(document).trigger('main.thing.order.exit');
 				}
+			})
+		.state('main.add', {
+			url: 'add?lat&lng',
+			views: {
+				'popup@': {
+					controller: 'AddCtrl',
+					templateUrl: 'views/add.html'
+				}
+			}
 			})/*{
 					controller: 'OrderCtrl',
 					templateUrl: 'views/order.html'
