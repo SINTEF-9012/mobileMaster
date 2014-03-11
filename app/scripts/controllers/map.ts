@@ -392,8 +392,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 		}
 	});
 
-	masterMap.on('contextmenu', (e : L.LeafletMouseEvent) => {
-		$state.go('main.add', e.latlng);
+	masterMap.on('contextmenu', (e: L.LeafletMouseEvent) => {
+		if (!$state.is('main.thing.order')) {
+			$state.go('main.add', e.latlng);
+		}
 	});
 
     $scope.centerView = ()=> {
