@@ -190,7 +190,9 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
 
 				var loc = thing.location;
-				if (!loc) return;
+				if (!loc || isNaN(loc.x) || isNaN(loc.y)) {
+					return;
+				}
 			    var location = new L.LatLng(loc.x, loc.y);
 
 			    if (markersThings[ID]) {
