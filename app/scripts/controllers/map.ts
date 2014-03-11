@@ -262,11 +262,15 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 						var distance = Math.sqrt((oldProj.x - newProj.x) * (oldProj.x - newProj.x) +
 						(oldProj.y - newProj.y) * (oldProj.y - newProj.y)); 
 
-						marker.setLatLng(oldLatLng);
 
 						if (distance > 28) {
 							masterMap.panTo(newLatLng);
 							$state.go('main.thing.order', { id: ID });
+							marker.setLatLng(oldLatLng);
+						} else {
+							window.setImmediate(()=> {
+								marker.setLatLng(oldLatLng);
+							});
 						}
 
 					}).on('click dblclick', () => {
