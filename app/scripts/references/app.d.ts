@@ -51,6 +51,7 @@ interface OrderService {
 	setType(type: string);
 	addThing(thingID:string);
 	emit();
+	reset();
 }
 
 interface UUIDService {

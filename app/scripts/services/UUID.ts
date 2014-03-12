@@ -24,7 +24,7 @@ angular.module('mobileMasterApp')
 				lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
 
 			// Just for fun
-			if ($rootScope.things.hasOwnProperty(id)) {
+			if ($rootScope.things && $rootScope.things.hasOwnProperty(id)) {
 				alert("Take a picture : epic UUID collision : http://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates");
 				return this.generate();
 			}

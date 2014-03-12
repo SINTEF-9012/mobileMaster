@@ -14,11 +14,17 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 			.IdentifiedBy(id);
 	};
 
-	this.$get = ($rootScope, thingModel: ThingModelService, UUID : UUIDService) => {
-		console.log($rootScope, thingModel);
+	this.$get = (thingModel: ThingModelService, UUID: UUIDService) => {
 
-		var thing = createThingOrder(UUID.generate());
-		var relatedThings = [];
+		var thing: ThingModel.ThingPropertyBuilder;
+		var relatedThings: string[];
+
+		var reset = ()=> {
+			relatedThings = [];
+			thing = createThingOrder(UUID.generate());
+		};
+
+		reset();
 
 		return {
 			setLocation: (location: L.LatLng)=> {
@@ -48,9 +54,9 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 
 				thingModel.client.Send();
 
-				relatedThings = [];
-				thing = createThingOrder(UUID.generate());
-			}
+				reset();
+			},
+			reset: reset
 		};
 	};
 });

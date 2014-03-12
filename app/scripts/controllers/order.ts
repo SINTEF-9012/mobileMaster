@@ -49,6 +49,7 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope : MasterScope.Root,
 	$stateParams,
+	orderService: OrderService,
 	masterMap: Master.Map) {
 
 		var layer = masterMap.getLayerClass("sight");
@@ -59,16 +60,20 @@ angular.module('mobileMasterApp')
 
 		$scope.id = id;
 
+		orderService.addThing(id);
+
 		masterMap.closePopup();
 
 		var dragLinePoints = [new L.LatLng(0, 0), masterMap.getCenter()];
 		var dragLine = L.polyline(dragLinePoints, { clickable: false });
 		var onScreen = false;
 		masterMap.on('viewreset move', () => {
-			dragLinePoints[1] = masterMap.getCenter();
+			var center = masterMap.getCenter();
+			dragLinePoints[1] = center;
 			if (onScreen) {
 				dragLine.setLatLngs(dragLinePoints);
 			}
+			orderService.setLocation(center);
 		});
 
 		$(document).one('main.thing.order.exit', ()=> {
