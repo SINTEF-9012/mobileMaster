@@ -14,22 +14,20 @@ angular.module('mobileMasterApp')
 
 			$scope.$watch('things[id]', () => {
 				//console.log("canard");
-				if ($scope.things) {
-					$scope.thing = $scope.things[id];
+				if (!$scope.things) {
+					return;
 				}
-				return;
-			angular.forEach($scope.things, (tata)=> {
-				var thing: ThingModel.Thing = tata[id];
-				if (!thing) return;
 
-				var loc = thing.GetProperty<ThingModel.Property.Location>("location", ThingModel.Type.Location);
-				if (!loc) return;
-				var loc2 = loc.Value;
-				var location = new L.LatLng(loc2.X, loc2.Y);
+				var thing = $scope.things[id];
+				if (!thing) {
+					return;
+				}
 
+				$scope.thing = thing;
+
+				var location = new L.LatLng(thing.location.x, thing.location.y);
 				var pixels = masterMap.project(location);
 				pixels.y -= $(window).scrollTop() / 2;
 				masterMap.panTo(masterMap.unproject(pixels));
-			});
 		});
 });
