@@ -47,11 +47,12 @@ angular.module('mobileMasterApp')
     }));
 }).controller('OrderCtrl', function (
 	$scope,
+	$rootScope : MasterScope.Root,
 	$stateParams,
+	$window,
 	masterMap: Master.Map) {
 
 		var layer = masterMap.getLayerClass("sight");
-		console.log(layer)
 		var ll = new layer([0, 0], "Order");
 		ll.addTo(masterMap);
 
@@ -96,4 +97,12 @@ angular.module('mobileMasterApp')
 				}
 			}
 		});
-	});
+
+		$rootScope.cancelOrder = ()=> {
+			$window.history.back();
+		};
+
+		$rootScope.confirmOrder = () => {
+			alert("Ok je vais envoyer tout ça lol");
+		};
+});

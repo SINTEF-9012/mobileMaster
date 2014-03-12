@@ -29,7 +29,7 @@ declare module MasterScope {
 		add: {
 			category: string;
 			type: string;
-		}
+		};
 	}
 
     interface Layer {
