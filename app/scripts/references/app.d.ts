@@ -39,3 +39,16 @@ declare module PersistentLocalization {
     layer?: string;
 	}
 }
+
+interface ThingModelService {
+	wharehouse: ThingModel.Wharehouse;
+	client: ThingModel.WebSockets.Client;
+}
+
+interface OrderService {
+	setLocation(location: L.LatLng);
+	setDetails(details: string);
+	setType(type: string);
+	addThing(thingID:string);
+	emit();
+}
