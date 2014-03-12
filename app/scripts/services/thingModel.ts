@@ -1,7 +1,6 @@
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 angular.module("mobileMasterApp").provider("thingModel", function () {
-	var client;
 
 	this.clientID = "mobileMaster";
 	this.endPoint = "ws://"+window.location.hostname+":8082/";
@@ -147,6 +146,8 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			digestNeeded = false;
 		});
 
-		client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.wharehouse);
+		this.client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.wharehouse);
+
+		return this;
 	};
 });

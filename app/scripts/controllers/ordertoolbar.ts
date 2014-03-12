@@ -1,12 +1,21 @@
-'use strict';
+	'use strict';
 
 angular.module('mobileMasterApp')
-  .controller('OrdertoolbarCtrl', ($scope, $window) => {
+	.controller('OrdertoolbarCtrl', (
+		$scope: any,
+		$window: ng.IWindowService,
+		masterMap: Master.Map,
+		orderService: OrderService) => {
+
 	$scope.cancelOrder = ()=> {
 		$window.history.back();
 	};
 
 	$scope.confirmOrder = () => {
-		alert("Ok je vais envoyer tout ça lol");
+
+		orderService.setLocation(masterMap.getCenter());
+		orderService.setDetails("vive les canards");
+		orderService.emit();
+		$window.history.back();
 	};
-  });
+});

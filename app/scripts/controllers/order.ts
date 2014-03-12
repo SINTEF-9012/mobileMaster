@@ -49,7 +49,6 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope : MasterScope.Root,
 	$stateParams,
-	$window,
 	masterMap: Master.Map) {
 
 		var layer = masterMap.getLayerClass("sight");
@@ -98,11 +97,4 @@ angular.module('mobileMasterApp')
 			}
 		});
 
-		$rootScope.cancelOrder = ()=> {
-			$window.history.back();
-		};
-
-		$rootScope.confirmOrder = () => {
-			alert("Ok je vais envoyer tout ça lol");
-		};
 });

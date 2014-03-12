@@ -88,6 +88,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 						templateUrl: 'views/order.html'
 					},
 					'slidder@': {
+						controller: 'OrdertoolbarCtrl',
 						templateUrl: 'views/ordertoolbar.html'
 					}
 				},
