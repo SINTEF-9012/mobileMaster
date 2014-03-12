@@ -52,3 +52,7 @@ interface OrderService {
 	addThing(thingID:string);
 	emit();
 }
+
+interface UUIDService {
+	generate(): string;
+}
