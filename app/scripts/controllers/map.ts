@@ -213,15 +213,17 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 				    if (update) {
 						//cluster.addLayer(markersThings[ID]);
 						masterMap.addLayer(markersThings[ID]);
-				    }
+					}
 				} else {
-					var type = thing.typeName.replace(/:/g, '-');
+					var type = thing.typeName.replace(/[\s:]/g, '-');
 
 					var iconClassName = 'thing-icon thing-icon-' + type;
+				    var size = 40;
 
 					var triage = thing.triage_status;
 					if (triage) {
 						iconClassName += ' triage-' + triage;
+						size = 28;
 					}
 
 					if (type.indexOf("vehicle") >= 0) {
@@ -230,11 +232,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 					} else {
 						iconClassName += " thing-icon-standard";
 					}
-
 					var icon = L.divIcon({
 						className: iconClassName,
-						iconSize: new L.Point(28, 28),
-						iconAnchor: new L.Point(14, 14),
+						iconSize: new L.Point(size, size),
+						iconAnchor: new L.Point(size/2, size/2),
 						html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
 					});
 
