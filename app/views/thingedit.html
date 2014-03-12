@@ -1,8 +1,8 @@
 <div class="popup-content">
 	<button type="button" class="close" ui-sref="^.^" aria-hidden="true">&times;</button>
 	<form class="form-horizontal" role="form">
-		<h1><input type="text" value="{{thing.name}}" name="name"/>
-		<small>{{types[things[id].typeName].type.Name}}</small>
+		<input type="text" value="{{thing.name}}" name="name" class="form-control input-lg" />
+		<h1><small>{{types[things[id].typeName].type.name}}</small>
 		</h1>
 		<hr/>
 		<div class="form-group" ng-repeat="property in types[things[id].typeName].tableProperties">
