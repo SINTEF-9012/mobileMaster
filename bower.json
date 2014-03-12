@@ -18,7 +18,7 @@
     "osmbuildings": "kekscom/osmbuildings#master",
     "rebound": "facebook/rebound#master",
     "bootstrap-switch": "*",
-    "ThingModel": "~0.4.0",
+    "ThingModel": "~0.5.0",
     "DefinitelyTyped": "*",
     "setimmediate": "~1.0.1",
     "angular-animate": "~1.2.14"
@@ -28,7 +28,6 @@
     "angular-scenario": "~1.2.0"
   },
   "resolutions": {
-    "jquery": "~1.10.0",
-    "leaflet.markerclusterer": "leaflet-master"
+    "jquery": "~1.10.0"
   }
 }
