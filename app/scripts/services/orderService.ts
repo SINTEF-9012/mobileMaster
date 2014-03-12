@@ -6,18 +6,18 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 	var orderType = ThingModel.BuildANewThingType.Named("master:order")
 		.WhichIs("An instruction ordeeeer mouhahhahaa")
 		.ContainingA.Location("location")
-		.AndA.NotRequired.String("details").Build();
+		.AndA.NotRequired.String("details", "Details").Build();
 
 	var i = 0;
-	var createThingOrder = ()=> {
+	var createThingOrder = (id:string)=> {
 		return ThingModel.BuildANewThing.As(orderType)
-			.IdentifiedBy("canard" + (++i));
+			.IdentifiedBy(id);
 	};
 
-	this.$get = ($rootScope, thingModel: ThingModelService) => {
+	this.$get = ($rootScope, thingModel: ThingModelService, UUID : UUIDService) => {
 		console.log($rootScope, thingModel);
 
-		var thing = createThingOrder();
+		var thing = createThingOrder(UUID.generate());
 		var relatedThings = [];
 
 		return {
@@ -49,7 +49,7 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 				thingModel.client.Send();
 
 				relatedThings = [];
-				thing = createThingOrder();
+				thing = createThingOrder(UUID.generate());
 			}
 		};
 	};

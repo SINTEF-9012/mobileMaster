@@ -2,7 +2,7 @@
 
 angular.module("mobileMasterApp").provider("thingModel", function () {
 
-	this.clientID = "mobileMaster";
+	this.clientID = "mobileMaster - " + navigator.userAgent;
 	this.endPoint = "ws://"+window.location.hostname+":8082/";
 
 	this.setClientID = (clientID: string) => {
@@ -127,8 +127,16 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					$rootScope.types = {};
 				}
 
+				var scopeType : any = {
+					name: thingType.Name
+				};
+
+				if (thingType.Description !== "undefined") {
+					scopeType.Description = thingType.Description;
+				}
+
 				$rootScope.types[thingType.Name] = {
-					type: thingType,
+					type: scopeType,
 					things: {},
 					tableProperties: Knowledge.getPropertiesOrder(thingType)
 				};

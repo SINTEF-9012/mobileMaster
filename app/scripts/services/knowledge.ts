@@ -45,9 +45,21 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 					var score = scores[prop.Key] || 0;
 
 					if (score >= 0) {
+						var scopeProp : any= {
+							key: prop.Key,
+							required: prop.Required
+						};
+
+						if (prop.Name !== "undefined") {
+							scopeProp.name = prop.Name;
+						}
+						if (prop.Description !== "undefined") {
+							scopeProp.description = prop.Description;
+						}
+
 						list.push({
 							key: prop.Key,
-							property: prop,
+							property: scopeProp,
 							score: score + (prop.Required ? 1 : 0)
 						});
 					}
