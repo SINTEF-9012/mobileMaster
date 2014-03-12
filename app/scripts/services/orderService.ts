@@ -45,8 +45,8 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 				});
 
 				thingModel.wharehouse.RegisterThing(bthing, false, true);
-				// TODO WTF LOL
-				// thingModel.client.Send();
+
+				thingModel.client.Send();
 
 				relatedThings = [];
 				thing = createThingOrder();
