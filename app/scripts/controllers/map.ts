@@ -215,9 +215,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 						masterMap.addLayer(markersThings[ID]);
 					}
 				} else {
-					var type = thing.typeName.replace(/[\s:]/g, '-');
+				    var type = thing.typeName;
+					var typeCss = type.replace(/[\s:]/g, '-');
 
-					var iconClassName = 'thing-icon thing-icon-' + type;
+					var iconClassName = 'thing-icon thing-icon-' + typeCss;
 				    var size = 40;
 
 					var triage = thing.triage_status;
@@ -226,8 +227,18 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 						size = 28;
 					}
 
-					if (type.indexOf("vehicle") >= 0) {
-						var resourceElement = angular.element('<master-icon category="resource" type="fire and rescue vehicle"></master-icon>');
+					// TODO small temporal hack
+					if (type === "ESS14:vehicle:wheeled") {
+						type = "master:resource:fire-and-rescue-vehicle";
+					}
+
+					var parsing = type.match(/^master\:([^:]+)\:([^:]+)$/);
+					if (parsing) {
+						var resourceElement = angular.element('<master-icon category="' +
+								parsing[1].replace(/-/g, ' ')
+								+ '" type="' +
+								parsing[2].replace(/-/g, ' ')
+								+'"></master-icon>');
 						var resourceElement2 = $compile(resourceElement)($scope);
 					} else {
 						iconClassName += " thing-icon-standard";
