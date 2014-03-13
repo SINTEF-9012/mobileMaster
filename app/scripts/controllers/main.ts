@@ -17,6 +17,7 @@ angular.module('mobileMasterApp')
 		scrollX: true,
 		scrollY: true,
 		zoom: true,
+		zoomMin: 0.05,
 		preventDefault: false,
 		margin:0
 	});
