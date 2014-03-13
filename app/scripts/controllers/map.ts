@@ -148,7 +148,7 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 
 	var jbody = $(document.body);
 
-	masterMap.on('popupopen', () => {
+		masterMap.on('popupopen', () => {
 		jbody.addClass('popup-transition');
 	}).on('popupclose', () => {
 		jbody.removeClass('popup-transition');
@@ -316,12 +316,15 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 			    }
 		    });
 
-//		    angular.forEach(markersPatients, function(marker: L.Marker, ID: string) {
-//			    if (!$scope.patients[ID]) {
-//				    masterMap.removeLayer(marker);
-//				    delete markersPatients[ID];
-//			    }
-//		    });
+		    angular.forEach(markersThings, (marker: L.Marker, ID: string) => {
+			    if (!$scope.things[ID]) {
+					masterMap.removeLayer(marker);
+					if (popup._thingID === ID) {
+						masterMap.closePopup();
+					}
+				    delete markersThings[ID];
+			    }
+		    });
     }
 
     $scope.$watch('things', function() {

@@ -2,10 +2,12 @@
 
 angular.module('mobileMasterApp')
 	.controller('ThingCtrl', (
+		$state,
 		$scope,
 		$stateParams,
 		$rootScope,
-		masterMap : Master.Map
+		masterMap: Master.Map,
+		thingModel: ThingModelService
 		) => {
 
 		var id = $stateParams.id;
@@ -29,5 +31,12 @@ angular.module('mobileMasterApp')
 				var pixels = masterMap.project(location);
 				pixels.y -= $(window).scrollTop() / 2;
 				masterMap.panTo(masterMap.unproject(pixels));
-		});
+			});
+
+			$scope.remove = () => {
+				var thing = thingModel.wharehouse.GetThing(id);
+				thingModel.wharehouse.RemoveThing(thing);
+				thingModel.client.Send();
+				$state.go("^");
+			};
 });
