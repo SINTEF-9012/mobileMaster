@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 angular.module('mobileMasterApp').controller('AddCtrl', (
 	$scope,
@@ -6,7 +6,8 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	$state,
 	$stateParams,
     $compile : ng.ICompileService,
-	masterMap: Master.Map
+	masterMap: Master.Map,
+	AddService: AddService
 	) => {
 
 	var position: L.LatLng;
@@ -95,4 +96,24 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	}
 
 	marker.addTo(masterMap);
+
+	$scope.save = (goToMainAfter: boolean) => {
+		AddService.register(
+			"master:" + $rootScope.add.category + ":" + $rootScope.add.type,
+			marker.getLatLng());	
+		
+		if (goToMainAfter) {
+			$state.go("main");
+		}
+	};
+
+	var removeListener = $rootScope.$on('$stateChangeStart', (event : ng.IAngularEvent, toState:any)=> {
+//		console.log(event, toState, fromState);
+		if (toState.name === "main.add") {
+			$scope.save(false);
+		}
+		masterMap.removeLayer(marker);
+		removeListener();
+	});
+
 });

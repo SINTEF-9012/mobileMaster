@@ -57,3 +57,12 @@ interface OrderService {
 interface UUIDService {
 	generate(): string;
 }
+
+interface AddServiceConfig {
+	defineType(type: ThingModel.ThingType);
+}
+
+interface AddService {
+	// It's just a first version :)
+	register(typeName: string, location: L.LatLng);
+}

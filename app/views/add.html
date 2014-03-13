@@ -1,26 +1,33 @@
 <div class="popup-content">
 	<button type="button" class="close" ui-sref="^" aria-hidden="true">&times;</button>
 	<h2>Add</h2>
-
-	<div class="panel-group" id="accordion">
-	  <div class="panel panel-default" ng-repeat="(key,category) in types">
-	    <div class="panel-heading">
-	      <h4 class="panel-title">
-	        <a data-toggle="collapse" data-parent="#accordion" data-target="#{{key}}">
-	          {{category.title}}
-	        </a>
-	      </h4>
-	    </div>
-	    <div id="{{key}}" class="panel-collapse collapse" ng-class="{in:key==add.category}">
-	      <div class="panel-body">
-	      	<div class="btn-group-vertical btn-block" data-toggle="buttons">
-				<label class="btn btn-lg btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
-    <input type="radio" name="options" id="{{icon}}">
-	<master-icon category="{{key}}" type="{{icon}}"></master-icon> {{name}}
-  </label>
-	      	</div>
-	      </div>
-	    </div>
-	  </div>
-</div>
+		<div class="row">
+			<button class="btn btn-primary col-xs-4 col-xs-offset-1" type="button" ng-click="save(true)">Save</button>
+			<button class="btn btn-warning col-xs-4 col-xs-offset-1" type="button" ui-sref="^">Cancel</button>
+		</div>
+		<div class="row">
+		<br>
+			<div class="panel-group col-md-12" id="accordion">
+				<div class="panel panel-default" ng-repeat="(key,category) in types">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" data-target="#{{key}}">
+								{{category.title}}
+							</a>
+						</h4>
+					</div>
+					<div id="{{key}}" class="panel-collapse collapse" ng-class="{in:key==add.category}">
+						<div class="panel-body">
+							<div class="btn-group-vertical btn-block" data-toggle="buttons">
+								<label class="btn btn-lg btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
+									<input type="radio" name="options" id="{{icon}}">
+									<master-icon category="{{key}}" type="{{icon}}"></master-icon> {{name}}
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-	.service('UUID', function UUID($rootScope: MasterScope.Root) {
+	.service('UUID', function ($rootScope: MasterScope.Root) {
 		// AngularJS will instantiate a singleton by calling "new" on this function
 		/**
 		 * Fast UUID generator, RFC4122 version 4 compliant.
