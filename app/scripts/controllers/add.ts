@@ -70,10 +70,11 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		var iconClassName = 'thing-icon thing-icon-' + type.replace(/:/g, '-');
 		var resourceElement = angular.element('<master-icon category="'+category+'" type="'+type+'"></master-icon>');
 		var resourceElement2 = $compile(resourceElement)($scope);
+		var size = 40;
 		var icon = L.divIcon({
 			className: iconClassName,
-			iconSize: new L.Point(28, 28),
-			iconAnchor: new L.Point(14, 14),
+			iconSize: new L.Point(size, size),
+			iconAnchor: new L.Point(size/2, size/2),
 			html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
 		});
 
