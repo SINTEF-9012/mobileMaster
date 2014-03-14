@@ -3,7 +3,8 @@
 angular.module('mobileMasterApp')
 	.controller('SlidderCtrl', (
 		$scope: any,
-		thingModel: ThingModelService
+		thingModel: ThingModelService,
+		$rootScope:MasterScope.Root
 		) => {
 
 	var setImmediateId = 0;
@@ -21,22 +22,31 @@ angular.module('mobileMasterApp')
 			});
 		}
 	};
+
 	$scope.infos = {};
+
+	var registerNew = (type: string)=> {
+		if (!$scope.infos[type]) {
+			var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);
+			if (parsing) {
+				$scope.infos[type] = { count: 1, category: parsing[1], type: parsing[2] };
+			}
+		} else {
+			++$scope.infos[type].count;
+		}
+		synchronizeScope($scope);
+	};
+
+	angular.forEach($rootScope.things, (thing: MasterScope.Thing, ID: string) => {
+		registerNew(thing.typeName);
+	});
+
+
 	thingModel.wharehouse.RegisterObserver({
 		New: (thing: ThingModel.Thing) => {
-			if (!thing.Type) {
-				return;
+			if (thing.Type) {
+				registerNew(thing.Type.Name);
 			}
-			var type = thing.Type.Name;
-			if (!$scope.infos[type]) {
-				var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);
-				if (parsing) {
-					$scope.infos[type] = { count: 1, category: parsing[1], type: parsing[2] };
-				}
-			} else {
-				++$scope.infos[type].count;
-			}
-			synchronizeScope($scope);
 		},
 		Updated: (thing : ThingModel.Thing) => {
 		},
