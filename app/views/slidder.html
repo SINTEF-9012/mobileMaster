@@ -3,8 +3,12 @@
 <!-- 				<master-icon category="incident" type="automobile"></master-icon>
 <master-icon category="incident" type=""></master-icon>
 <master-icon category="incident" type="bomb"></master-icon>
--->			
-<span class="info-number">
+-->	
+<span class="info-number" ng-repeat="(key,info) in infos">
+	<master-icon category="{{info.category}}" type="{{info.type}}"></master-icon>
+	{{info.count}}
+</span>
+<!-- <span class="info-number">
 	<master-icon category="resource" type="health personnel"></master-icon> 3
 </span>
 <span class="info-number">
@@ -31,7 +35,7 @@
 <span class="info-number">
 	<master-icon category="resource" type="red cross"></master-icon> 0
 </span>
-
+ -->
 <!-- 				<button type="button" class="btn btn-sm btn-default">Canard</button>
 <button type="button" class="btn btn-sm btn-default">poisson</button>
 -->				<button type="button" class="btn btn-sm btn-default" ui-sref="main">Table</button>

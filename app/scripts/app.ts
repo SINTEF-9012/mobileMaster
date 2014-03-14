@@ -28,6 +28,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 						templateUrl: 'views/main.html'
 					},
 					'slidder@': {
+						controller: 'SlidderCtrl',
 						templateUrl: 'views/slidder.html'
 					}
 				}
