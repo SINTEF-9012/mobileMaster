@@ -1,17 +1,15 @@
-<div class="popup-content">
-	<button type="button" class="close" ui-sref="^.^" aria-hidden="true">&times;</button>
-	<form class="form-horizontal" role="form">
-		<input type="text" value="{{thing.name}}" name="name" class="form-control input-lg" />
-		<h1><small>{{types[things[id].typeName].type.name}}</small>
-		</h1>
-		<hr/>
-		<div class="form-group" ng-repeat="property in types[things[id].typeName].tableProperties">
-			<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.property.Name || property.key}}</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{thing[property.key]}}" />
-			</div>
+<div class="container-fluid">
+<form role="form" class="form form-horizontal col-md-10 col-md-offset-1">
+	<h1>{{thing.name}}
+	<br/><small>{{thing.typeName}}</small>
+	</h1>
+	{{thing.ID}}
+	<hr/>
+	<div class="form-group row" ng-repeat="property in types[things[id].typeName].tableProperties">
+		<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.property.Name || property.key}}</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{thing[property.key]}}" />
 		</div>
-		<button type="submit" class="btn btn-primary" ng-click="save()">Save</button>
-		<button type="button" class="btn btn-default" ui-sref="^">Cancel</button>
-	</form>
+	</div>
+</form>
 </div>

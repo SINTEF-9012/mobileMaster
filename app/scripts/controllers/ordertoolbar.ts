@@ -18,4 +18,12 @@ angular.module('mobileMasterApp')
 		orderService.emit();
 		$window.history.back();
 	};
+
+	var jwindow = $(window);
+	$scope.showDetails = ()=> {
+		jwindow.trigger('layout-scroll-bottom-content');
+		window.setTimeout(()=> {
+			$('#layout-bottom input').focus();
+		}, 500);
+	};
 });

@@ -74,9 +74,14 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 			.state('main.thing.edit', {
 				url: 'thing/:id/edit',
 				views: {
-					'popup@': {
-						controller: 'ThingCtrl',
+					'popup@': false,
+					'bottom@': {
+						controller: 'EditCtrl',
 						templateUrl: 'views/thingedit.html'
+					},
+					'slidder@': {
+						controller: 'OrdertoolbarCtrl',
+						templateUrl: 'views/ordertoolbar.html'
 					}
 				}
 			})

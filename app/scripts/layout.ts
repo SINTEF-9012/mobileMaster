@@ -49,10 +49,30 @@
 		}
 	}
 
-	function nan(e) {
-		e.preventDefault();
-	}
+	var getHeight = (element: JQuery) : number => {
+		var height : number = element.outerHeight(true);
+		if (height === 0) {
+			element.children().each((index, content: Element)=> {
+				height += getHeight($(content));
+			});
+		}
+		return height;
+	};
 
+	var jbody = $(document.body);
+	jwindow.on('layout-scroll-bottom', ()=> {
+		jbody.animate({ scrollTop: tbottom.offset().top }, 500);
+	}).on('layout-scroll-element', (e: JQueryEventObject, element?) => {
+		if (element) {
+			jbody.animate({ scrollTop: $(element).offset().top }, 500);
+		}
+	}).on('layout-scroll-bottom-content', () => {
+		var height = getHeight($('#view-bottom > *'));
+
+		jbody.animate({ scrollTop: height}, 500);
+	}).on('layout-scroll-top', () => {
+		jbody.animate({ scrollTop: 0 }, 500);
+	});
 
 	function documentMouseMoveListener(e) {
 		var y = e.clientY;

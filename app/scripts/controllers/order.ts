@@ -87,7 +87,7 @@ angular.module('mobileMasterApp')
 		});
 
 		$scope.$watch('details', () => {
-			orderService.setDetails($scope.details);
+			orderService.setDetails($scope.details ? $scope.title : "");
 		});
 
 		$scope.$watch('things[id]', () => {

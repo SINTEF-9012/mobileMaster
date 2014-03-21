@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mobileMasterApp').controller('ThingCtrl', (
+angular.module('mobileMasterApp').controller('EditCtrl', (
 	$state,
 	$scope,
 	$stateParams,
@@ -13,6 +13,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	$scope.id = id;
 
+	var once = false;
 	$scope.$watch('things[id]', () => {
 		//console.log("canard");
 		if (!$scope.things) {
@@ -30,7 +31,17 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		var pixels = masterMap.project(location);
 		pixels.y -= $(window).scrollTop() / 2;
 		masterMap.panTo(masterMap.unproject(pixels));
+
+		if (!once) {
+			once = true;
+//			window.setImmediate(()=> {
+				var jwindow = $(window);
+//				jwindow.trigger('layout-scroll-bottom-content');
+				jwindow.trigger('layout-scroll-bottom');
+//			});
+		}
 	});
+
 
 	$scope.remove = () => {
 		thingModel.RemoveThing(id);
