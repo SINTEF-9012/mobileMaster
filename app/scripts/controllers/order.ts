@@ -1,4 +1,4 @@
-/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../references/Touch.d.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
@@ -81,10 +81,22 @@ angular.module('mobileMasterApp')
 			onScreen = false;
 		});
 
+		var title = "Order";
+		$scope.$watch('title', () => {
+			orderService.setTitle($scope.title ? $scope.title : title);
+		});
+
+		$scope.$watch('details', () => {
+			orderService.setDetails($scope.details);
+		});
+
 		$scope.$watch('things[id]', () => {
 			if ($scope.things) {
 				var thing = $scope.things[id];
-				ll._title.firstChild.data = "Order to " + thing.name;
+				title = "Order to " + thing.name;
+				orderService.setTitle(title);
+				ll._title.firstChild.data = title;
+				$scope.placeholder = title;
 				var loc = thing.location;
 				if (loc) {
 					dragLinePoints[0].lat = loc.x;

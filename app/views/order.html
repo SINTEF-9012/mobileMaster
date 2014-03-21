@@ -3,12 +3,12 @@
 
 	<div class="form-group col-md-10 col-md-offset-1">
 		<label for="orderTitle">Title</label>
-		<input type="text" class="form-control input-lg" id="orderTitle" placeholder="No title"/>
+		<input type="text" class="form-control input-lg" id="orderTitle" placeholder="{{placeholder}}" ng-model="title"/>
 	</div>
 
 	<div class="form-group col-md-10 col-md-offset-1">
 		<label for="orderComments">Comments</label>
-		<textarea id="orderComments" class="form-control" rows="8"></textarea>
+		<textarea id="orderComments" class="form-control" rows="8" ng-model="details"></textarea>
 	</div>
 </form>
 </div>

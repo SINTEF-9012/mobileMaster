@@ -48,6 +48,7 @@ interface ThingModelService {
 interface OrderService {
 	setLocation(location: L.LatLng);
 	setDetails(details: string);
+	setTitle(title: string);
 	setType(type: string);
 	addThing(thingID:string);
 	emit();

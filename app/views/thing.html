@@ -1,8 +1,9 @@
 <div class="popup-content">
 	<button type="button" class="close" ui-sref="^" aria-hidden="true">&times;</button>
 	<h1>{{thing.name}}
-	<br/><small>{{types[things[id].typeName].type.Name}}</small>
+	<br/><small>{{thing.typeName}}</small>
 	</h1>
+	<em>{{thing.ID != thing.name ? thing.ID : ''}}</em>
 	<hr/>
 	<dl>
 		<dt ng-repeat-start="property in types[things[id].typeName].tableProperties">
@@ -14,6 +15,7 @@
 		<button type="button" class="btn btn-primary" ui-sref="main.thing.edit">Edit</button>
 		<button type="button" class="btn btn-info" ui-sref="main.thing.order">Order</button>
 		<button type="button" class="btn btn-danger" ng-click="remove()">Remove</button>
+		<!-- <input id="deleteSwitch" type="checkbox" data-size="large" data-on-color="danger" data-off-color="danger" data-on-text="ON" data-off-text="Remove"/> -->
 		<!-- <button type="button" class="btn btn-default">View</button> -->
 	<!-- </div> -->
 </div>

@@ -14,7 +14,7 @@ angular.module('mobileMasterApp')
 	$scope.confirmOrder = () => {
 
 		//orderService.setLocation(masterMap.getCenter());
-		orderService.setDetails("vive les canards");
+		//orderService.setDetails("vive les canards");
 		orderService.emit();
 		$window.history.back();
 	};

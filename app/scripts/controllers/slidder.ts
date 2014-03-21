@@ -30,6 +30,8 @@ angular.module('mobileMasterApp')
 			var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);
 			if (parsing) {
 				$scope.infos[type] = { count: 1, category: parsing[1], type: parsing[2] };
+			} else {
+				$scope.infos[type] = { count: 1, category: "unknown", type: "unknown" };
 			}
 		} else {
 			++$scope.infos[type].count;

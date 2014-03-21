@@ -1,4 +1,4 @@
-/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+﻿/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 'use strict';
 
 angular.module('mobileMasterApp').provider('orderService', function () {
@@ -6,6 +6,7 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 	var orderType = ThingModel.BuildANewThingType.Named("master:order")
 		.WhichIs("An instruction ordeeeer mouhahhahaa")
 		.ContainingA.Location("location")
+		.AndA.String("title")
 		.AndA.NotRequired.String("details", "Details").Build();
 
 	var i = 0;
@@ -33,6 +34,9 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 			},
 			setDetails: (details: string)=> {
 				thing.String("details", details);
+			},
+			setTitle: (title: string)=> {
+				thing.String("title", title);
 			},
 			setType: (type: string)=> {
 				// TODO, do something :P

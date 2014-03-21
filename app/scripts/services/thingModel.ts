@@ -42,6 +42,12 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 				name = prop.Value;
 			}
 		}
+		else if (thing.HasProperty("title")) {
+			prop = thing.GetProperty<ThingModel.Property.String>("title");
+			if (prop) {
+				name = prop.Value;
+			}
+		}
 
 		if (!thing.Type && !$rootScope.types['Thing']) {
 			var type = ThingModel.BuildANewThingType
