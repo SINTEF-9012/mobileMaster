@@ -43,6 +43,7 @@ declare module PersistentLocalization {
 interface ThingModelService {
 	wharehouse: ThingModel.Wharehouse;
 	client: ThingModel.WebSockets.Client;
+	RemoveThing(id:string);
 }
 
 interface OrderService {

@@ -1,4 +1,4 @@
-/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+﻿/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 angular.module("mobileMasterApp").provider("thingModel", function () {
 
@@ -161,6 +161,12 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		});
 
 		this.client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.wharehouse);
+
+		this.RemoveThing = (id: string)=> {
+			var thing = this.wharehouse.GetThing(id);
+			this.wharehouse.RemoveThing(thing);
+			this.client.Send();
+		};
 
 		return this;
 	};
