@@ -44,6 +44,7 @@ interface ThingModelService {
 	wharehouse: ThingModel.Wharehouse;
 	client: ThingModel.WebSockets.Client;
 	RemoveThing(id:string);
+	EditThing(id: string, values: { [property: string]: {value:string;type:string} });
 }
 
 interface OrderService {

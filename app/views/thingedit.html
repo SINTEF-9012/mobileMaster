@@ -5,11 +5,12 @@
 	</h1>
 	{{thing.ID}}
 	<hr/>
-	<div class="form-group row" ng-repeat="property in types[things[id].typeName].tableProperties">
-		<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.property.Name || property.key}}</label>
+	<div class="form-group row" ng-repeat="property in properties">
+		<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.name || property.key}}</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{thing[property.key]}}" />
+			<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{property.realtimeValue}}" ng-model="property.newValue"/>
 		</div>
 	</div>
+	<button type="button" class="btn btn-lg btn-primary" ng-click="save()">Save</button>
 </form>
 </div>

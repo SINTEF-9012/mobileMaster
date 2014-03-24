@@ -45,11 +45,13 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 					var score = scores[prop.Key] || 0;
 
 					if (score >= 0) {
-						var scopeProp : any= {
+						var scopeProp: any = {
 							key: prop.Key,
-							required: prop.Required
-						};
+							required: prop.Required,
+							type: ThingModel.Type[prop.Type]
+					};
 
+						// TODO identify undefined source and fixe it
 						if (prop.Name !== "undefined") {
 							scopeProp.name = prop.Name;
 						}

@@ -137,6 +137,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					name: thingType.Name
 				};
 
+				// TODO identify undefined source and fixe it
 				if (thingType.Description !== "undefined") {
 					scopeType.Description = thingType.Description;
 				}
@@ -165,6 +166,42 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		this.RemoveThing = (id: string)=> {
 			var thing = this.wharehouse.GetThing(id);
 			this.wharehouse.RemoveThing(thing);
+			this.client.Send();
+		};
+
+		this.EditThing = (id: string, values: { [property: string]: { value: string; type: string } }) => {
+			var thing = this.wharehouse.GetThing(id);
+			if (!thing) {
+				return;
+			}
+
+			_.each(values, (value: {value:string;type:string}, property: string)=> {
+				var prop;	
+				switch (value.type.toLowerCase()) {
+					case 'localization':
+						throw "Not implemented";
+					case 'number':
+					case 'double':
+						prop = new ThingModel.Property.Double(property, parseFloat(value.value));
+						break;
+					case 'int':
+						prop = new ThingModel.Property.Int(property, parseInt(value.value));
+						break;
+					case 'datetime':
+						prop = new ThingModel.Property.DateTime(property, new Date(value.value));
+						break;
+					case 'boolean':
+						prop = new ThingModel.Property.Boolean(property, !/^(false|0|no)$/i.test(value.value));
+						break;
+					default :
+					case 'string':
+						prop = new ThingModel.Property.String(property, value.value);
+						break;
+				}
+				thing.SetProperty(prop);
+			});
+
+			this.wharehouse.NotifyThingUpdate(thing);
 			this.client.Send();
 		};
 

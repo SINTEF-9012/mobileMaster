@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 angular.module('mobileMasterApp').controller('EditCtrl', (
 	$state,
@@ -11,7 +11,11 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 
 	var id = $stateParams.id;
 
-	$scope.id = id;
+		$scope.id = id;
+
+	if (!$scope.properties) {
+		$scope.properties = {};
+	}
 
 	var once = false;
 	$scope.$watch('things[id]', () => {
@@ -25,8 +29,21 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 			return;
 		}
 
-		$scope.thing = thing;
+		angular.forEach($rootScope.types[thing.typeName].tableProperties, (value) => {
+			var key = value.key;
+			var prop = $scope.properties[key];
+			if (!prop) {
+				prop = $scope.properties[key] = {};
+			}
 
+			prop.key = key;
+			prop.name = value.property.name;
+			prop.type = value.property.type;
+			prop.realtimeValue = thing[key];
+		});
+
+		$scope.thing = thing;
+		
 		var location = new L.LatLng(thing.location.x, thing.location.y);
 		var pixels = masterMap.project(location);
 		pixels.y -= $(window).scrollTop() / 2;
@@ -42,6 +59,19 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 		}
 	});
 
+	$scope.save = () => {
+		var transaction : { [property: string]: { value: string; type: string } } = {};
+		angular.forEach($scope.properties, (property, key) => {
+			if (typeof property.newValue !== "undefined") {
+				transaction[key] = {
+					value: property.newValue,
+					type: property.type
+				};
+			}
+		});
+		thingModel.EditThing(id, transaction);
+		$state.go("^");
+	};
 
 	$scope.remove = () => {
 		thingModel.RemoveThing(id);
