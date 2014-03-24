@@ -70,8 +70,9 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 			}
 		});
 		thingModel.EditThing(id, transaction);
-		$state.go("^");
 	};
+
+	$rootScope.$on('main.thing.edit.save', $scope.save);
 
 	$scope.remove = () => {
 		thingModel.RemoveThing(id);

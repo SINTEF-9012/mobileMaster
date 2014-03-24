@@ -1,5 +1,6 @@
 <div class="container-fluid">
-<form role="form" class="form form-horizontal col-md-10 col-md-offset-1">
+<form role="form" class="form form-horizontal col-md-10 col-md-offset-1"
+	ng-submit="save()">
 	<h1>{{thing.name}}
 	<br/><small>{{thing.typeName}}</small>
 	</h1>
@@ -11,6 +12,6 @@
 			<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{property.realtimeValue}}" ng-model="property.newValue"/>
 		</div>
 	</div>
-	<button type="button" class="btn btn-lg btn-primary" ng-click="save()">Save</button>
+	<input type="submit" style="visibility:hidden" value="Save" />
 </form>
 </div>
