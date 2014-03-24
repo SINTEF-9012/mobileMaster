@@ -88,6 +88,7 @@
 	}
 
 	tslidder.on('mousedown', (e) => {
+		diffA = diffB = 0;
 		startY = e.clientY;
 		scrollTopStart = jwindow.scrollTop();
 		e.preventDefault();
@@ -107,5 +108,11 @@
 		},100);
 	});
 
-	document.addEventListener('gesturechange', ()=> {});
+	document.addEventListener('gesturechange', () => { });
+
+	// Agressive workaround for the ipad scrolling on inputs
+	$(document).on('focus', 'input', (e)=> {
+		var scroll = jwindow.scrollTop();
+		window.setImmediate(()=> jwindow.scrollTop(scroll));
+	});
 })(); 
