@@ -20,14 +20,17 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 		var thing: ThingModel.ThingPropertyBuilder;
 		var relatedThings: string[];
 
+		var id = UUID.generate();
 		var reset = ()=> {
 			relatedThings = [];
-			thing = createThingOrder(UUID.generate());
+			id = UUID.generate();
+			thing = createThingOrder(id);
 		};
 
 		reset();
 
 		return {
+			getId: () => id,
 			setLocation: (location: L.LatLng)=> {
 				thing.Location("location",
 					new ThingModel.Location.LatLng(location.lat, location.lng));

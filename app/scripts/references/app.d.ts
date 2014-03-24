@@ -52,7 +52,8 @@ interface OrderService {
 	setDetails(details: string);
 	setTitle(title: string);
 	setType(type: string);
-	addThing(thingID:string);
+	addThing(thingID: string);
+	getId():string;
 	emit();
 	reset();
 }

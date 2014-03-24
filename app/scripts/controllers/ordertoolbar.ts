@@ -3,7 +3,7 @@
 angular.module('mobileMasterApp')
 	.controller('OrdertoolbarCtrl', (
 		$scope: any,
-		$window: ng.IWindowService,
+		$state,
 		orderService: OrderService) => {
 
 	$scope.cancelOrder = ()=> {
@@ -13,10 +13,9 @@ angular.module('mobileMasterApp')
 
 	$scope.confirmOrder = () => {
 
-		//orderService.setLocation(masterMap.getCenter());
-		//orderService.setDetails("vive les canards");
+		var id = orderService.getId();
 		orderService.emit();
-		$window.history.back();
+		$state.go('main.thing', { id: id });
 	};
 
 	var jwindow = $(window);

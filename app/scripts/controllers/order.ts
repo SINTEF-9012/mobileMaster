@@ -8,7 +8,7 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-.config(function(masterMapProvider: Master.MapConfig) {
+.config((masterMapProvider: Master.MapConfig) => {
 	masterMapProvider.declareLayerClass("sight",L.Class.extend({
 		initialize: function (latlng, title) {
 			// save position of the layer or any options from the constructor
