@@ -111,8 +111,10 @@
 	document.addEventListener('gesturechange', () => { });
 
 	// Agressive workaround for the ipad scrolling on inputs
-	$(document).on('focus', 'input', (e)=> {
+	/*$(document).on('focus', 'input', (e)=> {
 		var scroll = jwindow.scrollTop();
-		window.setImmediate(()=> jwindow.scrollTop(scroll));
-	});
+		if (scroll > jwindow.height()) {
+			window.setImmediate(()=> jwindow.scrollTop(scroll));
+		}
+	});*/
 })(); 
