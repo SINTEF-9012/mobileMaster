@@ -49,12 +49,21 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 //			}
 				}
 			})
-			.state('main.settings', {
-				url: 'settings',
+			.state('main.layers', {
+				url: 'layers',
 				views: {
 					'bottom@': {
 						controller: 'LayersCtrl',
 						templateUrl: 'views/layers.html'
+					}
+				}
+			})
+			.state('main.filters', {
+				url: 'filters',
+				views: {
+					'bottom@': {
+						controller: 'FiltersCtrl',
+						templateUrl: 'views/filters.html'
 					}
 				}
 			})

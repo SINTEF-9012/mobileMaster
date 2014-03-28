@@ -3,6 +3,7 @@
 angular.module('mobileMasterApp')
 	.controller('OrdertoolbarCtrl', (
 		$scope: any,
+		$window: ng.IWindowService,
 		$state,
 		orderService: OrderService) => {
 

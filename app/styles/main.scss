@@ -1,5 +1,6 @@
 @import "compass";
 @import "icons.scss";
+@import "range-switch.scss";
 @import "_settings";
 @import "bootstrap-sass/lib/_variables";
 
@@ -293,6 +294,9 @@ height: 672px !important;
 		// border-bottom-left-radius: 6px;
 		// border-bottom-right-radius: 6px;
 
+        .info-number.disabled {
+            opacity: 0.42;
+        }
 	}
 
 
@@ -440,4 +444,11 @@ padding: 1em;
 
 .panel-group .panel-heading a {
     cursor:pointer;
+}
+
+.row.row-without-margin {
+    margin:0;
+}
+.row.row-with-margin {
+    margin:0 15px 15px 15px;
 }

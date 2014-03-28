@@ -9,7 +9,7 @@
 
 // Module configuration
 angular.module('mobileMasterApp')
-.config(function(masterMapProvider : Master.MapConfig, nodeMasterProvider : any) {
+.config(function(masterMapProvider : Master.MapConfig) {
     masterMapProvider.setOptions({
         zoom: 13,
         center: new L.LatLng(59.911111,  	10.752778),
@@ -85,7 +85,44 @@ angular.module('mobileMasterApp')
     })
     .setDefaultTileLayer("MapBoxBlue");
 
-nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
+	masterMapProvider.declareLayerClass("shadow", L.Class.extend({
+		initialize: function (title, icon) {
+			// save position of the layer or any options from the constructor
+			this._titleText = title;
+			this._icon = icon;
+		},
+
+		addTo: function (map : L.Map) {
+			this._map = map;
+
+			// create a DOM element and put it into one of the map panes
+			this._el = L.DomUtil.create('div', 'shadow-layer');
+			this._title = L.DomUtil.create('h1', '');
+			this._title.appendChild(document.createTextNode(this._titleText));
+			// map.getPanes().overlayPane.appendChild(this._el);
+			this._el.appendChild(this._title);
+			if (this._icon) {
+				this._el.appendChild(this._icon);
+			}
+			map.getContainer().appendChild(this._el);
+
+			// add a viewreset event listener for updating layer's position, do the latter
+			// map.on('viewreset move', this._reset, this);
+			//this._reset();
+		},
+
+		remove: function () {
+			// remove layer's DOM elements and listeners
+			this._map.getContainer().removeChild(this._el);
+			this._map.off('viewreset move', this._reset, this);
+		},
+
+		_reset: function () {
+			// update layer's position
+			//L.DomUtil.setPosition(this._el, pos);
+			L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
+		}
+	}));
 })
 .controller('MapCtrl', function (
     $scope,
@@ -189,6 +226,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
         }
 
 	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
+
+				if (!thing.visible) {
+					return;
+				}
 
 				var loc = thing.location;
 				if (!loc || isNaN(loc.x) || isNaN(loc.y)) {
@@ -316,8 +357,9 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 			    }
 		    });
 
-		    angular.forEach(markersThings, (marker: L.Marker, ID: string) => {
-			    if (!$scope.things[ID]) {
+			angular.forEach(markersThings, (marker: L.Marker, ID: string) => {
+				var scopeThing = $scope.things[ID];
+			    if (!scopeThing || !scopeThing.visible) {
 					masterMap.removeLayer(marker);
 					if (popup._thingID === ID) {
 						masterMap.closePopup();
@@ -409,23 +451,10 @@ nodeMasterProvider.setConnection("ws://"+window.location.hostname+":8181");
 	});
 
 	masterMap.on('contextmenu', (e: L.LeafletMouseEvent) => {
-		if (!$state.is('main.thing.order')) {
+		// TODO UGLY
+		if (!$state.is('main.thing.order') && !$state.is('main.thing.edit')) {
 			$state.go('main.add', e.latlng);
 		}
 	});
 
-    $scope.centerView = ()=> {
-	    var bounds  = new L.LatLngBounds(null,null);
-
-	    angular.forEach($scope.resources, function(resource : NodeMaster.ResourceStatusModel, ID:string) {
-		    bounds.extend(L.latLng(resource.Location.lat, resource.Location.lng));
-	    });
-
-	    angular.forEach($scope.patients, function(patient : NodeMaster.IPatientModel, ID:string) {
-		    bounds.extend(L.latLng(patient.Location.lat, patient.Location.lng));
-	    });
-
-	    // alert(bounds.getCenter().toString())
-	    masterMap.fitBounds(bounds);
-    };
 });

@@ -14,17 +14,7 @@ declare module MasterScope {
 
         things: {[ID:string] : Thing};
 
-		types: {[name: string] : {
-			things: { [ID: string]: Thing };
-			tableProperties: {
-				key: string;
-				score:number;
-				property:ThingModel.PropertyType;
-			}[];
-
-			type: ThingModel.ThingType;
-		}
-		};
+		types: {[name: string] : ThingType};
 
 		add: {
 			category: string;
@@ -41,10 +31,23 @@ declare module MasterScope {
         create() : L.TileLayer;
 	}
 
+	interface ThingType {
+		things: { [ID: string]: Thing };
+		tableProperties: {
+			key: string;
+			score:number;
+			property:ThingModel.PropertyType;
+		}[];
+
+		visible:boolean;
+		type: ThingModel.ThingType;
+	}
+
 	interface Thing {
 		ID: string;
 		name: string;
 		typeName: string;
+		visible: boolean;
 		location?: {
 			x: number;
 			y: number;

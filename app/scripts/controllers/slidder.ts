@@ -29,9 +29,9 @@ angular.module('mobileMasterApp')
 		if (!$scope.infos[type]) {
 			var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);
 			if (parsing) {
-				$scope.infos[type] = { count: 1, category: parsing[1], type: parsing[2] };
+				$scope.infos[type] = { count: 1, category: parsing[1], type: parsing[2], fullName: type };
 			} else {
-				$scope.infos[type] = { count: 1, category: "unknown", type: "unknown" };
+				$scope.infos[type] = { count: 1, category: "unknown", type: "unknown", fullName: type };
 			}
 		} else {
 			++$scope.infos[type].count;

@@ -1,23 +1,24 @@
 <div id="top-menu">
-<div class="layers">	
-			<h3>Layers</h3>
+	<div class="layers">	
+		<h3>Layers</h3>
 
-			<div class="row">
-				<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers">
+		<div class="row">
+			<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers">
 				</button>
-			</div>
-			<div class="row">
-				<div class="layerOption col-xs-6">
-					<span>3D buildings </span>
-					<div class="buildings-switch make-switch switch-large">
-						<input type="checkbox" ng-model="buildings">
-					</div>
+		</div>
+		<div class="row">
+			<div class="layerOption col-xs-6">
+				<span>3D buildings </span>
+				<div class="buildings-switch make-switch switch-large">
+					<input type="checkbox" ng-model="buildings">
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="tools">
-			<h3>Tools</h3>
-			<button type="button" class="btn btn-default" ng-click="centerView();">Zoom to situation</button>
-		</div>
-	</div></div>
+	<div class="tools">
+		<h3>Tools</h3>
+		<button type="button" class="btn btn-default" ng-click="centerView();">Zoom to situation</button>
+	</div>
+
+</div>

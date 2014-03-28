@@ -60,14 +60,18 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			$rootScope.types['Thing'] = {
 				type: type,
 				things: {},
+				visible:true,
 				tableProperties: Knowledge.getPropertiesOrder(type)
 			};
 		}
 		var typeName = thing.Type ? thing.Type.Name : "Thing";
 
+		var scopeType = $rootScope.types[typeName];
+
 		var scopeThing: MasterScope.Thing = {
 			ID: thing.ID,
 			name: null,
+			visible:scopeType.visible,
 			typeName: typeName
 		};
 
@@ -93,7 +97,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 
 		$rootScope.things[thing.ID] = scopeThing;
 
-		$rootScope.types[typeName].things[thing.ID] = scopeThing;
+		scopeType.things[thing.ID] = scopeThing;
 	};
 
 	this.$get = ($rootScope: MasterScope.Root, Knowledge : KnowledgeModule) => {
@@ -144,6 +148,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 
 				$rootScope.types[thingType.Name] = {
 					type: scopeType,
+					visible:true,
 					things: {},
 					tableProperties: Knowledge.getPropertiesOrder(thingType)
 				};

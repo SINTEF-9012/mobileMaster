@@ -4,7 +4,7 @@
 <master-icon category="incident" type=""></master-icon>
 <master-icon category="incident" type="bomb"></master-icon>
 -->	
-<span class="info-number" ng-repeat="(key,info) in infos">
+<span class="info-number {{types[info.fullName].visible ? 'selected' : 'disabled'}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}">
 	<master-icon category="{{info.category}}" type="{{info.type}}"></master-icon>
 	{{info.count}}
 </span>
@@ -41,5 +41,6 @@
 -->				<button type="button" class="btn btn-sm btn-default" ui-sref="main">Map</button>
 				<button type="button" class="btn btn-sm btn-default" ui-sref="main">Table</button>
 				<button type="button" class="btn btn-sm btn-info" ui-sref="main.compass">Lapin</button>
-				<button type="button" class="btn btn-sm btn-info" ui-sref="main.settings">Settings</button>
+				<button type="button" class="btn btn-sm btn-info" ui-sref="main.layers">Layers</button>
+				<button type="button" class="btn btn-sm btn-info" ui-sref="main.filters">Filters</button>
 </div>

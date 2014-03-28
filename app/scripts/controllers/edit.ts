@@ -9,6 +9,13 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	thingModel: ThingModelService
 	) => {
 
+
+
+	var layer = masterMap.getLayerClass("sight");
+	var ll = new layer("Order");
+
+	ll.addTo(masterMap);
+
 	var id = $stateParams.id;
 
 		$scope.id = id;
