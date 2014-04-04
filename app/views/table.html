@@ -1,0 +1,36 @@
+<table class="table table-striped master-table">
+	<caption><h3>&nbsp;{{types[thingType].type.Description ? types[thingType].type.Description : types[thingType].type.name}}&nbsp;</h3></caption>
+	<thead>
+		<tr>
+			<th>
+				<button type="button" ng-click="sortThings('ID')" class="btn btn-default" ng-class="sortPropertyKey === 'ID' ? 'btn-info' : ''">
+					<span class="glyphicon" ng-class="sortPropertyKey === 'ID'  ? (sortDirection === '+' ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt') : 'glyphicon-sort disabled'"></span>
+					ID
+				</button>
+			</th>
+			<th ng-repeat="property in types[thingType].tableProperties">
+				<button type="button" ng-click="sortThings(property.key)" class="btn btn-default" ng-class="sortPropertyKey === property.key ? 'btn-info' : ''">
+					<span class="glyphicon" ng-class="sortPropertyKey == property.key ? (sortDirection === '+' ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt') : 'glyphicon-sort disabled'"></span>
+					{{property.property.Name || property.key}}
+				</button>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="thing in arrayThings|orderBy:sortExpression" >
+			<td>
+				<a ng-click="selectThing(thing)" class="badge">{{thing.ID}}</a>
+			</td>
+			<td ng-repeat="property in types[thingType].tableProperties">
+				{{thing[property.key]}}
+			</td>
+<!-- 			<td>
+				<div class="btn-group pull-right">
+					<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>
+					<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-screenshot"></span></button>
+					<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span></button>
+				</div>
+			</td>	
+ -->		</tr>
+	</tbody>
+</table>

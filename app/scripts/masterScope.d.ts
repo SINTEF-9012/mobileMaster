@@ -41,6 +41,7 @@ declare module MasterScope {
 
 		visible:boolean;
 		type: ThingModel.ThingType;
+		count: number;
 	}
 
 	interface Thing {

@@ -156,3 +156,7 @@ master-icon {
     margin-top:-6px;
     left:5px;
 }
+
+.glyphicon.disabled {
+	color:lighten(#000, 80%);
+}

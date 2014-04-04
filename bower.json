@@ -17,9 +17,9 @@
     "Bing.js": "https://raw.github.com/shramov/leaflet-plugins/master/layer/tile/Bing.js",
     "osmbuildings": "kekscom/osmbuildings#master",
     "rebound": "facebook/rebound#master",
-    "bootstrap-switch": "*",
-    "ThingModel": "~0.5.0",
-    "DefinitelyTyped": "*",
+    "bootstrap-switch": "3.0",
+    "ThingModel": "~0.6.1",
+    "DefinitelyTyped": "#3.0",
     "setimmediate": "~1.0.1",
     "angular-animate": "~1.2.14"
   },

@@ -51,8 +51,8 @@ angular.module('mobileMasterApp')
 			orderService.setTitle($scope.title ? $scope.title : title);
 		});
 
-		$scope.$watch('details', () => {
-			orderService.setDetails($scope.details ? $scope.title : "");
+		$scope.$watch('details', (newValue) => {
+			orderService.setDetails(newValue ? newValue : "");
 		});
 
 		$scope.$watch('things[id]', () => {

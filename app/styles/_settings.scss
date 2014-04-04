@@ -7,6 +7,7 @@ $gray-lighter:           lighten(#000, 95%) !default; // #pas eee
 $font-family-sans-serif: "Fira sans", sans-serif;
 $body-bg: $gray-lighter;
 $text-color: $gray-darker;
-$table-bg: darken($gray, 6);
-$table-bg-accent: darken($gray, 5);
-$table-border-color: darken($gray,12);
+$icon-font-path: "/bower_components/bootstrap-sass/fonts/";
+// $table-bg: darken($gray, 6);
+// $table-bg-accent: darken($gray, 5)b;
+// $table-border-color: darken($gray,12);

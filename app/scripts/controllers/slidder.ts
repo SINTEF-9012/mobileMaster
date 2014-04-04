@@ -36,6 +36,7 @@ angular.module('mobileMasterApp')
 		} else {
 			++$scope.infos[type].count;
 		}
+		$rootScope.types[type].count = $scope.infos[type].count;
 		synchronizeScope($scope);
 	};
 

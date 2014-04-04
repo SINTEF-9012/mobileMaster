@@ -1,7 +1,7 @@
 @import "compass";
+@import "_settings";
 @import "icons.scss";
 @import "range-switch.scss";
-@import "_settings";
 @import "bootstrap-sass/lib/_variables";
 
 html,body{
@@ -11,6 +11,22 @@ html,body{
     height:100%;
 }
 
+#status-bar {
+    position:fixed;
+    top:0;
+    right:0;
+    left:0;
+    background:$gray-lighter;
+    // opacity: 0.8;
+    z-index: 100;
+    text-align: center;
+    height:20px;
+    line-height:20px;
+    font-size:0.85em;
+}
+
+body:not(.standalone) #status-bar {display:none}
+
 #layout-top, #layout-bottom, #layout-slidder {
     #view-top, #view-bottom,#view-slidder {
         position:relative;
@@ -18,9 +34,15 @@ html,body{
         width:100%;
         -webkit-transform:translate3D(0,0,0);
     }
+    #view-bottom{
+        overflow-y: auto;
+        // height:auto;
+    }
 }
 
+
 #layout-top {
+    // margin-top:20px;
     height:100%;
     background:black;
 }
@@ -34,7 +56,12 @@ html,body{
 }
 #map {
 	// position:relative;
-		height:100%;
+		// height:100px;
+        height:100%;
+    // position:absolute;
+    // left:0;
+    // right:0;
+    // bottom:0;
 
 	background:lighten(#000, 33.5%);
 
@@ -166,7 +193,7 @@ margin-left:1.65em;
 }
 
 #top-menu {
-	height:170px;
+	// height:170px;
 	// padding-top:12px;
     // background:blue;
     // border-bottom:1px solid #cdcdcd;
@@ -294,7 +321,7 @@ height: 672px !important;
 		// border-bottom-left-radius: 6px;
 		// border-bottom-right-radius: 6px;
 
-        .info-number.disabled {
+        .info-number.filtered {
             opacity: 0.42;
         }
 	}
@@ -319,7 +346,7 @@ box-shadow: 0 0 15px rgba(0,0,0,0.8);
 
 #layout-popup {
 position: fixed;
-z-index:3;
+z-index:50;
 top: 1em;
 left: 1em;
     &.popup-order {
@@ -451,4 +478,8 @@ padding: 1em;
 }
 .row.row-with-margin {
     margin:0 15px 15px 15px;
+}
+
+.master-table {
+    margin-bottom: 0;
 }
