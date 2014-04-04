@@ -146,10 +146,12 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					scopeType.Description = thingType.Description;
 				}
 
+				var things = $rootScope.types[thingType.Name] ? $rootScope.types[thingType.Name].things : {};
+
 				$rootScope.types[thingType.Name] = {
 					type: scopeType,
 					visible:true,
-					things: {},
+					things: things,
 					tableProperties: Knowledge.getPropertiesOrder(thingType)
 				};
 				synchronizeScope($rootScope);

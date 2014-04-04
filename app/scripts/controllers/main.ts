@@ -25,11 +25,11 @@ angular.module('mobileMasterApp')
 	$scope.thingType = $stateParams.thingtype;
 
 	// Create an array of things because angular can only sort arrays
-	$scope.$watch('types[thingType]', (newValue) => {
+	$scope.$watch('types[thingType]', () => {
 		var array = [];
 
-		if (newValue && newValue.things) {
-			angular.forEach(newValue.things, (value) => {
+		if ($scope.types && $scope.types[$scope.thingType]) {
+			angular.forEach($scope.types[$scope.thingType].things, (value) => {
 				array.push(value);
 			});
 		}

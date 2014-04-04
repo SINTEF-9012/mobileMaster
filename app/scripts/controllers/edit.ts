@@ -11,10 +11,10 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 
 
 
-	var layer = masterMap.getLayerClass("sight");
-	var ll = new layer("Order");
+//	var layer = masterMap.getLayerClass("sight");
+//	var ll = new layer("Order");
 
-	ll.addTo(masterMap);
+//	ll.addTo(masterMap);
 
 	var id = $stateParams.id;
 

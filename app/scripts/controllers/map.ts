@@ -85,17 +85,17 @@ angular.module('mobileMasterApp')
     })
     .setDefaultTileLayer("MapBoxBlue");
 
-	masterMapProvider.declareLayerClass("shadow", L.Class.extend({
+	masterMapProvider.declareLayerClass("shadow", L.Layer.extend({
 		initialize: function (title, icon) {
 			// save position of the layer or any options from the constructor
 			this._titleText = title;
 			this._icon = icon;
 		},
 
-		addTo: function (map : L.Map) {
+		onAdd: function (map : L.Map) {
 			this._map = map;
 
-			// create a DOM element and put it into one of the map panes
+			// create a DOM element and put it into one of the map panse
 			this._el = L.DomUtil.create('div', 'shadow-layer');
 			this._title = L.DomUtil.create('h1', '');
 			this._title.appendChild(document.createTextNode(this._titleText));
@@ -111,7 +111,7 @@ angular.module('mobileMasterApp')
 			//this._reset();
 		},
 
-		remove: function () {
+		onRemove: function () {
 			// remove layer's DOM elements and listeners
 			this._map.getContainer().removeChild(this._el);
 			this._map.off('viewreset move', this._reset, this);

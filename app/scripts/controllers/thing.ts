@@ -14,7 +14,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	$scope.id = id;
 
 	$scope.$watch('things[id]', () => {
-		//console.log("canard");
 		if (!$scope.things) {
 			return;
 		}
