@@ -11,7 +11,7 @@
 			<th ng-repeat="property in types[thingType].tableProperties">
 				<button type="button" ng-click="sortThings(property.key)" class="btn btn-default" ng-class="sortPropertyKey === property.key ? 'btn-info' : ''">
 					<span class="glyphicon" ng-class="sortPropertyKey == property.key ? (sortDirection === '+' ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt') : 'glyphicon-sort disabled'"></span>
-					{{property.property.Name || property.key}}
+					<span class="property-name">{{property.property.name || property.key}}</span>
 				</button>
 			</th>
 		</tr>
@@ -22,7 +22,7 @@
 				<a ng-click="selectThing(thing)" class="badge">{{thing.ID}}</a>
 			</td>
 			<td ng-repeat="property in types[thingType].tableProperties">
-				{{thing[property.key]}}
+				<thing-property thing="thing" property="property"/>
 			</td>
 <!-- 			<td>
 				<div class="btn-group pull-right">

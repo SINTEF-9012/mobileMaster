@@ -7,8 +7,10 @@
 	<hr/>
 	<dl>
 		<dt ng-repeat-start="property in types[things[id].typeName].tableProperties">
-		{{property.property.Name || property.key}}</dt>
-		<dd ng-repeat-end>{{thing[property.key]}}</dd>
+		{{property.property.name || property.key}}</dt>
+		<dd ng-repeat-end>
+			<thing-property thing="thing" property="property"/>
+		</dd>
 	</dl>
 
 	<!-- <div class="btn-group"> -->

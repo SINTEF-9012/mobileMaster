@@ -47,9 +47,9 @@ body:not(.standalone) #status-bar {display:none}
     background:black;
 }
 
-#view-bottom {
-    overflow-y:hidden;
-}
+// #view-bottom {
+//     overflow-y:hidden;
+// }
 
 #layout-slidder {
     height:60px;
@@ -482,4 +482,12 @@ padding: 1em;
 
 .master-table {
     margin-bottom: 0;
+
+    thead th button .property-name {
+        display: inline-block;
+        &:first-letter{
+            text-transform: uppercase;
+        }
+    }
 }
+
