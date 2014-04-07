@@ -8,7 +8,7 @@ angular.module('mobileMasterApp')
 		tablePropertiesOrder: { healt: 6, pitch: 1 }
 	});
 })
-.controller('MainCtrl', (
+.controller('TableCtrl', (
 	$rootScope,
 	$scope,
 	thingModel,
@@ -25,9 +25,9 @@ angular.module('mobileMasterApp')
 	$scope.thingType = $stateParams.thingtype;
 
 	// Create an array of things because angular can only sort arrays
-	$scope.$watch('types[thingType]', () => {
-		var array = [];
-
+	var array = [];
+	$scope.$watch('types[thingType].things', () => {
+		array.length = 0;
 		if ($scope.types && $scope.types[$scope.thingType]) {
 			angular.forEach($scope.types[$scope.thingType].things, (value) => {
 				array.push(value);
@@ -38,7 +38,7 @@ angular.module('mobileMasterApp')
 		jwindow.trigger('resize');
 
 //		$scope.$digest();
-	});
+	}, true);
 	
 	// Sort by the id ascending by default
 	$scope.sortExpression = '+ID';

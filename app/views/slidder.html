@@ -4,6 +4,7 @@
 <master-icon category="incident" type=""></master-icon>
 <master-icon category="incident" type="bomb"></master-icon>
 -->
+<button type="button" class="btn btn-primary" ui-sref="main">Summary</button>
 <div class="btn-group">
 <button type="button" class="btn btn-default info-number {{types[info.fullName].visible ? '' : 'filtered'}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="main.table({thingtype:key})">
 	<master-icon category="{{info.category}}" type="{{info.type}}"></master-icon>

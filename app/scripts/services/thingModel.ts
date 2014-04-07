@@ -108,7 +108,6 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		this.wharehouse.RegisterObserver({
 			New: (thing: ThingModel.Thing) => {
 
-
 				applyThingToScope($rootScope, Knowledge, thing);
 
 				synchronizeScope($rootScope);
@@ -120,7 +119,6 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 				synchronizeScope($rootScope);
 			},
 			Deleted: (thing : ThingModel.Thing) => {
-				//console.log(thing);
 				if ($rootScope.things) {
 					delete $rootScope.things[thing.ID];
 				}
