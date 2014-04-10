@@ -45,7 +45,7 @@ angular.module('mobileMasterApp')
 	});
 
 
-	thingModel.wharehouse.RegisterObserver({
+	thingModel.warehouse.RegisterObserver({
 		New: (thing: ThingModel.Thing) => {
 			if (thing.Type) {
 				registerNew(thing.Type.Name);

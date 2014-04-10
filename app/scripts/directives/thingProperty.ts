@@ -16,17 +16,22 @@ angular.module('mobileMasterApp')
 			scope.key = key;
 
 			scope.$watch('thing[key]', (value) => {
-				if (!value) {
-					scope.value = '';
-					return;
-				}
+//				if (!value) {
+//					scope.value = '';
+//					return;
+//				}
 
 				element.addClass("thing-property-" + key);
 
-				if (type === 'Double') {
+				if (type === 'DateTime') {
+					scope.value = value ? value.toLocaleString(window.navigator.userLanguage || window.navigator.language) : '';
+				}
+				else if (type === 'Double') {
 					scope.value = parseFloat(value === null ? 0.0 : value).toLocaleString([]);
+				} else if (type === 'Boolean') {
+					scope.value = !!value;
 				} else {
-					scope.value = value;
+					scope.value = value ? value : '';
 				}
 
 				// TODO transfer this stuff somewhere else
@@ -41,10 +46,23 @@ angular.module('mobileMasterApp')
 						}
 					}
 					scope.value = "";
-				} else if (key === 'triage_status') {
+				} else if (key === 'status' || key === 'triage_status') {
+					console.log(key);
 					var light = $('<div class="triage-light"></div>');
 					light.css('background', value.toLowerCase());
 					element.prepend(light);
+				} else if (type === 'String' && key === 'url') {
+					scope.value = '';
+					var proxy = 'http://10.218.148.89:8075/';
+					var href =  proxy + value;
+					var a = $('<a target="_blank"/>').attr('href', href).text(value);
+
+					if (scope.thing.typeName === 'PictureType') {
+						var img = $('<img/>').attr('src', proxy + 'thumbnail/' + value);
+						a.text('').append(img);
+					} 
+
+					element.append(a);
 				}
 			});
 		}
