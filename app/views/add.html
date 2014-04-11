@@ -21,7 +21,10 @@
 							<div class="btn-group-vertical btn-block" data-toggle="buttons">
 								<label class="btn btn-lg btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
 									<input type="radio" name="options" id="{{icon}}">
-									<master-icon category="{{key}}" type="{{icon}}"></master-icon> {{name}}
+									<div class="pull-left">
+										<master-icon type="{{key}} {{icon}}"></master-icon>
+									</div>
+									{{name}}
 								</label>
 							</div>
 						</div>

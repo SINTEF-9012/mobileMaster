@@ -1,4 +1,4 @@
-declare module Master {
+﻿declare module Master {
   export class Map extends L.Map {
     initializeMap(map : L.Map) : void;
 
@@ -12,7 +12,8 @@ declare module Master {
 	disableInteractions(): Map;
 
 	getLayerClass(name: string): L.ILayer;
-	createMasterIcon(ID:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
+	createMasterIconWithId(ID:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
+	createMasterIconWithType(type:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
   }
 
   export interface MapConfig {

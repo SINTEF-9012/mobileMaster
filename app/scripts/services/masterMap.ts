@@ -63,7 +63,14 @@ angular.module('mobileMasterApp')
 						div = document.createElement('div');
 					}
 
-					var masterIconElement = $compile(angular.element('<master-icon />').attr('thingid', this.thingID));
+					var e = angular.element('<master-icon />');
+					if (this.thingID) {
+						e.attr('thingid', this.thingID);
+					} else {
+						e.attr('type', this.type);
+					}
+
+					var masterIconElement = $compile(e);
 					masterIconElement(this.scope).appendTo(div);
 
 					this._setIconStyles(div, 'icon');
@@ -84,10 +91,16 @@ angular.module('mobileMasterApp')
 				return layersList;
 			};
 
-			instance.createMasterIcon = (ID:string, scope: ng.IScope, options?: L.IconOptions) => {
+			instance.createMasterIconWithId = (ID:string, scope: ng.IScope, options?: L.IconOptions) => {
 				var i = new masterIcon(options);
 				i.scope = scope;
 				i.thingID = ID;
+				return i;
+			};
+			instance.createMasterIconWithType = (type:string, scope: ng.IScope, options?: L.IconOptions) => {
+				var i = new masterIcon(options);
+				i.scope = scope;
+				i.type = type;
 				return i;
 			};
 

@@ -67,16 +67,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 
 	var updateIcon = (category: string, type: string)=> {
-		var iconClassName = 'thing-icon thing-icon-' + type.replace(/:/g, '-');
-		var resourceElement = angular.element('<master-icon category="'+category+'" type="'+type+'"></master-icon>');
-		var resourceElement2 = $compile(resourceElement)($scope);
-		var size = 40;
-		var icon = L.divIcon({
-			className: iconClassName,
-			iconSize: new L.Point(size, size),
-			iconAnchor: new L.Point(size/2, size/2),
-			html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
-		});
+		var icon = masterMap.createMasterIconWithType(category + " " + type, $scope);
 
 		marker.setIcon(icon);
 	};

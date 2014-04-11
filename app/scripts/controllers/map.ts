@@ -248,7 +248,7 @@ angular.module('mobileMasterApp')
 //
 //					resourceElement2.appendTo(icon.getContainer());
 
-					var marker = new L.Marker(location, { icon: masterMap.createMasterIcon(ID, $scope), draggable: true });
+					var marker = new L.Marker(location, { icon: masterMap.createMasterIconWithId(ID, $scope), draggable: true });
 					//marker.bindPopup(thing.name, {closeButton: false});
 
 					markersThings[ID] = marker;

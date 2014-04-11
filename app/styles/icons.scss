@@ -10,14 +10,14 @@
 }
 
 // TODO chrome hack
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-	@font-face {
-	    font-family: 'bridgeiconsregular';
-		src: url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
-	    font-weight: normal;
-	    font-style: normal;
-	}
-}
+// @media screen and (-webkit-min-device-pixel-ratio:0) {
+// 	@font-face {
+// 	    font-family: 'bridgeiconsregular';
+// 		// src: url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
+// 	    font-weight: normal;
+// 	    font-style: normal;
+// 	}
+// }
 
 
 .info-number {
@@ -49,14 +49,17 @@ vertical-align: middle;
 		border-radius:50%;
  	}
 
-	& > div {
+	&.fonticon > div {
 		text-rendering:geometricPrecision;
 		font-family: 'bridgeiconsregular';
 		position: relative;
 		display: inline-block;
 		// line-height:0;
-		// font-size:2em;
-		// top:0.4em;
+		font-size:1.7em;
+		// top:0.2em;
+		vertical-align: bottom;
+
+		left:-0.2em;
 		// top:-2px;
 
 		.type {
@@ -70,43 +73,43 @@ vertical-align: middle;
 			position:absolute;
 			z-index:1;
 		}
-	}
 
-	.incident {
-		color:orange;
+		&.incident {
+			color:orange;
 
-		&:before {
-			content:"i";
-			color:red;
-		}
-	}
-
-	.resource {
-		color:green;
-
-		&.health-personnel, &.health-vehicle {
-			color:rgb(146,208,80);
+			&:before {
+				content:"i";
+				color:red;
+			}
 		}
 
-		&.fire-and-rescue-personnel, &.fire-and-rescue-vehicle {
-			color:red;
-		}
+		&.resource {
+			color:green;
 
-		&.police-personnel, &.police-vehicle {
-			color:rgb(0,201,255);
-		}
+			&.health {
+				color:rgb(146,208,80);
+			}
 
-		.type {
-			color:white;
-		}
+			&.fire {
+				color:red;
+			}
 
-		&.red-cross .type {
-			color:red;
-		}
+			&.police {
+				color:rgb(0,201,255);
+			}
 
-		&:before {
-			content:"r";
-			color:white;
+			.type {
+				color:white;
+			}
+
+			&.red.cross .type {
+				color:red;
+			}
+
+			&:before {
+				content:"r";
+				color:white;
+			}
 		}
 	}
 }
@@ -116,6 +119,17 @@ vertical-align: middle;
 	height: 40px;
 	line-height: 40px;
 	font-size: 16px;
+
+	&.fonticon > div {
+		font-size:40px;
+		left:0;
+
+		&.resource {
+			&:before {
+				top:1px;
+			}
+		}
+	}
 }
 
 #map {
@@ -210,4 +224,9 @@ master-icon.order {
 		background:url(../images/reticle-icon@2x.png) no-repeat center;
 		background-size:100% 100%;
 	}
+}
+
+.btn-lg master-icon.fonticon > div {
+	font-size:36px;
+	top:3px;
 }

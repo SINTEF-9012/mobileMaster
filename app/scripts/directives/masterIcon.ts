@@ -43,6 +43,13 @@ angular.module('mobileMasterApp')
 		return $('<span/>').addClass('glyphicon glyphicon-' + version);
 	}
 
+	function fonticon(category: string, type:string, typeChar: string): JQuery {
+		var t = $('<div class="type"></div>').text(typeChar),
+			c = $('<div></div>').text(categories[category].char)
+				.addClass(category + " "+type.replace(/[:\s]/g, " ")); //TODO bourrin
+		return c.append(t);
+	}
+
 	return {
 //		template: '''<div class="">?<div class="type"></div></div>',
 		restrict: 'E',
@@ -76,9 +83,23 @@ angular.module('mobileMasterApp')
 			} else if (/video/i.test(type)) {
 				element.append(glyphicon('film'));
 				element.addClass('glyph video');
-			} else if (/incident/i.test(type)) {
-				element.append(glyphicon('fire'));
-				element.addClass('glyph incident');
+			} else if (/(incident|resource)/i.test(type)) {
+
+				var cat = /incident/i.test(type) ? 'incident' : 'resource';
+				var infos = categories[cat];
+
+				var letter = '';
+				var ltype = type.toLowerCase();
+				for (var iconType in infos.types) {
+					if (ltype.indexOf(iconType) >= 0) {
+						letter = infos.types[iconType];
+						break;
+					} 	
+				}
+
+				element.append(fonticon(cat, ltype, letter));
+				element.addClass('fonticon');
+
 			} else if (/order/i.test(type)) {
 				element.addClass('order');
 			} else {
