@@ -14,13 +14,11 @@ angular.module('mobileMasterApp')
 	thingModel,
 	$timeout: ng.ITimeoutService,
 	$stateParams,
-	masterMap:Master.Map,
+	masterMap: Master.Map,
+	layout,
 	Knowledge) => {
 
 	var jwindow = $(window);
-	$rootScope.$on('$viewContentLoaded', ()=> {
-		jwindow.trigger('resize');
-	});
 
 	$scope.thingType = $stateParams.thingtype;
 
@@ -57,6 +55,7 @@ angular.module('mobileMasterApp')
 		if (!thing.location) {
 			return;
 		}
+		layout.showMap();
 		var location = new L.LatLng(thing.location.x, thing.location.y);
 		var pixels = masterMap.project(location);
 		pixels.y -= $(window).scrollTop() / 2;

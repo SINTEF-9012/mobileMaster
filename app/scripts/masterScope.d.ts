@@ -20,6 +20,8 @@ declare module MasterScope {
 			category: string;
 			type: string;
 		};
+
+		layoutautoscroll: boolean;
 	}
 
     interface Layer {

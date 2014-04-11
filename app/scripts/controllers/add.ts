@@ -9,7 +9,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	masterMap: Master.Map,
 	AddService: AddService
 	) => {
-
+	$rootScope.layoutautoscroll = false;
 	var position: L.LatLng;
 
 	if ($stateParams.lat && $stateParams.lng) {

@@ -17,6 +17,13 @@ angular.module('mobileMasterApp')
 	orderService: OrderService,
 	masterMap: Master.Map) {
 
+		// TODO find the root issue (maybe a bootstrap problem)
+		var jwindow = $(window);
+		$rootScope.$on('$viewContentLoaded', () => {
+			window.setImmediate(() => {
+				jwindow.trigger('resize');
+			});
+		});
 		var layer = masterMap.getLayerClass("shadow");
 		var ll = new layer("Order");
 		ll.addTo(masterMap);

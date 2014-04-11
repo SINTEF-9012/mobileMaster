@@ -24,9 +24,8 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 					controller: 'MapCtrl',
 				},
 				'bottom@': {
-					controller: 'MainCtrl',
-//					templateUrl: 'views/main.html'
-					templateUrl: 'views/table.html'
+//					controller: 'MainCtrl',
+					templateUrl: 'views/summary.html'
 				},
 				'slidder@': {
 					controller: 'SlidderCtrl',
@@ -38,7 +37,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 			url: 'table/:thingtype',
 			views: {
 				'bottom@': {
-					controller: 'MainCtrl',
+					controller: 'TableCtrl',
 					templateUrl: 'views/table.html'
 				}
 			}

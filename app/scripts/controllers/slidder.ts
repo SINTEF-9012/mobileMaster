@@ -4,13 +4,16 @@ angular.module('mobileMasterApp')
 	.controller('SlidderCtrl', (
 		$scope: any,
 		thingModel: ThingModelService,
-		$rootScope:MasterScope.Root
+		$rootScope: MasterScope.Root,
+		layout: any
 		) => {
 
 	var setImmediateId = 0;
 	var digestLock = false,
 		digestNeeded = false;
+
 	var jwindow = $(window);
+
 	var synchronizeScope = (scope) => {
 		if (!setImmediateId) {
 			setImmediateId = window.setImmediate(() => {
