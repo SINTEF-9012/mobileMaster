@@ -10,14 +10,18 @@
 }
 
 // TODO chrome hack
-// @media screen and (-webkit-min-device-pixel-ratio:0) {
-// 	@font-face {
-// 	    font-family: 'bridgeiconsregular';
-// 		// src: url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
-// 	    font-weight: normal;
-// 	    font-style: normal;
-// 	}
-// }
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	@font-face {
+	    font-family: 'bridgeiconsregular';
+		src: url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+
+	master-icon.fonticon > div {
+		top:0.2em;
+	}
+}
 
 
 .info-number {
@@ -83,14 +87,34 @@ vertical-align: middle;
 			}
 		}
 
-		&.resource {
+		&.risk {
+			color:white;
+
+			&:before {
+				content:"L";
+				color:red;
+			}
+		}
+
+		&.response {
+			&:before {
+				content:"r";
+				color:white;
+			}
+
+			.type {
+				color:white;
+			}
+		}
+
+		&.resource, &.response {
 			color:green;
 
-			&.health {
+			&.health, &.ambulances {
 				color:rgb(146,208,80);
 			}
 
-			&.fire {
+			&.fire, &.firetruck {
 				color:red;
 			}
 
@@ -105,7 +129,9 @@ vertical-align: middle;
 			&.red.cross .type {
 				color:red;
 			}
+		}
 
+		&.resource {
 			&:before {
 				content:"r";
 				color:white;
@@ -124,7 +150,7 @@ vertical-align: middle;
 		font-size:40px;
 		left:0;
 
-		&.resource {
+		&.resource, &.response {
 			&:before {
 				top:1px;
 			}

@@ -24,7 +24,7 @@ angular.module('mobileMasterApp')
 		tbottom.height(height);
 
 		$rootScope.layoutautoscroll = allowautoscroll && (scrollTop < 128 || scrollTop + tslidderheight > window.innerHeight - 128)
-		&& !$state.is('main.thing.add')
+		&& !$state.is('main.add')
 		&& !$state.is('main')
 		&& !$state.is('main.thing')
 		&& !$state.is('main.thing.order');

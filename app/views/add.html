@@ -19,7 +19,7 @@
 					<div id="{{key}}" class="panel-collapse collapse" ng-class="{in:key==add.category}">
 						<div class="panel-body">
 							<div class="btn-group-vertical btn-block" data-toggle="buttons">
-								<label class="btn btn-lg btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
+								<label class="btn btn btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
 									<input type="radio" name="options" id="{{icon}}">
 									<div class="pull-left">
 										<master-icon type="{{key}} {{icon}}"></master-icon>

@@ -56,11 +56,52 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		"resource": {
 			title: "Resources",
 			items: {
-				"fire and rescue vehicle": "Fire and rescue vehicle",
+				"fire and rescue vehicle": "Firetruck",
+				"health personnel": "Health personnel",
+				"health vehicle": "Health vehicle",
 				"police personnel": "Policeman",
 				"police vehicle": "Police vehicle",
+				"fire and rescue personnel": "Fireman",
 				"civil defence": "Civil defence",
-				"red cross": "Red cross"
+				"red cross": "Red cross",
+				"people aid": "People's aid"
+			}
+		},
+		"risk": {
+			title: "Risks",
+			items: {
+				"automobile risk": "Automobile Risk",
+				"bomb risk": "Bomb risk",
+				"chemical risk": "Chemical risk",
+				"explosion risk": "Explosion risk",
+				"fire risk": "Fire risk",
+				"generic risk": "Just a risk",
+				"rock slide risk": "Rock slide risk"
+			}
+		},
+		"response": {
+			title: "Responses",
+			items: {
+				"generic response": "Generic response",
+				"generic alignment": "Generic alignment",
+				"alignment police car": "Police car alignment",
+				"alignment firetruck": "Firetruck alignment",
+				"alignment ambulances": "Ambulances alignment",
+				"assembly area generic": "Assembly area",
+				"assembly area dead": "Assembly area dead",
+				"assembly area evacuated": "Assembly area evacuated",
+				"assembly area injured": "Assembly area injured",
+				"control point ": "Control point",
+				"exit point ": "Exit point",
+				"entry point": "Entry point",
+				"command post": "Command post",
+				"meeting point": "Meeting point",
+				"helicopter landing": "Helicopter landing",
+				"meeting point fire": "Meeting point fire personnel",
+				"meeting point health": "Meeting point health personnel",
+				"meeting point police": "Meeting point police personnel",
+				"roadblock": "RoadBlock",
+				"depot": "Depot"
 			}
 		}
 	};

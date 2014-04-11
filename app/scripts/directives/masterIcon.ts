@@ -28,8 +28,45 @@ angular.module('mobileMasterApp')
 				"police personnel": "H",
 				"police vehicle": "I",
 				"civil defence": "J",
-				"norwegian people aid": "K",
+				"people aid": "K",
 				"red cross": "K"
+			}
+		},
+		"risk": {
+			char: "2",
+			types: {
+				"generic": "",
+				"automobile": "M",
+				"bomb": "N",
+				"chemical": "O",
+				"explosion": "P",
+				"fire": "Q",
+				"rock": "R"
+			}
+		},
+		"response": {
+			char: "1",
+			types: {
+				"generic response": "",
+				"generic alignment": "j",
+				"alignment police car": "m",
+				"alignment firetruck": "l",
+				"alignment ambulances": "k",
+				"assembly area generic": "n",
+				"assembly area dead": "o",
+				"assembly area evacuated": "q",
+				"assembly area injured": "p",
+				"control point ": "s",
+				"exit point ": "t",
+				"entry point": "u",
+				"command post": "w",
+				"meeting point": "x",
+				"helicopter landing": "v",
+				"meeting point fire": "z",
+				"meeting point health": "y",
+				"meeting point police": "A",
+				"roadblock": "B",
+				"depot": "D"
 			}
 		}
 	}
@@ -80,9 +117,11 @@ angular.module('mobileMasterApp')
 			} else if (/video/i.test(type)) {
 				element.append(glyphicon('film'));
 				element.addClass('glyph video');
-			} else if (/(incident|resource)/i.test(type)) {
+			} else if (/(incident|resource|risk|response)/i.test(type)) {
 
-				var cat = /incident/i.test(type) ? 'incident' : 'resource';
+				var cat = /incident/i.test(type) ? 'incident' :
+					(/risk/i.test(type) ? 'risk' : 
+						(/response/i.test(type) ? 'response' : 'resource'));
 				var infos = categories[cat];
 
 				// TODO fix it in the adapter?
