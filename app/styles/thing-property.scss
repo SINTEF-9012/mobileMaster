@@ -2,13 +2,9 @@
 
 .thing-property-triage_status, .thing-property-status {
 	color:$gray-light;
-	.triage-light {
-		height:18px;
-		width:18px;
-		border-radius:9px;
-		float:left;
-		margin-right:7px;
-		border:1px solid black;
-		// box-shadow: 2px 2px 8px rgba(255,255,255,0.5) inset,-2px -2px 6px rgba(0,0,0,0.33) inset;
-	}
+}
+
+.master-table thing-property img {
+	max-width:64px;
+	max-height:64px;
 }

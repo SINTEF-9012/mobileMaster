@@ -30,7 +30,7 @@ angular.module('mobileMasterApp')
 						.ContainingA.Location("location",
 							new ThingModel.Location.LatLng(location.lat, location.lng));
 
-					thingModel.wharehouse.RegisterThing(t.Build(), false, true);
+					thingModel.warehouse.RegisterThing(t.Build(), false, true);
 					thingModel.client.Send();
 				}
 			};

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-.directive('masterIcon', function () {
+.directive('masterIcon', function ($rootScope: MasterScope.Root) {
 
 	var categories = {
 		"incident": {
@@ -34,16 +34,59 @@ angular.module('mobileMasterApp')
 		}
 	}
 
+	var light = $('<div class="triage-light"></div>');
+	function patientTriageIcon(color: string) : JQuery {
+		return light.clone().css('background', color.toLowerCase());
+	}
+
+	function glyphicon(version: string): JQuery {
+		return $('<span/>').addClass('glyphicon glyphicon-' + version);
+	}
+
 	return {
-		template: '<div class="">?<div class="type"></div></div>',
+//		template: '''<div class="">?<div class="type"></div></div>',
 		restrict: 'E',
-		link: function postLink(scope, element, attrs) {
+		link: function postLink(scope, element : JQuery, attrs) {
+
+			var type = 'default',
+				thing : MasterScope.Thing = null;
+			if (attrs.type) {
+				type = attrs.type;
+			} else if (attrs.thingid) {
+				thing = $rootScope.things[attrs.thingid];
+				type = thing.typeName;
+			}
+			console.log(type);
 
 			var wrapper = element.get(0).firstChild;
 
-			var categorie = categories[attrs.category.toLowerCase()];
 
-			if (categorie) {
+			if (/patient/i.test(type)) {
+				// triage_status
+				var color = (thing && thing.triage_status) ? thing.triage_status : '#FF4B00';
+				console.log(color, element, patientTriageIcon(color));
+				element.append(patientTriageIcon(color));
+				element.addClass('patient');
+			} else if (/picture/i.test(type)) {
+				element.append(glyphicon('picture'));
+				element.addClass('glyph picture');
+			} else if (/tweet/i.test(type)) {
+				element.append(glyphicon('comment'));
+				element.addClass('glyph tweet');
+			} else if (/video/i.test(type)) {
+				element.append(glyphicon('film'));
+				element.addClass('glyph video');
+			} else if (/incident/i.test(type)) {
+				element.append(glyphicon('fire'));
+				element.addClass('glyph incident');
+			} else if (/order/i.test(type)) {
+				element.addClass('order');
+			} else {
+				element.addClass('default-icon');
+				element.text(type[0]);
+			}
+
+/*			if (categorie) {
 				wrapper.firstChild.data = categorie.char;
 
 				var type = categorie.types[attrs.type.toLowerCase()];
@@ -52,14 +95,15 @@ angular.module('mobileMasterApp')
 					wrapper.lastChild.appendChild(document.createTextNode(type));
 				}
 			} else {
-				wrapper.firstChild.data = "?";
-			}
+//				wrapper.firstChild.data = "?";
+//				element.find('.type').text('?');
+			}*/
 
-			wrapper.setAttribute("class", attrs.category + " " + attrs.type.replace(/\s+/g, "-"));
+//			wrapper.setAttribute("class", attrs.category + " " + attrs.type.replace(/\s+/g, "-"));
 
-			if (!wrapper.lastChild.firstChild) {
-				wrapper.removeChild(wrapper.lastChild);
-			}
+//			if (!wrapper.lastChild.firstChild) {
+//				wrapper.removeChild(wrapper.lastChild);
+//			}
 		}
 	};
 });

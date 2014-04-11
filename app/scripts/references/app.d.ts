@@ -12,7 +12,7 @@ declare module Master {
 	disableInteractions(): Map;
 
 	getLayerClass(name: string): L.ILayer;
-
+	createMasterIcon(ID:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
   }
 
   export interface MapConfig {

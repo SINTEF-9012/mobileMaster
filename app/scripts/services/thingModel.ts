@@ -101,11 +101,11 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 	};
 
 	this.$get = ($rootScope: MasterScope.Root, Knowledge : KnowledgeModule) => {
-		this.wharehouse = new ThingModel.Wharehouse();
+		this.warehouse = new ThingModel.Warehouse();
 
 		$rootScope.types = {};
 
-		this.wharehouse.RegisterObserver({
+		this.warehouse.RegisterObserver({
 			New: (thing: ThingModel.Thing) => {
 
 				applyThingToScope($rootScope, Knowledge, thing);
@@ -166,16 +166,16 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			digestNeeded = false;
 		});
 
-		this.client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.wharehouse);
+		this.client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.warehouse);
 
 		this.RemoveThing = (id: string)=> {
-			var thing = this.wharehouse.GetThing(id);
-			this.wharehouse.RemoveThing(thing);
+			var thing = this.warehouse.GetThing(id);
+			this.warehouse.RemoveThing(thing);
 			this.client.Send();
 		};
 
 		this.EditThing = (id: string, values: { [property: string]: { value: string; type: string } }) => {
-			var thing = this.wharehouse.GetThing(id);
+			var thing = this.warehouse.GetThing(id);
 			if (!thing) {
 				return;
 			}
@@ -206,7 +206,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 				thing.SetProperty(prop);
 			});
 
-			this.wharehouse.NotifyThingUpdate(thing);
+			this.warehouse.NotifyThingUpdate(thing);
 			this.client.Send();
 		};
 

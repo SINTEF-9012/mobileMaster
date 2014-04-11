@@ -51,13 +51,13 @@ angular.module('mobileMasterApp').provider('orderService', function () {
 				var bthing = thing.Build();
 
 				_.each(relatedThings, (id: string)=> {
-					var t = thingModel.wharehouse.GetThing(id);
+					var t = thingModel.warehouse.GetThing(id);
 					if (t) {
 						bthing.Connect(t);
 					}
 				});
 
-				thingModel.wharehouse.RegisterThing(bthing, false, true);
+				thingModel.warehouse.RegisterThing(bthing, false, true);
 
 				thingModel.client.Send();
 

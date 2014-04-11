@@ -41,9 +41,38 @@ angular.module('mobileMasterApp')
 			this.layerClasses[name] = layer;
 		};
 
-		this.$get = function() {
-			var instance = <Master.Map> L.map(this.container, this.options);
 
+		this.$get = function($compile : ng.ICompileService) {
+			var instance = <Master.Map> L.map(this.container, this.options);
+			var masterIcon = L.Icon.extend({
+				options: {
+					iconSize: [40, 40],
+					iconAnchor: [20, 20],
+					className: 'leaflet-master-icon',
+					html: false
+				},
+
+				createIcon: function(oldIcon: Element) {
+
+					var div;
+
+					if (oldIcon && oldIcon.tagName === 'DIV') {
+						div = oldIcon;
+						oldIcon.removeChild(oldIcon.firstChild);
+					} else {
+						div = document.createElement('div');
+					}
+
+					var masterIconElement = $compile(angular.element('<master-icon />').attr('thingid', this.thingID));
+					masterIconElement(this.scope).appendTo(div);
+
+					this._setIconStyles(div, 'icon');
+
+					return div;
+				},
+
+				createShadow: () => null
+		});
 
 			instance.declareTileLayer = function(layer) {
 				layersTable[layer.name] = layer;
@@ -53,6 +82,13 @@ angular.module('mobileMasterApp')
 
 			instance.getTilesLayers = function() {
 				return layersList;
+			};
+
+			instance.createMasterIcon = (ID:string, scope: ng.IScope, options?: L.IconOptions) => {
+				var i = new masterIcon(options);
+				i.scope = scope;
+				i.thingID = ID;
+				return i;
 			};
 
 			instance.showTileLayer = function(name: string) {
@@ -122,4 +158,43 @@ angular.module('mobileMasterApp')
 
 			return instance;
 		};
-	});
+
+	this.declareLayerClass("shadow", L.Layer.extend({
+		initialize: function (title, icon) {
+			// save position of the layer or any options from the constructor
+			this._titleText = title;
+			this._icon = icon;
+		},
+
+		onAdd: function (map : L.Map) {
+			this._map = map;
+
+			// create a DOM element and put it into one of the map panse
+			this._el = L.DomUtil.create('div', 'shadow-layer');
+			this._title = L.DomUtil.create('h1', '');
+			this._title.appendChild(document.createTextNode(this._titleText));
+			// map.getPanes().overlayPane.appendChild(this._el);
+			this._el.appendChild(this._title);
+			if (this._icon) {
+				this._el.appendChild(this._icon);
+			}
+			map.getContainer().appendChild(this._el);
+
+			// add a viewreset event listener for updating layer's position, do the latter
+			// map.on('viewreset move', this._reset, this);
+			//this._reset();
+		},
+
+		onRemove: function () {
+			// remove layer's DOM elements and listeners
+			this._map.getContainer().removeChild(this._el);
+			this._map.off('viewreset move', this._reset, this);
+		},
+
+		_reset: function () {
+			// update layer's position
+			//L.DomUtil.setPosition(this._el, pos);
+			L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
+		}
+	}));
+});

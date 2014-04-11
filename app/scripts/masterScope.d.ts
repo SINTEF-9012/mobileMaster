@@ -54,6 +54,7 @@ declare module MasterScope {
 			y: number;
 			z: number;
 		};
+		triage_status?:string;
 	}
 }
 

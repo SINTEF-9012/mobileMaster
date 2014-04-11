@@ -61,6 +61,11 @@ angular.module('mobileMasterApp')
 						var img = $('<img/>').attr('src', proxy + 'thumbnail/' + value);
 						a.text('').append(img);
 					} 
+					else if (scope.thing.typeName === 'VideoType') {
+						a.addClass('btn btn-default btn-sm');
+						a.text(' Play');
+						a.prepend($('<span/>').addClass('glyphicon glyphicon-play'));
+					} 
 
 					element.append(a);
 				}

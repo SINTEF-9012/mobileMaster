@@ -9,7 +9,7 @@
 
 // Module configuration
 angular.module('mobileMasterApp')
-.config(function(masterMapProvider : Master.MapConfig) {
+.config((masterMapProvider : Master.MapConfig) => {
     masterMapProvider.setOptions({
         zoom: 13,
         center: new L.LatLng(59.911111,  	10.752778),
@@ -85,52 +85,13 @@ angular.module('mobileMasterApp')
     })
     .setDefaultTileLayer("MapBoxBlue");
 
-	masterMapProvider.declareLayerClass("shadow", L.Layer.extend({
-		initialize: function (title, icon) {
-			// save position of the layer or any options from the constructor
-			this._titleText = title;
-			this._icon = icon;
-		},
-
-		onAdd: function (map : L.Map) {
-			this._map = map;
-
-			// create a DOM element and put it into one of the map panse
-			this._el = L.DomUtil.create('div', 'shadow-layer');
-			this._title = L.DomUtil.create('h1', '');
-			this._title.appendChild(document.createTextNode(this._titleText));
-			// map.getPanes().overlayPane.appendChild(this._el);
-			this._el.appendChild(this._title);
-			if (this._icon) {
-				this._el.appendChild(this._icon);
-			}
-			map.getContainer().appendChild(this._el);
-
-			// add a viewreset event listener for updating layer's position, do the latter
-			// map.on('viewreset move', this._reset, this);
-			//this._reset();
-		},
-
-		onRemove: function () {
-			// remove layer's DOM elements and listeners
-			this._map.getContainer().removeChild(this._el);
-			this._map.off('viewreset move', this._reset, this);
-		},
-
-		_reset: function () {
-			// update layer's position
-			//L.DomUtil.setPosition(this._el, pos);
-			L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
-		}
-	}));
 })
 .controller('MapCtrl', function (
     $scope,
     masterMap : Master.Map,
     thingModel : any,
 	$state: any,
-    persistentLocalization : PersistentLocalization,
-    $compile : ng.ICompileService) {
+    persistentLocalization : PersistentLocalization) {
 
     persistentLocalization.bindToMasterMap(masterMap);
     persistentLocalization.restorePersistentLayer();
@@ -257,41 +218,37 @@ angular.module('mobileMasterApp')
 					}
 				} else {
 				    var type = thing.typeName;
-					var typeCss = type.replace(/[\s:]/g, '-');
+//					var typeCss = type.replace(/[\s:]/g, '-');
 
-					var iconClassName = 'thing-icon thing-icon-' + typeCss;
-				    var size = 40;
+//					var iconClassName = 'thing-icon thing-icon-' + typeCss;
+//				    var size = 40;
 
-					var triage = thing.triage_status;
-					if (triage) {
-						iconClassName += ' triage-' + triage;
-						size = 28;
-					}
+//					var triage = thing.triage_status;
+//					if (triage) {
+//						iconClassName += ' triage-' + triage;
+//						size = 28;
+//					}
 
 					// TODO small temporal hack
-					if (type === "ESS14:vehicle:wheeled") {
-						type = "master:resource:fire-and-rescue-vehicle";
-					}
+//					if (type === "ESS14:vehicle:wheeled") {
+//						type = "master:resource:fire-and-rescue-vehicle";
+//					}
 
-					var parsing = type.match(/^master\:([^:]+)\:([^:]+)$/);
-					if (parsing) {
-						var resourceElement = angular.element('<master-icon category="' +
-								parsing[1].replace(/-/g, ' ')
-								+ '" type="' +
-								parsing[2].replace(/-/g, ' ')
-								+'"></master-icon>');
-						var resourceElement2 = $compile(resourceElement)($scope);
-					} else {
-						iconClassName += " thing-icon-standard";
-					}
-					var icon = L.divIcon({
-						className: iconClassName,
-						iconSize: new L.Point(size, size),
-						iconAnchor: new L.Point(size/2, size/2),
-						html: resourceElement2 ?  '<master-icon>'+resourceElement2.html()+'</master-icon>' : ''
-					});
+//					var parsing = type.match(/^master\:([^:]+)\:([^:]+)$/);
+//					if (parsing) {
+//					} else {
+//						iconClassName += " thing-icon-standard";
+//					}
+//					var icon = L.divIcon({
+//						className: 'thing-map-icon',
+//						iconSize: new L.Point(size, size),
+//						iconAnchor: new L.Point(size/2, size/2)
+////						html: resourceElement2.get(0)
+//					});
+//
+//					resourceElement2.appendTo(icon.getContainer());
 
-					var marker = new L.Marker(location, { icon: icon, draggable: true });
+					var marker = new L.Marker(location, { icon: masterMap.createMasterIcon(ID, $scope), draggable: true });
 					//marker.bindPopup(thing.name, {closeButton: false});
 
 					markersThings[ID] = marker;
@@ -378,16 +335,6 @@ angular.module('mobileMasterApp')
         }
     }, true);
 
-    var resourceElement = angular.element('<master-icon category="resource" type="fire and rescue vehicle"></master-icon>');
-    var resourceElement2 = $compile(resourceElement)($scope);
-
-    console.log(resourceElement2.html());
-
-		var resourceIcon = L.divIcon({
-        className: "resource-icon",
-        html: '<master-icon>'+resourceElement2.html()+'</master-icon>'
-    });
-
 	var endTimeoutId = 0, drag = false;
 	masterMap.on('movestart zoomstart markerdragstart', e=> {
 		canChangePosition = false;
@@ -414,13 +361,11 @@ angular.module('mobileMasterApp')
 				}, 300);
 			}
 		}
-		// }, 222);
 	});
 
     masterMap.on('zoomstart markerdragstart', ()=> {
-
 	    $('body').addClass("disable-markers-animations");
-    }).on('zoomend markerdragend', function (e) {
+    }).on('zoomend markerdragend', (e) => {
 	    if (drag === false || e.type === "markerdragend") {
 		    $('body').removeClass("disable-markers-animations");
 	    }
