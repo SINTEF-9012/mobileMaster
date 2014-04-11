@@ -63,15 +63,12 @@ angular.module('mobileMasterApp')
 				thing = $rootScope.things[attrs.thingid];
 				type = thing.typeName;
 			}
-			console.log(type);
-
 			var wrapper = element.get(0).firstChild;
 
 
 			if (/patient/i.test(type)) {
 				// triage_status
 				var color = (thing && thing.triage_status) ? thing.triage_status : '#FF4B00';
-				console.log(color, element, patientTriageIcon(color));
 				element.append(patientTriageIcon(color));
 				element.addClass('patient');
 			} else if (/picture/i.test(type)) {
@@ -87,6 +84,11 @@ angular.module('mobileMasterApp')
 
 				var cat = /incident/i.test(type) ? 'incident' : 'resource';
 				var infos = categories[cat];
+
+				// TODO fix it in the adapter?
+				if (thing && type === 'incidentType') {
+					type = thing.name;
+				}
 
 				var letter = '';
 				var ltype = type.toLowerCase();

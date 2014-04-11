@@ -47,7 +47,6 @@ angular.module('mobileMasterApp')
 					}
 					scope.value = "";
 				} else if (key === 'status' || key === 'triage_status') {
-					console.log(key);
 					var light = $('<div class="triage-light"></div>');
 					light.css('background', value.toLowerCase());
 					element.prepend(light);
