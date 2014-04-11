@@ -43,7 +43,7 @@
         <div id="view-slidder" ui-view="slidder" autoscroll="false"></div>
     </div>
     <div id="layout-bottom">
-        <div id="view-bottom" ui-view="bottom" autoscroll="false"></div>
+        <div id="view-bottom" ui-view="bottom" autoscroll="layoutautoscroll"></div>
     </div>
     <div id="layout-popup">
         <div id="view-popup" ui-view="popup" autoscroll="false"></div>
@@ -78,11 +78,10 @@
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
-    <script src="scripts/layout.js"></script>
+    <script src="scripts/services/layout.js"></script>
     <script src="scripts/services/thingModel.js"></script>
     <script src="scripts/services/masterMap.js"></script>
     <script src="scripts/services/knowledge.js"></script>
-    <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/table.js"></script>
     <script src="scripts/controllers/compass.js"></script>
     <script src="scripts/controllers/slidder.js"></script>

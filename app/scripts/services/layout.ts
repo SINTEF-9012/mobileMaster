@@ -1,6 +1,8 @@
-/// <reference path="./../bower_components/DefinitelyTyped/jquery/jquery.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/jquery/jquery.d.ts" />
 
-(() => {
+angular.module('mobileMasterApp')
+	.service('layout', function ($rootScope: MasterScope.Root, $state) {
+
 	var jwindow = $(window);
 
 	var ttop = $("#layout-top"),
@@ -8,21 +10,47 @@
 		tslidder = $("#layout-slidder"),
 		statusbar = $('#status-bar');
 
+	var allowautoscroll = false;
 	function layout() {
-		var height = window.innerHeight - tslidder.height()-statusbar.height();
+
+		var tslidderheight = tslidder.height();
+		var height = window.innerHeight - tslidderheight-statusbar.height();
 		ttop.height(height);
 		$('#layout-supertop').height(height);
 		ttop.css('margin-top', statusbar.height());
-		tbottom.children('#view-bottom').height(Math.max(0, jwindow.scrollTop()));
+
+		var scrollTop = jwindow.scrollTop();
+		tbottom.children('#view-bottom').height(Math.max(0, scrollTop));
 		tbottom.height(height);
+
+		$rootScope.layoutautoscroll = allowautoscroll && (scrollTop < 128 || scrollTop + tslidderheight > window.innerHeight - 128)
+		&& !$state.is('main.thing.add')
+		&& !$state.is('main')
+		&& !$state.is('main.thing')
+		&& !$state.is('main.thing.order');
 	}
 
 	layout();
 
 	jwindow.on('resize', layout);
 
+	window.setTimeout(() => {
+		allowautoscroll = true;
+		$rootScope.$on('$viewContentLoaded', layout);
+	}, 500);
+
+	this.showMap = () => {
+		var scrollTop = jwindow.scrollTop();
+		var tslidderheight = tslidder.height();
+
+		if (scrollTop - tslidderheight > window.innerHeight - 128) {
+			jwindow.scrollTop(0);
+		}
+	};
+	
 	var startY = 0, currentY = 0, scrollTopStart = 0, diffA = 0, diffB = 0;
 
+	
 	function stopIt() {
 		document.removeEventListener('mousemove', documentMouseMoveListener);
 		document.removeEventListener('mouseup', stopIt);
@@ -135,4 +163,4 @@
 			window.setImmediate(()=> jwindow.scrollTop(scroll));
 		}
 	});*/
-})(); 
+}); 
