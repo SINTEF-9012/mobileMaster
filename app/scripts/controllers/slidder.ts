@@ -10,6 +10,7 @@ angular.module('mobileMasterApp')
 	var setImmediateId = 0;
 	var digestLock = false,
 		digestNeeded = false;
+	var jwindow = $(window);
 	var synchronizeScope = (scope) => {
 		if (!setImmediateId) {
 			setImmediateId = window.setImmediate(() => {
@@ -18,6 +19,7 @@ angular.module('mobileMasterApp')
 					digestNeeded = true;
 				} else {
 					scope.$digest();
+					jwindow.trigger('resize');
 				}
 			});
 		}

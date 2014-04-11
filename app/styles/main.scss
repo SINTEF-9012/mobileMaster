@@ -52,7 +52,7 @@ body:not(.standalone) #status-bar {display:none}
 // }
 
 #layout-slidder {
-    height:60px;
+    min-height:60px;
 }
 #map {
 	// position:relative;
@@ -491,3 +491,6 @@ padding: 1em;
     }
 }
 
+.filter {
+   padding:1em; 
+}
