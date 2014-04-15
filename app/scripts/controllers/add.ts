@@ -44,27 +44,27 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		"incident": {
 			title: "Incidents",
 			items: {
-				"generic": "Generic",
-				"automobile": "Car",
-				"bomb": "Bomb",
-				"chemical": "Chemical",
-				"explosion": "Boom",
-				"fire": "Fire",
-				"rock slide": "Rock slide"
+				"incident generic": "Generic",
+				"incident automobile": "Car",
+				"incident bomb": "Bomb",
+				"incident chemical": "Chemical",
+				"incident explosion": "Boom",
+				"incident fire": "Fire",
+				"incident rock slide": "Rock slide"
 			}
 		},
 		"resource": {
 			title: "Resources",
 			items: {
-				"fire and rescue vehicle": "Firetruck",
-				"health personnel": "Health personnel",
-				"health vehicle": "Health vehicle",
-				"police personnel": "Policeman",
-				"police vehicle": "Police vehicle",
-				"fire and rescue personnel": "Fireman",
-				"civil defence": "Civil defence",
-				"red cross": "Red cross",
-				"people aid": "People's aid"
+				"resource fire and rescue vehicle": "Firetruck",
+				"resource health personnel": "Health personnel",
+				"resource health vehicle": "Health vehicle",
+				"resource police personnel": "Policeman",
+				"resource police vehicle": "Police vehicle",
+				"resource fire and rescue personnel": "Fireman",
+				"resource civil defence": "Civil defence",
+				"resource red cross": "Red cross",
+				"resource people aid": "People's aid"
 			}
 		},
 		"risk": {
@@ -79,60 +79,75 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"rock slide risk": "Rock slide risk"
 			}
 		},
-		"response": {
+		"response_aligment": {
+			title: "Aligments",
+			items: {
+				"response generic alignment": "Generic alignment",
+				"response alignment police car": "Police car alignment",
+				"response alignment firetruck": "Firetruck alignment",
+				"response alignment ambulances": "Ambulances alignment"
+			}
+		},
+		"response_assembly_area": {
+			title: "Assembly areas",
+			items: {
+				"response assembly area generic": "Assembly area",
+				"response assembly area dead": "Assembly area dead",
+				"response assembly area evacuated": "Assembly area evacuated",
+				"response assembly area injured": "Assembly area injured",
+			}
+		},
+		"response_points": {
+			title: "Points",
+			items: {
+				"response meeting point fire": "Meeting point fire personnel",
+				"response meeting point health": "Meeting point health personnel",
+				"response meeting point police": "Meeting point police personnel",
+				"response control point ": "Control point",
+				"response exit point ": "Exit point",
+				"response entry point": "Entry point",
+				"response meeting point": "Meeting point"
+			}
+		},
+		"generic_response": {
 			title: "Responses",
 			items: {
 				"generic response": "Generic response",
-				"generic alignment": "Generic alignment",
-				"alignment police car": "Police car alignment",
-				"alignment firetruck": "Firetruck alignment",
-				"alignment ambulances": "Ambulances alignment",
-				"assembly area generic": "Assembly area",
-				"assembly area dead": "Assembly area dead",
-				"assembly area evacuated": "Assembly area evacuated",
-				"assembly area injured": "Assembly area injured",
-				"control point ": "Control point",
-				"exit point ": "Exit point",
-				"entry point": "Entry point",
-				"command post": "Command post",
-				"meeting point": "Meeting point",
-				"helicopter landing": "Helicopter landing",
-				"meeting point fire": "Meeting point fire personnel",
-				"meeting point health": "Meeting point health personnel",
-				"meeting point police": "Meeting point police personnel",
-				"roadblock": "RoadBlock",
-				"depot": "Depot"
+				"response command post": "Command post",
+				"response helicopter landing": "Helicopter landing",
+				"response roadblock": "RoadBlock",
+				"response depot": "Depot"
 			}
 		}
 	};
 
 
-	var updateIcon = (category: string, type: string)=> {
-		var icon = masterMap.createMasterIconWithType(category + " " + type, $scope);
+	var updateIcon = (type: string)=> {
+		var icon = masterMap.createMasterIconWithType(type, $scope);
 
 		marker.setIcon(icon);
 	};
 
-	$scope.activate = (category: string, type: string)=> {
+	$scope.activate = (category:string, type: string)=> {
 		$rootScope.add = {
 			category: category,
 			type: type
 		};
 
-		updateIcon(category, type);
+		updateIcon(type);
 	};
 
 	if (!$rootScope.add) {
-		$scope.activate('incident', 'generic');
+		$scope.activate('incident', 'incident generic');
 	} else {
-		updateIcon($rootScope.add.category, $rootScope.add.type);
+		updateIcon($rootScope.add.type);
 	}
 
 	marker.addTo(masterMap);
 
 	$scope.save = (goToMainAfter: boolean) => {
 		AddService.register(
-			"master:" + $rootScope.add.category + ":" + $rootScope.add.type,
+			"master:" + $rootScope.add.type,
 			marker.getLatLng());	
 		
 		if (goToMainAfter) {

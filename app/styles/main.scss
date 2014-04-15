@@ -360,7 +360,7 @@ left: 1em;
 } 
 
 .popup-content {
-    min-width:250px;
+    min-width:300px;
 width:auto;
 //background: $gray-lighter;
 background:rgba(255,255,255,0.95);
@@ -509,5 +509,5 @@ padding: 1em;
 }
 
 .filter {
-   padding:1em; 
+   min-height:10em;
 }
