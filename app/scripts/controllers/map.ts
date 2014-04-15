@@ -15,36 +15,12 @@ angular.module('mobileMasterApp')
         center: new L.LatLng(59.911111,  	10.752778),
         zoomControl: false,
         attributionControl: false,
-        maxZoom:18,
+//        maxZoom:20,
         keyboard:false
     })
     .declareTileLayer({
-        name: "MapBoxBlue",
-        iconPath:"layer_test.png",
-        create: () => {
-            return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
-                detectRetina:true,
-                maxNativeZoom:17
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "StatKart",
-        iconPath:"layer_test2.png",
-        create: () => {
-            return <L.TileLayer><any> L.tileLayer.wms("http://opencache.statkart.no/gatekeeper/gk/gk.open?SERVICE=WMS",{
-                name: 'topo2',
-                layers: 'topo2',
-                transparent: true,
-				detectRetina:true,
-                format: 'image/png',
-                version: '1.1.1'
-            });
-        }
-    })
-    .declareTileLayer({
         name: "MapBox",
-        iconPath:"layer_test3.png",
+        iconPath:"layer_mapbox.png",
         create: () => {
             return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
                 detectRetina:true,
@@ -53,8 +29,18 @@ angular.module('mobileMasterApp')
         }
     })
     .declareTileLayer({
+        name: "MapBoxBlue",
+        iconPath:"layer_mapbox_blue.png",
+        create: () => {
+            return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
+                detectRetina:true,
+                maxNativeZoom:17
+            });
+        }
+	})
+    .declareTileLayer({
         name: "MapBox Grey",
-        iconPath:"layer_test4.png",
+        iconPath:"layer_mapbox_grey.png",
         create: () => {
             return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
                 detectRetina:true,
@@ -63,8 +49,56 @@ angular.module('mobileMasterApp')
         }
     })
     .declareTileLayer({
+        name: "StatKart",
+        iconPath:"layer_no_topo2.png",
+        create: () => {
+			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
+				'layers=topo2&zoom={z}&x={x}&y={y}', {
+                subdomains: ['', '2', '3'],
+                detectRetina:true,
+                maxNativeZoom:18
+            });
+        }
+    })
+    .declareTileLayer({
+        name: "StatKart Graatone",
+        iconPath:"layer_no_topo2_graatone.png",
+        create: () => {
+			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
+				'layers=topo2graatone&zoom={z}&x={x}&y={y}', {
+                subdomains: ['', '2', '3'],
+                detectRetina:true,
+                maxNativeZoom:18
+            });
+        }
+    })
+    .declareTileLayer({
+        name: "StatKart sjo hovedkart",
+        iconPath:"layer_no_hovedkart2.png",
+        create: () => {
+			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
+				'layers=sjo_hovedkart2&zoom={z}&x={x}&y={y}', {
+                subdomains: ['', '2', '3'],
+                detectRetina:true,
+                maxNativeZoom:18
+            });
+        }
+    })
+    .declareTileLayer({
+        name: "StatKart gruunkart",
+        iconPath:"layer_no_gruunkart.png",
+        create: () => {
+			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
+				'layers=norges_grunnkart&zoom={z}&x={x}&y={y}', {
+                subdomains: ['', '2', '3'],
+                detectRetina:true,
+                maxNativeZoom:18
+            });
+        }
+    })
+    .declareTileLayer({
         name: "Watercolor",
-        iconPath:"layer_test5.png",
+        iconPath:"layer_stamen.png",
         create: () => {
             return new L.TileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
                 subdomains: ['a', 'b', 'c', 'd'],
@@ -76,14 +110,14 @@ angular.module('mobileMasterApp')
     })
     .declareTileLayer({
         name: "Bing",
-        iconPath:"layer_test6.png",
+        iconPath:"layer_bing.png",
         create: () => {
             return new L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9",{
              detectRetina:true
             });
         }
     })
-    .setDefaultTileLayer("MapBoxBlue");
+    .setDefaultTileLayer("MapBox");
 
 })
 .controller('MapCtrl', function (
