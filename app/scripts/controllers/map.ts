@@ -180,19 +180,6 @@ angular.module('mobileMasterApp')
 
 	var jbody = $(document.body);
 
-		masterMap.on('popupopen', () => {
-		jbody.addClass('popup-transition');
-	}).on('popupclose', () => {
-		jbody.removeClass('popup-transition');
-	});
-
-		var popup = L.popup({ closeButton: false, offset: L.point(0,-3) });
-		popup._thingID = null;
-		popup._initLayout();
-		popup._container.addEventListener('click', (e) => {
-			$state.go('main.thing', { id: popup._thingID });
-		});
-
     // Cluster for markers (best performances)
     /*var cluster = new L.MarkerClusterGroup({
         disableClusteringAtZoom: 14,
@@ -234,17 +221,6 @@ angular.module('mobileMasterApp')
 
 			    if (markersThings[ID]) {
 					markersThings[ID].setLatLng(location);
-
-					if (popup._thingID === ID) {
-						popup.setLatLng(location);
-
-						if (popup.getContent() !== thing.name) {
-							popup.setContent(thing.name);
-						}
-						popup.update();
-					}
-
-					//.getPopup()/*.setLatLng(location)*/.setContent(thing.name).update();
 
 				    if (update) {
 						//cluster.addLayer(markersThings[ID]);
@@ -320,17 +296,7 @@ angular.module('mobileMasterApp')
 							});
 						}
 
-					}).on('click dblclick', () => {
-						//window.setTimeout(() => {
-						var body = $(document.body);
-							body.addClass('disable-markers-animations');
-							popup.setLatLng(marker.getLatLng());
-							popup.setContent($scope.things[ID].name);
-							popup.openOn(masterMap);
-							popup._thingID = ID;
-							body.removeClass('disable-markers-animations');
-						//}, 200);
-					}).on('dblclick', () => {
+					}).on('click', () => {
 							$state.go('main.thing', { id: ID });
 						}).on('drag', (e) => {
 							var loc = marker.getLatLng();
@@ -352,9 +318,6 @@ angular.module('mobileMasterApp')
 				var scopeThing = $scope.things[ID];
 			    if (!scopeThing || !scopeThing.visible) {
 					masterMap.removeLayer(marker);
-					if (popup._thingID === ID) {
-						masterMap.closePopup();
-					}
 				    delete markersThings[ID];
 			    }
 		    });
