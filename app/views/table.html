@@ -19,7 +19,9 @@
 	<tbody>
 		<tr ng-repeat="thing in arrayThings|orderBy:sortExpression" >
 			<td>
-				<a ng-click="selectThing(thing)" class="badge">{{thing.ID}}</a>
+				<a ng-click="selectThing(thing)" class="thing-id-icon" title="{{thing.ID}}">
+					<img ng-src="{{mediaServer}}/identicon/{{thing.ID}}?style=miniwindow" alt="" class="identicon"/>
+				</a>
 			</td>
 			<td ng-repeat="property in types[thingType].tableProperties">
 				<thing-property thing="thing" property="property"/>

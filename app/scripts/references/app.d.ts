@@ -71,3 +71,13 @@ interface AddService {
 	// It's just a first version :)
 	register(typeName: string, location: L.LatLng);
 }
+
+interface SettingsService {
+	setThingModelUrl(url: string);
+	setClientName(name: string);
+	setMediaServerUrl(url: string);
+
+	getThingModelUrl(): string;
+	getClientName(): string;
+	getMediaServerUrl():string;
+}

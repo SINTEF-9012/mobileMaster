@@ -16,9 +16,12 @@ angular.module('mobileMasterApp')
 	$stateParams,
 	masterMap: Master.Map,
 	layout,
+	settingsService: SettingsService,
 	Knowledge) => {
 
 	var jwindow = $(window);
+
+	$scope.mediaServer = settingsService.getMediaServerUrl();
 
 	$scope.thingType = $stateParams.thingtype;
 

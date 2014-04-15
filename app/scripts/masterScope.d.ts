@@ -24,6 +24,13 @@ declare module MasterScope {
 		layoutautoscroll: boolean;
 	}
 
+	interface Settings extends ng.IScope {
+		thingModelUrl: string;
+		clientName: string;
+		mediaServerUrl: string;
+		reload: () => void;	
+	}
+
     interface Layer {
         name: string;
         iconPath: string;

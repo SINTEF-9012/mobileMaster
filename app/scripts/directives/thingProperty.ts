@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-  .directive('thingProperty', () => {
+  .directive('thingProperty', (settingsService: SettingsService) => {
     return {
       template: '<span>{{value}}</span>',
 		restrict: 'E',
@@ -16,10 +16,6 @@ angular.module('mobileMasterApp')
 			scope.key = key;
 
 			scope.$watch('thing[key]', (value) => {
-//				if (!value) {
-//					scope.value = '';
-//					return;
-//				}
 
 				element.addClass("thing-property-" + key);
 
@@ -52,7 +48,7 @@ angular.module('mobileMasterApp')
 					element.prepend(light);
 				} else if (type === 'String' && key === 'url') {
 					scope.value = '';
-					var proxy = 'http://10.218.148.89:8075/';
+					var proxy = settingsService.getMediaServerUrl();
 					var href =  proxy + value;
 					var a = $('<a target="_blank"/>').attr('href', href).text(value);
 

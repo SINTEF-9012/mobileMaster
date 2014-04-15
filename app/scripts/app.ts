@@ -20,8 +20,8 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 			url: "/",
 			views: {
 				'top@': {
-					templateUrl: 'views/map.html',
 					controller: 'MapCtrl',
+					template: '<div id="map"></div>'
 				},
 				'bottom@': {
 //					controller: 'MainCtrl',
@@ -116,7 +116,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 					templateUrl: 'views/ordertoolbar.html'
 				}
 			},
-			onExit: ()=> {
+			onExit: () => {
 				// TODO find a better way
 				$(document).trigger('main.thing.order.exit');
 			}
@@ -127,6 +127,15 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 				'popup@': {
 					controller: 'AddCtrl',
 					templateUrl: 'views/add.html'
+				}
+			}
+		})
+		.state('settings', {
+			url: '/settings',
+			views: {
+				'top@': {
+					controller: 'SettingsCtrl',
+					templateUrl: 'views/settings.html'
 				}
 			}
 		});

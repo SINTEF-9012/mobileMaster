@@ -2,19 +2,6 @@
 
 angular.module("mobileMasterApp").provider("thingModel", function () {
 
-	this.clientID = "mobileMaster - " + navigator.userAgent;
-	this.endPoint = "ws://"+window.location.hostname+":8082/";
-
-	this.setClientID = (clientID: string) => {
-		this.clientID = clientID;
-		return this;
-	};
-
-	this.setEndPoint = (endPoint: string)=> {
-		this.endPoint = endPoint;
-		return this;
-	};
-
 	var digestLock = false,
 		digestNeeded = false;
 
@@ -60,7 +47,8 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			$rootScope.types['Thing'] = {
 				type: type,
 				things: {},
-				visible:true,
+				visible: true,
+				count: 0,
 				tableProperties: Knowledge.getPropertiesOrder(type)
 			};
 		}
@@ -76,7 +64,12 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		};
 
 		_.each(thing.Properties, (property: ThingModel.Property) => {
-			scopeThing[property.Key] = (<any>property).Value;
+//			console.log((<any>property).Value);
+			if (property.Type != ThingModel.Type.DateTime) {
+				scopeThing[property.Key] = (<any>property).Value;
+			} else {
+				console.log((<any>property).Value);
+			}
 		});
 		scopeThing.name = name;
 
@@ -100,7 +93,9 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		scopeType.things[thing.ID] = scopeThing;
 	};
 
-	this.$get = ($rootScope: MasterScope.Root, Knowledge : KnowledgeModule) => {
+	this.$get = ($rootScope: MasterScope.Root,
+		Knowledge: KnowledgeModule,
+		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
 
 		$rootScope.types = {};
@@ -144,12 +139,14 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 					scopeType.Description = thingType.Description;
 				}
 
-				var things = $rootScope.types[thingType.Name] ? $rootScope.types[thingType.Name].things : {};
+				var things : { [name: string]: MasterScope.Thing }
+					= $rootScope.types[thingType.Name] ? $rootScope.types[thingType.Name].things : {};
 
 				$rootScope.types[thingType.Name] = {
 					type: scopeType,
-					visible:true,
+					visible: true,
 					things: things,
+					count: 0,
 					tableProperties: Knowledge.getPropertiesOrder(thingType)
 				};
 				synchronizeScope($rootScope);
@@ -166,7 +163,10 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			digestNeeded = false;
 		});
 
-		this.client = new ThingModel.WebSockets.Client(this.clientID, this.endPoint, this.warehouse);
+		var clientID = settingsService.getClientName() + " - " + navigator.userAgent;
+		var endPoint = settingsService.getThingModelUrl();
+
+		this.client = new ThingModel.WebSockets.Client(clientID, endPoint, this.warehouse);
 
 		this.RemoveThing = (id: string)=> {
 			var thing = this.warehouse.GetThing(id);

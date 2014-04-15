@@ -489,6 +489,23 @@ padding: 1em;
             text-transform: uppercase;
         }
     }
+
+    .thing-id-icon {
+        // white-space: normal;
+        // max-width:12em;
+        cursor:pointer;
+        // font-size:0.7em;
+        // position: relative;
+        // padding-left: 30px;
+        img.identicon {
+            // position:absolute;
+            width:21px;
+            height:21px;
+            // top:50%;
+            // margin-top:-10px;
+            // left:7px;
+        }
+    }
 }
 
 .filter {

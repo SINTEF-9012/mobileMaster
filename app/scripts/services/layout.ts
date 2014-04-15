@@ -12,7 +12,9 @@ angular.module('mobileMasterApp')
 
 	var allowautoscroll = false;
 	function layout() {
-
+		if ($state.is('settings')) {
+			return;
+		}
 		var tslidderheight = tslidder.height();
 		var height = window.innerHeight - tslidderheight-statusbar.height();
 		ttop.height(height);
@@ -47,7 +49,13 @@ angular.module('mobileMasterApp')
 			jwindow.scrollTop(0);
 		}
 	};
-	
+
+	this.disable = () => {
+		ttop.height('auto');
+		tbottom.height('auto');
+		jwindow.scrollTop(0);
+	};
+
 	var startY = 0, currentY = 0, scrollTopStart = 0, diffA = 0, diffB = 0;
 
 	
