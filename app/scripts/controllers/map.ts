@@ -139,6 +139,14 @@ angular.module('mobileMasterApp')
 		masterMap.invalidateSize({});
 	});
 
+	var osm2 = new /*L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9", {
+		detectRetina: true
+	});*/ L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.i0afp8bh/{z}/{x}/{y}.png', {
+                detectRetina:true,
+                maxNativeZoom:17
+            });
+	var miniMap = new L.Control.RTSMiniMap(osm2, { toggleDisplay: false }).addTo(masterMap);
+
 	var jwindow = $(window);
 
     // Manage the 3 fingers drag and drop
@@ -206,6 +214,7 @@ angular.module('mobileMasterApp')
 			cpt = 0;
 			//cluster.clearLayers();	
         }
+		miniMap.clear();
 
 	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
 
@@ -218,6 +227,7 @@ angular.module('mobileMasterApp')
 					return;
 				}
 			    var location = new L.LatLng(loc.x, loc.y);
+				miniMap.addPoint(location, { r: 255 });
 
 			    if (markersThings[ID]) {
 					markersThings[ID].setLatLng(location);
@@ -320,7 +330,8 @@ angular.module('mobileMasterApp')
 					masterMap.removeLayer(marker);
 				    delete markersThings[ID];
 			    }
-		    });
+			});
+	    miniMap.render();
     }
 
     $scope.$watch('things', function() {

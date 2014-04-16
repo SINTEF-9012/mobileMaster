@@ -21,13 +21,16 @@
     "DefinitelyTyped": "*",
     "setimmediate": "~1.0.1",
     "angular-animate": "~1.2.14",
-    "slick-carousel": "~1.3.2"
+    "slick-carousel": "~1.3.2",
+    "Leaflet.CanvasLayer": "yellowiscool/Leaflet.CanvasLayer#gh-pages",
+    "Leaflet-MiniMap": "SINTEF-9012/Leaflet-MiniMap#master"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
     "angular-scenario": "~1.2.0"
   },
   "resolutions": {
-    "jquery": "~2.1.0"
+    "jquery": "~2.1.0",
+    "Leaflet-MiniMap": "~1.0.0"
   }
 }
