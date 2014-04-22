@@ -49,12 +49,14 @@ angular.module('mobileMasterApp')
 				} else if (type === 'String' && key === 'url') {
 					scope.value = '';
 					var proxy = settingsService.getMediaServerUrl();
-					var href =  proxy + value;
+					var href =  proxy +'/'+ value;
 					var a = $('<a target="_blank"/>').attr('href', href).text(value);
 
-					if (scope.thing.typeName === 'PictureType') {
-						var img = $('<img/>').attr('src', proxy + 'thumbnail/' + value);
-						a.text('').append(img);
+					if (scope.thing.typeName === 'PictureType' || scope.thing.typeName === 'master:picture') {
+						if (value) {
+							var img = $('<img/>').attr('src', proxy + '/thumbnail/' + value);
+							a.text('').append(img);
+						}
 					} 
 					else if (scope.thing.typeName === 'VideoType') {
 						a.addClass('btn btn-default btn-sm');

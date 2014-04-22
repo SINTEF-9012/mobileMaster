@@ -5,7 +5,10 @@ angular.module('mobileMasterApp')
 		$scope: any,
 		thingModel: ThingModelService,
 		$rootScope: MasterScope.Root,
-		layout: any
+		$upload: any,
+		layout: any,
+		settingsService: SettingsService,
+		$state
 		) => {
 
 	var setImmediateId = 0;
@@ -73,4 +76,19 @@ angular.module('mobileMasterApp')
 		Define: (thingType: ThingModel.ThingType) => {
 		}
 	});
+
+	$scope.onCapture = ($files) => {
+		var c = $('#camera-file-upload');
+		c.replaceWith(c.clone(true));
+
+		var up = $upload.upload({
+			url: settingsService.getMediaServerUrl() + '/upload',
+			file: $files
+		}).progress((e) => {
+			console.log(100.0 * (e.loaded / e.total));
+		}).success((data) => {
+			console.log(data);
+			$state.go('main.camera', data);
+		});
+	};
 });

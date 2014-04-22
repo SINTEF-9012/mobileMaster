@@ -511,3 +511,25 @@ padding: 1em;
 .filter {
    min-height:10em;
 }
+
+.leaflet-control-minimap.leaflet-control-minimap-rts {
+    margin-right: 0;
+    margin-bottom:0;
+    box-shadow: 0 0px 3px rgba(0,0,0,0.65);
+    border-radius: 3px 0 0 0;
+}
+
+.master-camera {
+    position:relative;
+    overflow:hidden;
+
+    input {
+        position:absolute;
+        top:0;
+        right:0;
+        margin:0;
+        padding:0;
+        cursor:pointer;
+        opacity:0;
+    }
+}

@@ -7,7 +7,7 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
+angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     if (!window.navigator.device) {
@@ -127,6 +127,15 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate'])
 				'popup@': {
 					controller: 'AddCtrl',
 					templateUrl: 'views/add.html'
+				}
+			}
+		})
+		.state('main.camera', {
+			url: 'camera/:hash/:extension',
+			views: {
+				'popup@': {
+					controller: 'CameraCtrl',
+					templateUrl: 'views/camera.html'
 				}
 			}
 		})

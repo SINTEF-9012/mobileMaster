@@ -25,6 +25,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 		$scope.thing = thing;
 
+		return;//TODO what should we do here ?
 		var location = new L.LatLng(thing.location.x, thing.location.y);
 		var pixels = masterMap.project(location);
 		pixels.y -= $(window).scrollTop() / 2;

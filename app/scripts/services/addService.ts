@@ -17,7 +17,7 @@ angular.module('mobileMasterApp')
 
 		this.$get = (thingModel: ThingModelService, UUID: UUIDService) => {
 			return {
-				register: (typeName: string, location: L.LatLng) => {
+				register: (typeName: string, location: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any) => {
 					var type = types[typeName],
 						t: ThingModel.ThingPropertyBuilder,
 						id = UUID.generate();
@@ -28,7 +28,11 @@ angular.module('mobileMasterApp')
 
 					t = ThingModel.BuildANewThing.As(type).IdentifiedBy(id)
 						.ContainingA.Location("location",
-							new ThingModel.Location.LatLng(location.lat, location.lng));
+						new ThingModel.Location.LatLng(location.lat, location.lng));
+
+					if (fillingCallback) {
+						fillingCallback(t);
+					}
 
 					thingModel.warehouse.RegisterThing(t.Build(), false, true);
 					thingModel.client.Send();
