@@ -22,17 +22,23 @@
 				<a ng-click="selectThing(thing)" class="thing-id-icon" title="{{thing.ID}}">
 					<img ng-src="{{mediaServer}}/identicon/{{thing.ID}}?style=miniwindow" alt="" class="identicon"/>
 				</a>
+				<div class="btn-group btn-group-xs">
+					<a class="btn btn-default" ng-click="selectThing(thing)">
+						<span class="glyphicon glyphicon-eye-open"></span>
+					</a>
+					<a class="btn btn-default"
+						ui-sref="main.thing.order({id:thing.ID})">
+						<span class="glyphicon glyphicon-screenshot"></span>
+					</a>
+					<a  class="btn btn-default"
+						ui-sref="main.thing.edit({id:thing.ID})">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+				</div>
 			</td>
 			<td ng-repeat="property in types[thingType].tableProperties">
 				<thing-property thing="thing" property="property"/>
 			</td>
-<!-- 			<td>
-				<div class="btn-group pull-right">
-					<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>
-					<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-screenshot"></span></button>
-					<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span></button>
-				</div>
-			</td>	
- -->		</tr>
+		</tr>
 	</tbody>
 </table>
