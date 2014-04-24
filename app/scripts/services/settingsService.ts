@@ -1,11 +1,33 @@
 angular.module('mobileMasterApp')
+	.config(($sceDelegateProvider: ng.ISCEDelegateProvider) => {
+	  if (window.localStorage && window.localStorage.hasOwnProperty('mediaServerUrl')) {
+		  $sceDelegateProvider.resourceUrlWhitelist([
+			  'self', window.localStorage.getItem('mediaServerUrl') + '/**']);
+	  } else {
+		  $sceDelegateProvider.resourceUrlWhitelist([
+			  'self', (
+			window.hasOwnProperty('defaultMediaServerUrl') ?
+				window['defaultMediaServerUrl'] : 
+			"http://" + window.location.hostname + ":8075/")]);
+	  }
+	})
 	.service('settingsService', function() {
 
-		var ls : any = window.localStorage ? window.localStorage : {};
+		var ls: any = window.localStorage ? window.localStorage : {};
 
-		var thingModelUrl = ls.thingModelUrl ? ls.thingModelUrl : "ws://" + window.location.hostname + ":8082/";
-		var clientName = ls.clientName ? ls.clientName : "mobileMaster";
-		var mediaServerUrl = ls.mediaServerUrl ? ls.mediaServerUrl : "http://" + window.location.hostname + ":8075/";
+		var thingModelUrl = ls.thingModelUrl ? ls.thingModelUrl : (
+			window.hasOwnProperty('defaultThingModelUrl') ?
+				window['defaultThingModelUrl'] : 
+			"ws://" + window.location.hostname + ":8083/");
+
+		var clientName = ls.clientName ? ls.clientName : (
+			window.hasOwnProperty('defaultClientName') ?
+				window['defaultClientName'] : "mobileMaster");
+
+		var mediaServerUrl = ls.mediaServerUrl ? ls.mediaServerUrl : (
+			window.hasOwnProperty('defaultMediaServerUrl') ?
+				window['defaultMediaServerUrl'] : 
+			"http://" + window.location.hostname + ":8075/");
 
 		this.setThingModelUrl = (url:string) => {
 			thingModelUrl = url;
