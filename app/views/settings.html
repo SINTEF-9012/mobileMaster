@@ -1,37 +1,3 @@
-<div class="container container-fluid">
-<div class="row">
-	<h1 class="col-xs-12">Settings</h1>
-</div>
-<form class="form-horizontal" role="form" ng-submit="reload()">
-	<h3><img src="images/thingmodel.png" alt="" width="38px" height="38px"/> ThingModel</h3>
-	<div class="form-group">
-		<label for="inputThingModelUrl" class="col-sm-3 control-label">Server URL</label>
-		<div class="col-sm-9">
-			<input type="text" class="form-control" id="inputThingModelUrl" ng-model="thingModelUrl" required/>
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="inputClientName" class="col-sm-3 control-label">Client Name</label>
-		<div class="col-sm-9">
-			<input type="text" class="form-control" id="inputClientName" ng-model="clientName" required/>
-		</div>
-	</div>
-	<h3><span class="glyphicon glyphicon-cloud"></span> Media server</h3>
-	<div class="form-group">
-		<label for="inputMediaServerUrl" class="col-sm-3 control-label">URL</label>
-		<div class="col-sm-9">
-			<input type="url" class="form-control" id="inputMediaServerUrl" ng-model="mediaServerUrl" />
-		</div>
-	</div>
-	<br/>
-<div class="row">
-	<button type="submit" class="col-xs-7 col-xs-push-4 col-sm-5 col-sm-push-6 btn btn-lg btn-primary" ng-click"reload()">All right</button>
-</div>
-</form>
-	
-</div>
-
-
 <style type="text/css">
 body {
 	height: auto;
@@ -43,3 +9,39 @@ body {
 	background: none;
 }
 </style>
+
+<div class="container container-fluid">
+	<div class="row">
+		<h1 class="col-xs-12">Settings</h1>
+	</div>
+	<form class="form-horizontal" role="form" ng-submit="reload()">
+		<h3>
+			<img src="images/thingmodel.png" alt="" width="38px" height="38px"/> ThingModel
+		</h3>
+		<div class="form-group">
+			<label for="inputThingModelUrl" class="col-sm-3 control-label">Server URL</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="inputThingModelUrl" ng-model="thingModelUrl" required/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputClientName" class="col-sm-3 control-label">Client Name</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="inputClientName" ng-model="clientName" required/>
+			</div>
+		</div>
+		<h3>
+			<span class="glyphicon glyphicon-cloud"></span> Media server
+		</h3>
+		<div class="form-group">
+			<label for="inputMediaServerUrl" class="col-sm-3 control-label">URL</label>
+			<div class="col-sm-9">
+				<input type="url" class="form-control" id="inputMediaServerUrl" ng-model="mediaServerUrl" />
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<input type="submit" class="col-xs-7 col-xs-push-4 col-sm-5 col-sm-push-6 btn btn-lg btn-primary" ng-click="reload()" value="All right"/>
+		</div>
+	</form>
+</div>
