@@ -541,3 +541,12 @@ FileETag None
 # <IfModule mod_headers.c>
 #    Header set Connection Keep-Alive
 # </IfModule>
+
+<ifModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !index
+    RewriteCond %{REQUEST_URI} !.*\.(css|js|html|png|jpg|jpeg|gif|webp|svg|eot|ttf|woff)
+    RewriteRule (.*) index.html [L]
+</ifModule>
