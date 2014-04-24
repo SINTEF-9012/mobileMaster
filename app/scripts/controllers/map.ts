@@ -22,7 +22,7 @@ angular.module('mobileMasterApp')
         name: "MapBox",
         iconPath:"layer_mapbox.png",
         create: () => {
-            return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
+            return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
             });
@@ -32,7 +32,7 @@ angular.module('mobileMasterApp')
         name: "MapBoxBlue",
         iconPath:"layer_mapbox_blue.png",
         create: () => {
-            return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
+            return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
             });
@@ -42,7 +42,7 @@ angular.module('mobileMasterApp')
         name: "MapBox Grey",
         iconPath:"layer_mapbox_grey.png",
         create: () => {
-            return new L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
+            return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
             });
@@ -141,7 +141,7 @@ angular.module('mobileMasterApp')
 
 	var osm2 = new /*L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9", {
 		detectRetina: true
-	});*/ L.TileLayer('http://{s}.tiles.mapbox.com/v3/apultier.i0afp8bh/{z}/{x}/{y}.png', {
+	});*/ L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.i0afp8bh/{z}/{x}/{y}.png', {
                 detectRetina:true,
                 maxNativeZoom:17
             });
