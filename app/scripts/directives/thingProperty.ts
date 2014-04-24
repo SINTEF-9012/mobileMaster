@@ -50,15 +50,15 @@ angular.module('mobileMasterApp')
 					scope.value = '';
 					var proxy = settingsService.getMediaServerUrl();
 					var href =  proxy +'/'+ value;
-					var a = $('<a target="_blank"/>').attr('href', href).text(value);
+					var a = $('<a target="_blank" class="btn btn-default"/>').attr('href', href).text('Open');
 
 					if (scope.thing.typeName === 'PictureType' || scope.thing.typeName === 'master:picture') {
 						if (value) {
-							var img = $('<img/>').attr('src', proxy + '/thumbnail/' + value);
+							var img = $('<img class="img-thumbnail"/>').attr('src', proxy + '/thumbnail/' + value);
 							a.text('').append(img);
 						}
 					} 
-					else if (scope.thing.typeName === 'VideoType') {
+					else if (scope.thing.typeName === 'VideoType'|| scope.thing.typeName === 'master:video') {
 						a.addClass('btn btn-default btn-sm');
 						a.text(' Play');
 						a.prepend($('<span/>').addClass('glyphicon glyphicon-play'));
