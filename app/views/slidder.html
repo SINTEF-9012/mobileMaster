@@ -1,24 +1,23 @@
 <div class="infos">
-<!-- Tout va bien à Oslo -->
-<!-- 				<master-icon category="incident" type="automobile"></master-icon>
-<master-icon category="incident" type=""></master-icon>
-<master-icon category="incident" type="bomb"></master-icon>
--->
-<button type="button" class="btn btn-primary" ui-sref="main">Summary</button>
-<div class="btn-group">
-<button type="button" class="btn btn-default info-number {{types[info.fullName].visible ? '' : 'filtered'}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="main.table({thingtype:key})">
-	<master-icon type="{{info.fullName}}"></master-icon>
-	{{info.count}}
-</button>
-</div>	
-<div class="btn-group pull-right">
-	<!-- <button type="button" class="btn btn-sm btn-info" ui-sref="main.compass">Lapin</button> -->
-	<button type="button" class="btn btn-primary" ui-sref="main.layers">Layers</button>
-	<button type="button" class="btn btn-primary" ui-sref="main.filters">Filters</button>
-	<div class="master-camera btn btn-primary">
-		<span class=" glyphicon glyphicon-camera"></span>
-		<input class="btn btn-primary btn-sm" type="file" accept="image/*,video/*,audio/*" capture ng-file-select="onCapture($files)" id="camera-file-upload"/>
+	<div class="col-sm-8 col-md-9">
+		<button type="button" class="btn btn-primary" ui-sref="main">Summary</button>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default info-number {{types[info.fullName].visible ? '' : 'filtered'}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="main.table({thingtype:key})">
+				<master-icon type="{{info.fullName}}"></master-icon>
+				{{info.count}}
+			</button>
+		</div>	
 	</div>
-	<button type="button" class="btn btn-primary" ui-sref="settings"><span class=" glyphicon glyphicon-wrench"></span></button>
+	<div class="col-sm-4 col-md-3">
+		<div class="btn-group pull-right">
+			<button type="button" class="btn btn-primary" ui-sref="main.layers">Layers</button>
+			<button type="button" class="btn btn-primary" ui-sref="main.filters">Filters</button>
+			<div class="master-camera btn btn-primary">
+				<span class=" glyphicon glyphicon-camera"></span>
+				<input class="btn btn-primary btn-sm" type="file" accept="image/*,video/*,audio/*" capture ng-file-select="onCapture($files)" id="camera-file-upload"/>
+			</div>
+			<button type="button" class="btn btn-primary" ui-sref="settings"><span class=" glyphicon glyphicon-wrench"></span></button>
+		</div>
+		<div class="clearfix"></div>
+	</div>
 </div>
-<div class="clearfix"></div>
