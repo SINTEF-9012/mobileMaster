@@ -7,4 +7,8 @@
 .master-table thing-property img {
 	max-width:64px;
 	max-height:64px;
+
+	&.img-thumbnail {
+		padding:0px;
+	}
 }
