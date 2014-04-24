@@ -9,7 +9,13 @@
 	<div class="form-group row" ng-repeat="property in properties">
 		<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.name || property.key}}</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" id="input{{property.key}}" placeholder="{{property.realtimeValue}}" ng-model="property.newValue"/>
+			<input type="text" class="form-control" id="input{{property.key}}"name="input{{property.key}}" ng-model="property.newValue"/>
+			<span class="help-block">
+				<a class="btn btn-default btn-xs" ng-click="property.newValue=property.realtimeValue">
+					<span class="glyphicon glyphicon-chevron-up"></span>
+				</a>
+				{{property.realtimeValue}}
+			</span>
 		</div>
 	</div>
 	<input type="submit" style="visibility:hidden" value="Save" />
