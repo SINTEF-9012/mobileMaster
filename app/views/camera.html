@@ -1,11 +1,23 @@
 <div class="popup-content">
 <button type="button" class="close" ui-sref="^" aria-hidden="true">&times;</button>
-<h1>Picture publication</h1>
+<h1 ng-show="isPicture">Picture publication</h1>
+<h1 ng-show="isVideo">Video publication</h1>
+<h1 ng-show="!isVideo&amp;&amp;!isPicture">Document publication</h1>
 <hr/>
-<p>	<img src="{{url}}" alt="" class="img-thumbnail" id="camera-thumbnail"/></p>
+<p ng-show="isPicture">
+	<img src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail"/>
+</p>
+<p ng-show="isVideo">
+	<video controls="controls" loop="loop" preload="auto" src="{{url}}">
+		<a target="_blank" href="{{url}}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-play"></span> Play</a>
+	</video>
+</p>
+<p ng-show="!isVideo&amp;&amp;!isPicture">
+	<a target="_blank" href="{{url}}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-file"></span> Open the document</a>
+</p>
 <form role="form" ng-submit="publish()" >
 	<div class="form-group">
-		<textarea ng-model="description" autofocus placeholder="Description" class="form-control" rows="3"></textarea>
+		<textarea ng-model="description" placeholder="Description" class="form-control" rows="3"></textarea>
 <span class="help-block">You can change the position of the picture on the map.</span>
 	</div>
 
