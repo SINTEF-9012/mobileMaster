@@ -1,0 +1,132 @@
+<div class="container container-fluid">
+	<form role="form" ng-submit="publish()" >
+		<div class="form-group">
+			<label for="summaryTitle">Title</label>
+			<input type="text" class="form-control input-lg" id="summaryTitle" placeholder="All is fine and you are drunk" ng-model="title">
+		</div>
+		<div class="form-group">
+			<label for="summaryContent">Content</label>
+			<textarea id="summaryContent" class="form-control" rows="16" ng-model="markdownSummary"></textarea>
+			<span class="help-block"><em>You can use the <a href ng-init="mdSyntax=false" ng-click="mdSyntax = !mdSyntax">Markdown syntax.<a></em></span>
+		</div>
+
+		<a ui-sref="^" class="btn btn-warning">Cancel</a>
+		<input type="submit" class="btn btn-primary" id="camera-submit" value="Publish"/>
+
+		<div class="row" ng-show="mdSyntax">
+			<h2>Markdown</h2>
+			<h4>Paragraphs</h4>
+			<div class="col-sm-6">
+				<pre>Markdown is a plain text formatting syntax.
+
+You can also write HTML code if you prefer.</pre>
+			</div>
+			<div class="col-sm-6">
+				<p>Markdown is a plain text formatting syntax.</p>
+				<p>You can also write HTML code if you prefer.</p>
+			</div>
+		</div>
+
+
+		<div class="row" ng-show="mdSyntax">
+
+			<h4>Lists</h4>
+			<div class="col-sm-6">
+				<pre>* Red
+* Green
+* Blue
+
+1. One
+1. Two
+41. Tree
+</pre>
+			</div>
+			<div class="col-sm-6">
+				<ul>
+					<li>Red</li>
+					<li>Green</li>
+					<li>Blue</li>
+				</ul>
+				<ol>
+					<li>One</li>
+					<li>Two</li>
+					<li>Tree</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row" ng-show="mdSyntax">
+
+			<h4>Styling text</h4>
+			<div class="col-sm-6">
+				<pre>*this text will be italic*
+**this text will be bold**
+</pre>
+			</div>
+			<div class="col-sm-6">
+				<em>this text will be italic</em>
+				<br>
+				<strong>this text will be bold</strong>
+			</div>
+		</div>
+
+		<div class="row" ng-show="mdSyntax">
+			<h4>Links</h4>
+			<div class="col-sm-6">
+				<pre>http://perdu.com
+or
+[Perdu](http://perdu.com)</pre>
+			</div>
+			<div class="col-sm-6">
+				<a href="http://perdu.com">http://perdu.com</a><br/>
+				or<br/>
+				<a href="http://perdu.com">Perdu</a>
+			</div>
+		</div>
+
+		<div class="row" ng-show="mdSyntax">
+
+			<h4>Blockquotes</h4>
+			<div class="col-sm-6">
+				<pre>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+</pre>
+			</div>
+			<div class="col-sm-6">
+			<blockquote> <p>This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+ consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.</p></blockquote>
+			</div>
+		</div>
+		<div class="row" ng-show="mdSyntax">
+
+			<h4>Tables</h4>
+			<div class="col-sm-6">
+				<pre>First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+</pre>
+			</div>
+			<div class="col-sm-6">
+			<table class="table table-striped">
+<thead>
+<tr>
+<th>First Header</th>
+<th>Second Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+</tbody>
+</table>	
+			</div>
+		</div>
+	</form>
+</div>
