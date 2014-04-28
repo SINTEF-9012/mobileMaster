@@ -55,7 +55,7 @@ angular.module('mobileMasterApp')
 
 	thingModel.warehouse.RegisterObserver({
 		New: (thing: ThingModel.Thing) => {
-			if (thing.Type) {
+			if (thing.Type && thing.Type.Name !== 'master:wiki') {
 				registerNew(thing.Type.Name);
 			}
 		},

@@ -24,13 +24,22 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 					template: '<div id="map"></div>'
 				},
 				'bottom@': {
-//					controller: 'MainCtrl',
+					controller: 'SummaryCtrl',
 					templateUrl: 'views/summary.html'
 				},
 				'slidder@': {
 					controller: 'SlidderCtrl',
 					templateUrl: 'views/slidder.html'
 				}
+			}
+		})
+		.state('main.editsummary', {
+			url: 'editsummary',
+			views: {
+				'bottom@': {
+					controller: 'SummaryCtrl',
+					templateUrl: 'views/editsummary.html'
+				}					
 			}
 		})
 		.state('main.table', {
@@ -89,7 +98,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 		},
 		onExit: ()=> $('#layout-popup').hide()*/
 		})
-		.state('main.thing.edit', {
+		.state('main.thing.edit', {	
 			url: 'thing/:id/edit',
 			views: {
 				'popup@': false,

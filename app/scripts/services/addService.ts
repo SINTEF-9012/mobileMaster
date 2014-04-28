@@ -8,27 +8,35 @@ angular.module('mobileMasterApp')
 			types[type.Name] = type;
 		};
 
-		var createDefaultType = (typeName: string)=> {
-			var type = ThingModel.BuildANewThingType.Named(typeName)
-				.ContainingA.Location("location").Build();
-			types[typeName] = type;
-			return type;
+		var createDefaultType = (typeName: string, location: boolean)=> {
+			var type = ThingModel.BuildANewThingType.Named(typeName);
+
+			if (location) {
+				type.ContainingA.Location("location");
+			}
+
+			var btype = type.Build();
+			types[typeName] = btype;
+			return btype;
 		};
 
 		this.$get = (thingModel: ThingModelService, UUID: UUIDService) => {
 			return {
-				register: (typeName: string, location: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any) => {
+				register: (typeName: string, location?: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any, overrideID?:string) => {
 					var type = types[typeName],
 						t: ThingModel.ThingPropertyBuilder,
-						id = UUID.generate();
+						id = overrideID ? overrideID : UUID.generate();
 
 					if (!type) {
-						type = createDefaultType(typeName);
+						type = createDefaultType(typeName, !!location);
 					}
 
-					t = ThingModel.BuildANewThing.As(type).IdentifiedBy(id)
-						.ContainingA.Location("location",
-						new ThingModel.Location.LatLng(location.lat, location.lng));
+					t = ThingModel.BuildANewThing.As(type).IdentifiedBy(id);
+
+					if (location) {
+						t.ContainingA.Location("location",
+							new ThingModel.Location.LatLng(location.lat, location.lng));
+					}
 
 					if (fillingCallback) {
 						fillingCallback(t);

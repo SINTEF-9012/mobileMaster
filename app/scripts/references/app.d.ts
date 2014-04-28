@@ -69,7 +69,7 @@ interface AddServiceConfig {
 
 interface AddService {
 	// It's just a first version :)
-	register(typeName: string, location: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any);
+	register(typeName: string, location?: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any, overrideId?:string);
 }
 
 interface SettingsService {

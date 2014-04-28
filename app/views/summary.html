@@ -1,34 +1,11 @@
 <div class="container container-fluid">
 	<div class="row">
-		<div class="col-md-8 col-md-push-1">
-			<h3>Master HTML5 version</h3>
-
-			<p>A summary of the situation should be here.</p>
-		<div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-8 col-md-push-1">
-			<h3>Development version</h3>
-			<a href="https://github.com/SINTEF-9012/mobileMaster" target="_blank" class="btn btn-default">Browse the source code</a>
-		</div>
+		<h1 class="col-md-12">{{title}}</h1>
 	</div>
 	<div class="row">
-		<div class="col-md-8 col-md-push-1">
-			<h3>Todo</h3>
-			<ul class="">
-				<li>Improve and fix the scrolling</li>
-				<li>
-				Find the ProtocolBuffers serialization issue for negative numbers and fix it.
-				</li>
-				<li>Merge types into categories for the tables</li>
-				<li>Horizontal swipper for tables</li>
-				<li>Security security security</li>
-				<li>Access Control List engine for orders, editions and suppressions</li>
-				<li>Performances improvements</li>
-				<li>Realtime clustering for the map (with a paper about it)</li>
-				<li>More options when you add something (use the edit panel ?)</li>
-			</ul>
-		</div>
+		<a class="btn btn-default btn-sm pull-right" ui-sref="main.editsummary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-push-1" ng-bind-html="htmlSummary"></div>
 	</div>
 </div>
