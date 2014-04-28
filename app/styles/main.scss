@@ -38,13 +38,16 @@ body:not(.standalone) #status-bar {display:none}
         overflow-y: auto;
         // height:auto;
     }
+    #view-slidder {
+        box-shadow:0px -1px 0px rgba(0,0,0,0.15);
+    }
 }
 
 
 #layout-top {
     // margin-top:20px;
     height:100%;
-    background:black;
+    // background:black;
 }
 
 // #view-bottom {
@@ -496,7 +499,7 @@ left: 2em;
 .leaflet-control-minimap.leaflet-control-minimap-rts {
     margin-right: 0;
     margin-bottom:0;
-    box-shadow: 0 0px 3px rgba(0,0,0,0.65);
+    box-shadow:-1px -1px 0px rgba(0,0,0,0.15);
     border-radius: 3px 0 0 0;
 }
 
@@ -529,4 +532,23 @@ left: 2em;
         white-space: normal;
         font-size:55%;
     }
+}
+
+@media screen and (max-height: 500px), screen and (max-width: 500px) {
+    .leaflet-control-minimap.leaflet-control-minimap-rts {
+        display: none;
+    }
+
+    #layout-popup {
+        position:absolute;
+        top:0;
+        right:0;
+        left:0;
+
+        .view-popup-animation, .popup-content, #view-popup {
+            min-width: initial;
+            width:100%;
+        }
+    }
+
 }

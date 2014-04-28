@@ -16,7 +16,11 @@ angular.module('mobileMasterApp')
 			return;
 		}
 		var tslidderheight = tslidder.height();
-		var height = window.innerHeight - tslidderheight-statusbar.height();
+		var windowHeight = window.innerHeight;
+		var height = (windowHeight > 500) ?
+			windowHeight - tslidderheight - statusbar.height() :
+			windowHeight - statusbar.height() - 60;
+
 		ttop.height(height);
 		$('#layout-supertop').height(height);
 		ttop.css('margin-top', statusbar.height());
@@ -25,7 +29,7 @@ angular.module('mobileMasterApp')
 		tbottom.children('#view-bottom').height(Math.max(0, scrollTop));
 		tbottom.height(height);
 
-		$rootScope.layoutautoscroll = allowautoscroll && (scrollTop < 128 || scrollTop + tslidderheight > window.innerHeight - 128)
+		$rootScope.layoutautoscroll = allowautoscroll && (scrollTop < 128 || scrollTop + tslidderheight > windowHeight - 128)
 		&& !$state.is('main.add')
 		&& !$state.is('main')
 		&& !$state.is('main.thing')
@@ -35,6 +39,9 @@ angular.module('mobileMasterApp')
 	layout();
 
 	jwindow.on('resize', layout);
+
+	// Scroll to the middle of the screen just after the startup
+//	jwindow.scrollTop(jwindow.innerHeight() / 2);
 
 	window.setTimeout(() => {
 		allowautoscroll = true;
