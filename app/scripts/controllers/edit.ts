@@ -50,11 +50,13 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 		});
 
 		$scope.thing = thing;
-		
-		var location = new L.LatLng(thing.location.x, thing.location.y);
-		var pixels = masterMap.project(location);
-		pixels.y -= $(window).scrollTop() / 2;
-		masterMap.panTo(masterMap.unproject(pixels));
+
+		if (thing.location) {
+			var location = new L.LatLng(thing.location.x, thing.location.y);
+			var pixels = masterMap.project(location);
+			pixels.y -= $(window).scrollTop() / 2;
+			masterMap.panTo(masterMap.unproject(pixels));
+		}
 
 		if (!once) {
 			once = true;
