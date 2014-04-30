@@ -3,9 +3,9 @@
 		<h1 class="col-md-12">{{title}}</h1>
 	</div>
 	<div class="row">
-		<a class="btn btn-default btn-sm pull-right" ui-sref="main.editsummary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+		<div class="col-md-10 col-md-push-1" ng-bind-html="htmlSummary"></div>
 	</div>
 	<div class="row">
-		<div class="col-md-10 col-md-push-1" ng-bind-html="htmlSummary"></div>
+		<a class="btn btn-default btn-sm pull-right" ui-sref="main.editsummary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
 	</div>
 </div>
