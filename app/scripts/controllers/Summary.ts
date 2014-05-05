@@ -26,7 +26,7 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	) => {
 
 	$rootScope.$watch('things["master-summary"]', (summary) => {
-		console.log(summary);
+		//console.log(summary);
 		if (summary && summary.content) {
 			var content = summary.content;
 			$scope.markdownSummary = content;

@@ -64,13 +64,9 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		};
 
 		_.each(thing.Properties, (property: ThingModel.Property) => {
-//			console.log((<any>property).Value);
-			if (property.Type != ThingModel.Type.DateTime) {
-				scopeThing[property.Key] = (<any>property).Value;
-			} else {
-				console.log((<any>property).Value);
-			}
+			scopeThing[property.Key] = (<any>property).Value;
 		});
+
 		scopeThing.name = name;
 
 		if (thing.HasProperty("location")) {
