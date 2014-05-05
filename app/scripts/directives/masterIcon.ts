@@ -68,6 +68,12 @@ angular.module('mobileMasterApp')
 				"roadblock": "B",
 				"depot": "D"
 			}
+		},
+		"helpbeacon": {
+			char: "1",
+			types: {
+				"": "S"
+			}
 		}
 	}
 
@@ -117,16 +123,43 @@ angular.module('mobileMasterApp')
 			} else if (/video/i.test(type)) {
 				element.append(glyphicon('film'));
 				element.addClass('glyph video');
-			} else if (/(incident|resource|risk|response)/i.test(type)) {
+			} else if (/(incident|resource|risk|response|helpbeacon)/i.test(type)) {
 
-				var cat = /incident/i.test(type) ? 'incident' :
-					(/risk/i.test(type) ? 'risk' : 
-						(/response/i.test(type) ? 'response' : 'resource'));
+				var cat: string;
+
+				switch (true) {
+					case /incident/i.test(type):
+						cat = 'incident';
+						break;	
+					case /risk/i.test(type):
+						cat = 'risk';
+						break;	
+					case /response/i.test(type):
+						cat = 'response';
+						break;	
+					case /helpbeacon/i.test(type):
+						cat = 'helpbeacon';
+						break;	
+					default:
+					//case /resource/i.test(type):
+						cat = 'resource';
+						break;	
+				}
+
 				var infos = categories[cat];
 
 				// TODO fix it in the adapter?
-				if (thing && type === 'incidentType') {
-					type = thing.name;
+				if (thing) {
+
+					if (type === 'Incident') {
+						type = thing.name;
+					}
+
+					if (type === 'ResourceType') {
+						// TODO HOTFIX
+						type += " " + (<any>thing).type.replace(/medic/i, 'health')
+							.replace(/fire personnel/i, 'fire and rescue personnel');
+					}
 				}
 
 				var letter = '';
