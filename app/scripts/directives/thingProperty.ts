@@ -18,6 +18,7 @@ angular.module('mobileMasterApp')
 			scope.$watch('thing[key]', (value) => {
 
 				element.addClass("thing-property-" + key);
+				element.addClass("thing-property-" + type.replace(/\s+/g, '-').toLowerCase());
 
 				if (type === 'DateTime') {
 					scope.value = value ? value.toLocaleString(window.navigator.userLanguage || window.navigator.language) : '';
@@ -25,7 +26,12 @@ angular.module('mobileMasterApp')
 				else if (type === 'Double') {
 					scope.value = parseFloat(value === null ? 0.0 : value).toLocaleString([]);
 				} else if (type === 'Boolean') {
-					scope.value = !!value;
+					var v = !!value;
+					scope.value = v;
+
+					element.prepend(v ?
+						'<span class="glyphicon glyphicon-ok"></span> ' :
+						'<span class="glyphicon glyphicon-remove"></span> ');
 				} else {
 					scope.value = value ? value : '';
 				}

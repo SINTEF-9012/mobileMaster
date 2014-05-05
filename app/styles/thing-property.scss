@@ -1,7 +1,11 @@
 @import "_settings";
 
-.thing-property-triage_status, .thing-property-status {
+.thing-property-triage_status, .thing-property-status, .thing-property-boolean {
 	color:$gray-light;
+
+	.glyphicon {
+		color:black;
+	}
 }
 
 .master-table thing-property img {
