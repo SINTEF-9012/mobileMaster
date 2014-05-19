@@ -1,5 +1,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
+/// <reference path="./../../bower_components/PruneCluster/PruneCluster.ts" />
+/// <reference path="./../../bower_components/PruneCluster/LeafletAdapter.ts" />
 /// <reference path="./../references/Touch.d.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
@@ -186,16 +188,62 @@ angular.module('mobileMasterApp')
 		jwindow.trigger('leafletend');
 	});
 
-	var jbody = $(document.body);
+	var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet();
+	cluster.Cluster.Size = 100;
 
-    // Cluster for markers (best performances)
-    /*var cluster = new L.MarkerClusterGroup({
-        disableClusteringAtZoom: 14,
-        spiderfyOnMaxZoom:false,
-        showCoverageOnHover: false
-    });*/
+	(<any>cluster).BuildLeafletMarker = (rawMarker: PruneCluster.Marker, location: L.LatLng) => {
+		var id = rawMarker.data.ID;
+		var marker = new L.Marker(location, { icon: masterMap.createMasterIconWithId(id, $scope), draggable: true });
+		marker.on('dragstart', (e) => {
+			e.marker = marker;
+			var pos = marker.getLatLng();
+			marker._oldLatLng = new L.LatLng(pos.lat, pos.lng);
+			masterMap.closePopup();
+			masterMap.fire('markerdragstart', e);
+		}).on('dragend', (e) => {
+			e.marker = marker;
+			window.setImmediate(()=> {
+				masterMap.fire('markerdragend', e);
+			});
 
-    var markersThings : {[ID: string] : L.Marker} = {};
+			var newLatLng = marker.getLatLng(),
+				oldLatLng = marker._oldLatLng;
+
+			var newProj = masterMap.project(newLatLng),
+				oldProj = masterMap.project(oldLatLng);
+
+			// Pythagore
+			var distance = Math.sqrt((oldProj.x - newProj.x) * (oldProj.x - newProj.x) +
+			(oldProj.y - newProj.y) * (oldProj.y - newProj.y)); 
+
+
+			if (distance > 28) {
+				masterMap.panTo(newLatLng);
+				$state.go('main.thing.order', { id: id });
+				marker.setLatLng(oldLatLng);
+			} else {
+				window.setImmediate(()=> {
+					marker.setLatLng(oldLatLng);
+				});
+			}
+
+		}).on('click', () => {
+			$state.go('main.thing', { id: id });
+		}).on('drag', (e) => {
+			var loc = marker.getLatLng();
+			dragLineLatLng[1].lat = loc.lat;
+			dragLineLatLng[1].lng = loc.lng;
+			dragLine.setLatLngs(dragLineLatLng);
+			if (!onMap) {
+				dragLine.addTo(masterMap).bringToBack();
+				onMap = true;
+			}
+		});
+
+		return marker;
+	}
+
+    var markersThings : {[ID: string] : PruneCluster.Marker} = {};
 
     var cpt = 0;
 
@@ -207,13 +255,6 @@ angular.module('mobileMasterApp')
 
     // Manage markers
     function updatePatientsPositions() {
-        // TODO reset every 60 iterations
-        var update = ++cpt === 60000;
-
-        if (update) {
-			cpt = 0;
-			//cluster.clearLayers();	
-        }
 		miniMap.clear();
 
 	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
@@ -226,101 +267,24 @@ angular.module('mobileMasterApp')
 				if (!loc || isNaN(loc.x) || isNaN(loc.y)) {
 					return;
 				}
-			    var location = new L.LatLng(loc.x, loc.y);
+
+				var location = new L.LatLng(loc.x, loc.y);
+
 				miniMap.addPoint(location, { r: 255 });
 
-			    if (markersThings[ID]) {
-					markersThings[ID].setLatLng(location);
+			if (markersThings[ID]) {
+				markersThings[ID].position.lat = loc.x;
+				markersThings[ID].position.lng = loc.y;
+			} else {
+				var m = new PruneCluster.Marker(loc.x, loc.y, {
+					ID: ID
+				});
 
-				    if (update) {
-						//cluster.addLayer(markersThings[ID]);
-						masterMap.addLayer(markersThings[ID]);
-					}
-				} else {
-				    var type = thing.typeName;
-//					var typeCss = type.replace(/[\s:]/g, '-');
-
-//					var iconClassName = 'thing-icon thing-icon-' + typeCss;
-//				    var size = 40;
-
-//					var triage = thing.triage_status;
-//					if (triage) {
-//						iconClassName += ' triage-' + triage;
-//						size = 28;
-//					}
-
-					// TODO small temporal hack
-//					if (type === "ESS14:vehicle:wheeled") {
-//						type = "master:resource:fire-and-rescue-vehicle";
-//					}
-
-//					var parsing = type.match(/^master\:([^:]+)\:([^:]+)$/);
-//					if (parsing) {
-//					} else {
-//						iconClassName += " thing-icon-standard";
-//					}
-//					var icon = L.divIcon({
-//						className: 'thing-map-icon',
-//						iconSize: new L.Point(size, size),
-//						iconAnchor: new L.Point(size/2, size/2)
-////						html: resourceElement2.get(0)
-//					});
-//
-//					resourceElement2.appendTo(icon.getContainer());
-
-					var marker = new L.Marker(location, { icon: masterMap.createMasterIconWithId(ID, $scope), draggable: true });
-					//marker.bindPopup(thing.name, {closeButton: false});
-
-					markersThings[ID] = marker;
-
-					marker.on('dragstart', (e) => {
-						e.marker = marker;
-						var pos = marker.getLatLng();
-						marker._oldLatLng = new L.LatLng(pos.lat, pos.lng);
-						masterMap.closePopup();
-						masterMap.fire('markerdragstart', e);
-					}).on('dragend', (e) => {
-						e.marker = marker;
-						window.setImmediate(()=> {
-							masterMap.fire('markerdragend', e);
-						});
-
-						var newLatLng = marker.getLatLng(),
-							oldLatLng = marker._oldLatLng;
-
-						var newProj = masterMap.project(newLatLng),
-							oldProj = masterMap.project(oldLatLng);
-
-						// Pythagore
-						var distance = Math.sqrt((oldProj.x - newProj.x) * (oldProj.x - newProj.x) +
-						(oldProj.y - newProj.y) * (oldProj.y - newProj.y)); 
+			    cluster.RegisterMarker(m);
+				markersThings[ID] = m;
 
 
-						if (distance > 28) {
-							masterMap.panTo(newLatLng);
-							$state.go('main.thing.order', { id: ID });
-							marker.setLatLng(oldLatLng);
-						} else {
-							window.setImmediate(()=> {
-								marker.setLatLng(oldLatLng);
-							});
-						}
 
-					}).on('click', () => {
-							$state.go('main.thing', { id: ID });
-						}).on('drag', (e) => {
-							var loc = marker.getLatLng();
-							dragLineLatLng[1].lat = loc.lat;
-							dragLineLatLng[1].lng = loc.lng;
-							dragLine.setLatLngs(dragLineLatLng);
-							if (!onMap) {
-								dragLine.addTo(masterMap).bringToBack();
-								onMap = true;
-							}
-						});
-
-					//cluster.addLayer(markersThings[ID]);
-					masterMap.addLayer(markersThings[ID]);
 			    }
 		    });
 
@@ -331,8 +295,11 @@ angular.module('mobileMasterApp')
 				    delete markersThings[ID];
 			    }
 			});
-	    miniMap.render();
+		miniMap.render();
+	    cluster.ProcessView();
     }
+
+	masterMap.addLayer(cluster);
 
     $scope.$watch('things', function() {
 		// TODO send an event when it's OK
@@ -385,6 +352,8 @@ angular.module('mobileMasterApp')
 	var mousemove = (e: L.LeafletMouseEvent)=> {
 	};
 
+	window.lapin = masterMap;
+	var throttledUpdate = null;
 	masterMap.on('markerdragstart', (e: L.Marker) => {
 		if (!e.marker) {
 			return;
@@ -392,16 +361,25 @@ angular.module('mobileMasterApp')
 		var mLatLng = e.marker.getLatLng();
 		dragLineLatLng[0] = new L.LatLng(mLatLng.lat, mLatLng.lng);
 
-//		dragLine.redraw();
-//		masterMap.on('mousemove', mousemove);
+		//		dragLine.redraw();
+		//		masterMap.on('mousemove', mousemove);
 
-	}).on('markerdragend', (e: L.Marker)=> {
-//		masterMap.off('mousemove', mousemove);
-		if (onMap) {
-			masterMap.removeLayer(dragLine);
-			onMap = false;
+	}).on('markerdragend', (e: L.Marker) => {
+			//		masterMap.off('mousemove', mousemove);
+			if (onMap) {
+				masterMap.removeLayer(dragLine);
+				onMap = false;
+			}
+	}).on('drag', () => {
+		if (masterMap._renderer) {
+			if (!throttledUpdate) {
+				throttledUpdate = L.Util.throttle(masterMap._renderer._update, 100, masterMap._renderer);
+			}
+
+			throttledUpdate();
 		}
 	});
+
 
 	masterMap.on('contextmenu', (e: L.LeafletMouseEvent) => {
 		// TODO UGLY

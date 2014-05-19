@@ -42,7 +42,9 @@ angular.module('mobileMasterApp')
 		};
 
 
-		this.$get = function($compile : ng.ICompileService) {
+		this.$get = function ($compile: ng.ICompileService) {
+			L.Renderer.prototype.options.padding = 0.1;
+
 			var instance = <Master.Map> L.map(this.container, this.options);
 			var masterIcon = L.Icon.extend({
 				options: {
@@ -188,7 +190,7 @@ angular.module('mobileMasterApp')
 			this._title.appendChild(document.createTextNode(this._titleText));
 			// map.getPanes().overlayPane.appendChild(this._el);
 			this._el.appendChild(this._title);
-			if (this._icon) {
+			if (this._icon){ 
 				this._el.appendChild(this._icon);
 			}
 			map.getContainer().appendChild(this._el);
