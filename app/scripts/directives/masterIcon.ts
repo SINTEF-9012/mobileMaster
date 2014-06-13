@@ -3,7 +3,9 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-.directive('masterIcon', function ($rootScope: MasterScope.Root) {
+	.directive('masterIcon', function (
+		$rootScope: MasterScope.Root,
+		thingModel: ThingModelService) {
 
 	var categories = {
 		"incident": {
@@ -99,19 +101,21 @@ angular.module('mobileMasterApp')
 		link: function postLink(scope, element : JQuery, attrs) {
 
 			var type = 'default',
-				thing : MasterScope.Thing = null;
+				thing : ThingModel.Thing = null;
 			if (attrs.type) {
 				type = attrs.type;
 			} else if (attrs.thingid) {
-				thing = $rootScope.things[attrs.thingid];
-				type = thing.typeName;
+				thing = thingModel.warehouse.GetThing(attrs.thingid);
+				if (thing && thing.Type) {
+					type = thing.Type.Name;
+				}
 			}
 			var wrapper = element.get(0).firstChild;
 
 
 			if (/patient/i.test(type)) {
 				// triage_status
-				var color = (thing && thing.triage_status) ? thing.triage_status : '#FF4B00';
+				var color = (thing && thing.HasProperty('triage_status')) ? thing.String('triage_status') : '#FF4B00';
 				element.append(patientTriageIcon(color));
 				element.addClass('patient');
 			} else if (/picture/i.test(type)) {
@@ -152,12 +156,12 @@ angular.module('mobileMasterApp')
 				if (thing) {
 
 					if (type === 'Incident') {
-						type = thing.name;
+						type = thing.String('name');
 					}
 
 					if (type === 'ResourceType') {
 						// TODO HOTFIX
-						type += " " + (<any>thing).type.replace(/medic/i, 'health')
+						type += " " + thing.String("name").replace(/medic/i, 'health')
 							.replace(/fire personnel/i, 'fire and rescue personnel');
 					}
 				}

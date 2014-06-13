@@ -1,17 +1,21 @@
 <div class="infos">
-	<div class="col-sm-8 col-md-9">
-		<button type="button" class="btn btn-primary" ui-sref="main">Summary</button>
+	<a class="glyphicon glyphicon-th" ui-sref="main" id="dashboard-btn"></a>
+	<div class="col-sm-8 col-md-9 col-lg-10 infos-icons">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default info-number {{types[info.fullName].visible ? '' : 'filtered'}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="main.table({thingtype:key})">
+			<button type="button" class="btn btn-default info-number {{filtered[info.fullName] ? 'filtered' : ''}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="main.table({thingtype:key})">
 				<master-icon type="{{info.fullName}}"></master-icon>
 				{{info.count}}
 			</button>
 		</div>	
 	</div>
-	<div class="col-sm-4 col-md-3">
+	<div class="col-sm-4 col-md-3 col-lg-2 infos-tools">
 		<div class="btn-group pull-right">
-			<button type="button" class="btn btn-primary" ui-sref="main.layers">Layers</button>
-			<button type="button" class="btn btn-primary" ui-sref="main.filters">Filters</button>
+			<button type="button" class="btn btn-primary" ui-sref="background">
+				<span class="glyphicon glyphicon-globe"></span>
+			</button>
+			<button type="button" class="btn btn-primary" ui-sref="filters">
+				<span class="glyphicon glyphicon-filter"></span>	
+			</button>
 			<div class="master-camera btn btn-primary">
 				<span class=" glyphicon glyphicon-camera"></span>
 				<input class="btn btn-primary btn-sm" type="file" accept="image/*,video/*,audio/*" capture ng-file-select="onCapture($files)" id="camera-file-upload"/>

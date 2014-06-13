@@ -170,15 +170,15 @@ vertical-align: middle;
 .map {
 	.prunecluster {
 		font-size: 12px;
-		border-radius: 20px;
 	}
+
 	.prunecluster div {
 		width: 30px;
 		height: 30px;
 		text-align: center;
 		margin-left: 5px;
 		margin-top: 5px;
-		border-radius: 15px;
+		border-radius: 100%;
 	}
 	.prunecluster div span {
 		line-height: 30px;
@@ -189,7 +189,13 @@ vertical-align: middle;
 	}
 
 	.prunecluster-small div {
+		width: 28px;
+		height: 28px;
 		background-color: rgba(110, 204, 57, 0.6);
+	}
+
+	.prunecluster-small div span {
+		line-height: 28px;
 	}
 
 	.prunecluster-medium {
@@ -205,7 +211,13 @@ vertical-align: middle;
 	}
 
 	.prunecluster-large div {
+		width: 34px;
+		height: 34px;
 		background-color: rgba(241, 128, 23, 0.6);
+	}
+
+	.prunecluster-large div span {
+		line-height: 34px;
 	}
 }
 
@@ -308,3 +320,24 @@ master-icon.order {
 	top:3px;
 }
 
+.map .cluster-multi {
+	background:rgba(150,70,60,0.42);
+
+	master-icon {
+		line-height:30px;
+		width:30px;
+		height:30px;
+
+		.triage-light {
+			height: 30px;
+			width: 30px;
+			margin: 0;
+		}	
+	}
+	master-icon.fonticon > div {
+		font-size:12px;
+	}
+	master-icon:first-child.fonticon > div {
+		font-size:30px;
+	}
+}

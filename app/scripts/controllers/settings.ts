@@ -3,11 +3,8 @@
 angular.module('mobileMasterApp')
 	.controller('SettingsCtrl', (
 		$scope: MasterScope.Settings,
-		layout : any,
 		settingsService: SettingsService) => {
 
-	layout.disable();
-	
 	$scope.thingModelUrl = settingsService.getThingModelUrl();
 	$scope.clientName = settingsService.getClientName();
 	$scope.mediaServerUrl = settingsService.getMediaServerUrl();

@@ -1,0 +1,99 @@
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_variables";
+@import "_settings";
+@import "compass";
+
+#map {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    top:0;
+
+    .map {
+        height: 100%;
+    }
+
+    background:lighten(#000, 33.5%);
+
+    .leaflet-control-scale-line {
+        border:none;
+        background: rgba(0,0,0,0.5);
+        color:white;
+    }
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius:0;
+    position:relative;
+    cursor:pointer;
+    padding:0;
+}
+
+.leaflet-popup-content {
+    img {
+        image-rendering:-webkit-optimize-contrast;
+        image-rendering: -moz-crisp-edges;
+        -ms-interpolation-mode: nearest-neighbor;
+        width:41px;
+        height:41px;
+
+        margin-right:10px;
+    }
+
+    font-weight: bold;
+    margin:0 10px 0 0;
+
+}
+
+body:not(.disable-markers-animations) #map {
+    .leaflet-marker-icon, .leaflet-marker-shadow,
+    .leaflet-thing-icon {
+        -webkit-transition:transform 0.3s linear, opacity 0.3s linear;
+        transition:transform 0.3s linear, opacity 0.3s linear;
+        -moz-transition:transform 0.3s linear, opacity 0.3s linear;
+    }
+}
+
+body:not(.disable-markers-animations).popup-transition .leaflet-popup{
+    -webkit-transition:transform 0.5s linear;
+    transition:transform 0.5s linear;
+    -moz-transition:transform 0.5s linear;
+}
+
+.leaflet-container {
+    .shadow-layer {
+        width:100%;
+        height:100%;
+        position: absolute;
+        z-index:50;
+        $reticle: url(../images/reticle.png) no-repeat center;
+background: -moz-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 19%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.92) 100%),$reticle; /* FF3.6+ */
+background: -webkit-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* Opera 12+ */
+background: -ms-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* IE10+ */
+background: radial-gradient(circle at center,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* W3C */
+background-size: auto, 100px 100px;
+
+        @media (min--moz-device-pixel-ratio: 1.3),
+         (-o-min-device-pixel-ratio: 2.6/2),
+         (-webkit-min-device-pixel-ratio: 1.3),
+         (min-device-pixel-ratio: 1.3),
+         (min-resolution: 1.3dppx) {
+            $reticle: url(../images/reticle@2x.png) no-repeat center;
+            background: -moz-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 19%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.92) 100%),$reticle; /* FF3.6+ */
+            background: -webkit-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* Chrome10+,Safari5.1+ */
+            background: -o-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* Opera 12+ */
+            background: -ms-radial-gradient(center, circle cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* IE10+ */
+            background: radial-gradient(circle at center,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 19%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.92) 100%),$reticle; /* W3C */
+            background-size: auto, 100px 100px;
+        }
+        h1 {
+            font-size: 56px;
+            text-shadow:0px 0px 3px rgba(0,0,0,0.5);
+            margin-left: 28px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+        }
+    }
+}

@@ -34,63 +34,71 @@ angular.module('mobileMasterApp')
         JSON.stringify(data));
     }
 
-  	this.bindToMasterMap = function(map : Master.Map) {
+	var onmoveend = () => {	
+		center = masterMap.getCenter();
+		save();
+	},
+	onzoomend = () => {
+		zoom = masterMap.getZoom();
+		save();
+	};
 
-  		// We use localStorage as backend
-  		if (!window.localStorage) {
-  			return;
-  		}
+  	this.bindMasterMap = (map : Master.Map) => {
 
-  		// Load the saved position if it exist
-  		var storage = window.localStorage.getItem(localStorageKey);
-  		if (storage !== null) {
-  			var data : PersistentLocalization.Storage = JSON.parse(storage);
+		  // We use localStorage as backend
+		  if (!window.localStorage) {
+			  return;
+		  }
 
-  			if (data.zoom) {
-  				zoom = data.zoom;
-  			}
+		  // Load the saved position if it exist
+		  var storage = window.localStorage.getItem(localStorageKey);
+		  if (storage !== null) {
+			  var data : PersistentLocalization.Storage = JSON.parse(storage);
 
-  			if (data.lat && data.lng) {
-  				center = new L.LatLng(data.lat, data.lng);
-  			}
+			  if (data.zoom) {
+				  zoom = data.zoom;
+			  }
 
-        if (data.layer) {
-          layer = data.layer;
-        }
+			  if (data.lat && data.lng) {
+				  center = new L.LatLng(data.lat, data.lng);
+			  }
 
-  			// Update the map view to the saved position
-  			map.setView(center ? center : map.getCenter(), zoom ? zoom : map.getZoom());
-  		}
+			  if (data.layer) {
+				  layer = data.layer;
+			  }
+
+			  // Update the map view to the saved position
+			  map.setView(center ? center : map.getCenter(), zoom ? zoom : map.getZoom());
+		  }
 
 
-  		// Bind leaflet events, and save position
-  		map.on('moveend', function() {
-  			center = map.getCenter();
-  			save();
-  		}).on('zoomend', function() {
-  			zoom = map.getZoom();
-  			save();
-  		});
+		  // Bind leaflet events, and save position
+		  map.on('moveend', onmoveend).on('zoomend', onzoomend);
 
-      masterMap = map;
-  	};
+		  masterMap = map;
+	  };
 
-    this.saveCurrentLayer = function(_layer : MasterScope.Layer) {
-      layer = _layer.name;
-      save();
+
+	this.unbindMasterMap = (map: Master.Map) => {
+		map.off('moveend', onmoveend).off('zoomend', onzoomend);
+	};
+
+    this.saveCurrentLayer = (_layer : MasterScope.Layer) => {
+	    layer = _layer.name;
+	    save();
     };
 
-    this.restorePersistentLayer = function() {
-      if (layer) {
-        angular.forEach(masterMap.getTilesLayers(), function(iLayer: MasterScope.Layer){
-          masterMap.hideTileLayer(iLayer.name);
-        });
+    this.restorePersistentLayer = () => {
+	    if (layer) {
+		    angular.forEach(masterMap.getTilesLayers(), (iLayer: MasterScope.Layer) => {
+			    masterMap.hideTileLayer(iLayer.name);
+		    });
 
-        masterMap.showTileLayer(layer);
-      }
+		    masterMap.showTileLayer(layer);
+	    }
     };
 
-    this.clear = function() {
-      window.localStorage.removeItem(localStorageKey);
+    this.clear = () => {
+	    window.localStorage.removeItem(localStorageKey);
     };
   });

@@ -6,7 +6,7 @@ angular.module('mobileMasterApp')
 		var pictureType =
 			ThingModel.BuildANewThingType.Named('master:picture')
 				.WhichIs('Picture')
-				.ContainingA.Location('location')
+				.ContainingA.LocationLatLng()
 				.AndA.NotRequired.String('url')
 				.AndA.NotRequired.String('description').Build();
 //				.AndA.NotRequired.DateTime('creation')

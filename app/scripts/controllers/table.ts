@@ -15,7 +15,6 @@ angular.module('mobileMasterApp')
 	$timeout: ng.ITimeoutService,
 	$stateParams,
 	masterMap: Master.Map,
-	layout,
 	settingsService: SettingsService,
 	Knowledge) => {
 
@@ -50,15 +49,14 @@ angular.module('mobileMasterApp')
 		var direction = key == $scope.sortPropertyKey ?
 			($scope.sortDirection === '+' ? '-' : '+') : '+';
 		$scope.sortExpression = direction + key;
-		$scope.sortDirection = direction;
-		$scope.sortPropertyKey = key;
+        $scope.sortDirection = direction;
+        $scope.sortPropertyKey = key;
 	}
 
 	$scope.selectThing = (thing: MasterScope.Thing) => {
 		if (!thing.location) {
 			return;
-		}
-		layout.showMap();
+        }
 		var location = new L.LatLng(thing.location.x, thing.location.y);
 		var pixels = masterMap.project(location);
 		pixels.y -= $(window).scrollTop() / 2;

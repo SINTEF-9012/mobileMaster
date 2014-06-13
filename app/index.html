@@ -12,46 +12,25 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=device-dpi" />
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <link rel="stylesheet" href="bower_components/leaflet/leaflet.css">
-    <!-- <link rel="stylesheet" href="bower_components/leaflet.markerclusterer/dist/MarkerCluster.Default.css"> -->
     <link rel="stylesheet" href="bower_components/Leaflet-MiniMap/src/Control.MiniMap.css">
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/map.css">
     <link rel="stylesheet" href="styles/thing-property.css">
     <!-- endbuild -->
 </head>
   <body ng-app="mobileMasterApp">
-    <div id="status-bar" class="container-fluid">
-        <div class="row">
-            <div class="col-xs-6">Forest fire next to Bandol</div>
-            <div class="col-xs-6">Connected to LinkSmart</div>
-        </div>
-    </div>
     <!--[if lt IE 9]>
       <script src="bower_components/es5-shim/es5-shim.js"></script>
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div id="layout-top">
-        <div id="view-top" ui-view="top" autoscroll="false"></div> 
-    </div>
-    <div id="layout-slidder">
-        <div id="view-slidder" ui-view="slidder" autoscroll="false"></div>
-    </div>
-    <div id="layout-bottom">
-        <div id="view-bottom" ui-view="bottom" autoscroll="layoutautoscroll"></div>
-    </div>
-    <div id="layout-popup">
-        <div class="view-popup-animation">
-            <div id="view-popup" ui-view="popup" autoscroll="false"></div>    
-        </div>
-    </div>
-    <!-- <div class="_container" ui-view=""></div> -->
+    <div class="_container" ui-view=""></div>
 
     <script>L_PREFER_CANVAS = true;</script>
     <!-- build:js scripts/plugins.js -->
@@ -72,9 +51,9 @@
     <script src="bower_components/protobuf/ProtoBuf.noparse.js"></script>
     <!-- // <script src="bower_components/osmbuildings/dist/OSMBuildings-Leaflet.js"></script> -->
     <script src="bower_components/Bing.js/index.js"></script>
-    <script src="bower_components/bootstrap-sass/js/button.js"></script>
-    <script src="bower_components/bootstrap-sass/js/transition.js"></script>
-    <script src="bower_components/bootstrap-sass/js/collapse.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/ThingModel/TypeScript/build/ThingModel.js"></script>
     <script src="bower_components/setimmediate/setImmediate.js"></script>
@@ -92,10 +71,11 @@
     <script src="scripts/services/thingModel.js"></script>
     <script src="scripts/services/masterMap.js"></script>
     <script src="scripts/services/knowledge.js"></script>
+    <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/table.js"></script>
     <script src="scripts/controllers/compass.js"></script>
     <script src="scripts/controllers/slidder.js"></script>
-    <script src="scripts/controllers/layers.js"></script>
+    <script src="scripts/controllers/background.js"></script>
     <script src="scripts/controllers/settings.js"></script>
     <script src="scripts/filters/distance.js"></script>
     <script src="scripts/filters/humanizeDistance.js"></script>

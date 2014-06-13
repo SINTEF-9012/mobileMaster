@@ -8,14 +8,6 @@ declare module MasterScope {
         buildings: boolean;
         map: L.Map;
 
-        //closeLayerList() : void;
-        //layerClick(layer : Layer) : void;
-		centerView(): void;
-
-        things: {[ID:string] : Thing};
-
-		types: {[name: string] : ThingType};
-
 		add: {
 			category: string;
 			type: string;
@@ -40,9 +32,9 @@ declare module MasterScope {
         create() : L.TileLayer;
 	}
 
-	interface ThingType {
-		things: { [ID: string]: Thing };
-		tableProperties: {
+	/*interface ThingType {
+		//things: { [ID: string]: Thing };
+		/*tableProperties: {
 			key: string;
 			score:number;
 			property:ThingModel.PropertyType;
@@ -51,7 +43,7 @@ declare module MasterScope {
 		visible:boolean;
 		type: ThingModel.ThingType;
 		count: number;
-	}
+	}*/
 
 	interface Thing {
 		ID: string;

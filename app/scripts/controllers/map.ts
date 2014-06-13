@@ -11,187 +11,36 @@
 
 // Module configuration
 angular.module('mobileMasterApp')
-.config((masterMapProvider : Master.MapConfig) => {
-    masterMapProvider.setOptions({
-        zoom: 13,
-        center: new L.LatLng(59.911111,  	10.752778),
-        zoomControl: false,
-        attributionControl: false,
-//        maxZoom:20,
-        keyboard:false
-    })
-    .declareTileLayer({
-        name: "MapBox",
-        iconPath:"layer_mapbox.png",
-        create: () => {
-            return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
-                detectRetina:true,
-                maxNativeZoom:17
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "MapBoxBlue",
-        iconPath:"layer_mapbox_blue.png",
-        create: () => {
-            return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
-                detectRetina:true,
-                maxNativeZoom:17
-            });
-        }
-	})
-    .declareTileLayer({
-        name: "MapBox Grey",
-        iconPath:"layer_mapbox_grey.png",
-        create: () => {
-            return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
-                detectRetina:true,
-                maxNativeZoom:17
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "StatKart",
-        iconPath:"layer_no_topo2.png",
-        create: () => {
-			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
-				'layers=topo2&zoom={z}&x={x}&y={y}', {
-                subdomains: ['', '2', '3'],
-                detectRetina:true,
-                maxNativeZoom:18
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "StatKart Graatone",
-        iconPath:"layer_no_topo2_graatone.png",
-        create: () => {
-			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
-				'layers=topo2graatone&zoom={z}&x={x}&y={y}', {
-                subdomains: ['', '2', '3'],
-                detectRetina:true,
-                maxNativeZoom:18
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "StatKart sjo hovedkart",
-        iconPath:"layer_no_hovedkart2.png",
-        create: () => {
-			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
-				'layers=sjo_hovedkart2&zoom={z}&x={x}&y={y}', {
-                subdomains: ['', '2', '3'],
-                detectRetina:true,
-                maxNativeZoom:18
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "StatKart gruunkart",
-        iconPath:"layer_no_gruunkart.png",
-        create: () => {
-			return new L.TileLayer('http://opencache{s}.statkart.no/gatekeeper/gk/gk.open_gmaps?' +
-				'layers=norges_grunnkart&zoom={z}&x={x}&y={y}', {
-                subdomains: ['', '2', '3'],
-                detectRetina:true,
-                maxNativeZoom:18
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "Watercolor",
-        iconPath:"layer_stamen.png",
-        create: () => {
-            return new L.TileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-                subdomains: ['a', 'b', 'c', 'd'],
-                detectRetina:true,
-                minZoom: 3,
-                maxZoom: 16
-            });
-        }
-    })
-    .declareTileLayer({
-        name: "Bing",
-        iconPath:"layer_bing.png",
-        create: () => {
-            return new L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9",{
-             detectRetina:true
-            });
-        }
-    })
-    .setDefaultTileLayer("MapBox");
-
-})
 .controller('MapCtrl', function (
     $scope,
     masterMap : Master.Map,
-    thingModel : any,
+    thingModel : ThingModelService,
 	$state: any,
-    persistentLocalization : PersistentLocalization) {
+	$window: ng.IWindowService,
+	persistentLocalization: PersistentLocalization) {
 
-    persistentLocalization.bindToMasterMap(masterMap);
+    persistentLocalization.bindMasterMap(masterMap);
     persistentLocalization.restorePersistentLayer();
 
-		var jMap = $('#map');
+    var jMap = $('#map');
 
     jMap.append(masterMap.getContainer());
+
+    masterMap.enableInteractions();
+    masterMap.enableMiniMap();
+    masterMap.enableScale();
+
+	masterMap.disableSituationOverview();
 
 	// Update the panel height after the layout initialization
 	window.setImmediate(() => {
 		masterMap.invalidateSize({});
 	});
 
-	var osm2 = new /*L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9", {
-		detectRetina: true
-	});*/ L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.i0afp8bh/{z}/{x}/{y}.png', {
-                detectRetina:true,
-                maxNativeZoom:17
-            });
-	var miniMap = new L.Control.RTSMiniMap(osm2, { toggleDisplay: false }).addTo(masterMap);
 
-	var jwindow = $(window);
+	//cluster.Cluster.Size = 100;
 
-    // Manage the 3 fingers drag and drop
-    var mapEnabled = true;
-
-	$('#map .map').on('touchstart pointerdown', function (e) {
-        var oe = <TouchEvent><any> e.originalEvent;
-
-        if (oe.touches && oe.touches.length>= 3) {
-
-            if (mapEnabled) {
-                mapEnabled = false;
-                masterMap.dragging.disable();
-                masterMap.touchZoom.disable();
-                masterMap.doubleClickZoom.disable();
-                masterMap.scrollWheelZoom.disable();
-                masterMap.boxZoom.disable();
-                masterMap.keyboard.disable();
-                masterMap.tap&&masterMap.tap.disable();
-            }
-        }
-	    jwindow.trigger('leafletstart');
-    }).on('touchend pointerup', function(e) {
-
-        var oe = <TouchEvent><any> e.originalEvent;
-
-        if (!mapEnabled && (!oe.touches || oe.touches.length < 3)) {
-            mapEnabled = true;
-            masterMap.dragging.enable();
-            masterMap.touchZoom.enable();
-            masterMap.doubleClickZoom.enable();
-            masterMap.scrollWheelZoom.enable();
-            masterMap.boxZoom.enable();
-            masterMap.keyboard.enable();
-            masterMap.tap&&masterMap.tap.enable();
-		}
-		jwindow.trigger('leafletend');
-	});
-
-	var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet();
-	cluster.Cluster.Size = 100;
-
-	(<any>cluster).BuildLeafletMarker = (rawMarker: PruneCluster.Marker, location: L.LatLng) => {
+	/*(<any>cluster).BuildLeafletMarker = (rawMarker: PruneCluster.Marker, location: L.LatLng) => {
 		var id = rawMarker.data.ID;
 		var marker = new L.Marker(location, { icon: masterMap.createMasterIconWithId(id, $scope), draggable: true });
 		marker.on('dragstart', (e) => {
@@ -218,8 +67,8 @@ angular.module('mobileMasterApp')
 
 
 			if (distance > 28) {
-				masterMap.panTo(newLatLng);
-				$state.go('main.thing.order', { id: id });
+                masterMap.panTo(newLatLng);
+                $state.go('map.thing.order', { id: id });
 				marker.setLatLng(oldLatLng);
 			} else {
 				window.setImmediate(()=> {
@@ -228,7 +77,7 @@ angular.module('mobileMasterApp')
 			}
 
 		}).on('click', () => {
-			$state.go('main.thing', { id: id });
+			$state.go('thing', { id: id });
 		}).on('drag', (e) => {
 			var loc = marker.getLatLng();
 			dragLineLatLng[1].lat = loc.lat;
@@ -241,7 +90,7 @@ angular.module('mobileMasterApp')
 		});
 
 		return marker;
-	}
+	}*/
 
     var markersThings : {[ID: string] : PruneCluster.Marker} = {};
 
@@ -255,7 +104,7 @@ angular.module('mobileMasterApp')
 
     // Manage markers
     function updatePatientsPositions() {
-		miniMap.clear();
+        masterMap.clearMiniMap();
 
 	    angular.forEach($scope.things, (thing: MasterScope.Thing, ID: string) => {
 
@@ -270,7 +119,7 @@ angular.module('mobileMasterApp')
 
 				var location = new L.LatLng(loc.x, loc.y);
 
-				miniMap.addPoint(location, { r: 255 });
+	        masterMap.drawMiniMapPoint(location, { r: 255, g: 0, b: 0 });
 
 			if (markersThings[ID]) {
 				markersThings[ID].position.lat = loc.x;
@@ -280,7 +129,7 @@ angular.module('mobileMasterApp')
 					ID: ID
 				});
 
-			    cluster.RegisterMarker(m);
+			    //cluster.RegisterMarker(m);
 				markersThings[ID] = m;
 
 
@@ -295,11 +144,11 @@ angular.module('mobileMasterApp')
 				    delete markersThings[ID];
 			    }
 			});
-		miniMap.render();
-	    cluster.ProcessView();
+		masterMap.renderMiniMap();
+	    //cluster.ProcessView();
     }
 
-	masterMap.addLayer(cluster);
+	//masterMap.addLayer(cluster);
 
     $scope.$watch('things', function() {
 		// TODO send an event when it's OK
@@ -382,10 +231,22 @@ angular.module('mobileMasterApp')
 
 
 	masterMap.on('contextmenu', (e: L.LeafletMouseEvent) => {
-		// TODO UGLY
-		if (!$state.is('main.thing.order') && !$state.is('main.thing.edit')) {
+        // TODO UGLY
+        if (!$state.is('map.thing.order') && !$state.is('thing.edit')) {
 			$state.go('main.add', e.latlng);
 		}
 	});
 
+	var slidder = null;
+	var setMargin = () => {
+		if (!slidder) {
+			slidder = $('#view-slidder');
+		}
+		masterMap.setVerticalTopMargin(slidder.outerHeight());
+	};
+
+	$scope.$on('$destroy', () => angular.element($window).off('resize', setMargin));
+
+	setMargin();
+	angular.element($window).resize(setMargin);
 });

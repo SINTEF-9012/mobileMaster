@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-	.controller('LayersCtrl', (
+	.controller('BackgroundCtrl', (
 		$rootScope:MasterScope.Root,
 		$scope,
 	    persistentLocalization : PersistentLocalization,

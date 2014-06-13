@@ -1,11 +1,10 @@
-﻿/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
-'use strict';
+﻿'use strict';
 
 angular.module('mobileMasterApp').provider('orderService', function () {
 
 	var orderType = ThingModel.BuildANewThingType.Named("master:order")
 		.WhichIs("An instruction ordeeeer mouhahhahaa")
-		.ContainingA.Location("location")
+		.ContainingA.LocationLatLng()
 		.AndA.String("title")
 		.AndA.NotRequired.String("details", "Details").Build();
 

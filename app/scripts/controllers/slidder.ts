@@ -4,9 +4,8 @@ angular.module('mobileMasterApp')
 	.controller('SlidderCtrl', (
 		$scope: any,
 		thingModel: ThingModelService,
-		$rootScope: MasterScope.Root,
-		$upload: any,
-		layout: any,
+		//$rootScope: MasterScope.Root,
+        $upload: any,
 		settingsService: SettingsService,
 		$state
 		) => {
@@ -31,9 +30,12 @@ angular.module('mobileMasterApp')
 		}
 	};
 
-	$scope.infos = {};
+    $scope.infos = {};
+
+    $('#view-slidder, #dashboard-btn').on('touchmove', () => false);
 
 	var registerNew = (type: string)=> {
+		// if (thing.Type && thing.Type.Name !== 'master:wiki') { // TODO
 		if (!$scope.infos[type]) {
 			var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);
 			if (parsing) {
@@ -44,20 +46,17 @@ angular.module('mobileMasterApp')
 		} else {
 			++$scope.infos[type].count;
 		}
-		$rootScope.types[type].count = $scope.infos[type].count;
+
 		synchronizeScope($scope);
 	};
 
-	angular.forEach($rootScope.things, (thing: MasterScope.Thing, ID: string) => {
-		registerNew(thing.typeName);
+	angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
+		registerNew(thing.Type ? thing.Type.Name : 'default');
 	});
-
 
 	thingModel.warehouse.RegisterObserver({
 		New: (thing: ThingModel.Thing) => {
-			if (thing.Type && thing.Type.Name !== 'master:wiki') {
-				registerNew(thing.Type.Name);
-			}
+			registerNew(thing.Type ? thing.Type.Name : 'default');
 		},
 		Updated: (thing : ThingModel.Thing) => {
 		},
@@ -65,7 +64,7 @@ angular.module('mobileMasterApp')
 			if (!thing.Type) {
 				return;
 			}
-			var type = thing.Type.Name;
+			var type = thing.Type ? thing.Type.Name : 'default';
 			if ($scope.infos[type]) {
 				if (--$scope.infos[type].count === 0) {
 					delete $scope.infos[type];

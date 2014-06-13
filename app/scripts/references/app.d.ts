@@ -1,4 +1,7 @@
-﻿declare module Master {
+﻿/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
+
+declare module Master {
   export class Map extends L.Map {
     initializeMap(map : L.Map) : void;
 
@@ -9,10 +12,23 @@
     hideTileLayer(name : string) : Map;
 
     enableInteractions() : Map;
-	disableInteractions(): Map;
+    disableInteractions(): Map;
+
+    enableMiniMap(): Map;
+    disableMiniMap(): Map;
+    clearMiniMap(): Map;
+    renderMiniMap(): Map;
+    drawMiniMapPoint(pos: L.LatLng, color: {r: number; g:number; b:number}): Map;
+
+      enableScale();
+      disableScale();
+
+	  enableSituationOverview();
+	  disableSituationOverview();
+
+	  setVerticalTopMargin(margin: number);
 
 	getLayerClass(name: string): L.ILayer;
-	createMasterIconWithId(ID:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
 	createMasterIconWithType(type:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
   }
 
@@ -26,7 +42,8 @@
 }
 
 interface PersistentLocalization {
-	bindToMasterMap(map : Master.Map);
+	bindMasterMap(map: Master.Map, position: boolean);
+	unbindMasterMap(map: Master.Map);
   saveCurrentLayer(layer : MasterScope.Layer);
   restorePersistentLayer();
   clear();
@@ -81,3 +98,18 @@ interface SettingsService {
 	getClientName(): string;
 	getMediaServerUrl():string;
 }
+
+declare module L {
+	export var Renderer: any;
+	export var Layer: any;
+
+	export module Control {
+		export var RTSMiniMap: any;
+	}
+
+	export module Util {
+		export var throttle: (fn: () => void, time:number, context?: any) => () => void;
+	}
+}
+
+declare var PruneClusterLeafletSpiderfier: any;

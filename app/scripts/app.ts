@@ -16,29 +16,29 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 
     $urlRouterProvider.otherwise("/");
 	$stateProvider
-		.state('main', {
-			url: "/",
-			views: {
-				'top@': {
-					controller: 'MapCtrl',
-					template: '<div id="map"></div>'
-				},
-				'bottom@': {
-					controller: 'SummaryCtrl',
-					templateUrl: 'views/summary.html'
-				},
-				'slidder@': {
+		.state('map', {
+			url: '/map/fullscreen',
+            controller: 'MapCtrl',
+            templateUrl: 'views/map.html'
+        })
+        .state('map.slidder', {
+            url: '^/map',
+            views: {
+                'slidder': {
 					controller: 'SlidderCtrl',
 					templateUrl: 'views/slidder.html'
-				}
-			}
-		})
+                }
+            }
+        })
+        .state('main', {
+            url: '/',
+            controller: 'MainCtrl',
+            templateUrl: 'views/main.html'
+	    })
 		.state('main.editsummary', {
 			url: 'editsummary',
 			views: {
 				'bottom@': {
-					controller: 'SummaryCtrl',
-					templateUrl: 'views/editsummary.html'
 				}					
 			}
 		})
@@ -67,14 +67,10 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 //			}
 			}
 		})
-		.state('main.layers', {
-			url: 'layers',
-			views: {
-				'bottom@': {
-					controller: 'LayersCtrl',
-					templateUrl: 'views/layers.html'
-				}
-			}
+		.state('background', {
+			url: '/background',
+			controller: 'BackgroundCtrl',
+			templateUrl: 'views/background.html'
 		})
 		.state('main.filters', {
 			url: 'filters',
@@ -85,18 +81,10 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 				}
 			}
 		})
-		.state('main.thing', {
-			url: 'thing/:id',
-			views: {
-				'popup@': {
-					controller: 'ThingCtrl',
-					templateUrl: 'views/thing.html'
-				}
-			} /*,
-	    onEnter: () => {
-			$('#layout-popup').show();
-		},
-		onExit: ()=> $('#layout-popup').hide()*/
+		.state('thing', {
+			url: '/thing/:id',
+			controller: 'ThingCtrl',
+			templateUrl: 'views/thing.html'
 		})
 		.state('main.thing.edit', {	
 			url: 'thing/:id/edit',
@@ -111,8 +99,8 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 					templateUrl: 'views/edittoolbar.html'
 				}
 			}
-		})
-		.state('main.thing.order', {
+        })
+        .state('map.thing.order', {
 			url: 'thing/:id/order',
 			views: {
 				'popup@': false,
@@ -150,12 +138,8 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 		})
 		.state('settings', {
 			url: '/settings',
-			views: {
-				'top@': {
-					controller: 'SettingsCtrl',
-					templateUrl: 'views/settings.html'
-				}
-			}
+			controller: 'SettingsCtrl',
+			templateUrl: 'views/settings.html'
 		});
 
 });
@@ -163,13 +147,11 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 if (window.navigator.standalone) {
 	document.body.className += " standalone";
 
-	$('head').append('<meta name="apple-mobile-web-app-status-bar-style" content="translucent">');
-} else {
-	$('#status-bar').remove();
+	//$('head').append('<meta name="apple-mobile-web-app-status-bar-style" content="translucent">');
 }
 
 if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {
-  document.body.parentElement.className = "ipad ios7";
+	document.body.parentElement.className = "ipad ios7";
 
   window.addEventListener('orientationchange', function () {
     window.scrollTo(0, 0);
