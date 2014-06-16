@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-	.service('UUID', function ($rootScope: MasterScope.Root) {
+	.service('UUID', function (thingModel: ThingModelService) {
 		// AngularJS will instantiate a singleton by calling "new" on this function
 		/**
 		 * Fast UUID generator, RFC4122 version 4 compliant.
@@ -24,7 +24,7 @@ angular.module('mobileMasterApp')
 				lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
 
 			// Just for fun
-			if ($rootScope.things && $rootScope.things.hasOwnProperty(id)) {
+			if (thingModel.warehouse.GetThing(id)) {
 				alert("Take a picture : epic UUID collision : http://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates");
 				return this.generate();
 			}

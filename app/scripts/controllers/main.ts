@@ -1,6 +1,7 @@
 ﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../../bower_components/a99d99f275e5c274a6ba/SuperSimpleCharts.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/marked/marked.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
@@ -126,13 +127,20 @@ angular.module('mobileMasterApp')
         })
         .setDefaultTileLayer("MapBox");
 
+	marked.setOptions({
+		gfm: true,
+		tables: true,
+		breaks: true
+	});
+
 })
 .controller('MainCtrl', function(
 	masterMap: Master.Map,
 	$scope,
 	$window: ng.IWindowService,
+	$sce: ng.ISCEService,
     persistentLocalization : PersistentLocalization,
-    thingModel: any) {
+    thingModel: ThingModelService) {
 
     var jMap = $('#main-map'), jlink = $('#main-map-link');
 
@@ -165,6 +173,10 @@ angular.module('mobileMasterApp')
 	var checkObserver = (thing: ThingModel.Thing) => {
 		if (thing.Type && victimTest.test(thing.Type.Name)) {
 			computeStats();
+		}
+
+		else if (thing.ID === 'master-summary') {
+			computeSummary();
 		}
 	};
 	var observer = {
@@ -221,7 +233,24 @@ angular.module('mobileMasterApp')
 		}
 	};
 
+
+	var computeSummary = (first?: boolean) => {
+		var summary = thingModel.warehouse.GetThing('master-summary');
+		if (summary) {
+			$scope.title = summary.GetString('title');
+			$scope.htmlSummary = $sce.trustAsHtml(marked(summary.GetString('content')));
+		} else {
+			$scope.title = 'Default situation title';
+			$scope.htmlSummary = $sce.trustAsHtml('Default situation summary');
+		}
+
+		if (!first) {
+			$scope.$apply();
+		}
+	};
+
 	computeStats(true);
+	computeSummary(true);
 	thingModel.warehouse.RegisterObserver(observer);
 
 

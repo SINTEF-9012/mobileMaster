@@ -12,7 +12,7 @@ angular.module('mobileMasterApp')
 			var type = ThingModel.BuildANewThingType.Named(typeName);
 
 			if (location) {
-				type.ContainingA.Location("location");
+				type.ContainingA.LocationLatLng("location");
 			}
 
 			var btype = type.Build();

@@ -29,12 +29,21 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 					templateUrl: 'views/slidder.html'
                 }
             }
-        })
+		})
+		.state('summary', {
+			url: '/summary',
+			controller: 'SummaryCtrl',
+			templateUrl: 'views/summary.html'
+		})
+		.state('summary.edit', {
+			url: '/editsummary',
+			templateUrl: 'views/editsummary.html'
+		})
         .state('main', {
             url: '/',
             controller: 'MainCtrl',
             templateUrl: 'views/main.html'
-	    })
+		})
 		.state('main.editsummary', {
 			url: 'editsummary',
 			views: {

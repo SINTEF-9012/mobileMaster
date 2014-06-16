@@ -1,11 +1,22 @@
-<div class="container container-fluid">
-	<div class="row">
-		<h1 class="col-md-12">{{title}}</h1>
-	</div>
-	<div class="row">
-		<div class="col-md-10 col-md-push-1" ng-bind-html="htmlSummary"></div>
-	</div>
-	<div class="row">
-		<a class="btn btn-default btn-sm pull-right" ui-sref="main.editsummary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+<div ui-view>
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		  <div class="container-fluid">
+		  	<div class="row">
+		  		
+			    <a class="navbar-brand col-xs-2" href="#" ui-sref="main"><span class="glyphicon glyphicon-th"></span></a>
+
+		    	<h3 class="col-xs-8">{{title}}</h3>
+
+		    	<button ui-sref="summary.edit" type="button" class="btn btn-default navbar-btn pull-right" >Edit</button>
+		    </div>
+		  </div>
+		</nav>
+	</header>
+
+	<div class="container container-fluid" ui-view>
+		<div class="row">
+			<div class="col-md-10 col-md-push-1" ng-bind-html="htmlSummary"></div>
+		</div>
 	</div>
 </div>

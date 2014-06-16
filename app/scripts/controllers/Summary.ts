@@ -19,26 +19,47 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	$state,
 	$scope,
 	$stateParams,
-	$rootScope,
-	masterMap: Master.Map,
 	$sce: ng.ISCEService,
-	AddService: AddService
+	AddService: AddService,
+	thingModel: ThingModelService
 	) => {
 
-	$rootScope.$watch('things["master-summary"]', (summary) => {
-		//console.log(summary);
-		if (summary && summary.content) {
-			var content = summary.content;
-			$scope.markdownSummary = content;
-			$scope.htmlSummary = $sce.trustAsHtml(marked(content)
+	var computeSummary = () => {
+		var summary = thingModel.warehouse.GetThing('master-summary');
+		if (summary) {
+			$scope.title = summary.GetString('title');
+			$scope.markdownSummary = summary.GetString('content');
+			$scope.htmlSummary = $sce.trustAsHtml(marked($scope.markdownSummary)
 				.replace(/<table>/g, '<table class="table table-striped">'));
-			$scope.title = summary.title;
 		} else {
-			$scope.title = 'Loading';
+			$scope.title = 'Default situation title';
 			$scope.markdownSummary = '';
-			$scope.htmlSummary = '';//$sce.trustAsHtml('empty');
+			$scope.htmlSummary = $sce.trustAsHtml('Default situation summary');
 		}
 
+		if (!$scope.$$phase) {
+			$scope.$apply();
+		}
+	};
+
+	computeSummary();
+
+	var checkObserver = (thing: ThingModel.Thing) => {
+		if (thing.ID === 'master-summary') {
+			computeSummary();
+		}
+	};
+	var observer = {
+		New: checkObserver, 
+		Updated: checkObserver,
+		Deleted: checkObserver,
+		Define: (thingType: ThingModel.ThingType) => {}
+	}
+	thingModel.warehouse.RegisterObserver(observer);
+
+
+	$scope.$on('$destroy', () => {
+		thingModel.warehouse.UnregisterObserver(observer);
 	});
 
 	$scope.publish = () => {

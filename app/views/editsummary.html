@@ -1,5 +1,21 @@
+<form role="form" ng-submit="publish()" >
+
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" href="#" ui-sref="^"><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+	    	<h3 class="col-xs-8">Summary editting</h3>
+
+	    	<button type="submit" class="btn btn-primary navbar-btn pull-right" >Save</button>
+	    </div>
+	  </div>
+	</nav>
+</header>
+
 <div class="container container-fluid">
-	<form role="form" ng-submit="publish()" >
 		<div class="form-group">
 			<label for="summaryTitle">Title</label>
 			<input type="text" class="form-control input-lg" id="summaryTitle" placeholder="All is fine and you are drunk" ng-model="title">
@@ -7,13 +23,11 @@
 		<div class="form-group">
 			<label for="summaryContent">Content</label>
 			<textarea id="summaryContent" class="form-control" rows="16" ng-model="markdownSummary"></textarea>
-			<span class="help-block"><em>You can use the <a href ng-init="mdSyntax=false" ng-click="mdSyntax = !mdSyntax">Markdown syntax.<a></em></span>
+			<span class="help-block"><em>You can use the <a href ng-init="mdSyntax=false" ng-click="mdSyntax = !mdSyntax">Markdown syntax.</a></em></span>
 		</div>
 
-		<a ui-sref="^" class="btn btn-warning">Cancel</a>
-		<input type="submit" class="btn btn-primary" id="camera-submit" value="Publish"/>
-
-		<div class="row" ng-show="mdSyntax">
+		<div class="markdown-help" ng-show="mdSyntax">
+		<div class="row">
 			<h2>Markdown</h2>
 			<h4>Paragraphs</h4>
 			<div class="col-sm-6">
@@ -28,7 +42,7 @@ You can also write HTML code if you prefer.</pre>
 		</div>
 
 
-		<div class="row" ng-show="mdSyntax">
+		<div class="row">
 
 			<h4>Lists</h4>
 			<div class="col-sm-6">
@@ -55,7 +69,7 @@ You can also write HTML code if you prefer.</pre>
 			</div>
 		</div>
 
-		<div class="row" ng-show="mdSyntax">
+		<div class="row">
 
 			<h4>Styling text</h4>
 			<div class="col-sm-6">
@@ -70,7 +84,7 @@ You can also write HTML code if you prefer.</pre>
 			</div>
 		</div>
 
-		<div class="row" ng-show="mdSyntax">
+		<div class="row">
 			<h4>Links</h4>
 			<div class="col-sm-6">
 				<pre>http://perdu.com
@@ -84,7 +98,7 @@ or
 			</div>
 		</div>
 
-		<div class="row" ng-show="mdSyntax">
+		<div class="row">
 
 			<h4>Blockquotes</h4>
 			<div class="col-sm-6">
@@ -97,7 +111,7 @@ or
  consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.</p></blockquote>
 			</div>
 		</div>
-		<div class="row" ng-show="mdSyntax">
+		<div class="row">
 
 			<h4>Tables</h4>
 			<div class="col-sm-6">
@@ -127,6 +141,7 @@ Content Cell  | Content Cell
 </tbody>
 </table>	
 			</div>
-		</div>
-	</form>
+	</div>	</div>
 </div>
+
+</form>
