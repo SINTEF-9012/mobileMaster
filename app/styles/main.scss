@@ -514,10 +514,10 @@ left: 2em;
 
 #dashboard-btn {
 color: white;
-font-size: 38px;
+font-size: 30px;
 position:absolute;
-left:4px;
-top:3px;
+left:8px;
+top:6px;
 text-decoration: none;
 z-index:1;
 }
@@ -572,6 +572,15 @@ z-index:1;
                 padding:0px 30px 15px 30px;
             }
         }
+    }
+}
+
+.summary-block {
+    .summary {
+        margin: 0;
+        max-height: 35px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
