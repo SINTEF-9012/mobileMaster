@@ -1,5 +1,6 @@
 ﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
+/// <reference path="./../../bower_components/a99d99f275e5c274a6ba/SuperSimpleCharts.ts" />
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
@@ -155,7 +156,80 @@ angular.module('mobileMasterApp')
 	}, 50);
 
 
-	$scope.$on('$destroy', () => jwindow.off('resize', setLayout));
+
+
+	var statsVictims : {[color: string] : number}, nbVictims = 0;
+	var victimsChart = new SuperSimpleCharts.BarChart(document.getElementById('victims-chart'));
+	var victimTest = /(victim|patient)/i;
+
+	var checkObserver = (thing: ThingModel.Thing) => {
+		if (thing.Type && victimTest.test(thing.Type.Name)) {
+			computeStats();
+		}
+	};
+	var observer = {
+		New: checkObserver, 
+		Updated: checkObserver,
+		Deleted: checkObserver,
+		Define: (thingType: ThingModel.ThingType) => {
+		}
+	}
+
+	var lastCall = 0,
+		workerTimeout = 0,
+		interval = 300;
+
+	var computeStats = (first?: boolean) => {
+		if (workerTimeout !== 0) {
+			return;
+		}
+
+		var now = +new Date();
+		if (now - lastCall < interval) {
+			workerTimeout = window.setTimeout(computeStatsWorker, interval);
+			return;
+		}
+
+		computeStatsWorker(first);
+	};
+
+	var computeStatsWorker = (first? :boolean) => {
+		nbVictims = 0;
+		statsVictims = {};
+		angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
+			if (thing.Type && victimTest.test(thing.Type.Name)) {
+				nbVictims += 1;
+
+				var triage_status: string;
+				if (!(triage_status = thing.GetString('triage_status'))) {
+					triage_status = '#FF4B00';
+				} else {
+					triage_status = triage_status.toLowerCase();
+					if (triage_status === 'yellow') {
+						triage_status = '#EBC813';
+					}
+				}
+
+				statsVictims[triage_status] = (statsVictims[triage_status] + 1) || 1;
+			}
+		});
+
+		victimsChart.SetData(statsVictims);
+		$scope.nbVictims = nbVictims;
+		if (!first) {
+			$scope.$apply();
+		}
+	};
+
+	computeStats(true);
+	thingModel.warehouse.RegisterObserver(observer);
+
+
+	$scope.$on('$destroy', () => {
+		jwindow.off('resize', setLayout);
+		thingModel.warehouse.UnregisterObserver(observer);
+	});
+
 	jwindow.resize(setLayout);
 
 	setLayout();

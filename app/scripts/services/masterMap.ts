@@ -541,7 +541,7 @@ angular.module('mobileMasterApp')
 			var addMarker = (thing: ThingModel.Thing) => {
 				if (thingsOnTheMap.hasOwnProperty(thing.ID)) {
 					alert("TODO what should we do ?");
-						removeMarker(thing);
+					removeMarker(thing);
 					}
 
 					var location = thing.LocationLatLng();
@@ -600,7 +600,7 @@ angular.module('mobileMasterApp')
 							removeMarkersTimeout = 0;
 
 							cluster.RemoveMarkers(markersToRemove);
-
+							cluster.ProcessView();
 							markersToRemove = [];
 
 						}, 50);

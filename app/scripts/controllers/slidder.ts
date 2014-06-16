@@ -54,11 +54,11 @@ angular.module('mobileMasterApp')
 		registerNew(thing.Type ? thing.Type.Name : 'default');
 	});
 
-	thingModel.warehouse.RegisterObserver({
+	var observer =  {
 		New: (thing: ThingModel.Thing) => {
 			registerNew(thing.Type ? thing.Type.Name : 'default');
 		},
-		Updated: (thing : ThingModel.Thing) => {
+		Updated: (thing: ThingModel.Thing) => {
 		},
 		Deleted: (thing : ThingModel.Thing) => {
 			if (!thing.Type) {
@@ -74,6 +74,12 @@ angular.module('mobileMasterApp')
 		},
 		Define: (thingType: ThingModel.ThingType) => {
 		}
+	};
+
+	thingModel.warehouse.RegisterObserver(observer);
+
+	$scope.$on('$destroy', () => {
+		thingModel.warehouse.UnregisterObserver(observer);
 	});
 
 	$scope.onCapture = ($files) => {
