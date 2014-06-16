@@ -30,6 +30,16 @@
 }
 
 .leaflet-popup-content {
+    & > div {
+        position: relative;
+        padding: 5px 5px 4px 52px;
+        min-height: 41px;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        display: flex;
+        align-items: center;
+    }
+
     img {
         image-rendering:-webkit-optimize-contrast;
         image-rendering: -moz-crisp-edges;
@@ -37,7 +47,9 @@
         width:41px;
         height:41px;
 
-        margin-right:10px;
+        position: absolute;
+        left: 0;
+        top: 0;
     }
 
     font-weight: bold;

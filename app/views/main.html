@@ -1,62 +1,85 @@
 <div class="container-fluid">
 	<div class="row">
-		<h1 class="col-sm-12">Master <small>the situation est trèès très graave</small></h1>	
+		<h1 class="col-sm-12">Master <small>the rabbits hunting started</small></h1>	
 	</div>
   <div class="row">
   		<div class="col-md-3 col-sm-3">
-
-  			<div class="row">
-  				<h2 class="col-sm-12">Victims</h2>	
-  			</div>
-			<div class="row" style="background:#FF4B00">
-				<h3 class="col-xs-10 col-sm-5">Immediate</h3>	
-				<h2 class="col-xs-2 col-sm-1 col-sm-offset-4">10</h2>
-			</div>
-			<div class="row" style="background:#EBC813">
-				<h3 class="col-xs-10 col-sm-5">Delayed</h3>	
-				<h2 class="col-xs-2 col-sm-1 col-sm-offset-4">12</h2>
-			</div>
-			<div class="row" style="background:#BAC900">
-				<h3 class="col-xs-10 col-sm-5">Minor</h3>	
-				<h2 class="col-xs-2 col-sm-1 col-sm-offset-4">28</h2>
+	  		<div class="infoblock victims-block">
+	  			<div class="row header">
+	  				<div class="col-xs-12">
+	  					<h2>Victims</h2>
+	  				</div>
+	  			</div>
+	  			<div class="row">
+	  				<div class="col-md-5 number-area">{{nbVictims}}</div>	
+	  				<div class="col-md-7 barchart-area">
+	  					<div>
+		  					<div id="victims-chart"></div>
+	  					</div>
+	  				</div>	
+	  			</div>	
 			</div>
   		</div>
 		<a ui-sref="map.slidder" id="main-map-link"></a>
 		<div id="main-map" class="col-md-6 col-sm-9 col-lg-5"></div>
 
-		<div class="col-md-3 col-lg-2">
-  			<div class="row">
-  				<h2 class="col-md-12">Resources</h2>	
-  			</div>
-			<div class="row" style="background:#D2204C">
-				<h3 class="col-xs-10 col-md-5">Ducks</h3>	
-				<h2 class="col-xs-2 col-md-1 col-md-offset-4">7</h2>
-			</div>
-			<div class="row" style="background:#55BCBE">
-				<h3 class="col-xs-10 col-md-5">Rabbits</h3>	
-				<h2 class="col-xs-2 col-md-2 col-md-offset-3">198</h2>
-			</div>
-			<div class="row" style="background:#3E647E">
-				<h3 class="col-xs-10 col-md-5">Dude</h3>	
-				<h2 class="col-xs-2 col-md-1 col-md-offset-4">3</h2>
+		<div class="col-md-3 col-lg-2 col-sm-4">
+			<div class="infoblock">
+	  			<div class="row">
+	  				<h2 class="col-md-12">Resources</h2>	
+	  			</div>
+				<div class="row" style="background:#D2204C">
+					<h3 class="col-xs-8 col-sm-5">Ducks</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-3">7</h2>
+				</div>
+				<div class="row" style="background:#55BCBE">
+					<h3 class="col-xs-8 col-sm-5">Rabbits</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-3">198</h2>
+				</div>
+				<div class="row" style="background:#3E647E">
+					<h3 class="col-xs-8 col-sm-5">Dude</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-3">3</h2>
+				</div>
 			</div>
 		</div>
 
-		<div class="col-md-3 col-lg-2">
-  			<div class="row">
-  				<h2 class="col-md-12">Response</h2>	
-  			</div>
-			<div class="row" style="background:#051039;color:white">
-				<h3 class="col-xs-10 col-md-5">Local bases</h3>	
-				<h2 class="col-xs-2 col-md-1 col-md-offset-4">1</h2>
+		<div class="col-md-3 col-lg-2 col-sm-4">
+			<div class="infoblock">
+	  			<div class="row">
+	  				<h2 class="col-md-12">Response</h2>	
+	  			</div>
+				<div class="row" style="background:#051039;color:white">
+					<h3 class="col-xs-8 col-sm-6">Local bases</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
+				</div>
+				<div class="row" style="background:#051039;color:white">
+					<h3 class="col-xs-8 col-sm-6">Road blocks</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">10</h2>
+				</div>
+				<div class="row" style="background:#051039;color:white">
+					<h3 class="col-xs-8 col-sm-6">Operation areas</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
+				</div>
 			</div>
-			<div class="row" style="background:#051039;color:white">
-				<h3 class="col-xs-10 col-md-5">Road blocks</h3>	
-				<h2 class="col-xs-2 col-md-1 col-md-offset-4">10</h2>
-			</div>
-			<div class="row" style="background:#051039;color:white">
-				<h3 class="col-xs-10 col-md-5">Operation areas</h3>	
-				<h2 class="col-xs-2 col-md-1 col-md-offset-4">1</h2>
+		</div>
+
+		<div class="col-md-3 col-lg-2 col-sm-4">
+			<div class="infoblock">
+	  			<div class="row">
+	  				<h2 class="col-md-12">Risks</h2>	
+	  			</div>
+				<div class="row" style="background:#F00;color:white">
+					<h3 class="col-xs-8 col-sm-6">High</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
+				</div>
+				<div class="row" style="background:#FF4B00;color:white">
+					<h3 class="col-xs-8 col-sm-6">Medium</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">10</h2>
+				</div>
+				<div class="row" style="background:#BAC900;color:white">
+					<h3 class="col-xs-8 col-sm-6">Low</h3>	
+					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
+				</div>
 			</div>
 		</div>
   </div>

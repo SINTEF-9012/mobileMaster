@@ -521,3 +521,56 @@ top:3px;
 text-decoration: none;
 z-index:1;
 }
+
+.infoblock {
+    margin:10px;
+
+    cursor:pointer;
+    background: #ada59a;
+
+    &:hover {
+        margin:4px;
+        border:6px solid #ecb813;
+    }
+
+    .header {
+        h2 {
+            margin-left:0.66em;
+        }
+    }
+}
+
+.victims-block {
+    .number-area {
+        text-align: center;
+        font-size: 3.5em;
+        line-height: 180px;
+        padding:0;
+        padding-left:10px;
+    }
+
+    .barchart-area {
+        padding:0;
+        & > div {
+            height:200px;
+            // padding: 0 1em 1em 0;
+            padding:0px 30px 15px 0px;
+        }
+    }
+}
+
+@media (max-width: $screen-md-max) {
+    .victims-block {
+        .number-area {
+            line-height: 130px;
+        }
+
+        .barchart-area {
+            padding:0;
+            & > div {
+                height:150px;
+                padding:0px 30px 15px 30px;
+            }
+        }
+    }
+}
