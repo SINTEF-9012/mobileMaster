@@ -159,8 +159,7 @@ angular.module('mobileMasterApp')
 	var setLayout = L.Util.throttle(() => {
 		var height = Math.floor(jwindow.height() / 2);
 		jMap.height(height);
-
-		jlink.height(height).width(jMap.width()).offset(jMap.offset());
+		jlink.height(height-12).width(jMap.width()-12).offset(jMap.offset());
 	}, 50);
 
 
@@ -179,13 +178,13 @@ angular.module('mobileMasterApp')
 			computeSummary();
 		}
 	};
+
 	var observer = {
 		New: checkObserver, 
 		Updated: checkObserver,
 		Deleted: checkObserver,
-		Define: (thingType: ThingModel.ThingType) => {
-		}
-	}
+		Define: () => {}
+	};
 
 	var lastCall = 0,
 		workerTimeout = 0,
@@ -230,6 +229,7 @@ angular.module('mobileMasterApp')
 		$scope.nbVictims = nbVictims;
 		if (!first) {
 			$scope.$apply();
+			setLayout();
 		}
 	};
 
@@ -246,6 +246,7 @@ angular.module('mobileMasterApp')
 
 		if (!first) {
 			$scope.$apply();
+			setLayout();
 		}
 	};
 
@@ -261,10 +262,9 @@ angular.module('mobileMasterApp')
 
 	jwindow.resize(setLayout);
 
-	setLayout();
-    
 	// Update the panel height after the layout initialization
     window.setImmediate(() => {
+		setLayout();
 		masterMap.invalidateSize({});
 	    masterMap.enableSituationOverview();
 	});

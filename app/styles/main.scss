@@ -11,7 +11,7 @@
     height:100%;
 }*/
 
-#main-map {
+#main-map, #thing-map {
     /*position:absolute;
     display:block;*/
     padding:0;
@@ -25,6 +25,7 @@
     position:absolute;
     display: block;
     z-index: 10;
+    border:6px solid transparent;
 
     &:hover {
         border:6px solid #ecb813;
@@ -424,9 +425,6 @@ left: 2em;
         // padding-left: 30px;
         img.identicon {
             // position:absolute;
-            image-rendering:-webkit-optimize-contrast;
-            image-rendering: -moz-crisp-edges;
-            -ms-interpolation-mode: nearest-neighbor;
             width:21px;
             height:21px;
             // top:50%;
@@ -523,14 +521,15 @@ z-index:1;
 }
 
 .infoblock {
-    margin:10px;
+    margin:4px;
+    border: 6px solid $gray-lighter;
 
     cursor:pointer;
     background: #ada59a;
 
     &:hover {
         margin:4px;
-        border:6px solid #ecb813;
+        border-color:#ecb813;
     }
 
     .header {
@@ -544,7 +543,7 @@ z-index:1;
     .number-area {
         text-align: center;
         font-size: 3.5em;
-        line-height: 180px;
+        line-height: 150px;
         padding:0;
         padding-left:10px;
     }
@@ -552,14 +551,14 @@ z-index:1;
     .barchart-area {
         padding:0;
         & > div {
-            height:200px;
+            height:150px;
             // padding: 0 1em 1em 0;
             padding:0px 30px 15px 0px;
         }
     }
 }
 
-@media (max-width: $screen-md-max) {
+@media (max-width: $screen-sm-max) {
     .victims-block {
         .number-area {
             line-height: 130px;
@@ -578,7 +577,8 @@ z-index:1;
 .summary-block {
     .summary {
         margin: 0;
-        max-height: 35px;
+        padding-bottom:15px;
+        max-height: 140px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -589,11 +589,18 @@ header h3 {
     margin-top:12px;
 }
 
-header + .container {
+header + .container, header + .container-fluid {
     margin-top: 70px;
 }
 
-header .navbar button {
+
+@media (max-width: 400px) {
+    header + .container, header + .container-fluid {
+        margin-top: 140px;
+    }
+}
+
+header .navbar button, header .navbar .btn-group {
     margin-right:0.66em;
 }
 
@@ -606,4 +613,114 @@ header .navbar button {
 .markdown-help {
     margin-left:15px;
     margin-right:15px;
+}
+
+header + .master-list {
+    margin-top: 50px;
+    background: white;
+    padding-top: 20px;
+}
+
+.victim {
+    padding-top: 11px;
+    // padding-bottom: 12px;
+    border-bottom:1px solid white;
+    //border-top:1px solid $gray-lighter;
+    font-size: 1.3em;
+    line-height:1.1em;
+    cursor:pointer;
+    background: white;
+
+    .identicon {
+        box-shadow: 0px 0px 1px #888;
+    }
+
+    .triage-light {
+        float: right;
+        height: 36px;
+        width: 36px;
+        border-radius: 18px;
+        border: none;
+        box-shadow:-1px -1px 6px rgba(0,0,0,0.45) inset;
+    }
+
+
+    small, span {
+        color: $gray;
+    }
+
+    .col-xs-10, .col-xs-1 {
+        border-bottom: 1px solid $gray-lighter;
+        min-height: 50px;
+    }
+    .first-col {
+        border-bottom-color:transparent;
+    }
+}
+
+body:not(.touch) .victim:hover {
+    border-bottom-color: $gray-light;
+    background: $gray-lighter;
+    .first-col {
+        border-bottom-color: $gray-lighter;
+    }
+}
+
+.navbar {
+    .btn-group {
+        .btn {
+            line-height:20px;
+        }
+
+        .triage-light {
+            margin-right:0;
+        }
+    }
+
+    h3.identicon {
+        margin: 4px 0;
+        img {
+            box-shadow: 0px 0px 1px #888;
+            margin-right:4px;
+        }
+    }
+}
+
+.victimInfobox {
+    height:150px;
+}
+
+#thing-map {
+    border-left: 1px solid #e7e7e7;
+    border-top: 1px solid #e7e7e7;
+}
+@media (min-width: $screen-md-min) {
+    #thing-map {
+        margin-top:-20px;
+    }
+}
+
+img.identicon {
+    image-rendering:-webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+.properties-list {
+    padding-left:24px;
+    padding-right:26px;
+    padding-bottom:11px;
+}
+
+
+.victimInfobox {
+    background: #ff5722;
+    border-radius: 2px;
+    padding: 16px;
+    margin-top: 0;
+    margin-bottom:8px;
+    margin-right: -11px;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.35);
+    border: 1px solid rgba(0,0,0,0.15);
+    margin-left: -11px;
 }

@@ -39,6 +39,16 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 			url: '/editsummary',
 			templateUrl: 'views/editsummary.html'
 		})
+		.state('victims', {
+			url: '/victims?filter&page',
+			controller: 'TableCtrl',
+			templateUrl: 'views/victims.html'
+		})
+		.state('victim', {
+			url: '/victim/:ID',
+			controller: 'ThingCtrl',
+			templateUrl: 'views/victim.html'
+		})
         .state('main', {
             url: '/',
             controller: 'MainCtrl',
@@ -157,6 +167,11 @@ if (window.navigator.standalone) {
 	document.body.className += " standalone";
 
 	//$('head').append('<meta name="apple-mobile-web-app-status-bar-style" content="translucent">');
+}
+
+
+if (!!("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 0) {
+	document.body.className += " touch";
 }
 
 if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {

@@ -61,7 +61,8 @@ declare module PersistentLocalization {
 interface ThingModelService {
 	warehouse: ThingModel.Warehouse;
 	client: ThingModel.WebSockets.Client;
-	RemoveThing(id:string);
+	RemoveThing(id: string);
+	ApplyThingToScope($scope: any, thing: ThingModel.Thing);
 	EditThing(id: string, values: { [property: string]: {value:string;type:string} });
 }
 

@@ -88,10 +88,12 @@ angular.module('mobileMasterApp')
 	    save();
     };
 
-    this.restorePersistentLayer = () => {
+	  this.restorePersistentLayer = () => {
 	    if (layer) {
-		    angular.forEach(masterMap.getTilesLayers(), (iLayer: MasterScope.Layer) => {
-			    masterMap.hideTileLayer(iLayer.name);
+			angular.forEach(masterMap.getTilesLayers(), (iLayer: MasterScope.Layer) => {
+				if (layer !== iLayer.name) {
+					masterMap.hideTileLayer(iLayer.name);
+				}
 		    });
 
 		    masterMap.showTileLayer(layer);

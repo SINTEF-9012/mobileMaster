@@ -9,37 +9,122 @@ angular.module('mobileMasterApp')
 	});
 })
 .controller('TableCtrl', (
-	$rootScope,
 	$scope,
-	thingModel,
-	$timeout: ng.ITimeoutService,
+	thingModel : ThingModelService,
+	//$timeout: ng.ITimeoutService,
 	$stateParams,
-	masterMap: Master.Map,
-	settingsService: SettingsService,
-	Knowledge) => {
+	$state
+	//masterMap: Master.Map,
+	//Knowledge
+) => {
 
-	var jwindow = $(window);
+	$(window).scrollTop(0);
 
-	$scope.mediaServer = settingsService.getMediaServerUrl();
+	var victimTest = /(victim|patient)/i;
 
-	$scope.thingType = $stateParams.thingtype;
+	$scope.filter = $stateParams.filter ? $stateParams.filter : 'all';
+	$scope.previousPage = -1;
+	$scope.nextPage = -1;
 
-	// Create an array of things because angular can only sort arrays
-	var array = [];
-	$scope.$watch('types[thingType].things', () => {
-		array.length = 0;
-		if ($scope.types && $scope.types[$scope.thingType]) {
-			angular.forEach($scope.types[$scope.thingType].things, (value) => {
-				array.push(value);
-			});
+	var globalList = [];
+	var pageSize = 50,
+		startPageCount = $stateParams.page ? Math.max($stateParams.page * pageSize || 0,0) : 0,
+		endPageCount = startPageCount + pageSize;
+
+	angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
+		if (thing.Type && victimTest.test(thing.Type.Name)) {
+			var s : any = {};
+			thingModel.ApplyThingToScope(s, thing);
+			s.triage_status = s.triage_status.toLocaleLowerCase();
+			globalList.push(s);
 		}
+	});
+	//$scope.things = globalList;
 
-		$scope.arrayThings = array;
-		jwindow.trigger('resize');
 
-//		$scope.$digest();
-	}, true);
-	
+	var sortThings = () => {
+		globalList.sort((a, b) => {
+			var ta = a.triage_status, tb = b.triage_status;
+
+			if (ta === tb) return a.ID > b.ID ? 1 : -1;
+
+			if (ta === 'black') return -1;
+			if (tb === 'black') return 1;
+			if (ta === 'red') return -1;
+			if (tb === 'red') return 1;
+			if (ta === 'yellow') return -1;
+			if (tb === 'yellow') return 1;
+			if (ta === 'greens') return -1;
+			if (tb === 'greens') return 1;
+
+			return ta > tb ? 1 : -1;
+		});
+	};
+
+
+	var digestScope = L.Util.throttle(() => {
+		sortThings();
+
+		$scope.things = [];
+		var cpt = 0;
+
+		var more = false;
+		$scope.things = _.filter(globalList, (s: any) => {
+				if (($scope.filter === 'all' || $scope.filter === s.triage_status) &&
+				(cpt++ >= startPageCount)) {
+					if (cpt <= endPageCount) {
+						return true;
+					} else {
+						more = true;
+					}
+				}
+
+				return false;
+			}
+		);
+
+		$scope.previousPage = $stateParams.page - 1;
+		$scope.nextPage = more ? parseInt($stateParams.page) + 1 || 1 : -1;
+
+		if (!$scope.$$phase) {
+			$scope.$digest();
+		}
+	}, 10);
+
+	digestScope();
+
+	var observer = {
+		New: (thing: ThingModel.Thing) => {
+			if (thing.Type && victimTest.test(thing.Type.Name)) {
+				var s : any = {};
+				thingModel.ApplyThingToScope(s, thing);
+				s.triage_status = s.triage_status.toLocaleLowerCase();
+
+				globalList.push(s);
+				digestScope();
+			}
+		}, 
+		Updated: (thing: ThingModel.Thing) => {
+			var t = _.find(globalList, (s: any) => s.ID === thing.ID);
+			if (t) {
+				thingModel.ApplyThingToScope(t, thing);
+				t.triage_status = t.triage_status.toLocaleLowerCase();
+				digestScope();
+			}
+		},
+		Deleted: (thing: ThingModel.Thing) => {
+			globalList = _.reject(globalList, (s: any) => s.ID === thing.ID);
+			digestScope();
+		},
+		Define: (thingType: ThingModel.ThingType) => {}
+	}
+	thingModel.warehouse.RegisterObserver(observer);
+
+
+	$scope.$on('$destroy', () => {
+		thingModel.warehouse.UnregisterObserver(observer);
+	});
+
 	// Sort by the id ascending by default
 	$scope.sortExpression = '+ID';
 	$scope.sortPropertyKey = 'ID';
@@ -47,19 +132,17 @@ angular.module('mobileMasterApp')
 
 	$scope.sortThings = (key: string) => {
 		var direction = key == $scope.sortPropertyKey ?
-			($scope.sortDirection === '+' ? '-' : '+') : '+';
+		($scope.sortDirection === '+' ? '-' : '+') : '+';
 		$scope.sortExpression = direction + key;
-        $scope.sortDirection = direction;
-        $scope.sortPropertyKey = key;
-	}
-
-	$scope.selectThing = (thing: MasterScope.Thing) => {
-		if (!thing.location) {
-			return;
-        }
-		var location = new L.LatLng(thing.location.x, thing.location.y);
-		var pixels = masterMap.project(location);
-		pixels.y -= $(window).scrollTop() / 2;
-		masterMap.panTo(masterMap.unproject(pixels));
+		$scope.sortDirection = direction;
+		$scope.sortPropertyKey = key;
 	};
+
+	/*$scope.filter = (filter: string) => {
+		filter = filter.toLocaleLowerCase();
+
+		$scope.filter = filter;
+		$stateParams.filter = filter;
+		digestScope();
+	};*/
 });
