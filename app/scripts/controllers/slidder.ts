@@ -34,7 +34,15 @@ angular.module('mobileMasterApp')
 
     $('#view-slidder, #dashboard-btn').on('touchmove', () => false);
 
-	var registerNew = (type: string)=> {
+		var registerNew = (type: string) => {
+		if (/(patient|victim)/i.test(type)) {
+			type = 'PatientType';
+		} else if (/(incident)/i.test(type)) {
+			type = 'IncidentType';
+		} else if (/(resource)/i.test(type)) {
+			type = 'ResourceType';
+		}
+
 		// if (thing.Type && thing.Type.Name !== 'master:wiki') { // TODO
 		if (!$scope.infos[type]) {
 			var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);

@@ -63,7 +63,7 @@ angular.module('mobileMasterApp')
 				options: {
 					iconSize: [40, 40],
 					iconAnchor: [20, 20],
-					popupAnchor: [0,-17],
+					popupAnchor: [0, -17],
 					className: 'leaflet-master-icon',
 					html: false
 				},
@@ -264,9 +264,7 @@ angular.module('mobileMasterApp')
 
 				var content = $('<div />');
 
-				content.click(() => {
-					$state.go('thing', { id: id, from: 'map' });
-				});
+
 
 				var thing = thingModel.warehouse.GetThing(id);
 
@@ -274,25 +272,51 @@ angular.module('mobileMasterApp')
 					return;
 				}
 
+				var toState = thing.Type && /(victim|patient)/i.test(thing.Type.Name) ? 'victim' : 'thing';
+
+				content.click(() => {
+					$state.go(toState, { ID: id, from: 'map' });
+				});
+
 				var name : string;
 				if (!(name = thing.String('name'))) {
 					if (!(name = thing.String('title'))) {
-						name = id;
+						if (!(name = thing.String('description'))) {
+							name = thing.Type ? thing.Type.Name : 'unknown object';
+						}
 					}
 				}
 
 				content.text(name);
+				var url: string = null, img = $('<img />');
 
-				var url = settingsService.getMediaServerUrl() + "/identicon/" + id + "?style=averagewindow";
-				content.prepend($('<img />').attr('src', url));
+				if (thing.Type && /(media|picture)/i.test(thing.Type.Name)) {
+					url = thing.String('url');
+					if (url) {
+						url = settingsService.getMediaServerUrl() +
+							"/thumbnail/" + url;
+						content.addClass('with-media');
+					}
+				}
+
+				if (!url) {
+					content.addClass('with-identicon');
+					url = settingsService.getMediaServerUrl() + "/identicon/" + encodeURIComponent(id) + "?style=averagewindow";
+				}
+
+				content.prepend(img.attr('src', url));
 
 				var popup = marker.getPopup();
+				marker._masterMapThingId = id;
 
 				if (popup) {
 					popup.setContent(content.get(0));
 					popup.update();
 				} else {
 					marker.bindPopup(content.get(0));
+					marker.on('dblclick', () => {
+						$state.go(toState, { ID: marker._masterMapThingId, from: 'map' });
+					});
 				}
 
 			};
@@ -352,7 +376,7 @@ angular.module('mobileMasterApp')
 				return i;
 			};
 
-			instance.showTileLayer = function(name: string) {
+			instance.showTileLayer = function (name: string) {
 
 				var layer = layersTable[name];
 				if (!layer) {
@@ -540,7 +564,6 @@ angular.module('mobileMasterApp')
 
 			var addMarker = (thing: ThingModel.Thing) => {
 				if (thingsOnTheMap.hasOwnProperty(thing.ID)) {
-					alert("TODO what should we do ?");
 					removeMarker(thing);
 					}
 
@@ -608,6 +631,8 @@ angular.module('mobileMasterApp')
 				}
 			};
 
+			angular.forEach(thingModel.warehouse.Things, addMarker);
+
 			thingModel.warehouse.RegisterObserver({
 				New: addMarker,
 				Updated: (thing: ThingModel.Thing) => {
@@ -632,6 +657,7 @@ angular.module('mobileMasterApp')
 				Define: () => {}
 			});
 
+		
 
 			(<any>instance).oldFitBounds = instance.fitBounds;
 			var paddingBottomRight = new L.Point(20, 20),
@@ -654,9 +680,21 @@ angular.module('mobileMasterApp')
 				return this;
 			};
 
-			instance.setVerticalTopMargin = (margin:number) => {
+			instance.setVerticalTopMargin = (margin: number) => {
 				paddingTopLeft.y = margin + 20;
-			}
+			};
+
+			var body = $(document.body);
+			instance.moveTo = (div: HTMLElement) => {
+				body.addClass('disable-markers-animations');
+				div.appendChild(instance.getContainer());
+
+				instance.invalidateSize({});
+
+				window.setImmediate(() => {
+					body.removeClass('disable-markers-animations');
+				});
+			};
 
 			return instance;
 		};
@@ -699,4 +737,4 @@ angular.module('mobileMasterApp')
 				L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._map.getCenter()));
 			}
 		}));
-	});
+		});

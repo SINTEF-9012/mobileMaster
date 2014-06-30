@@ -19,7 +19,7 @@ angular.module('mobileMasterApp')
         .declareTileLayer({
             name: "MapBox",
             iconPath: "layer_mapbox.png",
-            create: () => {
+			create: () => {
                 return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
                     detectRetina: true,
 					reuseTiles: true,
@@ -121,7 +121,8 @@ angular.module('mobileMasterApp')
                 return new L.BingLayer("AnpoY7-quiG42t0EvUJb3RZkKTWCO0K0g4xA2jMTqr3KZ5cxZrEMULp1QFwctYG9", {
 					detectRetina: true,
 					reuseTiles: true,
-					minZoom: 1
+					minZoom: 1,
+                    maxNativeZoom: 18
                 });
             }
         })
@@ -142,18 +143,15 @@ angular.module('mobileMasterApp')
     persistentLocalization : PersistentLocalization,
     thingModel: ThingModelService) {
 
-    var jMap = $('#main-map'), jlink = $('#main-map-link');
+	var jMap = $('#main-map'), jlink = $('#main-map-link');
 
-	persistentLocalization.restorePersistentLayer();
+	persistentLocalization.restorePersistentLayer(masterMap);
 	persistentLocalization.unbindMasterMap(masterMap);
 
     masterMap.disableInteractions();
     masterMap.disableMiniMap();
     masterMap.disableScale();
 
-	masterMap.setVerticalTopMargin(0);
-
-    jMap.append(masterMap.getContainer());
 
 	var jwindow = $($window);
 	var setLayout = L.Util.throttle(() => {
@@ -265,7 +263,9 @@ angular.module('mobileMasterApp')
 	// Update the panel height after the layout initialization
     window.setImmediate(() => {
 		setLayout();
-		masterMap.invalidateSize({});
-	    masterMap.enableSituationOverview();
+		masterMap.setVerticalTopMargin(0);
+		masterMap.moveTo(jMap.get(0));
+		setLayout();
+		masterMap.enableSituationOverview();
 	});
 });

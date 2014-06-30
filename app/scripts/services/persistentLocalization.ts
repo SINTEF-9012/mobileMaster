@@ -8,13 +8,17 @@ angular.module('mobileMasterApp')
 
     var center = null,
       zoom = null,
-      layer = null,
+		layer = null,
+		binded = false,
       masterMap : Master.Map = null;
 
     var localStorageKey = "persistentLocalization";
 
     // Save the position in the local storage
-    function save() {
+    var save = L.Util.throttle(() => {
+		  if (!binded) {
+			  return;
+		  }
       var data : PersistentLocalization.Storage = {};
 
       if (zoom) {
@@ -32,19 +36,9 @@ angular.module('mobileMasterApp')
 
       window.localStorage.setItem(localStorageKey,
         JSON.stringify(data));
-    }
+	}, 50),
 
-	var onmoveend = () => {	
-		center = masterMap.getCenter();
-		save();
-	},
-	onzoomend = () => {
-		zoom = masterMap.getZoom();
-		save();
-	};
-
-  	this.bindMasterMap = (map : Master.Map) => {
-
+	fetch = () => {
 		  // We use localStorage as backend
 		  if (!window.localStorage) {
 			  return;
@@ -67,10 +61,24 @@ angular.module('mobileMasterApp')
 				  layer = data.layer;
 			  }
 
-			  // Update the map view to the saved position
-			  map.setView(center ? center : map.getCenter(), zoom ? zoom : map.getZoom());
 		  }
+	};
+	
 
+	var onmoveend = () => {	
+		center = masterMap.getCenter();
+		save();
+	},
+	onzoomend = () => {
+		zoom = masterMap.getZoom();
+		save();
+	};
+
+  	this.bindMasterMap = (map : Master.Map) => {
+		  fetch();
+		  binded = true;
+		  // Update the map view to the saved position
+		  map.setView(center ? center : map.getCenter(), zoom ? zoom : map.getZoom());
 
 		  // Bind leaflet events, and save position
 		  map.on('moveend', onmoveend).on('zoomend', onzoomend);
@@ -81,6 +89,7 @@ angular.module('mobileMasterApp')
 
 	this.unbindMasterMap = (map: Master.Map) => {
 		map.off('moveend', onmoveend).off('zoomend', onzoomend);
+		binded = false;
 	};
 
     this.saveCurrentLayer = (_layer : MasterScope.Layer) => {
@@ -88,15 +97,17 @@ angular.module('mobileMasterApp')
 	    save();
     };
 
-	  this.restorePersistentLayer = () => {
+	  this.restorePersistentLayer = (map: Master.Map) => {
+		  fetch();
+
 	    if (layer) {
-			angular.forEach(masterMap.getTilesLayers(), (iLayer: MasterScope.Layer) => {
+			angular.forEach(map.getTilesLayers(), (iLayer: MasterScope.Layer) => {
 				if (layer !== iLayer.name) {
-					masterMap.hideTileLayer(iLayer.name);
+					map.hideTileLayer(iLayer.name);
 				}
 		    });
 
-		    masterMap.showTileLayer(layer);
+		    map.showTileLayer(layer);
 	    }
     };
 

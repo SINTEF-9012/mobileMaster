@@ -29,7 +29,9 @@ declare module Master {
 	  setVerticalTopMargin(margin: number);
 
 	getLayerClass(name: string): L.ILayer;
-	createMasterIconWithType(type:string, scope: ng.IScope, options?:L.IconOptions): L.Icon;
+	  createMasterIconWithType(type: string, scope: ng.IScope, options?: L.IconOptions): L.Icon;
+
+	  moveTo(div: HTMLElement);
   }
 
   export interface MapConfig {
@@ -42,10 +44,10 @@ declare module Master {
 }
 
 interface PersistentLocalization {
-	bindMasterMap(map: Master.Map, position: boolean);
+	bindMasterMap(map: Master.Map);
 	unbindMasterMap(map: Master.Map);
   saveCurrentLayer(layer : MasterScope.Layer);
-  restorePersistentLayer();
+  restorePersistentLayer(map: Master.Map);
   clear();
 }
 

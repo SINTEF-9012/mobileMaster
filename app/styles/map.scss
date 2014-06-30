@@ -1,4 +1,4 @@
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_variables";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
 @import "_settings";
 @import "compass";
 
@@ -11,6 +11,7 @@
 
     .map {
         height: 100%;
+        image-rendering: pixelated;
     }
 
     background:lighten(#000, 33.5%);
@@ -31,26 +32,40 @@
 
 .leaflet-popup-content {
     & > div {
-        position: relative;
-        padding: 5px 5px 4px 52px;
-        min-height: 41px;
         display: -webkit-flex;
         -webkit-align-items: center;
         display: flex;
         align-items: center;
+
+        &.with-identicon {
+            position: relative;
+            padding: 5px 5px 4px 52px;
+            min-height: 41px;
+
+            img {
+                image-rendering: pixelated;
+                image-rendering:-webkit-optimize-contrast;
+                image-rendering: -moz-crisp-edges;
+                -ms-interpolation-mode: nearest-neighbor;
+                width:41px;
+                height:41px;
+
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        &.with-media {
+            position: relative;
+            padding: 0px 10px 0px 0px;
+            min-height: 41px;
+            img {
+                margin-right:15px;
+            }
+        }
     }
 
-    img {
-        image-rendering:-webkit-optimize-contrast;
-        image-rendering: -moz-crisp-edges;
-        -ms-interpolation-mode: nearest-neighbor;
-        width:41px;
-        height:41px;
-
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
 
     font-weight: bold;
     margin:0 10px 0 0;

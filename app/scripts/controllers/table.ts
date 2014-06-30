@@ -12,15 +12,20 @@ angular.module('mobileMasterApp')
 	$scope,
 	thingModel : ThingModelService,
 	//$timeout: ng.ITimeoutService,
-	$stateParams,
-	$state
+	$stateParams
 	//masterMap: Master.Map,
 	//Knowledge
 ) => {
 
 	$(window).scrollTop(0);
 
-	var victimTest = /(victim|patient)/i;
+	$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' : 'main';
+
+	$scope.typeName = $stateParams.thingtype;
+
+	var thingTypeTest = $stateParams.thingtype ?
+		new RegExp($stateParams.thingtype, 'i')
+		: /(victim|patient)/i;
 
 	$scope.filter = $stateParams.filter ? $stateParams.filter : 'all';
 	$scope.previousPage = -1;
@@ -32,10 +37,14 @@ angular.module('mobileMasterApp')
 		endPageCount = startPageCount + pageSize;
 
 	angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
-		if (thing.Type && victimTest.test(thing.Type.Name)) {
+		if (thing.Type && thingTypeTest.test(thing.Type.Name)) {
 			var s : any = {};
 			thingModel.ApplyThingToScope(s, thing);
-			s.triage_status = s.triage_status.toLocaleLowerCase();
+
+			if (s.triage_status) {
+				s.triage_status = s.triage_status.toLocaleLowerCase();
+			}
+
 			globalList.push(s);
 		}
 	});
@@ -95,10 +104,13 @@ angular.module('mobileMasterApp')
 
 	var observer = {
 		New: (thing: ThingModel.Thing) => {
-			if (thing.Type && victimTest.test(thing.Type.Name)) {
+			if (thing.Type && thingTypeTest.test(thing.Type.Name)) {
 				var s : any = {};
 				thingModel.ApplyThingToScope(s, thing);
-				s.triage_status = s.triage_status.toLocaleLowerCase();
+
+				if (s.triage_status) {
+					s.triage_status = s.triage_status.toLocaleLowerCase();
+				}
 
 				globalList.push(s);
 				digestScope();
@@ -108,7 +120,10 @@ angular.module('mobileMasterApp')
 			var t = _.find(globalList, (s: any) => s.ID === thing.ID);
 			if (t) {
 				thingModel.ApplyThingToScope(t, thing);
-				t.triage_status = t.triage_status.toLocaleLowerCase();
+
+				if (t.triage_status) {
+					t.triage_status = t.triage_status.toLocaleLowerCase();
+				}
 				digestScope();
 			}
 		},

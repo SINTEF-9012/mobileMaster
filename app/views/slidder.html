@@ -2,7 +2,7 @@
 	<a class="glyphicon glyphicon-th" ui-sref="main" id="dashboard-btn"></a>
 	<div class="col-sm-8 col-md-9 col-lg-10 infos-icons">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default info-number {{filtered[info.fullName] ? 'filtered' : ''}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="main.table({thingtype:key})">
+			<button type="button" class="btn btn-default info-number {{filtered[info.fullName] ? 'filtered' : ''}} " ng-repeat="(key,info) in infos" title="{{info.fullName}}" ui-sref="table({thingtype:key})">
 				<master-icon type="{{info.fullName}}"></master-icon>
 				{{info.count}}
 			</button>

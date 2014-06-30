@@ -2,7 +2,7 @@
 @import "_settings";
 @import "icons.scss";
 @import "range-switch.scss";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_variables";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
 
 /*html,body{
     margin:0;
@@ -332,7 +332,7 @@ left: 2em;
 //     }
 // }
 
-#layout-popup {
+/*#layout-popup, .canard {
     .view-popup-animation {
         position:relative;
         min-width:300px;
@@ -389,7 +389,7 @@ left: 2em;
       // -webkit-transform:translateX(200px);
       // transform:translateX(200px);
     }
-}
+}*/
 
 .shadow-layer h1 {
     color:white;
@@ -621,7 +621,17 @@ header + .master-list {
     padding-top: 20px;
 }
 
-.victim {
+.master-list {
+    padding-bottom: 30px;
+
+    .pager {
+        margin-bottom:0;
+    }
+}
+
+.thing.row {
+    display:block;
+    color: inherit;
     padding-top: 11px;
     // padding-bottom: 12px;
     border-bottom:1px solid white;
@@ -635,6 +645,34 @@ header + .master-list {
         box-shadow: 0px 0px 1px #888;
     }
 
+
+    small, span {
+        color: $gray;
+    }
+
+    .thing-row-center, .thing-row-right {
+        border-bottom: 1px solid $gray-lighter;
+        min-height: 50px;
+    }
+
+    .thing-row-left {
+        border-bottom-color:transparent;
+    }
+}
+
+.thing.row:not(.victim) {
+    line-height:2.4em;
+}
+
+body:not(.touch) .thing.row:hover,  {
+    border-bottom-color: $gray-light;
+    background: $gray-lighter;
+    .first-col {
+        border-bottom-color: $gray-lighter;
+    }
+}
+
+.victim {
     .triage-light {
         float: right;
         height: 36px;
@@ -642,27 +680,6 @@ header + .master-list {
         border-radius: 18px;
         border: none;
         box-shadow:-1px -1px 6px rgba(0,0,0,0.45) inset;
-    }
-
-
-    small, span {
-        color: $gray;
-    }
-
-    .col-xs-10, .col-xs-1 {
-        border-bottom: 1px solid $gray-lighter;
-        min-height: 50px;
-    }
-    .first-col {
-        border-bottom-color:transparent;
-    }
-}
-
-body:not(.touch) .victim:hover {
-    border-bottom-color: $gray-light;
-    background: $gray-lighter;
-    .first-col {
-        border-bottom-color: $gray-lighter;
     }
 }
 
@@ -701,6 +718,7 @@ body:not(.touch) .victim:hover {
 }
 
 img.identicon {
+    image-rendering: pixelated;
     image-rendering:-webkit-optimize-contrast;
     image-rendering: -moz-crisp-edges;
     -ms-interpolation-mode: nearest-neighbor;
@@ -724,3 +742,4 @@ img.identicon {
     border: 1px solid rgba(0,0,0,0.15);
     margin-left: -11px;
 }
+

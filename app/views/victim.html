@@ -3,11 +3,11 @@
 	  <div class="container-fluid">
 	  	<div class="row">
 	  		
-		    <a class="navbar-brand col-xs-2" href="#" ui-sref="victims"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		    <a class="navbar-brand col-xs-2" href="#" ui-sref="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
 		    <h3 class="col-xs-8 identicon">
 		    	<identicon id="id" />
-	    		{{thing.name}}
+	    		<span ng-show="!unfound">Victim {{thing.name}}</span>
 	    		<span class="text-danger ng-hide" ng-show="unfound">Victim not found</span>
 	    	</h3>
 

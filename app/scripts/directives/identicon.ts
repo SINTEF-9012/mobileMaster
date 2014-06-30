@@ -12,7 +12,11 @@
 			var style = attrs.style ? '/?style=' + encodeURIComponent(attrs.style) : '/?style=averagewindow';
 
 			scope.$watch('id', () => {
-				scope.url = server + encodeURIComponent(scope.id) + style;
+				if (scope.id) {
+					scope.url = server + encodeURIComponent(scope.id) + style;
+				} else {
+					scope.url = '/images/identicon-unfound.png';
+				}
 			});
 	    }
     };

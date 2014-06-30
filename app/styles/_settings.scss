@@ -1,13 +1,14 @@
 $gray-darker:            lighten(#000, 13.5%) !default; // #222
 $gray-dark:              lighten(#000, 20%) !default;   // #333
 $gray:                   lighten(#000, 33.5%) !default; // #555
-$gray-light:             lighten(#000, 60%) !default;   // #999
+$gray-light:             lighten(#000, 80%) !default;   // #999
+//$gray-not-so-light:             lighten(#000, 80%) !default;   // #pas eee
 $gray-lighter:           lighten(#000, 95%) !default; // #pas eee
 
 $font-family-sans-serif:  "Fira Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $body-bg: $gray-lighter;
 $text-color: $gray-darker;
-$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // $table-bg: darken($gray, 6);
 // $table-bg-accent: darken($gray, 5)b;
 // $table-border-color: darken($gray,12);

@@ -20,23 +20,17 @@ angular.module('mobileMasterApp')
 	persistentLocalization: PersistentLocalization) {
 
     persistentLocalization.bindMasterMap(masterMap);
-    persistentLocalization.restorePersistentLayer();
+    persistentLocalization.restorePersistentLayer(masterMap);
 
-    var jMap = $('#map');
 
-    jMap.append(masterMap.getContainer());
+	masterMap.closePopup();
 
     masterMap.enableInteractions();
     masterMap.enableMiniMap();
     masterMap.enableScale();
-
 	masterMap.disableSituationOverview();
 
-	// Update the panel height after the layout initialization
-	window.setImmediate(() => {
-		masterMap.invalidateSize({});
-	});
-
+	masterMap.moveTo(document.getElementById('map'));
 
 	//cluster.Cluster.Size = 100;
 

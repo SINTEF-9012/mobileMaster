@@ -11,6 +11,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	thingModel: ThingModelService
 	) => {
 
+	persistentLocalization.restorePersistentLayer(masterMap);
+	persistentLocalization.unbindMasterMap(masterMap);
+
 	$scope.remove = () => {
 		thingModel.RemoveThing(id);
 		$state.go("^");
@@ -19,6 +22,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	var id = $stateParams.ID;
 	$scope.id = id;
 
+	$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' :'table';
 
 	$scope.thing = {};
 	$scope.unfound = true;
@@ -37,6 +41,12 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				
 			thingModel.ApplyThingToScope($scope.thing, thing);
 
+			if (thing.Type && /(victim|patient)/.test(thing.Type.Name)) {
+				$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' : 'victims';
+			} else {
+				$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' : 'table';
+			}
+
 			var location = thing.LocationLatLng();
 
 			if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
@@ -50,7 +60,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					thingSpeed = thingSpeed * 0.75 + (pos.distanceTo(oldPosition) / (now - oldTime)) * 1000 * 0.25 * 3.6;
 				}
 
-				var zoom: number = 18.0;
+				var zoom: number = L.Browser.retina ? 17.0 : 18.0;
 
 				if (thingSpeed > 95.0) {
 					zoom = 16;
@@ -61,9 +71,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					zoom = 17;
 				} else if (thingSpeed > 15.0 && oldZoom === 17.0) {
 					zoom = 17;
+				} else if (thingSpeed < 1.0) {
+					zoom = Math.max(masterMap.getZoom(), zoom);
 				}
 
-				console.log(thingSpeed, zoom);
+				//console.log(thingSpeed, zoom);
 
 				if (masterMap.getZoom() !== zoom || !masterMap.getBounds().pad(-0.2).contains(pos)) {
 					masterMap.setView(pos, zoom);
@@ -104,19 +116,16 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var jwindow = $($window), jMap = $('#thing-map');
 
-	persistentLocalization.restorePersistentLayer();
-	persistentLocalization.unbindMasterMap(masterMap);
 
-	masterMap.disableInteractions();
+	masterMap.closePopup();
+	masterMap.enableInteractions();
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
 
-	masterMap.setVerticalTopMargin(0);
-    jMap.append(masterMap.getContainer());
 
 	var setLayout = L.Util.throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
-		jMap.height(height);
+		jMap.height(height - 1 /* border */);
 	}, 50);
 
 	$scope.$on('$destroy', () => {
@@ -126,9 +135,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	jwindow.resize(setLayout);
 
-	window.setImmediate(() => {
-		setLayout();
-		masterMap.invalidateSize({});
-	    masterMap.disableSituationOverview();
-	});
+	masterMap.setVerticalTopMargin(0);
+	setLayout();
+	masterMap.moveTo(jMap.get(0));
+	masterMap.disableSituationOverview();
 }); 

@@ -7,7 +7,7 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'])
+angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-loading-bar'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     if (!window.navigator.device) {
@@ -40,7 +40,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 			templateUrl: 'views/editsummary.html'
 		})
 		.state('victims', {
-			url: '/victims?filter&page',
+			url: '/victims?filter&page&from',
 			controller: 'TableCtrl',
 			templateUrl: 'views/victims.html'
 		})
@@ -61,14 +61,10 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 				}					
 			}
 		})
-		.state('main.table', {
-			url: 'table/:thingtype',
-			views: {
-				'bottom@': {
-					controller: 'TableCtrl',
-					templateUrl: 'views/table.html'
-				}
-			}
+		.state('table', {
+			url: '/table/:thingtype?order&page&from',
+			controller: 'TableCtrl',
+			templateUrl: 'views/table.html'
 		})
 		.state('main.compass', {
 			url: 'compass',
@@ -101,7 +97,7 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 			}
 		})
 		.state('thing', {
-			url: '/thing/:id',
+			url: '/thing/:ID?from',
 			controller: 'ThingCtrl',
 			templateUrl: 'views/thing.html'
 		})
@@ -161,7 +157,20 @@ angular.module('mobileMasterApp', ['ui.router', 'ngAnimate', 'angularFileUpload'
 			templateUrl: 'views/settings.html'
 		});
 
-});
+  })/*.run(($rootScope) => {
+	console.log("canard");
+	  $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+
+		console.log(event, toState, $('#lapin'));
+		  if (toState.name === 'victims'/* && current.name === 'victims') {
+			//if (document.body.className.indexOf('animation') === -1) {
+			$('body').addClass('canard').removeClass('no-asnimation');
+			//}
+		} else {
+			$('body').removeClass('canard').addClass('no-asnimation');
+		}
+	});
+})*/;
 
 if (window.navigator.standalone) {
 	document.body.className += " standalone";

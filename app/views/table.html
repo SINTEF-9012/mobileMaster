@@ -1,44 +1,39 @@
-<table class="table table-striped master-table">
-	<caption><h3>&nbsp;{{types[thingType].type.Description ? types[thingType].type.Description : types[thingType].type.name}}&nbsp;</h3></caption>
-	<thead>
-		<tr>
-			<th>
-				<button type="button" ng-click="sortThings('ID')" class="btn btn-default" ng-class="sortPropertyKey === 'ID' ? 'btn-info' : ''">
-					<span class="glyphicon" ng-class="sortPropertyKey === 'ID'  ? (sortDirection === '+' ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt') : 'glyphicon-sort disabled'"></span>
-					ID
-				</button>
-			</th>
-			<th ng-repeat="property in types[thingType].tableProperties">
-				<button type="button" ng-click="sortThings(property.key)" class="btn btn-default" ng-class="sortPropertyKey === property.key ? 'btn-info' : ''">
-					<span class="glyphicon" ng-class="sortPropertyKey == property.key ? (sortDirection === '+' ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt') : 'glyphicon-sort disabled'"></span>
-					<span class="property-name">{{property.property.name || property.key}}</span>
-				</button>
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="thing in arrayThings|orderBy:sortExpression" >
-			<td>
-				<a ng-click="selectThing(thing)" class="thing-id-icon" title="{{thing.ID}}">
-					<img ng-src="{{mediaServer}}/identicon/{{thing.ID}}?style=miniwindow" alt="" class="identicon"/>
-				</a>
-				<div class="btn-group btn-group-xs">
-					<a class="btn btn-default" ng-click="selectThing(thing)">
-						<span class="glyphicon glyphicon-eye-open"></span>
-					</a>
-					<a class="btn btn-default"
-						ui-sref="main.thing.order({id:thing.ID})">
-						<span class="glyphicon glyphicon-screenshot"></span>
-					</a>
-					<a  class="btn btn-default"
-						ui-sref="main.thing.edit({id:thing.ID})">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
-				</div>
-			</td>
-			<td ng-repeat="property in types[thingType].tableProperties">
-				<thing-property thing="thing" property="property"/>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" href="#" ui-sref="{{returnLink}}"><span class="glyphicon glyphicon-th"></span></a>
+
+	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-5">{{typeName}}</h3>
+	    </div>
+	  </div>
+	</nav>
+</header>
+
+<div class="container-fluid master-list" ui-view>
+	<ul class="pager ng-hide" ng-show="previousPage >= 0">
+		<li><a href="#" ui-sref="table({page: previousPage})">Previous</a></li>
+	</ul>
+
+	<a class="thing row" ng-repeat="thing in things" ui-sref="thing({ID: thing.ID})">
+		<div class="col-xs-2 col-sm-1 thing-row-left">
+			<div class="pull-right">
+				<identicon id="thing.ID"/>
+			</div>
+		</div>
+		<div class="col-xs-8 col-sm-10 thing-row-center">
+			{{thing.name}}
+		</div>
+
+		<div class="col-xs-2 col-sm-1 thing-row-right">
+			<div class="pull-left">
+				<master-icon thingid="{{thing.ID}}"/>
+			</div>
+		</div>
+	</a>
+
+	<ul class="pager ng-hide" ng-show="nextPage >= 0">
+		<li><a href="#" ui-sref="table({page: nextPage})">Next</a></li>
+	</ul>
+</div>

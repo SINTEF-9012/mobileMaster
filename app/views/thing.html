@@ -1,23 +1,71 @@
-<div class="popup-content">
-	<button type="button" class="close" ui-sref="map.slidder" aria-hidden="true">&times;</button>
-	<h1 class="thingName" title="{{thing.name}}">{{thing.name}}
-	<br/><small>{{thing.typeName}}</small>
-	</h1>
-	<em>{{thing.ID != thing.name ? thing.ID : ''}}</em>
-	<hr/>
-	<dl>
-		<dt ng-repeat-start="property in types[things[id].typeName].tableProperties">
-		{{property.property.name || property.key}}</dt>
-		<dd ng-repeat-end>
-			<thing-property thing="thing" property="property"/>
-		</dd>
-	</dl>
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" href="#" ui-sref="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
-	<!-- <div class="btn-group"> -->
-		<button type="button" class="btn btn-primary" ui-sref="main.thing.edit">Edit</button>
-		<button type="button" class="btn btn-info" ui-sref="main.thing.order">Order</button>
-		<button type="button" class="btn btn-danger" ng-click="remove()">Remove</button>
-		<!-- <input id="deleteSwitch" type="checkbox" data-size="large" data-on-color="danger" data-off-color="danger" data-on-text="ON" data-off-text="Remove"/> -->
-		<!-- <button type="button" class="btn btn-default">View</button> -->
-	<!-- </div> -->
+		    <h3 class="col-xs-8 identicon">
+		    	<identicon id="id" />
+	    		{{thing.name}}
+	    		<span class="text-danger ng-hide" ng-show="unfound">Thing not found</span>
+	    	</h3>
+
+
+	    </div>
+	  </div>
+	</nav>
+</header>
+
+<div class="container-fluid">
+
+<div class="row" >
+<div class="col-md-6 properties-list">
+	<div class="row">
+	<div class="col-xs-6 col-sm-4 col-md-6 triage-status">
+		<div class="victimInfobox">
+			<h4>Triage status</h4>
+			<div class="triage-light" style="background:{{thing.triage_status}}"></div>
+		</div>
+	</div>
+
+	<div class="col-xs-6 col-sm-4 col-md-6 transporting">
+		<div class="victimInfobox">
+			<h4>Transporting</h4>
+			<span class="glyphicon glyphicon-{{thing.transporting ? 'ok' : 'remove'}}" title="{{thing.transporting}}"></span>
+		</div>
+	</div>
+
+	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 destination" ng-show="thing.transferredToDestination">
+		<div class="victimInfobox">
+			<h4>Transferred to destination</h4>
+			<span>{{thing.transferredToDestination}}</span>
+		</div>
+	</div>
+
+	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 age" ng-show="thing.age >= 0">
+		<div class="victimInfobox">
+			<h4>Age</h4>
+			<span>{{thing.age}} years old</span>
+		</div>
+	</div>
+
+	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 reportDate" ng-show="thing.reportDate">
+		<div class="victimInfobox">
+			<h4>Report date</h4>
+			<span>{{thing.reportDate | date}}</span>
+		</div>
+	</div>
+
+	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 sex" ng-show="thing.sex">
+		<div class="victimInfobox">
+			<h4>Sex</h4>
+			<span>{{thing.sex}}</span>
+		</div>
+	</div>
+	</div>
+</div>
+<div class="col-md-6" id="thing-map"></div>
+</div>
+</div>
 </div>
