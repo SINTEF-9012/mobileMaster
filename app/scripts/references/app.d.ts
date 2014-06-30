@@ -102,6 +102,19 @@ interface SettingsService {
 	getMediaServerUrl():string;
 }
 
+interface ThingIdentifierService {
+	victim(thing: ThingModel.Thing): boolean;
+	media(thing: ThingModel.Thing): boolean;
+	tweet(thing: ThingModel.Thing): boolean;
+	resource(thing: ThingModel.Thing): boolean;
+	incident(thing: ThingModel.Thing): boolean;
+	beacon(thing: ThingModel.Thing): boolean;
+	order(thing: ThingModel.Thing): boolean;
+	multimedia(thing: ThingModel.Thing): boolean;
+	
+	typefrom(thing: ThingModel.Thing): string;
+}
+
 declare module L {
 	export var Renderer: any;
 	export var Layer: any;

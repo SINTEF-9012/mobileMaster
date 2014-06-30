@@ -141,6 +141,7 @@ angular.module('mobileMasterApp')
 	$window: ng.IWindowService,
 	$sce: ng.ISCEService,
     persistentLocalization : PersistentLocalization,
+    itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
 
 	var jMap = $('#main-map'), jlink = $('#main-map-link');
@@ -165,10 +166,9 @@ angular.module('mobileMasterApp')
 
 	var statsVictims : {[color: string] : number}, nbVictims = 0;
 	var victimsChart = new SuperSimpleCharts.BarChart(document.getElementById('victims-chart'));
-	var victimTest = /(victim|patient)/i;
 
 	var checkObserver = (thing: ThingModel.Thing) => {
-		if (thing.Type && victimTest.test(thing.Type.Name)) {
+		if (itsa.victim(thing)) {
 			computeStats();
 		}
 
@@ -206,7 +206,7 @@ angular.module('mobileMasterApp')
 		nbVictims = 0;
 		statsVictims = {};
 		angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
-			if (thing.Type && victimTest.test(thing.Type.Name)) {
+			if (itsa.victim(thing)) {
 				nbVictims += 1;
 
 				var triage_status: string;
