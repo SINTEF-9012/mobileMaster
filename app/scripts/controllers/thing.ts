@@ -1,11 +1,14 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 'use strict';
 
 angular.module('mobileMasterApp').controller('ThingCtrl', (
-	$state,
-	$scope,
-	$stateParams,
-	$rootScope,
+	$state: ng.ui.IStateService,
+	$scope: any,
+	$stateParams: any,
+	$rootScope: MasterScope.Root,
     persistentLocalization : PersistentLocalization,
+	itsa: ThingIdentifierService,
 	masterMap: Master.Map,
 	$window: ng.IWindowService,
 	thingModel: ThingModelService
@@ -19,10 +22,14 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		$state.go("^");
 	};
 
-	var id = $stateParams.ID;
+	var id = $stateParams.ID, category = 'all';
+	var stateBack = $state.is('victim') ? 'victims' : 'table';
+
 	$scope.id = id;
 
-	$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' :'table';
+	if ($stateParams.from === 'map') {
+		stateBack = 'map.slidder';
+	}
 
 	$scope.thing = {};
 	$scope.unfound = true;
@@ -41,17 +48,12 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				
 			thingModel.ApplyThingToScope($scope.thing, thing);
 
-			if (thing.Type && /(victim|patient)/.test(thing.Type.Name)) {
-				$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' : 'victims';
-			} else {
-				$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' : 'table';
-			}
-
 			var location = thing.LocationLatLng();
 
 			if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
-				alert("I don't know what to do");
+				$scope.hideMap = true;
 			} else {
+				$scope.hideMap = false;
 				var pos = new L.LatLng(location.Latitude, location.Longitude),
 					now = +new Date();
 
@@ -84,6 +86,13 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				oldPosition = pos;
 				oldTime = now;
 				oldZoom = zoom;
+			}
+
+			var type = itsa.typefrom(thing);
+			if ($stateParams.from && $stateParams.from.indexOf('list-') === 0) {
+				$scope.returnLink = $state.href(stateBack, { from: $stateParams.from.slice(5), thingtype: type });
+			} else {
+				$scope.returnLink = $state.href(stateBack, { thingtype: type });
 			}
 
 			if (!$scope.$$phase) {

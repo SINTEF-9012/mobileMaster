@@ -15,6 +15,29 @@ angular.module('mobileMasterApp')
 	// Some more high level categories
 		multimedia = /(picture|video|tweet)/i;
 
+	var lockup = {
+		victims: victim,
+		medias: media,
+		tweets: tweet,
+		resources: resource,
+		incidents: incident,
+		beacons: beacon,
+		orders: order,
+		multimedias: multimedia,
+	};
+	// Compute the oposite of all these regexp
+
+	var other_s = "";
+	angular.forEach(lockup, (value: RegExp) => {
+		other_s += value.source+"|";
+	});
+
+	var other_invert = new RegExp(other_s.slice(0, -1), 'i');
+
+	// This regex is after the other
+	lockup['all'] = /.*/;
+
+
 	this.victim = (thing: ThingModel.Thing) =>		thing.Type && victim.test(thing.Type.Name);
 	this.media = (thing: ThingModel.Thing) =>		thing.Type && media.test(thing.Type.Name);
 	this.tweet = (thing: ThingModel.Thing) =>		thing.Type && tweet.test(thing.Type.Name);
@@ -23,22 +46,25 @@ angular.module('mobileMasterApp')
 	this.beacon = (thing: ThingModel.Thing) =>		thing.Type && beacon.test(thing.Type.Name);
 	this.order = (thing: ThingModel.Thing) =>		thing.Type && order.test(thing.Type.Name);
 	this.multimedia = (thing: ThingModel.Thing) =>	thing.Type && multimedia.test(thing.Type.Name);
+	this.other = (thing: ThingModel.Thing) =>		!thing.Type || !other_invert.test(thing.Type.Name);
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {
 		if (!thing.Type) {
-			return 'Default';
+			return 'Defaults';
 		}
 
 		var type = thing.Type.Name; 
 
 		// It must be a bit slow, but I am too lazy to build an efficient state machine
-		if (victim.test(type)) return 'Victim';
-		if (multimedia.test(type)) return 'Multimedia';
-		if (order.test(type)) return 'Order';
-		if (incident.test(type)) return 'Incident';
-		if (resource.test(type)) return 'Resource';
-		if (beacon.test(type)) return 'Beacon';
+		if (victim.test(type)) return 'Victims';
+		if (multimedia.test(type)) return 'Multimedias';
+		if (order.test(type)) return 'Orders';
+		if (incident.test(type)) return 'Incidents';
+		if (resource.test(type)) return 'Resources';
+		if (beacon.test(type)) return 'Beacons';
 
-		return 'Unknown';
+		return 'Unknowns';
 	};
+
+	this.testfor = (type: string): RegExp => lockup[type.toLowerCase()];
 });

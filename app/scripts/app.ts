@@ -45,7 +45,7 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			templateUrl: 'views/victims.html'
 		})
 		.state('victim', {
-			url: '/victim/:ID',
+			url: '/victim/:ID?from',
 			controller: 'ThingCtrl',
 			templateUrl: 'views/victim.html'
 		})

@@ -27,7 +27,9 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 
 			if (!(name = thing.String('name'))) {
 				if (!(name = thing.String('title'))) {
-					name = undefined;
+					if (!(name = thing.String('description'))) {
+						name = undefined;
+					}
 				}
 			}
 

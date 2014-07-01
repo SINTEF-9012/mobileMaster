@@ -46,7 +46,9 @@ angular.module('mobileMasterApp')
 			$compile: ng.ICompileService,
 			$rootScope: MasterScope.Root,
 			settingsService: SettingsService,
-			$state,
+			itsa: ThingIdentifierService,
+			$state: ng.ui.IStateService,
+			$stateParams: any,
 			thingModel: ThingModelService) {
 
 			// Generals settings
@@ -272,10 +274,10 @@ angular.module('mobileMasterApp')
 					return;
 				}
 
-				var toState = thing.Type && /(victim|patient)/i.test(thing.Type.Name) ? 'victim' : 'thing';
+				var toState = itsa.victim(thing) ? 'victim' : 'thing';
 
 				content.click(() => {
-					$state.go(toState, { ID: id, from: 'map' });
+					$state.go(toState, { ID: id, from: $stateParams.from ? $stateParams.from : 'map' });
 				});
 
 				var name : string;
@@ -306,8 +308,8 @@ angular.module('mobileMasterApp')
 
 				content.prepend(img.attr('src', url));
 
-				var popup = marker.getPopup();
-				marker._masterMapThingId = id;
+				var popup = (<any>marker).getPopup();
+				(<any>marker)._masterMapThingId = id;
 
 				if (popup) {
 					popup.setContent(content.get(0));
@@ -315,7 +317,10 @@ angular.module('mobileMasterApp')
 				} else {
 					marker.bindPopup(content.get(0));
 					marker.on('dblclick', () => {
-						$state.go(toState, { ID: marker._masterMapThingId, from: 'map' });
+						$state.go(toState, {
+							ID: (<any>marker)._masterMapThingId,
+							from: $stateParams.from ? $stateParams.from : 'map'
+						});
 					});
 				}
 
@@ -561,6 +566,17 @@ angular.module('mobileMasterApp')
 
 			var thingsOnTheMap : {[id:string] : PruneCluster.Marker}= {};
 
+			// rouge orange 0, vert pomme 1, jaune 2, bleu ciel 3, magenta 4, violet 5, gris beige 6, bleu marine 7
+			var lockupTypeColor = {
+				Victims: 0,
+				Resources: 3,
+				Incidents: 2,
+				Orders: 1,
+				Multimedias: 7,
+				Beacons: 5,
+				Unknowns: 6,
+				Defaults: 6
+			};
 
 			var addMarker = (thing: ThingModel.Thing) => {
 				if (thingsOnTheMap.hasOwnProperty(thing.ID)) {
@@ -577,29 +593,8 @@ angular.module('mobileMasterApp')
 						ID: thing.ID
 					});
 
-					// rouge orange 0, vert pomme 1, jaune 2, bleu ciel 3, magenta 4, violet 5, gris beige 6, bleu marine 7
-					if (thing.Type) {
-
-						var n = thing.Type.Name;
-						m.category = 6;
-
-						if (n.match(/(victim|patient)/i)) {
-							m.category = 0;
-						} else if (n.match(/resource/i)) {
-							m.category = 3;
-						} else if (n.match(/incident/i)) {
-							m.category = 2;
-						} else if (n.match(/beacon/i)) {
-							m.category = 5;
-						} else if (n.match(/(picture|video|tweet)/i)) {
-							m.category = 7;
-						} else if (n.match(/order/i)) {
-							m.category = 1;
-						}
-					} else {
-						m.category = 6;
-					}
-
+					m.category = lockupTypeColor[itsa.typefrom(thing)];
+					
 					// TODO weight ?
 
 					cluster.RegisterMarker(m);

@@ -3,7 +3,7 @@
 	  <div class="container-fluid">
 	  	<div class="row">
 	  		
-		    <a class="navbar-brand col-xs-2" href="#" ui-sref="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		    <a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
 		    <h3 class="col-xs-8 identicon">
 		    	<identicon id="id" />
@@ -21,51 +21,13 @@
 
 <div class="row" >
 <div class="col-md-6 properties-list">
-	<div class="row">
-	<div class="col-xs-6 col-sm-4 col-md-6 triage-status">
-		<div class="victimInfobox">
-			<h4>Triage status</h4>
-			<div class="triage-light" style="background:{{thing.triage_status}}"></div>
-		</div>
-	</div>
 
-	<div class="col-xs-6 col-sm-4 col-md-6 transporting">
-		<div class="victimInfobox">
-			<h4>Transporting</h4>
-			<span class="glyphicon glyphicon-{{thing.transporting ? 'ok' : 'remove'}}" title="{{thing.transporting}}"></span>
-		</div>
-	</div>
-
-	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 destination" ng-show="thing.transferredToDestination">
-		<div class="victimInfobox">
-			<h4>Transferred to destination</h4>
-			<span>{{thing.transferredToDestination}}</span>
-		</div>
-	</div>
-
-	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 age" ng-show="thing.age >= 0">
-		<div class="victimInfobox">
-			<h4>Age</h4>
-			<span>{{thing.age}} years old</span>
-		</div>
-	</div>
-
-	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 reportDate" ng-show="thing.reportDate">
-		<div class="victimInfobox">
-			<h4>Report date</h4>
-			<span>{{thing.reportDate | date}}</span>
-		</div>
-	</div>
-
-	<div class="ng-hide col-xs-6 col-sm-4 col-md-6 sex" ng-show="thing.sex">
-		<div class="victimInfobox">
-			<h4>Sex</h4>
-			<span>{{thing.sex}}</span>
-		</div>
-	</div>
+	<div class="row" ng-repeat="(type,value) in thing">
+		<h3>{{type}}</h3>	
+		<p>{{value}}</p>
 	</div>
 </div>
-<div class="col-md-6" id="thing-map"></div>
+<div class="col-md-6" id="thing-map" ng-hide="hideMap"></div>
 </div>
 </div>
 </div>

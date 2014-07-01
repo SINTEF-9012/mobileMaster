@@ -1,4 +1,5 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 
 'use strict';
 angular.module('mobileMasterApp')
@@ -9,23 +10,34 @@ angular.module('mobileMasterApp')
 	});
 })
 .controller('TableCtrl', (
-	$scope,
+	$scope: any,
 	thingModel : ThingModelService,
-	//$timeout: ng.ITimeoutService,
-	$stateParams
-	//masterMap: Master.Map,
-	//Knowledge
+	itsa: ThingIdentifierService,
+	$state: ng.ui.IStateService,
+	$stateParams: any
 ) => {
 
 	$(window).scrollTop(0);
 
-	$scope.returnLink = $stateParams.from === 'map' ? 'map.slidder' : 'main';
+	$scope.from = $stateParams.from;
+	$scope.thingfrom = $scope.from ? 'list-'+$scope.from : null;
+
+	if ($stateParams.from === 'map') {
+		$scope.returnLink = $state.href('map.slidder');
+	} else {
+		$scope.returnLink = $state.href('main');
+	}
 
 	$scope.typeName = $stateParams.thingtype;
 
-	var thingTypeTest = $stateParams.thingtype ?
-		new RegExp($stateParams.thingtype, 'i')
-		: /(victim|patient)/i;
+
+	var thingTypeTest = itsa.testfor($stateParams.thingtype || 'victims');
+		//new RegExp($stateParams.thingtype, 'i')
+		//: /(victim|patient)/i;
+
+	var filter: (thing: ThingModel.Thing) => boolean =
+		thingTypeTest ? (t) => t.Type && thingTypeTest.test(t.Type.Name) :
+						(t) => itsa.other(t);
 
 	$scope.filter = $stateParams.filter ? $stateParams.filter : 'all';
 	$scope.previousPage = -1;
@@ -37,7 +49,7 @@ angular.module('mobileMasterApp')
 		endPageCount = startPageCount + pageSize;
 
 	angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
-		if (thing.Type && thingTypeTest.test(thing.Type.Name)) {
+		if (filter(thing)) {
 			var s : any = {};
 			thingModel.ApplyThingToScope(s, thing);
 
@@ -51,7 +63,7 @@ angular.module('mobileMasterApp')
 	//$scope.things = globalList;
 
 
-	var sortThings = () => {
+	var sortVictims =  () => {
 		globalList.sort((a, b) => {
 			var ta = a.triage_status, tb = b.triage_status;
 
@@ -68,8 +80,13 @@ angular.module('mobileMasterApp')
 
 			return ta > tb ? 1 : -1;
 		});
+	},
+	defaultSort = () => {
+		globalList.sort((a, b) => a.ID < b.ID ? 1 : a.ID > b.ID ? -1 : 0);
 	};
 
+
+	var sortThings = $state.is('victims') ? sortVictims : defaultSort;
 
 	var digestScope = L.Util.throttle(() => {
 		sortThings();
@@ -104,7 +121,7 @@ angular.module('mobileMasterApp')
 
 	var observer = {
 		New: (thing: ThingModel.Thing) => {
-			if (thing.Type && thingTypeTest.test(thing.Type.Name)) {
+			if (filter(thing)) {
 				var s : any = {};
 				thingModel.ApplyThingToScope(s, thing);
 

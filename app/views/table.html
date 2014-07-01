@@ -3,7 +3,7 @@
 	  <div class="container-fluid">
 	  	<div class="row">
 	  		
-		    <a class="navbar-brand col-xs-2" href="#" ui-sref="{{returnLink}}"><span class="glyphicon glyphicon-th"></span></a>
+		    <a class="navbar-brand col-xs-2" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
 
 	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-5">{{typeName}}</h3>
 	    </div>
@@ -16,7 +16,7 @@
 		<li><a href="#" ui-sref="table({page: previousPage})">Previous</a></li>
 	</ul>
 
-	<a class="thing row" ng-repeat="thing in things" ui-sref="thing({ID: thing.ID})">
+	<a class="thing row" ng-repeat="thing in things" ui-sref="thing({ID: thing.ID, from: thingfrom})">
 		<div class="col-xs-2 col-sm-1 thing-row-left">
 			<div class="pull-right">
 				<identicon id="thing.ID"/>

@@ -1,3 +1,4 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -8,7 +9,7 @@ angular.module('mobileMasterApp')
 		//$rootScope: MasterScope.Root,
 		$upload: any,
 		settingsService: SettingsService,
-		$state
+		$state: ng.ui.IStateService
 	) => {
 
 		var setImmediateId = 0;
@@ -38,14 +39,15 @@ angular.module('mobileMasterApp')
 		var registerNew = (thing: ThingModel.Thing) => {
 			var type = itsa.typefrom(thing);
 
-			// if (thing.Type && thing.Type.Name !== 'master:wiki') { // TODO
 			if (!$scope.infos[type]) {
-				var parsing = type.replace(/-/g, ' ').match(/^master\:([^:]+)\:([^:]+)$/);
-				if (parsing) {
-					$scope.infos[type] = { count: 1, category: parsing[1], type: parsing[2], fullName: type };
-				} else {
-					$scope.infos[type] = { count: 1, category: "unknown", type: "unknown", fullName: type };
-				}
+				$scope.infos[type] = {
+					count: 1,
+					fullName: type,
+					href: $state.href(type === 'Victims' ? 'victims' : 'table', {
+						thingtype: type,
+						from: 'map'
+					})
+				};
 			} else {
 				++$scope.infos[type].count;
 			}

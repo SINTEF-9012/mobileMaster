@@ -111,8 +111,11 @@ interface ThingIdentifierService {
 	beacon(thing: ThingModel.Thing): boolean;
 	order(thing: ThingModel.Thing): boolean;
 	multimedia(thing: ThingModel.Thing): boolean;
+
+	other(thing: ThingModel.Thing): boolean;
 	
 	typefrom(thing: ThingModel.Thing): string;
+	testfor(type: string): RegExp;
 }
 
 declare module L {
