@@ -42,9 +42,21 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
           '.tmp/styles/{,*/}*.css',
-          '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+          '<%= yeoman.app %>/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      ts: {
+          files: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
+                  '!<%= yeoman.app %>/scripts/reference.ts',
+                  '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
+                  '<%= yeoman.test %>/spec/{,*/}*.ts',
+                  '!<%= yeoman.test %>/spec/{,*/}*.d.ts',
+                  '<%= yeoman.app %>/scripts/masterScope.d.ts'],
+          tasks: ['ts:dynamic'],
+          options: {
+            spawn: false, //important so that the task runs in the same context
+          }
       }
     },
     ts: {
@@ -61,7 +73,16 @@ module.exports = function (grunt) {
           htmlModuleTemplate: 'My.Module.<%= filename %>', // Template for module name for generated ts from html files [(default) '<%= filename %>']
           htmlVarTemplate: '<%= ext %>' // Template for variable name used in generated ts from html files [(default) '<%= ext %>]
       },
-      dev: { // a particular target
+      dynamic: {
+          src: [],
+          options: { // override the main options, http://gruntjs.com/configuring-tasks#options
+              sourcemap: true,
+              declaration: true,
+              comments: true,
+              fast: 'always'
+          }
+      },
+      watch: { // a particular target
           src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
                 '!<%= yeoman.app %>/scripts/reference.ts',
                 '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
@@ -296,12 +317,16 @@ module.exports = function (grunt) {
       }
     },
     concurrent: {
-      server: {
-        tasks: ['compass:server', 'ts:dev', 'copy:styles'],
+      watch: {
+        tasks: ['watch', 'ts:watch'],
         options: {
           logConcurrentOutput: true
         }
       },
+      server: [
+        'compass:server',
+        'copy:styles'
+      ],
       test: [
         'compass',
         'copy:styles'
