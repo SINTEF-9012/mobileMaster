@@ -1,5 +1,6 @@
 ﻿/// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 
 /// <reference path="./references/generic.d.ts" />
 /// <reference path="./references/app.d.ts" />
@@ -133,23 +134,19 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 				$(document).trigger('main.thing.order.exit');
 			}
 		})
-		.state('main.add', {
-			url: 'add?lat&lng',
-			views: {
-				'popup@': {
-					controller: 'AddCtrl',
-					templateUrl: 'views/add.html'
-				}
-			}
+		.state('add', {
+			url: '/add?lat&lng',
+			controller: 'AddCtrl',
+			templateUrl: 'views/add.html'
 		})
-		.state('main.camera', {
-			url: 'camera/:hash/:extension',
-			views: {
-				'popup@': {
-					controller: 'CameraCtrl',
-					templateUrl: 'views/camera.html'
-				}
-			}
+		.state('add.informations', {
+			url: '/informations',
+			templateUrl: 'views/addinformations.html'
+		})
+		.state('camera', {
+			url: '/camera/:hash/:extension',
+			controller: 'CameraCtrl',
+			templateUrl: 'views/camera.html'
 		})
 		.state('settings', {
 			url: '/settings',
@@ -157,20 +154,12 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			templateUrl: 'views/settings.html'
 		});
 
-  })/*.run(($rootScope) => {
-	console.log("canard");
-	  $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
-
-		console.log(event, toState, $('#lapin'));
-		  if (toState.name === 'victims'/* && current.name === 'victims') {
-			//if (document.body.className.indexOf('animation') === -1) {
-			$('body').addClass('canard').removeClass('no-asnimation');
-			//}
-		} else {
-			$('body').removeClass('canard').addClass('no-asnimation');
-		}
+  }).run(($rootScope) => {
+	$rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
+		$rootScope.previousState = fromState.name;
+		$rootScope.currentState = toState.name;
 	});
-})*/;
+});
 
 if (window.navigator.standalone) {
 	document.body.className += " standalone";

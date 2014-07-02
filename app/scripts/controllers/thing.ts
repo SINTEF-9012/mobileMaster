@@ -22,7 +22,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		$state.go("^");
 	};
 
-	var id = $stateParams.ID, category = 'all';
+	var id = $stateParams.ID;
 	var stateBack = $state.is('victim') ? 'victims' : 'table';
 
 	$scope.id = id;
@@ -30,6 +30,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	if ($stateParams.from === 'map') {
 		stateBack = 'map.slidder';
 	}
+
+	$scope.returnLink = $state.href(stateBack, { thingtype: 'all' });
 
 	$scope.thing = {};
 	$scope.unfound = true;

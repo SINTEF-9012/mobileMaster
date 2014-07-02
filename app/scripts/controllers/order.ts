@@ -24,7 +24,7 @@ angular.module('mobileMasterApp')
 				jwindow.trigger('resize');
 			});
 		});
-		var layer = masterMap.getLayerClass("shadow");
+		var layer = <any>masterMap.getLayerClass("shadow");
 		var ll = new layer("Order");
 		ll.addTo(masterMap);
 

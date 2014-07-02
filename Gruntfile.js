@@ -27,14 +27,6 @@ module.exports = function (grunt) {
   grunt.initConfig({
     yeoman: yeoman,
     watch: {
-      // coffee: {
-      //   files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-      //   tasks: ['coffee:dist']
-      // },
-      // coffeeTest: {
-      //   files: ['test/spec/{,*/}*.coffee'],
-      //   tasks: ['coffee:test']
-      // },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
@@ -53,37 +45,21 @@ module.exports = function (grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
-      },
-      ts: {
-          files: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
-                  '!<%= yeoman.app %>/scripts/reference.ts',
-                  '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
-                  '<%= yeoman.test %>/spec/{,*/}*.ts',
-                  '!<%= yeoman.test %>/spec/{,*/}*.d.ts',
-                  '<%= yeoman.app %>/scripts/masterScope.d.ts'],
-          tasks: ['ts:dynamic'],
-          options: {
-            spawn: false, //important so that the task runs in the same context
-          }
       }
     },
     ts: {
       options: { // use to override the default options, http://gruntjs.com/configuring-tasks#options
-          target: 'es3', // es3 (default) / or es5
-          //module: 'commonjs', // amd , commonjs (default)
-          sourcemap: true, // true (default) | false
-          //declaration: false, // true | false (default)
-          //nolib: false, // true | false (default)
           //comments: false // true | false (default)
-      },
-      dynamic: {
-          src: [],
-          options: { // override the main options, http://gruntjs.com/configuring-tasks#options
-              sourcemap: true,
-              declaration: true,
-              comments: true,
-              target: 'es5'
-          }
+          //compile: true, // perform compilation. [true (default) | false]
+          //comments: true, // same as !removeComments. [true | false (default)]
+          target: 'es5', // target javascript language. [es3 (default) | es5]
+          //module: 'amd', // target javascript module style. [amd (default) | commonjs]
+          //sourceMap: true, // generate a source map for every output js file. [true (default) | false]
+          //sourceRoot: '', // where to locate TypeScript files. [(default) '' == source ts location]
+          //mapRoot: '', // where to locate .map.js files. [(default) '' == generated js location.]
+          //declaration: true, // generate a declaration .d.ts file for every output js file. [true | false (default)]
+          htmlModuleTemplate: 'My.Module.<%= filename %>', // Template for module name for generated ts from html files [(default) '<%= filename %>']
+          htmlVarTemplate: '<%= ext %>' // Template for variable name used in generated ts from html files [(default) '<%= ext %>]
       },
       dev: { // a particular target
           src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
@@ -94,11 +70,11 @@ module.exports = function (grunt) {
                 ], // The source typescript files, http://gruntjs.com/configuring-tasks#files
           reference: '<%= yeoman.app %>/scripts/reference.ts', // If specified, generate this file that you can use for your reference management
           // out: '<%= yeoman.app %>/scripts/out.js', // If specified, generate an out.js file which is the merged js file
+          watch: '<%= yeoman.app %>/scripts',
           options: { // override the main options, http://gruntjs.com/configuring-tasks#options
-              sourcemap: true,
+              sourceMap: true,
               declaration: true,
-              comments: true,
-              target: 'es5'
+              comments: true
           },
       },
       build: { // another target
@@ -110,7 +86,7 @@ module.exports = function (grunt) {
                 '!<%= yeoman.test %>/spec/{,*/}*.d.ts'
                 ],
           options: { // overidet he main options for this target
-              sourcemap: false,
+              sourceMap: false,
           }
       },
   },
@@ -183,30 +159,6 @@ module.exports = function (grunt) {
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ]
     },
-    // coffee: {
-    //   options: {
-    //     sourceMap: true,
-    //     sourceRoot: ''
-    //   },
-    //   dist: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: '<%= yeoman.app %>/scripts',
-    //       src: '{,*/}*.coffee',
-    //       dest: '.tmp/scripts',
-    //       ext: '.js'
-    //     }]
-    //   },
-    //   test: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: 'test/spec',
-    //       src: '{,*/}*.coffee',
-    //       dest: '.tmp/spec',
-    //       ext: '.js'
-    //     }]
-    //   }
-    // },
     compass: {
       options: {
         sassDir: '<%= yeoman.app %>/styles',
@@ -344,18 +296,17 @@ module.exports = function (grunt) {
       }
     },
     concurrent: {
-      server: [
-        //'coffee:dist',
-        'compass:server',
-        'copy:styles'
-      ],
+      server: {
+        tasks: ['compass:server', 'ts:dev', 'copy:styles'],
+        options: {
+          logConcurrentOutput: true
+        }
+      },
       test: [
-        //'coffee',
         'compass',
         'copy:styles'
       ],
       dist: [
-        //'coffee',
         'compass:dist',
         'copy:styles',
         'imagemin',

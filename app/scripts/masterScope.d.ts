@@ -1,5 +1,6 @@
 /// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
+/// <reference path="./../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 /// <reference path="./references/NodeMaster.d.ts" />
 
 declare module MasterScope {
@@ -14,6 +15,7 @@ declare module MasterScope {
 		};
 
 		layoutautoscroll: boolean;
+		previousState: string;
 	}
 
 	interface Settings extends ng.IScope {

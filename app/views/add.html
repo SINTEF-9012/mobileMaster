@@ -1,36 +1,54 @@
-<div class="popup-content">
-	<button type="button" class="close" ui-sref="^" aria-hidden="true">&times;</button>
-	<h2>Add</h2>
-		<div class="row">
-			<button class="btn btn-primary col-xs-4 col-xs-offset-1" type="button" ng-click="save(true)">Save</button>
-			<button class="btn btn-warning col-xs-4 col-xs-offset-1" type="button" ui-sref="^">Cancel</button>
-		</div>
-		<div class="row">
-		<br>
-			<div class="panel-group col-md-12" id="accordion">
-				<div class="panel panel-default" ng-repeat="(key,category) in types">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" data-target="#{{key}}">
-								{{category.title}}
-							</a>
-						</h4>
-					</div>
-					<div id="{{key}}" class="panel-collapse collapse" ng-class="{in:key==add.category}">
-						<div class="panel-body">
-							<div class="btn-group-vertical btn-block" data-toggle="buttons">
-								<label class="btn btn btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
-									<input type="radio" name="options" id="{{icon}}">
-									<div class="pull-left">
-										<master-icon type="{{key}} {{icon}}"></master-icon>
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" ui-sref="{{previousState || 'map.slidder'}}"><span class="glyphicon glyphicon-remove"></span></a>
+
+		    <h3 class="col-xs-8">
+		    	Add
+	    	</h3>
+
+	    	<button type="submit" class="btn btn-primary navbar-btn pull-right" ng-click="save(true)">Save</button>
+	    </div>
+	  </div>
+	</nav>
+</header>
+
+<div class="container-fluid">
+	<div class="row" >
+		<div class="col-sm-5 col-lg-3 properties-list add-view">
+			<div class="row">
+				<ul class="nav nav-tabs" role="tablist">
+					<li ng-class="currentState === 'add.informations' ? '' : 'active'"><a role="tab" ui-sref="add">Element's type</a></li>
+					<li ng-class="currentState === 'add.informations' ? 'active' : ''"><a role="tab" ui-sref="add.informations">Description</a></li>
+				</ul>
+				<div class="tab-content" ui-view>
+					<div class="panel-group col-md-12" id="accordion">
+						<div class="panel panel-default" ng-repeat="(key,category) in types">
+							<div class="panel-heading" data-toggle="collapse" data-target="#{{key}}" data-parent="#accordion">
+								<h4 class="panel-title">
+									{{category.title}}
+								</h4>
+							</div>
+							<div id="{{key}}" class="panel-collapse collapse" ng-class="{in:key==add.category}">
+								<div class="panel-body">
+									<div class="btn-group-vertical btn-block" data-toggle="buttons">
+										<label class="btn btn btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==add.type}">
+											<input type="radio" name="options" id="{{icon}}">
+											<div class="pull-left">
+												<master-icon type="{{key}} {{icon}}"></master-icon>
+											</div>
+											{{name}}
+										</label>
 									</div>
-									{{name}}
-								</label>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="col-sm-7 col-lg-9" id="thing-map"></div>
 	</div>
 </div>

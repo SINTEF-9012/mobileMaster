@@ -1,4 +1,10 @@
-﻿'use strict';
+﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
+
+'use strict';
 
 angular.module('mobileMasterApp').controller('AddCtrl', (
 	$scope,
@@ -7,23 +13,26 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	$stateParams,
     $compile : ng.ICompileService,
 	masterMap: Master.Map,
-	AddService: AddService
+	AddService: AddService,
+	$window: ng.IWindowService,
+    persistentLocalization : PersistentLocalization
 	) => {
-	$rootScope.layoutautoscroll = false;
+
+
 	var position: L.LatLng;
 
 	if ($stateParams.lat && $stateParams.lng) {
 		position = L.latLng($stateParams.lat, $stateParams.lng);
-
 		// Pan to the position if it's not visible
-		if (!masterMap.getBounds().pad(0.8).contains(position)) {
-			masterMap.panTo(position);
-		}
+		//if (!masterMap.getBounds().pad(0.8).contains(position)) {
+		//	masterMap.panTo(position);
+		//}
 	} else {
 		position = masterMap.getCenter();
 	}
 
-	var marker = new L.Marker(position, {
+
+	/*var marker = new L.Marker(position, {
 		draggable: true
 	});
 
@@ -38,7 +47,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 		// TODO update the URL params in a beautiful and wonderful way
 		//$state.go('main.add', pos);
-	});
+	});*/
 
 	$scope.types = {
 		"incident": {
@@ -75,7 +84,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"chemical risk": "Chemical risk",
 				"explosion risk": "Explosion risk",
 				"fire risk": "Fire risk",
-				"generic risk": "Just a risk",
+				"generic risk": "Generic risk",
 				"rock slide risk": "Rock slide risk"
 			}
 		},
@@ -121,11 +130,13 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		}
 	};
 
+	var iconContainer = L.DomUtil.create('div', ''),
+		jIconContainer = $(iconContainer);
 
-	var updateIcon = (type: string)=> {
-		var icon = masterMap.createMasterIconWithType(type, $scope);
-
-		marker.setIcon(icon);
+	var updateIcon = (type) => {
+		var icon = angular.element('<master-icon />');
+		icon.attr('type', type);
+		jIconContainer.empty().append($compile(icon)($scope));
 	};
 
 	$scope.activate = (category:string, type: string)=> {
@@ -134,24 +145,38 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 			type: type
 		};
 
+		if (window.localStorage) {
+			window.localStorage.setItem('addCategory', category);
+			window.localStorage.setItem('addType', type);
+		}
+
 		updateIcon(type);
 	};
 
 	if (!$rootScope.add) {
-		$scope.activate('incident', 'incident generic');
+		if (window.localStorage) {
+			$scope.activate(window.localStorage.getItem('addCategory') || 'generic_response',
+				window.localStorage.getItem('addType') || 'generic response');
+		} else {
+			$scope.activate('generic_response', 'generic response');
+		}
 	} else {
 		updateIcon($rootScope.add.type);
 	}
 
-	marker.addTo(masterMap);
+	//marker.addTo(masterMap);
 
 	$scope.save = (goToMainAfter: boolean) => {
 		AddService.register(
 			"master:" + $rootScope.add.type,
-			marker.getLatLng());	
+			masterMap.getCenter(), () => {
+			
+		});	
+
+		alert($scope.description)
 		
 		if (goToMainAfter) {
-			$state.go("main");
+			$state.go($rootScope.previousState || 'map.slidder');
 		}
 	};
 
@@ -160,8 +185,43 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		if (toState.name === "main.add") {
 			$scope.save(false);
 		}
-		masterMap.removeLayer(marker);
+		//masterMap.removeLayer(marker);
 		removeListener();
 	});
 
+	masterMap.closePopup();
+	masterMap.enableInteractions();
+	masterMap.enableScale();
+	masterMap.disableMiniMap();
+
+	var jwindow = $($window), jMap = $('#thing-map');
+
+	var setLayout = L.Util.throttle(() => {
+		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
+		jMap.height(height - 1 /* border */);
+	}, 50);
+
+	var stateChange = () => {
+	
+	}
+
+	$scope.$on('$destroy', () => {
+		jwindow.off('resize', setLayout);
+		masterMap.disableShadow();
+		//thingModel.warehouse.UnregisterObserver(observer);
+	});
+
+	jwindow.resize(setLayout);
+
+	persistentLocalization.unbindMasterMap(masterMap);
+	masterMap.setVerticalTopMargin(0);
+	setLayout();
+	masterMap.moveTo(jMap.get(0));
+	masterMap.disableSituationOverview();
+
+	window.setImmediate(() => {
+		persistentLocalization.restorePersistentLayer(masterMap);
+		masterMap.panTo(position);
+		masterMap.enableShadow(undefined, iconContainer, 'flex');
+	});
 });

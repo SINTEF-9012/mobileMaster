@@ -9,6 +9,7 @@ angular.module('mobileMasterApp')
 		tweet = /(tweet)/i,
 		resource = /(resource)/i,
 		incident = /(incident)/i,
+		risk = /(risk)/i,
 		beacon = /(beacon)/i,
 		order = /(order)/i,
 
@@ -21,6 +22,7 @@ angular.module('mobileMasterApp')
 		tweets: tweet,
 		resources: resource,
 		incidents: incident,
+		risks: risk,
 		beacons: beacon,
 		orders: order,
 		multimedias: multimedia,
@@ -43,6 +45,7 @@ angular.module('mobileMasterApp')
 	this.tweet = (thing: ThingModel.Thing) =>		thing.Type && tweet.test(thing.Type.Name);
 	this.resource = (thing: ThingModel.Thing) =>	thing.Type && resource.test(thing.Type.Name);
 	this.incident = (thing: ThingModel.Thing) =>	thing.Type && incident.test(thing.Type.Name);
+	this.risk = (thing: ThingModel.Thing) =>		thing.Type && risk.test(thing.Type.Name);
 	this.beacon = (thing: ThingModel.Thing) =>		thing.Type && beacon.test(thing.Type.Name);
 	this.order = (thing: ThingModel.Thing) =>		thing.Type && order.test(thing.Type.Name);
 	this.multimedia = (thing: ThingModel.Thing) =>	thing.Type && multimedia.test(thing.Type.Name);
@@ -50,7 +53,7 @@ angular.module('mobileMasterApp')
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {
 		if (!thing.Type) {
-			return 'Defaults';
+			return 'Others';
 		}
 
 		var type = thing.Type.Name; 
@@ -60,10 +63,11 @@ angular.module('mobileMasterApp')
 		if (multimedia.test(type)) return 'Multimedias';
 		if (order.test(type)) return 'Orders';
 		if (incident.test(type)) return 'Incidents';
+		if (risk.test(type)) return 'Risks';
 		if (resource.test(type)) return 'Resources';
 		if (beacon.test(type)) return 'Beacons';
 
-		return 'Unknowns';
+		return 'Others';
 	};
 
 	this.testfor = (type: string): RegExp => lockup[type.toLowerCase()];

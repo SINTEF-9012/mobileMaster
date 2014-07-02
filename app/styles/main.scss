@@ -522,7 +522,7 @@ z-index:1;
 
 .infoblock {
     margin:4px;
-    border: 6px solid $gray-lighter;
+    border: 6px solid $gray-dark;
 
     cursor:pointer;
     background: #ada59a;
@@ -743,3 +743,23 @@ img.identicon {
     margin-left: -11px;
 }
 
+#accordion .panel-heading {
+    cursor:pointer;
+}
+
+.main-dashboard {
+    background: $gray-dark;
+
+    h1 {
+        color: white;
+    }
+}
+
+.add-view {
+    ul.nav {
+        margin-bottom:15px;
+        li.active a {
+            background: white;
+        }
+    }
+}

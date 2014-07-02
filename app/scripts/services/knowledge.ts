@@ -1,4 +1,3 @@
-/// <reference path="../../bower_components/DefinitelyTyped/underscore/underscore.d.ts" />
 'use strict';
 
 angular.module('mobileMasterApp').provider('Knowledge', function () {

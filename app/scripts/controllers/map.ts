@@ -19,10 +19,6 @@ angular.module('mobileMasterApp')
 	$window: ng.IWindowService,
 	persistentLocalization: PersistentLocalization) {
 
-    persistentLocalization.bindMasterMap(masterMap);
-    persistentLocalization.restorePersistentLayer(masterMap);
-
-
 	masterMap.closePopup();
 
     masterMap.enableInteractions();
@@ -31,6 +27,11 @@ angular.module('mobileMasterApp')
 	masterMap.disableSituationOverview();
 
 	masterMap.moveTo(document.getElementById('map'));
+
+	window.setImmediate(() => {
+		persistentLocalization.bindMasterMap(masterMap);
+		persistentLocalization.restorePersistentLayer(masterMap);
+	});
 
 	//cluster.Cluster.Size = 100;
 
@@ -195,9 +196,9 @@ angular.module('mobileMasterApp')
 	var mousemove = (e: L.LeafletMouseEvent)=> {
 	};
 
-	window.lapin = masterMap;
+	(<any>window).lapin = masterMap;
 	var throttledUpdate = null;
-	masterMap.on('markerdragstart', (e: L.Marker) => {
+	/*masterMap.on('markerdragstart', (e: L.Marker) => {
 		if (!e.marker) {
 			return;
 		}
@@ -221,15 +222,14 @@ angular.module('mobileMasterApp')
 
 			throttledUpdate();
 		}
-	});
+	});*/
 
 
-	masterMap.on('contextmenu', (e: L.LeafletMouseEvent) => {
-        // TODO UGLY
-        if (!$state.is('map.thing.order') && !$state.is('thing.edit')) {
-			$state.go('main.add', e.latlng);
-		}
-	});
+	var contextmenu = (e: L.LeafletMouseEvent) => {
+		$state.go('add', e.latlng);
+	};
+
+	masterMap.on('contextmenu', contextmenu);
 
 	var slidder = null;
 	var setMargin = () => {
@@ -239,7 +239,10 @@ angular.module('mobileMasterApp')
 		masterMap.setVerticalTopMargin(slidder.outerHeight());
 	};
 
-	$scope.$on('$destroy', () => angular.element($window).off('resize', setMargin));
+	$scope.$on('$destroy', () => {
+		masterMap.off('contextmenu', contextmenu);
+		angular.element($window).off('resize', setMargin);
+	});
 
 	setMargin();
 	angular.element($window).resize(setMargin);

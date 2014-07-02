@@ -1,4 +1,6 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+/// <reference path="./../references/app.d.ts" />
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -94,7 +96,7 @@ angular.module('mobileMasterApp')
 				console.log(100.0 * (e.loaded / e.total));
 			}).success((data) => {
 				console.log(data);
-				$state.go('main.camera', data);
+				$state.go('camera', data);
 			});
 		};
 	});

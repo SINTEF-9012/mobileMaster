@@ -574,8 +574,8 @@ angular.module('mobileMasterApp')
 				Orders: 1,
 				Multimedias: 7,
 				Beacons: 5,
-				Unknowns: 6,
-				Defaults: 6
+				Risks: 4,
+				Others: 6
 			};
 
 			var addMarker = (thing: ThingModel.Thing) => {
@@ -685,31 +685,65 @@ angular.module('mobileMasterApp')
 				div.appendChild(instance.getContainer());
 
 				instance.invalidateSize({});
+				// Test workaround
+				var p = (<any>instance)._mapPane;
+				if (!p._leaflet_pos) {
+					p._leaflet_pos = new L.Point(0, 0);
+				} 
 
 				window.setImmediate(() => {
+					if (!p._leaflet_pos) {
+						p._leaflet_pos = new L.Point(0, 0);
+					} 
 					body.removeClass('disable-markers-animations');
 				});
 			};
+
+			var shadowLayer = null;
+			instance.enableShadow = (title?: string, icon?: HTMLElement, className?: string) => {
+				if (shadowLayer) {
+					instance.disableShadow();
+				}
+
+				var c = <any>instance.getLayerClass('shadow');
+				shadowLayer = new c(title, icon, className);
+
+				instance.addLayer(shadowLayer);
+			};
+
+			instance.disableShadow = () => {
+				if (shadowLayer) {
+					instance.removeLayer(shadowLayer);
+					shadowLayer = null;
+				}
+			}
 
 			return instance;
 		};
 
 		this.declareLayerClass("shadow", L.Layer.extend({
-			initialize: function(title, icon) {
+			initialize: function(title, icon, className) {
 				// save position of the layer or any options from the constructor
 				this._titleText = title;
 				this._icon = icon;
+				this._class = 'shadow-layer';
+				if (className) {
+					this._class += ' ' + className;
+				}
 			},
 
 			onAdd: function(map: L.Map) {
 				this._map = map;
 
 				// create a DOM element and put it into one of the map panse
-				this._el = L.DomUtil.create('div', 'shadow-layer');
-				this._title = L.DomUtil.create('h1', '');
-				this._title.appendChild(document.createTextNode(this._titleText));
-				// map.getPanes().overlayPane.appendChild(this._el);
-				this._el.appendChild(this._title);
+				this._el = L.DomUtil.create('div', this._class);
+
+				if (this._titleText) {
+					this._title = L.DomUtil.create('h1', '');
+					this._title.appendChild(document.createTextNode(this._titleText));
+					this._el.appendChild(this._title);
+				}
+
 				if (this._icon) {
 					this._el.appendChild(this._icon);
 				}
