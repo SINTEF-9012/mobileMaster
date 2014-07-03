@@ -20,8 +20,25 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 		knowledge.push(k);
 	};
 
-	this.$get = ()=> {
+	this.$get = (itsa: ThingIdentifierService)=> {
 		return {
+			canOrder: (thing: ThingModel.Thing) => {
+				if (!itsa.resource(thing)) {
+					return false;
+				}
+
+				var status = thing.String("status");
+				return !status || status === "Unassigned";
+			},
+			canEdit: (thing: ThingModel.Thing) => {
+				return itsa.incident(thing) ||
+					itsa.multimedia(thing) ||
+					itsa.risk(thing);
+			},
+			canDelete: (thing: ThingModel.Thing) => {
+				return itsa.multimedia(thing) ||
+					itsa.risk(thing);
+			},
 			getPropertiesOrder: (thingType: ThingModel.ThingType) =>
 			{
 				var scores = {};

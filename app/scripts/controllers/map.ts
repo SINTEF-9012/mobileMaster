@@ -26,66 +26,12 @@ angular.module('mobileMasterApp')
     masterMap.enableScale();
 	masterMap.disableSituationOverview();
 
+	persistentLocalization.restorePersistentLayer(masterMap);
 	masterMap.moveTo(document.getElementById('map'));
 
 	window.setImmediate(() => {
 		persistentLocalization.bindMasterMap(masterMap);
-		persistentLocalization.restorePersistentLayer(masterMap);
 	});
-
-	//cluster.Cluster.Size = 100;
-
-	/*(<any>cluster).BuildLeafletMarker = (rawMarker: PruneCluster.Marker, location: L.LatLng) => {
-		var id = rawMarker.data.ID;
-		var marker = new L.Marker(location, { icon: masterMap.createMasterIconWithId(id, $scope), draggable: true });
-		marker.on('dragstart', (e) => {
-			e.marker = marker;
-			var pos = marker.getLatLng();
-			marker._oldLatLng = new L.LatLng(pos.lat, pos.lng);
-			masterMap.closePopup();
-			masterMap.fire('markerdragstart', e);
-		}).on('dragend', (e) => {
-			e.marker = marker;
-			window.setImmediate(()=> {
-				masterMap.fire('markerdragend', e);
-			});
-
-			var newLatLng = marker.getLatLng(),
-				oldLatLng = marker._oldLatLng;
-
-			var newProj = masterMap.project(newLatLng),
-				oldProj = masterMap.project(oldLatLng);
-
-			// Pythagore
-			var distance = Math.sqrt((oldProj.x - newProj.x) * (oldProj.x - newProj.x) +
-			(oldProj.y - newProj.y) * (oldProj.y - newProj.y)); 
-
-
-			if (distance > 28) {
-                masterMap.panTo(newLatLng);
-                $state.go('map.thing.order', { id: id });
-				marker.setLatLng(oldLatLng);
-			} else {
-				window.setImmediate(()=> {
-					marker.setLatLng(oldLatLng);
-				});
-			}
-
-		}).on('click', () => {
-			$state.go('thing', { id: id });
-		}).on('drag', (e) => {
-			var loc = marker.getLatLng();
-			dragLineLatLng[1].lat = loc.lat;
-			dragLineLatLng[1].lng = loc.lng;
-			dragLine.setLatLngs(dragLineLatLng);
-			if (!onMap) {
-				dragLine.addTo(masterMap).bringToBack();
-				onMap = true;
-			}
-		});
-
-		return marker;
-	}*/
 
     var markersThings : {[ID: string] : PruneCluster.Marker} = {};
 
@@ -182,13 +128,7 @@ angular.module('mobileMasterApp')
 		}
 	});
 
-    masterMap.on('zoomstart markerdragstart', ()=> {
-	    $('body').addClass("disable-markers-animations");
-    }).on('zoomend markerdragend', (e) => {
-	    if (drag === false || e.type === "markerdragend") {
-		    $('body').removeClass("disable-markers-animations");
-	    }
-    });
+
 
     //masterMap.addLayer(cluster);
 

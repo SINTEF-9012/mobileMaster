@@ -138,6 +138,7 @@ angular.module('mobileMasterApp')
 .controller('MainCtrl', function(
 	masterMap: Master.Map,
 	$scope,
+	$rootScope,
 	$window: ng.IWindowService,
 	$sce: ng.ISCEService,
     persistentLocalization : PersistentLocalization,
@@ -252,8 +253,10 @@ angular.module('mobileMasterApp')
 	computeSummary(true);
 	thingModel.warehouse.RegisterObserver(observer);
 
+	$rootScope.bodyClass = 'main-dashboard';
 
 	$scope.$on('$destroy', () => {
+		$rootScope.bodyClass = '';
 		jwindow.off('resize', setLayout);
 		thingModel.warehouse.UnregisterObserver(observer);
 	});

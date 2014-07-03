@@ -1,26 +1,19 @@
-<div id="top-menu">
-	<div class="layers">	
-		<h3>Map background</h3>
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" ui-sref="{{previousState || 'map.slidder'}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
-		<div class="row">
-			<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers" ui-sref="map.slidder">
-				</button>
-		</div>
-<!-- 		<div class="row">
-			<div class="layerOption col-xs-6">
-				<span>3D buildings </span>
-				<div class="buildings-switch make-switch switch-large">
-					<input type="checkbox" ng-model="buildings">
-				</div>
-			</div>
-		</div>
- -->
+			<h3 class="col-xs-8">Map background</h3>
+	    </div>
+	  </div>
+	</nav>
+</header>
 
- 		<div class="row">
- 			<div class="col-md-12">
-		 		<a ui-sref="^.map.slidder" class="btn btn-lg btn-warning">Return</a>
- 			</div>
- 		</div>
- 	</div>
-
+<div class="container-fluid">
+	<div class="row layers">
+		<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers" ui-sref="map.slidder">
+			</button>
+	</div>
 </div>

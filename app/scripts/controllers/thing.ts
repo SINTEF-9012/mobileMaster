@@ -11,19 +11,17 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	itsa: ThingIdentifierService,
 	masterMap: Master.Map,
 	$window: ng.IWindowService,
+	Knowledge,
 	thingModel: ThingModelService
 	) => {
 
 	persistentLocalization.restorePersistentLayer(masterMap);
 	persistentLocalization.unbindMasterMap(masterMap);
 
-	$scope.remove = () => {
-		thingModel.RemoveThing(id);
-		$state.go("^");
-	};
 
 	var id = $stateParams.ID;
-	var stateBack = $state.is('victim') ? 'victims' : 'table';
+	var stateBack = $state.is('victim') ? 'victims' : 'table',
+		stateInfos = {thingtype: 'all'};
 
 	$scope.id = id;
 
@@ -31,7 +29,30 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		stateBack = 'map.slidder';
 	}
 
-	$scope.returnLink = $state.href(stateBack, { thingtype: 'all' });
+	var deleteTimer = 0;
+	$scope.startDeleteTimer = () => {
+		$scope.deleteTimerRunning = true;
+		$scope.delay = 5;
+		$scope.hideToolbarButtons = true;
+
+		deleteTimer = window.setInterval(() => {
+			if (--$scope.delay === 0) {
+				thingModel.RemoveThing(id);
+				$state.go(stateBack, stateInfos);
+				deleteTimer = 0;
+			};
+			$scope.$digest();
+		}, 1000);
+	};
+
+	$scope.cancelDeleteTimer = () => {
+		window.clearInterval(deleteTimer);
+		$scope.deleteTimerRunning = false;
+		$scope.hideToolbarButtons = false;
+	};
+
+	$scope.returnLink = $state.href(stateBack, stateInfos);
+	$scope.hideToolbarButtons = false;
 
 	$scope.thing = {};
 	$scope.unfound = true;
@@ -59,7 +80,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				var pos = new L.LatLng(location.Latitude, location.Longitude),
 					now = +new Date();
 
-				if (oldPosition != null) {
+				if (oldPosition !== null) {
 					// The speed is in km/h because it's easier for me
 					thingSpeed = thingSpeed * 0.75 + (pos.distanceTo(oldPosition) / (now - oldTime)) * 1000 * 0.25 * 3.6;
 				}
@@ -81,7 +102,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 				//console.log(thingSpeed, zoom);
 
-				if (masterMap.getZoom() !== zoom || !masterMap.getBounds().pad(-0.2).contains(pos)) {
+				if ((oldPosition === null && !/^(thing|victim)/.test($rootScope.previousState)) ||
+					masterMap.getZoom() !== zoom || !masterMap.getBounds().pad(-0.2).contains(pos)) {
 					masterMap.setView(pos, zoom);
 				}
 
@@ -92,10 +114,16 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 			var type = itsa.typefrom(thing);
 			if ($stateParams.from && $stateParams.from.indexOf('list-') === 0) {
-				$scope.returnLink = $state.href(stateBack, { from: $stateParams.from.slice(5), thingtype: type });
+				stateInfos = { from: $stateParams.from.slice(5), thingtype: type };
 			} else {
-				$scope.returnLink = $state.href(stateBack, { thingtype: type });
+				stateInfos = { thingtype: type };
 			}
+
+			$scope.returnLink = $state.href(stateBack, stateInfos);
+
+			$scope.canOrder = Knowledge.canOrder(thing);
+			$scope.canEdit = Knowledge.canEdit(thing);
+			$scope.canDelete = Knowledge.canDelete(thing);
 
 			if (!$scope.$$phase) {
 				$scope.$digest();
@@ -136,12 +164,18 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var setLayout = L.Util.throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
+		masterMap.invalidateSize({});
 		jMap.height(height - 1 /* border */);
 	}, 50);
 
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);
 		thingModel.warehouse.UnregisterObserver(observer);
+
+		if (deleteTimer !== 0) {
+			window.clearInterval(deleteTimer);
+			thingModel.RemoveThing(id);
+		}
 	});
 
 	jwindow.resize(setLayout);

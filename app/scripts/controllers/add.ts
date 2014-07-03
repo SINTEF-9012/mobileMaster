@@ -1,4 +1,5 @@
 ﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
@@ -9,7 +10,7 @@
 angular.module('mobileMasterApp').controller('AddCtrl', (
 	$scope,
 	$rootScope : MasterScope.Root,
-	$state,
+	$state: ng.ui.IStateService,
 	$stateParams,
     $compile : ng.ICompileService,
 	masterMap: Master.Map,
@@ -167,16 +168,19 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	//marker.addTo(masterMap);
 
 	$scope.save = (goToMainAfter: boolean) => {
-		AddService.register(
-			"master:" + $rootScope.add.type,
-			masterMap.getCenter(), () => {
-			
+
+		var type = "master:" + $rootScope.add.type; 
+		AddService.register(type, masterMap.getCenter(), (thing: ThingModel.ThingPropertyBuilder) => {
+			if ($scope.description) {
+				thing.String('description', $scope.description);
+			}
 		});	
 
-		alert($scope.description)
+		//alert($scope.description)
 		
 		if (goToMainAfter) {
-			$state.go($rootScope.previousState || 'map.slidder');
+			$state.go(($rootScope.previousState && $rootScope.previousState.indexOf('add') !== 0) ?
+				$rootScope.previousState : 'map.slidder');
 		}
 	};
 
@@ -198,6 +202,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	var setLayout = L.Util.throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
+		masterMap.invalidateSize({});
 		jMap.height(height - 1 /* border */);
 	}, 50);
 
@@ -213,11 +218,12 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	jwindow.resize(setLayout);
 
-	persistentLocalization.unbindMasterMap(masterMap);
+	//persistentLocalization.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
 	setLayout();
 	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
+	persistentLocalization.bindMasterMap(masterMap);
 
 	window.setImmediate(() => {
 		persistentLocalization.restorePersistentLayer(masterMap);

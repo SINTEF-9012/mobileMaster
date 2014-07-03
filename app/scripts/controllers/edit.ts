@@ -14,7 +14,8 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	thingModel: ThingModelService
 	) => {
 
-
+	$scope.$parent.showSaveButton = true;
+	$scope.$parent.hideToolbarButtons = true;
 
 //	var layer = masterMap.getLayerClass("sight");
 //	var ll = new layer("Order");

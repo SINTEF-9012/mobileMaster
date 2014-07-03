@@ -10,6 +10,7 @@ angular.module('mobileMasterApp')
 		itsa: ThingIdentifierService,
 		//$rootScope: MasterScope.Root,
 		$upload: any,
+		cfpLoadingBar: any,
 		settingsService: SettingsService,
 		$state: ng.ui.IStateService
 	) => {
@@ -17,8 +18,6 @@ angular.module('mobileMasterApp')
 		var setImmediateId = 0;
 		var digestLock = false,
 			digestNeeded = false;
-
-		var jwindow = $(window);
 
 		var synchronizeScope = (scope) => {
 			if (!setImmediateId) {
@@ -28,7 +27,6 @@ angular.module('mobileMasterApp')
 						digestNeeded = true;
 					} else {
 						scope.$digest();
-						jwindow.trigger('resize');
 					}
 				});
 			}
@@ -89,14 +87,19 @@ angular.module('mobileMasterApp')
 			var c = $('#camera-file-upload');
 			c.replaceWith(c.clone(true));
 
-			var up = $upload.upload({
+			cfpLoadingBar.start();
+			$upload.upload({
 				url: settingsService.getMediaServerUrl() + '/upload',
 				file: $files
 			}).progress((e) => {
-				console.log(100.0 * (e.loaded / e.total));
+				cfpLoadingBar.set(e.loaded / e.total);
 			}).success((data) => {
-				console.log(data);
+				//console.log(data);
 				$state.go('camera', data);
+			}).error(() => {
+				alert("Sorry, file upload error");
+			}).then(() => {
+				cfpLoadingBar.complete();
 			});
 		};
 	});
