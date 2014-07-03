@@ -8,7 +8,7 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-loading-bar'])
+angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     if (!window.navigator.device) {
@@ -88,8 +88,8 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			controller: 'BackgroundCtrl',
 			templateUrl: 'views/background.html'
 		})
-		.state('main.filters', {
-			url: 'filters',
+		.state('filters', {
+			url: '/filters',
 			views: {
 				'bottom@': {
 					controller: 'FiltersCtrl',
@@ -102,19 +102,10 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			controller: 'ThingCtrl',
 			templateUrl: 'views/thing.html'
 		})
-		.state('main.thing.edit', {	
-			url: 'thing/:id/edit',
-			views: {
-				'popup@': false,
-				'bottom@': {
-					controller: 'EditCtrl',
-					templateUrl: 'views/thingedit.html'
-				},
-				'slidder@': {
-					controller: 'EdittoolbarCtrl',
-					templateUrl: 'views/edittoolbar.html'
-				}
-			}
+		.state('thing.edit', {	
+			url: '/edit',
+			controller: 'EditCtrl',
+			templateUrl: 'views/thingedit.html'
         })
         .state('map.thing.order', {
 			url: 'thing/:id/order',
@@ -155,7 +146,8 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 		});
 
   }).run(($rootScope) => {
-	$rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
+	  $rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
+		
 		$rootScope.previousState = fromState.name;
 		$rootScope.currentState = toState.name;
 	});
@@ -168,8 +160,16 @@ if (window.navigator.standalone) {
 }
 
 
+
 if (!!("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 0) {
 	document.body.className += " touch";
+
+	$(document)/*.on('focus', 'input, textarea', () => {
+		//$('.navbar.navbar-fixed-top').css('position', 'absolute');
+	})*/.on('blur', 'input, textarea', () => {
+		//$('.navbar.navbar-fixed-top').css('position', 'fixed');
+		window.scrollTo(0, 0);
+	});
 }
 
 if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {

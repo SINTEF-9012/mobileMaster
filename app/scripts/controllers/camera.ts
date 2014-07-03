@@ -1,4 +1,5 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
@@ -14,10 +15,9 @@ angular.module('mobileMasterApp')
 				.WhichIs('Picture')
 				.ContainingA.LocationLatLng()
 				.AndA.NotRequired.String('url')
-				.AndA.NotRequired.String('description').Build();
-//				.AndA.NotRequired.DateTime('creation')
-//				.WhichIs('Creation date')
-
+				.AndA.NotRequired.String('description')
+				.AndA.NotRequired.DateTime('creation')
+				.WhichIs('Creation date').Build();
 
 		AddServiceProvider.defineType(pictureType);
 
@@ -40,7 +40,10 @@ angular.module('mobileMasterApp')
 		settingsService: SettingsService,
 		masterMap: Master.Map,
 		AddService: AddService,
-		$state) => {
+		$window: ng.IWindowService,
+		$compile : ng.ICompileService,
+	    persistentLocalization : PersistentLocalization,
+		$state: ng.ui.IStateService) => {
 
 			var p = $stateParams.hash + '.' + $stateParams.extension,
 				s = settingsService.getMediaServerUrl();
@@ -54,61 +57,77 @@ angular.module('mobileMasterApp')
 		var type = $scope.isPicture ? 'master:picture' : ($scope.isVideo ? 'master:video' : 'master:document');
 
 		if ($scope.isPicture) {
-			$scope.thumbnailUrl = s + '/thumbnail/' + p;
+			$scope.thumbnailUrl = s + '/resize/640/480/' + p;
 			var camThumb = $('#camera-thumbnail');
 
 			camThumb.on('error', () => {
-				$('#camera-submit').removeClass('btn-primary').addClass('btn-danger').val('Publish anyway');
+				$('#camera-submit').removeClass('btn-primary').addClass('btn-danger').text('Publish anyway');
 				$('<div class="alert alert-danger">The picture seems to be broken.</div>').insertAfter(camThumb);
 //				camThumb.remove();
 			});
 		}
 		var position = masterMap.getCenter();
 
-		var marker = new L.Marker(position, {
+		var icon = angular.element('<master-icon />');
+		icon.attr('type', type);
+		var compiledIcon = $compile(icon)($scope);
+		/*var marker = new L.Marker(position, {
 			draggable: true,
 			icon: masterMap.createMasterIconWithType(type,$scope)
 		});
 
-		marker.addTo(masterMap);
+		marker.addTo(masterMap);*/
 
-
-		var watchPositionID = navigator.geolocation.watchPosition((pos: Position) => {
-			var mlatlng = marker.getLatLng();
-			mlatlng.lat = pos.coords.latitude;
-			mlatlng.lng = pos.coords.longitude;
-			marker.update();
-			var pixels = masterMap.project(mlatlng);
-			pixels.y -= $(window).scrollTop() / 2;
-			masterMap.panTo(masterMap.unproject(pixels));
+		masterMap.locate({
+			watch: true,
+			setView: true,
+			maxZoom: 16
 		});
+		var disablePositionWatching = () => masterMap.stopLocate();
 
-		var removeListener = $rootScope.$on('$stateChangeStart', (event: ng.IAngularEvent, toState: any) => {
-			masterMap.removeLayer(marker);
-			navigator.geolocation.clearWatch(watchPositionID);
-			removeListener();
-		});
-
-		marker.on('dragstart', (e) => {
-			masterMap.fire('markerdragstart', e);
-
-			// If the user drags the marker, we don't have to update his position after
-			navigator.geolocation.clearWatch(watchPositionID);
-		}).on('dragend', (e) => {
-			window.setImmediate(() => {
-				masterMap.fire('markerdragend', e);
-			});
-		});
+		masterMap.once('drag', disablePositionWatching);
 
 		$scope.publish = () => {
 
-
-
-			AddService.register(type, marker.getLatLng(), (thing : ThingModel.ThingPropertyBuilder) => {
+			AddService.register(type, masterMap.getCenter(), (thing : ThingModel.ThingPropertyBuilder) => {
 				thing.String('description', $scope.description != undefined ? $scope.description : "");
 				thing.String('url', $scope.url);
-//				thing.DateTime('creation', new Date());
+				//thing.DateTime('creation', new Date());
 			});
-			$state.go("main");
+
+			$state.go($rootScope.previousState || 'map.slidder');
 		};
+
+	masterMap.closePopup();
+	masterMap.enableInteractions();
+	masterMap.enableScale();
+	masterMap.disableMiniMap();
+
+	var jwindow = $($window), jMap = $('#thing-map');
+
+	var setLayout = L.Util.throttle(() => {
+		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
+		jMap.height(height - 1 /* border */);
+	}, 50);
+
+
+	$scope.$on('$destroy', () => {
+		jwindow.off('resize', setLayout);
+		masterMap.disableShadow();
+		masterMap.off('drag', disablePositionWatching);
+	});
+
+	jwindow.resize(setLayout);
+
+	persistentLocalization.unbindMasterMap(masterMap);
+	masterMap.setVerticalTopMargin(0);
+	setLayout();
+	masterMap.moveTo(jMap.get(0));
+	masterMap.disableSituationOverview();
+
+	window.setImmediate(() => {
+		persistentLocalization.restorePersistentLayer(masterMap);
+		masterMap.panTo(position);
+		masterMap.enableShadow(undefined, compiledIcon.get(0), 'flex');
+	});
 });

@@ -20,6 +20,8 @@ angular.module('mobileMasterApp')
 			return btype;
 		};
 
+		var preciseRound = (value: number, precision: number) => +value.toFixed(precision);
+
 		this.$get = (thingModel: ThingModelService, UUID: UUIDService) => {
 			return {
 				register: (typeName: string, location?: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any, overrideID?:string) => {
@@ -35,7 +37,8 @@ angular.module('mobileMasterApp')
 
 					if (location) {
 						t.ContainingA.Location("location",
-							new ThingModel.Location.LatLng(location.lat, location.lng));
+							new ThingModel.Location.LatLng(
+								preciseRound(location.lat, 8), preciseRound(location.lng, 8)));
 					}
 
 					if (fillingCallback) {

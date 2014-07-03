@@ -57,6 +57,14 @@ angular.module('mobileMasterApp')
 			PruneClusterLeafletSpiderfier.prototype.spiderfyDistanceMultiplier = 1.26;
 
 			var instance = <Master.Map> L.map(this.container, this.options);
+
+			var jbody = $(document.body);
+			instance.on('zoomstart movestart markerdragstart', () => {
+				jbody.addClass("disable-markers-animations");
+			}).on('zoomend moveend markerdragend', (e) => {
+				window.setImmediate(() => jbody.removeClass("disable-markers-animations"));
+			});
+
 			var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet(100);
 
 			instance.addLayer(cluster);
@@ -679,23 +687,20 @@ angular.module('mobileMasterApp')
 				paddingTopLeft.y = margin + 20;
 			};
 
-			var body = $(document.body);
+			(<any>instance)._getMapPanePos = function () {
+				return L.DomUtil.getPosition(this._mapPane) || new L.Point(0,0);
+			};
+
 			instance.moveTo = (div: HTMLElement) => {
-				body.addClass('disable-markers-animations');
+				jbody.addClass('disable-markers-animations');
 				div.appendChild(instance.getContainer());
 
+				(<any>L.Util.falseFn)(div.offsetWidth); // redraw ?
+
 				instance.invalidateSize({});
-				// Test workaround
-				var p = (<any>instance)._mapPane;
-				if (!p._leaflet_pos) {
-					p._leaflet_pos = new L.Point(0, 0);
-				} 
 
 				window.setImmediate(() => {
-					if (!p._leaflet_pos) {
-						p._leaflet_pos = new L.Point(0, 0);
-					} 
-					body.removeClass('disable-markers-animations');
+					jbody.removeClass('disable-markers-animations');
 				});
 			};
 
