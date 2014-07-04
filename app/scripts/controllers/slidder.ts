@@ -12,6 +12,7 @@ angular.module('mobileMasterApp')
 		$upload: any,
 		cfpLoadingBar: any,
 		settingsService: SettingsService,
+		$timeout: ng.ITimeoutService,
 		$state: ng.ui.IStateService
 	) => {
 
@@ -36,26 +37,42 @@ angular.module('mobileMasterApp')
 
 		$('#view-slidder, #dashboard-btn').on('touchmove', () => false);
 
-		var registerNew = (thing: ThingModel.Thing) => {
-			var type = itsa.typefrom(thing);
+		var firstIteration = true;
 
-			if (!$scope.infos[type]) {
-				$scope.infos[type] = {
+		var registerNew = (thing: ThingModel.Thing) => {
+			var type = itsa.typefrom(thing),
+				infos = $scope.infos[type];
+
+			if (!infos) {
+				$scope.infos[type] = infos = {
 					count: 1,
 					fullName: type,
+					glowing: !firstIteration,
 					href: $state.href(type === 'Victims' ? 'victims' : 'table', {
 						thingtype: type,
 						from: 'map'
 					})
 				};
 			} else {
-				++$scope.infos[type].count;
+				++infos.count;
+				infos.glowing = !firstIteration;
+
+				if (infos.glowingTimeout) {
+					$timeout.cancel(infos.glowingTimeout);
+				}
 			}
+
+			infos.glowingTimeout = $timeout(() => {
+				console.log("lapin")
+				infos.glowing = false;
+				infos.glowingTimeout = 0;
+			}, 6000);
 
 			synchronizeScope($scope);
 		};
 
 		angular.forEach(thingModel.warehouse.Things, registerNew);
+		firstIteration = false;
 
 		var observer = {
 			New: registerNew,
@@ -78,6 +95,7 @@ angular.module('mobileMasterApp')
 		};
 
 		thingModel.warehouse.RegisterObserver(observer);
+
 
 		$scope.$on('$destroy', () => {
 			thingModel.warehouse.UnregisterObserver(observer);

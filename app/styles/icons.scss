@@ -148,6 +148,35 @@ vertical-align: middle;
 	}
 }
 
+.glow master-icon, master-icon.glow {
+	&:after {
+		background: url(../images/glow-background.png) no-repeat center;
+		background-size: 100% 100%;
+		display:block;
+		content: ' ';
+		position: absolute;
+		z-index: -1;
+		width: 42px;
+		height: 42px;
+		top: -4px;
+		left: 2px;
+
+		animation-duration: 3s;
+		animation-name: glowingopacity;
+		animation-iteration-count: infinite;
+	}
+
+	&.fonticon:after {
+		top:-4px;
+		left:-2px;
+	}
+
+	&.order:after {
+		top:-4px;
+		left:1px;
+	}
+}
+
 .map master-icon {
 	width: 40px;
 	height: 40px;
@@ -342,5 +371,65 @@ master-icon.order {
 	}
 	master-icon:first-child.fonticon > div {
 		font-size:30px;
+	}
+}
+
+/*@keyframes glowingtext {
+	from {
+		text-shadow: 0px 0px 6px yellow;
+	}
+	30% {
+		text-shadow: 0px 0px 20px yellow;
+	}
+
+	50% {
+		text-shadow: 0px 0px 12px yellow;
+	}
+
+	70% {
+		text-shadow: 0px 0px 20px yellow;
+	}
+	to {
+		text-shadow: 0px 0px 6px yellow;
+	}
+}
+
+@keyframes glowingbox {
+	from {
+		box-shadow: 0px 0px 6px yellow;
+	}
+	30% {
+		box-shadow: 0px 0px 20px yellow;
+	}
+
+	50% {
+		box-shadow: 0px 0px 12px yellow;
+	}
+
+	70% {
+		box-shadow: 0px 0px 20px yellow;
+	}
+	to {
+		box-shadow: 0px 0px 6px yellow;
+	}
+}*/
+
+@keyframes glowingopacity {
+	from {
+		opacity:0;
+	}
+	30% {
+		opacity:1;
+	}
+
+	50% {
+		opacity:0.8;
+	}
+
+	70% {
+		opacity:1;
+	}
+	to {
+		opacity:0;
 	}
 }

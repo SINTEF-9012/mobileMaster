@@ -2,7 +2,7 @@
 	<a class="glyphicon glyphicon-th" ui-sref="main" id="dashboard-btn"></a>
 	<div class="col-sm-8 col-md-9 col-lg-10 infos-icons">
 		<div class="btn-group">
-			<a href="{{info.href}}" class="btn btn-default info-number" ng-class="filtered[info.fullName] ? 'filtered' : ''" ng-repeat="(key,info) in infos" title="{{info.fullName}}">
+			<a href="{{info.href}}" class="btn btn-default info-number" ng-class="(info.glowing ? 'glow' : '') + (filtered[info.fullName] ? 'filtered' : '')" ng-repeat="(key,info) in infos" title="{{info.fullName}}">
 				<master-icon type="{{info.fullName}}"></master-icon>
 				{{info.count}}
 			</a>
