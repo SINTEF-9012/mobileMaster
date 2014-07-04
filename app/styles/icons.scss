@@ -1,27 +1,31 @@
 @font-face {
-    font-family: 'bridgeiconsregular';
-    src: url('/fonts/font4799-webfont.eot');
-    src: url('/fonts/font4799-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/font4799-webfont.woff') format('woff'),
+	font-family: 'bridgeiconsregular';
+	src: url('/fonts/font4799-webfont.eot');
+	src: url('/fonts/font4799-webfont.eot?#iefix') format('embedded-opentype'),
+	url('/fonts/font4799-webfont.woff') format('woff'),
          // url('/fonts/font4799-webfont.ttf') format('truetype'),
          url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+         font-weight: normal;
+         font-style: normal;
+     }
 
-// TODO chrome hack
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+// Google Chrome has some issues for font smoothing on Windows
+// A workaround is to use SVG fonts, but it's a bit slower and
+// webkit has a bug with svg-fonts and 3D acceleration
+// The best solution I found is just to enable the experimental DirectWrite feature
+// It's accessible in chrome://flags and the web looks better with it 
+/*@media screen and (-webkit-min-device-pixel-ratio:0) {
 	@font-face {
-	    font-family: 'bridgeiconsregular';
+		font-family: 'bridgeiconsregular';
 		src: url('/fonts/font4799-webfont.svg#bridgeiconsregular') format('svg');
-	    font-weight: normal;
-	    font-style: normal;
+		font-weight: normal;
+		font-style: normal;
 	}
 
 	master-icon.fonticon > div {
 		top:0.2em;
 	}
-}
+}*/
 
 
 .info-number {
@@ -35,23 +39,24 @@
 }
 
 master-icon {
-/* font-size: 2.05em; */
-display: inline-block;
-/* position: absolute; */
-/* margin-top: -8px; */
-/* left: 0; */
-font-weight: normal;
-width: 1.5em;
-height: 1.5em;
-line-height: 1.5em;
-text-align: center;
-vertical-align: middle;
+	/* font-size: 2.05em; */
+	display: inline-block;
+	/* position: absolute; */
+	/* margin-top: -8px; */
+	/* left: 0; */
+	font-weight: normal;
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	text-align: center;
+	vertical-align: middle;
+	// position: relative;
 // background: #ada59a;
 // border-radius: 50%;
- 	&.default-icon {
-		background: #ECB813;
-		border-radius:50%;
- 	}
+&.default-icon {
+	background: #ECB813;
+	border-radius:50%;
+}
 
 &.order {
 	background:url(../images/reticle-icon.png) no-repeat center;
@@ -321,8 +326,8 @@ vertical-align: middle;
 	}
 }
 .btn.btn-lg master-icon {
-    margin-top:-6px;
-    left:5px;
+	margin-top:-6px;
+	left:5px;
 }
 
 .glyphicon.disabled {
