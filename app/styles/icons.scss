@@ -53,11 +53,24 @@ vertical-align: middle;
 		border-radius:50%;
  	}
 
-	&.fonticon > div {
-		text-rendering:geometricPrecision;
-		font-family: 'bridgeiconsregular';
-		position: relative;
-		display: inline-block;
+&.order {
+	background:url(../images/reticle-icon.png) no-repeat center;
+	background-size:100% 100%;
+	@media (min--moz-device-pixel-ratio: 1.3),
+	(-o-min-device-pixel-ratio: 2.6/2),
+	(-webkit-min-device-pixel-ratio: 1.3),
+	(min-device-pixel-ratio: 1.3),
+	(min-resolution: 1.3dppx) {
+		background:url(../images/reticle-icon@2x.png) no-repeat center;
+		background-size:100% 100%;
+	}
+}
+
+&.fonticon > div {
+	text-rendering:geometricPrecision;
+	font-family: 'bridgeiconsregular';
+	position: relative;
+	display: inline-block;
 		// line-height:0;
 		font-size:1.7em;
 		// top:0.2em;
@@ -253,6 +266,21 @@ vertical-align: middle;
 	}
 }
 
+.infos {
+	master-icon.order {
+		background:url(../images/reticle-icon-21.png) no-repeat center;
+		background-size:21px;
+		@media (min--moz-device-pixel-ratio: 1.3),
+		(-o-min-device-pixel-ratio: 2.6/2),
+		(-webkit-min-device-pixel-ratio: 1.3),
+		(min-device-pixel-ratio: 1.3),
+		(min-resolution: 1.3dppx) {
+			background:url(../images/reticle-icon.png) no-repeat center;
+			background-size:100% 100%;
+		}
+	}
+}
+
 #map {
 
 	.thing-icon-standard {
@@ -327,24 +355,12 @@ vertical-align: middle;
 
 .map master-icon .glyphicon {
 	font-size: 20px;
-color: white;
-line-height: 36px;
+	color: white;
+	line-height: 36px;
 }
 .map master-icon.glyph {
 	background: rgba(0,0,0,0.7);
 	border-radius: 50%;
-}
-master-icon.order {
-	background:url(../images/reticle-icon.png) no-repeat center;
-	background-size:100% 100%;
-    @media (min--moz-device-pixel-ratio: 1.3),
-     (-o-min-device-pixel-ratio: 2.6/2),
-     (-webkit-min-device-pixel-ratio: 1.3),
-     (min-device-pixel-ratio: 1.3),
-     (min-resolution: 1.3dppx) {
-		background:url(../images/reticle-icon@2x.png) no-repeat center;
-		background-size:100% 100%;
-	}
 }
 
 .btn-lg master-icon.fonticon > div {
