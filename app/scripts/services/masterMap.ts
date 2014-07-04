@@ -413,7 +413,7 @@ angular.module('mobileMasterApp')
 			};
 
 			var minimap = null, miniMapEnabled = false;
-			instance.enableMiniMap = function() {
+			instance.enableMiniMap = function () {
 				if (!minimap) {
 					var osm2 = new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.i0afp8bh/{z}/{x}/{y}.png', {
 						detectRetina: true,
@@ -519,7 +519,7 @@ angular.module('mobileMasterApp')
 			instance.enableSituationOverview = () => {
 				if (!situationOverviewEnabled) {
 					situationOverviewEnabled = true;
-					cluster.FitBounds();
+					processView();
 				}
 			}
 
