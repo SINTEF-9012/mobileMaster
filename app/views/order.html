@@ -1,14 +1,49 @@
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+		    <h3 class="col-xs-8 identicon">
+		    	Order to
+	    		{{thing.name}}
+	    		<span class="text-danger ng-hide" ng-show="unfound">Thing not found</span>
+	    		<identicon id="id" />
+	    	</h3>
+
+
+	    	<button type="button" class="btn btn-primary navbar-btn pull-right" ng-click="publish()" ng-hide="unfound">Save</button>
+	    </div>
+	  </div>
+	</nav>
+</header>
+
 <div class="container-fluid">
-<form role="form row">
-
-	<div class="form-group col-md-10 col-md-offset-1">
-		<label for="orderTitle">Title</label>
-		<input type="text" class="form-control input-lg" id="orderTitle" placeholder="{{placeholder}}" ng-model="title"/>
+	<div class="row" >
+		<div class="col-sm-5 col-lg-3 properties-list add-view">
+			<div class="row">
+				<div class="panel-group col-md-12" id="accordion">
+					<div class="panel panel-default" ng-repeat="(key,category) in types">
+						<div class="panel-heading" data-toggle="collapse" data-target="#{{key}}" data-parent="#accordion">
+							<h4 class="panel-title">
+								{{category.title}}
+							</h4>
+						</div>
+						<div id="{{key}}" class="panel-collapse collapse" ng-class="{in:key==order.category}">
+							<div class="panel-body">
+								<div class="btn-group-vertical btn-block" data-toggle="buttons">
+									<label class="btn btn btn-default" ng-repeat="(icon,name) in category.items" ng-click="activate(key, icon)" ng-class="{active:icon==order.type}">
+										<input type="radio" name="options" id="{{icon}}">
+										{{name}}
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-7 col-lg-9" id="thing-map"></div>
 	</div>
-
-	<div class="form-group col-md-10 col-md-offset-1">
-		<label for="orderComments">Comments</label>
-		<textarea id="orderComments" class="form-control" rows="8" ng-model="details"></textarea>
-	</div>
-</form>
 </div>

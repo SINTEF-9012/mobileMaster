@@ -14,6 +14,11 @@ declare module MasterScope {
 			type: string;
 		};
 
+		order: {
+			category: string;
+			type: string;
+		}
+
 		layoutautoscroll: boolean;
 		previousState: string;
 	}

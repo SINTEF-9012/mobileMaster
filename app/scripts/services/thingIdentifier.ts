@@ -12,6 +12,9 @@ angular.module('mobileMasterApp')
 		risk = /(risk)/i,
 		beacon = /(beacon)/i,
 		order = /(order)/i,
+		police = /(police)/i,
+		medic = /(health|medic)/i,
+		fire = /(fire)/i,
 
 	// Some more high level categories
 		multimedia = /(picture|video|tweet)/i;
@@ -71,4 +74,18 @@ angular.module('mobileMasterApp')
 	};
 
 	this.testfor = (type: string): RegExp => lockup[type.toLowerCase()];
+
+	var testResource = (thing: ThingModel.Thing, test: RegExp) => {
+		if (!this.resource(thing)) {
+			return false;
+		}
+
+		var type = (thing.Type ? thing.Type.Name : '') + (thing.String('type') || '');
+
+		return test.test(type);
+	}
+
+	this.police = (thing: ThingModel.Thing) => testResource(thing, police);
+	this.medic = (thing: ThingModel.Thing) => testResource(thing, medic);
+	this.fire = (thing: ThingModel.Thing) => testResource(thing, fire);
 });

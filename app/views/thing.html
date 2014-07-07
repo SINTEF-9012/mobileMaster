@@ -15,7 +15,7 @@
 	    	<button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSaveButton">Save</button>
 	    	<button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSendButton">Send</button>
 
-    		<a ui-sref="thing.edit" class="btn navbar-btn pull-right btn-primary ng-hide" ng-show="canOrder">Order</a>
+    		<a ui-sref="order({ID:id, from: from})" class="btn navbar-btn pull-right btn-primary ng-hide" ng-show="canOrder">Order</a>
 
 	    	<button type="button" class="btn btn-danger navbar-btn pull-right ng-hide" ng-click="cancelDeleteTimer()" ng-show="deleteTimerRunning">Cancel deletion ({{delay}})</button>
 

@@ -63,7 +63,7 @@ angular.module('mobileMasterApp')
 			}
 
 			infos.glowingTimeout = $timeout(() => {
-				console.log("lapin")
+				//console.log("lapin");
 				infos.glowing = false;
 				infos.glowingTimeout = 0;
 			}, 6000);

@@ -3,9 +3,9 @@
 	  <div class="container-fluid">
 	  	<div class="row">
 	  		
-		    <a class="navbar-brand col-xs-2" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
+		    <a class="navbar-brand col-xs-1" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
 
-	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-5 ng-hide" ng-show="filter">Victims{{filter != 'all' ? ' ' + filter : ''}}</h3>
+	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-6 ng-hide" ng-show="filter">Victims{{filter != 'all' ? ' ' + filter : ''}}</h3>
 
 	    	<div class="btn-group navbar-btn-group pull-right" data-toggle="buttons">
 			  <label class="btn navbar-btn btn-default" ng-class="filter === 'all' ? 'active' : ''"

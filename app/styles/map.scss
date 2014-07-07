@@ -32,8 +32,6 @@
 
 .leaflet-popup-content {
     & > div {
-        display: -webkit-flex;
-        -webkit-align-items: center;
         display: flex;
         align-items: center;
 

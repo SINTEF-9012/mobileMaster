@@ -161,7 +161,7 @@ angular.module('mobileMasterApp')
 
 					if (type === 'ResourceType') {
 						// TODO HOTFIX
-						type += " " + thing.String("name").replace(/medic/i, 'health')
+						type += " " + thing.String("type").replace(/medic/i, 'health')
 							.replace(/fire personnel/i, 'fire and rescue personnel');
 					}
 				}

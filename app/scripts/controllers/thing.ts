@@ -1,5 +1,10 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
+/// <reference path="./../references/NodeMaster.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
+/// <reference path="./../references/app.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
 'use strict';
 
 angular.module('mobileMasterApp').controller('ThingCtrl', (
@@ -23,6 +28,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	var stateBack = $state.is('victim') ? 'victims' : 'table',
 		stateInfos = {thingtype: 'all'};
 
+	$scope.from = $stateParams.from;
 	$scope.id = id;
 
 	if ($stateParams.from === 'map') {
@@ -146,11 +152,13 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			} 
 		},
 		Deleted: (thing: ThingModel.Thing) => {
-			$scope.unfound = true;
-			digestScope();
+			if (thing.ID === id) {
+				$scope.unfound = true;
+				digestScope();
+			} 
 		},
-		Define: (thingType: ThingModel.ThingType) => {}
-	}
+		Define: () => {}
+	};
 	thingModel.warehouse.RegisterObserver(observer);
 
 	var jwindow = $($window), jMap = $('#thing-map');
@@ -164,8 +172,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var setLayout = L.Util.throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
-		masterMap.invalidateSize({});
 		jMap.height(height - 1 /* border */);
+		masterMap.invalidateSize({});
 	}, 50);
 
 	$scope.$on('$destroy', () => {

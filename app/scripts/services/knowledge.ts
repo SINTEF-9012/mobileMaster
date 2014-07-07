@@ -33,10 +33,12 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 			canEdit: (thing: ThingModel.Thing) => {
 				return itsa.incident(thing) ||
 					itsa.multimedia(thing) ||
+					itsa.order(thing) ||
 					itsa.risk(thing);
 			},
 			canDelete: (thing: ThingModel.Thing) => {
 				return itsa.multimedia(thing) ||
+					itsa.order(thing) ||
 					itsa.risk(thing);
 			},
 			getPropertiesOrder: (thingType: ThingModel.ThingType) =>

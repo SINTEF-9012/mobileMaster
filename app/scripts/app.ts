@@ -55,19 +55,12 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
             controller: 'MainCtrl',
             templateUrl: 'views/main.html'
 		})
-		.state('main.editsummary', {
-			url: 'editsummary',
-			views: {
-				'bottom@': {
-				}					
-			}
-		})
 		.state('table', {
 			url: '/table/:thingtype?order&page&from',
 			controller: 'TableCtrl',
 			templateUrl: 'views/table.html'
 		})
-		.state('main.compass', {
+		/*.state('main.compass', {
 			url: 'compass',
 			views: {
 //			top: {
@@ -82,7 +75,7 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 //				templateUrl: 'views/slidder.html'
 //			}
 			}
-		})
+		})*/
 		.state('background', {
 			url: '/background',
 			controller: 'BackgroundCtrl',
@@ -90,12 +83,8 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 		})
 		.state('filters', {
 			url: '/filters',
-			views: {
-				'bottom@': {
-					controller: 'FiltersCtrl',
-					templateUrl: 'views/filters.html'
-				}
-			}
+			controller: 'FiltersCtrl',
+			templateUrl: 'views/filters.html'
 		})
 		.state('thing', {
 			url: '/thing/:ID?from',
@@ -107,24 +96,6 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			controller: 'EditCtrl',
 			templateUrl: 'views/thingedit.html'
         })
-        .state('map.thing.order', {
-			url: 'thing/:id/order',
-			views: {
-				'popup@': false,
-				'bottom@': {
-					controller: 'OrderCtrl',
-					templateUrl: 'views/order.html'
-				},
-				'slidder@': {
-					controller: 'OrdertoolbarCtrl',
-					templateUrl: 'views/ordertoolbar.html'
-				}
-			},
-			onExit: () => {
-				// TODO find a better way
-				$(document).trigger('main.thing.order.exit');
-			}
-		})
 		.state('add', {
 			url: '/add?lat&lng',
 			controller: 'AddCtrl',
@@ -133,6 +104,11 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 		.state('add.informations', {
 			url: '/informations',
 			templateUrl: 'views/addinformations.html'
+		})
+        .state('order', {
+			url: '/order/:ID?from',
+			controller: 'OrderCtrl',
+			templateUrl: 'views/order.html'
 		})
 		.state('camera', {
 			url: '/camera/:hash/:extension',

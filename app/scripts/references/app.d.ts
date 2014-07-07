@@ -95,7 +95,8 @@ interface AddServiceConfig {
 
 interface AddService {
 	// It's just a first version :)
-	register(typeName: string, location?: L.LatLng, fillingCallback?: (thing: ThingModel.ThingPropertyBuilder) => any, overrideId?: string);
+	register(typeName: string, location?: L.LatLng,
+		fillingCallback?: (thing: ThingModel.ThingPropertyBuilder) => any, overrideId?: string, connections?:ThingModel.Thing[]);
 }
 
 interface SettingsService {
@@ -123,6 +124,10 @@ interface ThingIdentifierService {
 
 	typefrom(thing: ThingModel.Thing): string;
 	testfor(type: string): RegExp;
+
+	police(thing: ThingModel.Thing): boolean;
+	medic(thing: ThingModel.Thing): boolean;
+	fire(thing: ThingModel.Thing): boolean;
 }
 
 declare module L {

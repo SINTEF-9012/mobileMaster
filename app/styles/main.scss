@@ -577,14 +577,19 @@ header + .container, header + .container-fluid {
 
 
 @media (max-width: 400px) {
+    header + .container, header + .container-fluid,
     header + .container, header + .container-fluid {
         margin-top: 140px;
     }
 }
 
 header .navbar button, header .navbar .btn-group,
-header .navbar a {
+header .navbar a.btn {
     margin-right:0.66em;
+}
+header .navbar .btn-group a.btn,
+header .navbar .btn-group button {
+    margin-right:0;
 }
 
 @media (min-width: 768px) {
@@ -604,6 +609,13 @@ header + .master-list {
     padding-top: 20px;
 }
 
+@media (max-width: 400px) {
+    header + .master-list {
+        margin-top: 100px;
+    }
+}
+
+ 
 .master-list {
     padding-bottom: 30px;
 

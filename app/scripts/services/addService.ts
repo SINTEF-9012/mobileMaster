@@ -24,7 +24,7 @@ angular.module('mobileMasterApp')
 
 		this.$get = (thingModel: ThingModelService, UUID: UUIDService) => {
 			return {
-				register: (typeName: string, location?: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any, overrideID?:string) => {
+				register: (typeName: string, location?: L.LatLng, fillingCallback?: (thing:ThingModel.ThingPropertyBuilder)=>any, overrideID?:string, connections?: ThingModel.Thing[]) => {
 					var type = types[typeName],
 						t: ThingModel.ThingPropertyBuilder,
 						id = overrideID ? overrideID : UUID.generate();
@@ -43,6 +43,14 @@ angular.module('mobileMasterApp')
 
 					if (fillingCallback) {
 						fillingCallback(t);
+					}
+
+					var build = t.Build();
+
+					if (connections) {
+						_.each(connections, (thing) => {
+							build.Connect(thing);
+						});
 					}
 
 					thingModel.warehouse.RegisterThing(t.Build(), false, true);
