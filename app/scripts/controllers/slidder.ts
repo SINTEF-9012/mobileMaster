@@ -12,8 +12,10 @@ angular.module('mobileMasterApp')
 		$upload: any,
 		cfpLoadingBar: any,
 		settingsService: SettingsService,
+		filterService: FilterService,
 		$timeout: ng.ITimeoutService,
-		$state: ng.ui.IStateService
+		$state: ng.ui.IStateService,
+		$rootScope: MasterScope.Root
 	) => {
 
 		var setImmediateId = 0;
@@ -51,7 +53,8 @@ angular.module('mobileMasterApp')
 					href: $state.href(type === 'Victims' ? 'victims' : 'table', {
 						thingtype: type,
 						from: 'map'
-					})
+					}),
+					filtered: filterService.isFilterEnabled(type)
 				};
 			} else {
 				++infos.count;
@@ -96,6 +99,18 @@ angular.module('mobileMasterApp')
 
 		thingModel.warehouse.RegisterObserver(observer);
 
+		$scope.hasSomeFiltering = filterService.hasSomeFiltering();
+
+
+		$rootScope.$on('filterServiceUpdate', () => {
+			$scope.hasSomeFiltering = filterService.hasSomeFiltering();
+
+			angular.forEach($scope.infos, (value, key) => {
+				value.filtered = filterService.isFilterEnabled(key);
+			});
+
+			$scope.$digest();
+		});
 
 		$scope.$on('$destroy', () => {
 			thingModel.warehouse.UnregisterObserver(observer);

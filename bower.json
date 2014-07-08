@@ -17,7 +17,7 @@
     "Leaflet-MiniMap": "SINTEF-9012/Leaflet-MiniMap#master",
     "ng-file-upload": "~1.4.0",
     "marked": "~0.3.2",
-    "PruneCluster": "~0.5.1",
+    "PruneCluster": "~0.6.0",
     "bootstrap-sass-official": "~3.2.0",
     "a99d99f275e5c274a6ba": "https://gist.github.com/a99d99f275e5c274a6ba.git",
     "angular-loading-bar": "~0.4.3",

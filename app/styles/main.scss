@@ -48,6 +48,10 @@
     &:empty {
         display:none;
     }
+
+    .hasSomeFiltering span {
+        color:#ff5722;
+    }
 }
 
 

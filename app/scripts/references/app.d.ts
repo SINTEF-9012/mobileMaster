@@ -38,6 +38,8 @@ declare module Master {
 
 		enableShadow(title?: string, icon?: HTMLElement, className?:string);
 		disableShadow();
+
+		unfilterThing(id:string);
 	}
 
 	export interface MapConfig {
@@ -128,6 +130,16 @@ interface ThingIdentifierService {
 	police(thing: ThingModel.Thing): boolean;
 	medic(thing: ThingModel.Thing): boolean;
 	fire(thing: ThingModel.Thing): boolean;
+}
+
+interface FilterService {
+	getFilter(): (thing: ThingModel.Thing) => boolean;
+
+	hasSomeFiltering(): boolean;
+	isFilterEnabled(name: string): boolean;
+
+	enableFilter(name: string, save?: boolean/* = true*/): void;
+	disableFilter(name: string, save?: boolean/* = true*/): void;
 }
 
 declare module L {

@@ -1,8 +1,8 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
-/// <reference path="./../../bower_components/PruneCluster/PruneCluster.d.ts" />
-/// <reference path="./../../bower_components/PruneCluster/LeafletAdapter.d.ts" />
+/// <reference path="./../../bower_components/PruneCluster/PruneCluster.ts" />
+/// <reference path="./../../bower_components/PruneCluster/LeafletAdapter.ts" />
 /// <reference path="./../references/NodeMaster.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
@@ -49,6 +49,7 @@ angular.module('mobileMasterApp')
 			$rootScope: MasterScope.Root,
 			settingsService: SettingsService,
 			itsa: ThingIdentifierService,
+			filterService: FilterService,
 			$state: ng.ui.IStateService,
 			$stateParams: any,
 			thingModel: ThingModelService) {
@@ -61,7 +62,7 @@ angular.module('mobileMasterApp')
 			var instance = <Master.Map> L.map(this.container, this.options);
 
 			var jbody = $(document.body);
-			instance.on('zoomstart movestart markerdragstart', () => {
+			instance.on('zoomstart movestart dragstart markerdragstart', () => {
 				jbody.addClass("disable-markers-animations");
 			}).on('zoomend moveend markerdragend', (e) => {
 				window.setImmediate(() => jbody.removeClass("disable-markers-animations"));
@@ -576,6 +577,53 @@ angular.module('mobileMasterApp')
 
 			var thingsOnTheMap : {[id:string] : PruneCluster.Marker}= {};
 
+			var serviceFilterMethod = filterService.getFilter();
+			var unfilteredThings: { [id: string]: boolean } = {};
+
+
+
+			var filteringMethod: (thing: ThingModel.Thing) => boolean = (thing: ThingModel.Thing) => {
+				if (serviceFilterMethod(thing)) {
+					return !unfilteredThings.hasOwnProperty(thing.ID);
+				}
+				return false;
+			};
+
+			$rootScope.$on('filterServiceUpdate', () => {
+				angular.forEach(thingsOnTheMap, (marker: PruneCluster.Marker, id: string) => {
+					var thing = thingModel.warehouse.GetThing(id);
+					marker.filtered = filteringMethod(thing);
+				});
+				processView();
+			});
+
+			$rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+				var copyUnfilteredThings = _.clone(unfilteredThings);
+				unfilteredThings = {};
+				angular.forEach(copyUnfilteredThings, (value, id) => {
+					var previousThing = thingsOnTheMap[id];
+					if (previousThing) {
+						var thing = thingModel.warehouse.GetThing(id);
+						if (thing) {
+							previousThing.filtered = filteringMethod(thing);
+						}
+					}
+				});
+
+
+				// TODO process view here ?
+			});
+
+			instance.unfilterThing = (id: string) => {
+				var thing = thingsOnTheMap[id];
+				if (thing) {
+					thing.filtered = false;
+				}
+
+				unfilteredThings[id] = true;
+				processView();
+			};
+
 			// rouge orange 0, vert pomme 1, jaune 2, bleu ciel 3, magenta 4, violet 5, gris beige 6, bleu marine 7
 			var lockupTypeColor = {
 				Victims: 0,
@@ -604,6 +652,7 @@ angular.module('mobileMasterApp')
 					});
 
 					m.category = lockupTypeColor[itsa.typefrom(thing)];
+					m.filtered = filteringMethod(thing);
 					
 					// TODO weight ?
 
@@ -656,6 +705,8 @@ angular.module('mobileMasterApp')
 					}
 
 					marker.Move(location.Latitude, location.Longitude);
+					marker.filtered = filteringMethod(thing);
+
 					processView();
 				},
 				Deleted: removeMarker,

@@ -163,11 +163,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var jwindow = $($window), jMap = $('#thing-map');
 
-
 	masterMap.closePopup();
 	masterMap.enableInteractions();
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
+	masterMap.unfilterThing(id);
 
 
 	var setLayout = L.Util.throttle(() => {
