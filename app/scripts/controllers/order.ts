@@ -180,7 +180,7 @@ angular.module('mobileMasterApp')
 		dragLine: L.Path = null,
 		renderUpdate = L.Util.throttle(() => (<any>masterMap)._renderer._update(), 100, (<any>masterMap)._renderer);
 
-	var lineDraw = L.Util.throttle(() => {
+	var lineDraw = throttle(() => {
 		if (!lineStart) {
 			if (dragLine) {
 				masterMap.removeLayer(dragLine);
@@ -200,7 +200,7 @@ angular.module('mobileMasterApp')
 
 	masterMap.on('viewreset move', lineDraw);
 
-	var digestScope = L.Util.throttle(() => {
+	var digestScope = throttle(() => {
 		var thing = thingModel.warehouse.GetThing(id);
 
 		if (thing) {
@@ -276,9 +276,10 @@ angular.module('mobileMasterApp')
 	masterMap.enableInteractions();
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
+	masterMap.unfilterThing(id);
 
 	var jwindow = $($window), jMap = $('#thing-map');
-	var setLayout = L.Util.throttle(() => {
+	var setLayout = throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
 		masterMap.invalidateSize({});

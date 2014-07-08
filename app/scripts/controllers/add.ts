@@ -200,15 +200,11 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	var jwindow = $($window), jMap = $('#thing-map');
 
-	var setLayout = L.Util.throttle(() => {
+	var setLayout = throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		masterMap.invalidateSize({});
 		jMap.height(height - 1 /* border */);
 	}, 50);
-
-	var stateChange = () => {
-	
-	}
 
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);

@@ -156,7 +156,7 @@ angular.module('mobileMasterApp')
 
 
 	var jwindow = $($window);
-	var setLayout = L.Util.throttle(() => {
+	var setLayout = throttle(() => {
 		var height = Math.floor(jwindow.height() / 2);
 		jMap.height(height);
 		jlink.height(height-12).width(jMap.width()-12).offset(jMap.offset());

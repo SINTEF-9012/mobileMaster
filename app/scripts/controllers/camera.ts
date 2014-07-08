@@ -105,7 +105,7 @@ angular.module('mobileMasterApp')
 
 	var jwindow = $($window), jMap = $('#thing-map');
 
-	var setLayout = L.Util.throttle(() => {
+	var setLayout = throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
 	}, 50);

@@ -123,7 +123,6 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 
   }).run(($rootScope) => {
 	  $rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
-		
 		$rootScope.previousState = fromState.name;
 		$rootScope.currentState = toState.name;
 	});
@@ -134,8 +133,8 @@ if (window.navigator.standalone) {
 
 	//$('head').append('<meta name="apple-mobile-web-app-status-bar-style" content="translucent">');
 }
-
-
+  
+var throttle = <(fn: () => void, wait: number, options?: any) => () => void>_.throttle;
 
 if (!!("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 0) {
 	document.body.className += " touch";
