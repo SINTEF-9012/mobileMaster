@@ -18,10 +18,6 @@ declare module Master {
 		enableMiniMap(): Map;
 		disableMiniMap(): Map;
 
-		clearMiniMap(): Map;
-		renderMiniMap(): Map;
-		drawMiniMapPoint(pos: L.LatLng, color: { r: number; g: number; b: number }): Map;
-
 		enableScale();
 		disableScale();
 

@@ -21,8 +21,7 @@ angular.module('mobileMasterApp')
 
 	masterMap.closePopup();
 
-    masterMap.enableInteractions();
-    masterMap.enableMiniMap();
+	masterMap.enableInteractions();
     masterMap.enableScale();
 	masterMap.disableSituationOverview();
 
@@ -31,17 +30,10 @@ angular.module('mobileMasterApp')
 
 	window.setImmediate(() => {
 		persistentLocalization.bindMasterMap(masterMap);
+		masterMap.enableMiniMap();
 	});
 
-    var markersThings : {[ID: string] : PruneCluster.Marker} = {};
-
-    var cpt = 0;
-
-	var canChangePosition = true, updatePositionsAtEnd = false;
-
-	var dragLineLatLng = [L.latLng(0, 0), L.latLng(0, 0)];
-	var dragLine = L.polyline(dragLineLatLng, {'clickable': false });
-	var onMap = false;
+    /*var markersThings : {[ID: string] : PruneCluster.Marker} = {};
 
     // Manage markers
     function updatePatientsPositions() {
@@ -87,20 +79,13 @@ angular.module('mobileMasterApp')
 			});
 		masterMap.renderMiniMap();
 	    //cluster.ProcessView();
-    }
+    }*/
 
-	//masterMap.addLayer(cluster);
 
-    $scope.$watch('things', function() {
-		// TODO send an event when it's OK
-		if (canChangePosition) {
-            updatePatientsPositions();
-        } else {
-            updatePositionsAtEnd = true;
-        }
-    }, true);
+	/*var endTimeoutId = 0, drag = false;
 
-	var endTimeoutId = 0, drag = false;
+	var canChangePosition = true, updatePositionsAtEnd = false;
+
 	masterMap.on('movestart zoomstart markerdragstart', e=> {
 		canChangePosition = false;
 
@@ -126,18 +111,11 @@ angular.module('mobileMasterApp')
 				}, 300);
 			}
 		}
-	});
+	});*/
 
-
-
-    //masterMap.addLayer(cluster);
-
-
-	var mousemove = (e: L.LeafletMouseEvent)=> {
-	};
 
 	(<any>window).lapin = masterMap;
-	var throttledUpdate = null;
+	//var throttledUpdate = null;
 	/*masterMap.on('markerdragstart', (e: L.Marker) => {
 		if (!e.marker) {
 			return;

@@ -428,6 +428,7 @@ angular.module('mobileMasterApp')
 
 				if (!miniMapEnabled) {
 					minimap.addTo(instance);
+					minimap.render();
 					miniMapEnabled = true;
 				}
 
@@ -438,27 +439,6 @@ angular.module('mobileMasterApp')
 				if (minimap && miniMapEnabled) {
 					instance.removeControl(minimap);
 					miniMapEnabled = false;
-				}
-				return this;
-			};
-
-			instance.clearMiniMap = function() {
-				if (minimap) {
-					minimap.clear();
-				}
-				return this;
-			};
-
-			instance.renderMiniMap = function() {
-				if (minimap) {
-					minimap.render();
-				}
-				return this;
-			};
-
-			instance.drawMiniMapPoint = function(pos, color) {
-				if (minimap) {
-					minimap.addPoint(pos, color);
 				}
 				return this;
 			};
@@ -547,6 +527,9 @@ angular.module('mobileMasterApp')
 				firstCall = true,
 			processViewWorker = () => {
 				cluster.ProcessView();
+
+				minimap.render();
+
 				if (firstCall) {
 					window.setTimeout(overviewWorker, 300);
 					firstCall = false;
@@ -639,27 +622,32 @@ angular.module('mobileMasterApp')
 			var addMarker = (thing: ThingModel.Thing) => {
 				if (thingsOnTheMap.hasOwnProperty(thing.ID)) {
 					removeMarker(thing);
-					}
+				}
 
-					var location = thing.LocationLatLng();
+				var location = thing.LocationLatLng();
 
-					if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
-						return;
-					}
+				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
+					return;
+				}
 
-					var m = new PruneCluster.Marker(location.Latitude, location.Longitude, {
-						ID: thing.ID
-					});
+				var m = new PruneCluster.Marker(location.Latitude, location.Longitude, {
+					ID: thing.ID
+				});
 
-					m.category = lockupTypeColor[itsa.typefrom(thing)];
-					m.filtered = filteringMethod(thing);
-					
-					// TODO weight ?
+				var type = itsa.typefrom(thing),
+					category = lockupTypeColor[type],
+					color = colors[category];
 
-					cluster.RegisterMarker(m);
-					thingsOnTheMap[thing.ID] = m;
+				m.category = category;
+				m.filtered = filteringMethod(thing);
+				// TODO weight ?
 
-					processView();
+				minimap.addPoint(new L.LatLng(location.Latitude, location.Longitude), color);
+
+				cluster.RegisterMarker(m);
+				thingsOnTheMap[thing.ID] = m;
+
+				processView();
 			};
 
 			var removeMarkersTimeout = 0, markersToRemove = [];
