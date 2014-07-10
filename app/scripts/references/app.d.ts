@@ -1,4 +1,4 @@
-﻿/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 
@@ -36,6 +36,8 @@ declare module Master {
 		disableShadow();
 
 		unfilterThing(id:string);
+
+		GamepadController: L.IHandler;
 	}
 
 	export interface MapConfig {
@@ -146,9 +148,10 @@ declare module L {
 		export var RTSMiniMap: any;
 	}
 
-	export module Util {
+	/*export module Util {
 		export var throttle: (fn: () => void, time: number, context?: any) => () => void;
-	}
+	}*/
+
 }
 
 declare var throttle: (fn: () => void, wait: number, options?: any) => () => void;

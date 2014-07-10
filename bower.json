@@ -22,7 +22,7 @@
     "a99d99f275e5c274a6ba": "https://gist.github.com/a99d99f275e5c274a6ba.git",
     "angular-loading-bar": "~0.4.3",
     "normalize.css": "~3.0.1",
-    "Leaflet.GameController": "~0.0.1"
+    "Leaflet.GameController": "~0.0.3"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.18",
