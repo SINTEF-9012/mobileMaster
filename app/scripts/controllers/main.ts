@@ -126,6 +126,17 @@ angular.module('mobileMasterApp')
                 });
             }
         })
+        .declareTileLayer({
+            name: "Satellite Mapbox",
+            iconPath: "layer_mapbox_sat.png",
+            create: () => {
+				return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.iehnl469/{z}/{x}/{y}.png', {
+                    detectRetina: true,
+					reuseTiles: true,
+                    maxNativeZoom: 17
+                });
+            }
+        })
         .setDefaultTileLayer("MapBox");
 
 	marked.setOptions({
