@@ -145,7 +145,7 @@ angular.module('mobileMasterApp')
 				},
 
 				createIcon: function () {
-					// based on L.Icon.Canvas from shramov/leaflet-plugins (BSD licence)
+					// based on L.Icon.Canvas from shramov/leaflet-plugins (BSD licence)
 					var e = document.createElement('canvas');
 					this._setIconStyles(e, 'icon');
 					var s = this.options.iconSize;
@@ -438,6 +438,23 @@ angular.module('mobileMasterApp')
 
 			};
 
+			function reloadMinimapMarkers() {
+				minimap.clear();
+
+				angular.forEach(thingsOnTheMap, (marker: PruneCluster.Marker) => {
+					var minimapPoint = marker.data.minimapPoint, color = marker.data.minimapColor;
+					if (minimapPoint) {
+						minimapPoint.lat = marker.position.lat;
+						minimapPoint.lng = marker.position.lng;
+					} else {
+						minimapPoint = new L.LatLng(marker.position.lat, marker.position.lng);
+						marker.data.minimapPoint = minimapPoint;
+					}
+
+					minimap.addPoint(minimapPoint, color);
+				});
+			}
+
 			var minimap = null, miniMapEnabled = false;
 			instance.enableMiniMap = function () {
 				if (!minimap) {
@@ -451,6 +468,7 @@ angular.module('mobileMasterApp')
 
 				if (!miniMapEnabled) {
 					minimap.addTo(instance);
+					reloadMinimapMarkers();
 					minimap.render();
 					miniMapEnabled = true;
 				}
@@ -548,10 +566,12 @@ angular.module('mobileMasterApp')
 			var lastCall = 0,
 				workerTimeout = 0,
 				firstCall = true,
-			processViewWorker = () => {
-				cluster.ProcessView();
+				processViewWorker = () => {
+					cluster.ProcessView();
 
-				minimap.render();
+				if (miniMapEnabled) {
+					minimap.render();
+				}
 
 				if (firstCall) {
 					window.setTimeout(overviewWorker, 300);
@@ -616,8 +636,7 @@ angular.module('mobileMasterApp')
 					}
 				});
 
-
-				// TODO process view here ?
+				// TODO process view here ?
 			});
 
 			instance.unfilterThing = (id: string) => {
@@ -663,9 +682,14 @@ angular.module('mobileMasterApp')
 
 				m.category = category;
 				m.filtered = filteringMethod(thing);
-				// TODO weight ?
+				m.data.minimapColor = color;
+				// TODO weight ?
 
-				minimap.addPoint(new L.LatLng(location.Latitude, location.Longitude), color);
+				if (minimap && miniMapEnabled) {
+					var minimapPoint = new L.LatLng(location.Latitude, location.Longitude);
+					m.data.minimapPoint = minimapPoint;
+					minimap.addPoint(minimapPoint, color);
+				}
 
 				cluster.RegisterMarker(m);
 				thingsOnTheMap[thing.ID] = m;
@@ -688,9 +712,13 @@ angular.module('mobileMasterApp')
 							removeMarkersTimeout = 0;
 
 							cluster.RemoveMarkers(markersToRemove);
-							cluster.ProcessView();
 							markersToRemove = [];
 
+							if (miniMapEnabled) {
+								reloadMinimapMarkers();
+							}
+
+							processView();
 						}, 50);
 					}
 				}
@@ -717,6 +745,14 @@ angular.module('mobileMasterApp')
 
 					marker.Move(location.Latitude, location.Longitude);
 					marker.filtered = filteringMethod(thing);
+
+					if (miniMapEnabled) {
+						var minimapPoint = <L.LatLng>marker.data.minimapPoint;
+						if (minimapPoint) {
+							minimapPoint.lat = location.Latitude;
+							minimapPoint.lng = location.Longitude;
+						}
+					}
 
 					processView();
 				},
