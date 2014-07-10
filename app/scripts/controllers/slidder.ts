@@ -39,7 +39,18 @@ angular.module('mobileMasterApp')
 
 		$('#view-slidder, #dashboard-btn').on('touchmove', () => false);
 
-		var firstIteration = true;
+		var firstIteration = true,
+			startGlowing = (infos) => {
+				infos.glowingTimeout = $timeout(() => {
+					infos.glowing = false;
+					infos.glowingTimeout = 0;
+				}, 6000);
+			},
+			stopGlowing = (infos) => {
+				if (infos.glowingTimeout) {
+					$timeout.cancel(infos.glowingTimeout);
+				}
+			};
 
 		var registerNew = (thing: ThingModel.Thing) => {
 			var type = itsa.typefrom(thing),
@@ -60,16 +71,11 @@ angular.module('mobileMasterApp')
 				++infos.count;
 				infos.glowing = !firstIteration;
 
-				if (infos.glowingTimeout) {
-					$timeout.cancel(infos.glowingTimeout);
-				}
+				stopGlowing(infos);
 			}
 
-			infos.glowingTimeout = $timeout(() => {
-				//console.log("lapin");
-				infos.glowing = false;
-				infos.glowingTimeout = 0;
-			}, 6000);
+
+			startGlowing(infos);
 
 			synchronizeScope($scope);
 		};
@@ -82,13 +88,17 @@ angular.module('mobileMasterApp')
 			Updated: (thing: ThingModel.Thing) => {
 			},
 			Deleted: (thing: ThingModel.Thing) => {
-				if (!thing.Type) {
-					return;
-				}
-				var type = thing.Type ? thing.Type.Name : 'default';
-				if ($scope.infos[type]) {
-					if (--$scope.infos[type].count === 0) {
+				var type = itsa.typefrom(thing),
+					infos = $scope.infos[type];
+
+				if (infos) {
+					if (--infos.count === 0) {
 						delete $scope.infos[type];
+					} else {
+						infos.glowing = true;
+
+						stopGlowing(infos);
+						startGlowing(infos);
 					};
 				}
 				synchronizeScope($scope);
