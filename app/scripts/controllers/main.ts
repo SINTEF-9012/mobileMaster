@@ -1,4 +1,4 @@
-﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../../bower_components/a99d99f275e5c274a6ba/SuperSimpleCharts.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/marked/marked.d.ts" />
@@ -156,6 +156,8 @@ angular.module('mobileMasterApp')
     itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
 
+	$rootScope.bodyClass = 'main-dashboard';
+
 	var jMap = $('#main-map'), jlink = $('#main-map-link');
 
 	persistentLocalization.restorePersistentLayer(masterMap);
@@ -168,15 +170,15 @@ angular.module('mobileMasterApp')
 
 	var jwindow = $($window);
 	var setLayout = throttle(() => {
-		var height = Math.floor(jwindow.height() / 2);
+		var height = Math.floor(jwindow.height() / 2 - 120);
 		jMap.height(height);
-		jlink.height(height-12).width(jMap.width()-12).offset(jMap.offset());
+		jlink.height(height).width(jMap.width()).offset(jMap.offset());
 	}, 50);
 
 
 
 
-	var statsVictims : {[color: string] : number}, nbVictims = 0;
+	var statsVictims: { [color: string]: number }, nbVictims = 0;
 	var victimsChart = new SuperSimpleCharts.BarChart(document.getElementById('victims-chart'));
 
 	var checkObserver = (thing: ThingModel.Thing) => {
@@ -214,7 +216,7 @@ angular.module('mobileMasterApp')
 		computeStatsWorker(first);
 	};
 
-	var computeStatsWorker = (first? :boolean) => {
+	var computeStatsWorker = (first?: boolean) => {
 		nbVictims = 0;
 		statsVictims = {};
 		angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
@@ -248,7 +250,8 @@ angular.module('mobileMasterApp')
 		var summary = thingModel.warehouse.GetThing('master-summary');
 		if (summary) {
 			$scope.title = summary.GetString('title');
-			$scope.htmlSummary = $sce.trustAsHtml(marked(summary.GetString('content')));
+			var content = summary.GetString('content');
+			$scope.htmlSummary = content ? $sce.trustAsHtml(marked(content)) : '';
 		} else {
 			$scope.title = 'Default situation title';
 			$scope.htmlSummary = $sce.trustAsHtml('Default situation summary');
@@ -263,8 +266,6 @@ angular.module('mobileMasterApp')
 	computeStats(true);
 	computeSummary(true);
 	thingModel.warehouse.RegisterObserver(observer);
-
-	$rootScope.bodyClass = 'main-dashboard';
 
 	$scope.$on('$destroy', () => {
 		$rootScope.bodyClass = '';

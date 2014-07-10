@@ -1,0 +1,119 @@
+@import "_settings";
+@import "compass";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
+
+.main-dashboard {
+    background: $gray-darker;
+    color:white;
+
+    .leaflet-container {
+	    //background: $gray-darker;//#0d5302;
+	    background: #8bc34a;
+    }
+}
+
+#masterlogo {
+	position:absolute;
+	z-index: 3000;
+	display:inline-block;
+	background: #03a9f4;
+	transform-origin: top left;
+	transform:rotate(270deg) translateX(-100%);
+	padding: 0.2em 0.5em;
+	font-size:1.6em;
+}
+
+#mastertitle {
+	a {
+		padding:0.6em 1em 1em 1.4em;
+		text-decoration: none;
+		color: white;
+		display: block;
+		&:hover {
+			color: $gray-light;
+		}
+	}
+}
+
+#username {
+	position:absolute;
+	right: 2em;
+	top:0;
+	background: $gray;
+	color: white;
+	padding:0.4em 1em;
+}
+
+#dashboard-btn {
+color: white;
+font-size: 30px;
+position:absolute;
+left:8px;
+top:6px;
+text-decoration: none;
+z-index:1;
+}
+
+.infoblock {
+    //padding:4px;
+    border: 6px solid $gray-darker;
+
+    cursor:pointer;
+    background: #3f51b5;
+
+    &:hover {
+        border-color:#ecb813;
+    }
+
+    h3 {
+    	margin:0.6em 0.5em 0.5em 0em;
+    }
+
+    .number-area {
+        text-align: center;
+        font-size: 3.5em;
+        line-height: 2.67em;
+    }
+}
+
+.victims-block {
+
+    .barchart-area {
+        padding:0;
+        & > div {
+            height:130px;
+            padding:0px 8px 8px 8px;
+        }
+    }
+}
+
+@media (max-width: $screen-sm-max) {
+    .victims-block {
+        .number-area {
+            line-height: 100px;
+        }
+
+        .barchart-area {
+            padding:0;
+            & > div {
+                height:110px;
+                padding:0px 30px 15px 30px;
+            }
+        }
+    }
+}
+
+.summary-block {
+    .summary {
+        margin: 0;
+        padding-bottom:15px;
+        max-height: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+
+#main-map {
+	padding:6px;
+}

@@ -54,6 +54,9 @@
     }
 }
 
+.navbar.navbar-fixed-top {
+    user-select: none;
+}
 
 .map-buttons {
 position: absolute;
@@ -428,7 +431,7 @@ left: 2em;
     margin-right: 0;
     margin-bottom:0;
     box-shadow:-1px -1px 0px rgba(0,0,0,0.15);
-    border-radius: 6px 0 0 0;
+    border-radius: 0;
 }
 
 .master-camera {
@@ -496,79 +499,6 @@ left: 2em;
     }
 }
 
-#dashboard-btn {
-color: white;
-font-size: 30px;
-position:absolute;
-left:8px;
-top:6px;
-text-decoration: none;
-z-index:1;
-}
-
-.infoblock {
-    margin:4px;
-    border: 6px solid $gray-darker;
-
-    cursor:pointer;
-    background: #ada59a;
-
-    &:hover {
-        margin:4px;
-        border-color:#ecb813;
-    }
-
-    .header {
-        h2 {
-            margin-left:0.66em;
-        }
-    }
-}
-
-.victims-block {
-    .number-area {
-        text-align: center;
-        font-size: 3.5em;
-        line-height: 150px;
-        padding:0;
-        padding-left:10px;
-    }
-
-    .barchart-area {
-        padding:0;
-        & > div {
-            height:150px;
-            // padding: 0 1em 1em 0;
-            padding:0px 30px 15px 0px;
-        }
-    }
-}
-
-@media (max-width: $screen-sm-max) {
-    .victims-block {
-        .number-area {
-            line-height: 130px;
-        }
-
-        .barchart-area {
-            padding:0;
-            & > div {
-                height:150px;
-                padding:0px 30px 15px 30px;
-            }
-        }
-    }
-}
-
-.summary-block {
-    .summary {
-        margin: 0;
-        padding-bottom:15px;
-        max-height: 140px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
 
 header h3 {
     text-align: center;
@@ -744,14 +674,6 @@ img.identicon {
 
 #accordion .panel-heading {
     cursor:pointer;
-}
-
-.main-dashboard {
-    background: $gray-darker;
-
-    h1 {
-        color: white;
-    }
 }
 
 .add-view {

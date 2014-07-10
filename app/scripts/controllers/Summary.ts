@@ -29,8 +29,8 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 		if (summary) {
 			$scope.title = summary.GetString('title');
 			$scope.markdownSummary = summary.GetString('content');
-			$scope.htmlSummary = $sce.trustAsHtml(marked($scope.markdownSummary)
-				.replace(/<table>/g, '<table class="table table-striped">'));
+			$scope.htmlSummary = $scope.markdownSummary ? $sce.trustAsHtml(marked($scope.markdownSummary)
+				.replace(/<table>/g, '<table class="table table-striped">')) : '';
 		} else {
 			$scope.title = 'Default situation title';
 			$scope.markdownSummary = '';
