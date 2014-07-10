@@ -62,10 +62,31 @@ angular.module('mobileMasterApp')
 			var instance = <Master.Map> L.map(this.container, this.options);
 
 			var jbody = $(document.body);
-			instance.on('zoomstart movestart dragstart markerdragstart', () => {
-				jbody.addClass("disable-markers-animations");
+
+			var eventState = {
+				'zoom': false,
+				'move': false,
+				'margerdrag': false
+			};
+			instance.on('zoomstart movestart markerdragstart', (e) => {
+
+				if (eventState.zoom === false &&
+					eventState.move === false &&
+					eventState.margerdrag === false) {
+					jbody.addClass("disable-markers-animations");
+				}
+
+				var t = e.type.slice(0, -5);
+				eventState[t] = true;
 			}).on('zoomend moveend markerdragend', (e) => {
-				window.setImmediate(() => jbody.removeClass("disable-markers-animations"));
+				var t = e.type.slice(0, -3);
+				eventState[t] = false;
+
+				if (eventState.zoom === false &&
+					eventState.move === false &&
+					eventState.margerdrag === false) {
+					window.setImmediate(() => jbody.removeClass("disable-markers-animations"));
+				}
 			});
 
 			instance.GamepadController.enable();
