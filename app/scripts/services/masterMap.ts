@@ -68,6 +68,8 @@ angular.module('mobileMasterApp')
 				window.setImmediate(() => jbody.removeClass("disable-markers-animations"));
 			});
 
+			instance.GamepadController.enable();
+
 			var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet(100);
 
 			instance.addLayer(cluster);
@@ -506,7 +508,7 @@ angular.module('mobileMasterApp')
 				}
 			}
 
-			var overviewWorker = L.Util.throttle(() => {
+			var overviewWorker = throttle(() => {
 				if (situationOverviewEnabled) {
 					cluster.FitBounds();
 				}
