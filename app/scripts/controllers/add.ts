@@ -1,4 +1,4 @@
-﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
@@ -58,7 +58,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"incident automobile": "Car",
 				"incident bomb": "Bomb",
 				"incident chemical": "Chemical",
-				"incident explosion": "Boom",
+				"incident explosion": "Explosion",
 				"incident fire": "Fire",
 				"incident rock slide": "Rock slide"
 			}
