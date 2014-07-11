@@ -88,7 +88,7 @@ angular.module('mobileMasterApp')
 
 	var sortThings = $state.is('victims') ? sortVictims : defaultSort;
 
-	var digestScope = L.Util.throttle(() => {
+	var digestScope = throttle(() => {
 		sortThings();
 
 		$scope.things = [];
