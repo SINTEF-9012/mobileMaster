@@ -33,6 +33,17 @@
 			color: $gray-light;
 		}
 	}
+	span {
+		font-size: 0.5em;
+		float: right;
+		top: 3.5em;
+		right: 0.5em;
+		display:none;
+	}
+
+	&:hover span {
+		display: block;
+	}
 }
 
 #username {
@@ -77,6 +88,7 @@ z-index:1;
 }
 
 .victims-block {
+	min-height:200px;
 
     .barchart-area {
         padding:0;
