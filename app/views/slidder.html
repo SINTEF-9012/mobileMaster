@@ -1,15 +1,7 @@
 <div class="infos">
-	<a class="glyphicon glyphicon-th" ui-sref="main" id="dashboard-btn"></a>
-	<div class="col-sm-8 col-md-9 col-lg-10 infos-icons">
+	<a class="glyphicon glyphicon-th pull-left" ui-sref="main" id="dashboard-btn"></a>
+	<div class="infos-tools pull-right">
 		<div class="btn-group">
-			<a href="{{info.href}}" class="btn btn-default info-number" ng-class="(info.glowing ? 'glow' : '') + (info.filtered ? ' filtered' : '')" ng-repeat="(key,info) in infos" title="{{info.fullName}}">
-				<master-icon type="{{info.fullName}}"></master-icon>
-				{{info.count}}
-			</a>
-		</div>	
-	</div>
-	<div class="col-sm-4 col-md-3 col-lg-2 infos-tools">
-		<div class="btn-group pull-right">
 			<a class="btn btn-default" ui-sref="add">
 				<span class="glyphicon glyphicon-map-marker"></span>	
 			</a>
@@ -26,5 +18,13 @@
 			<a class="btn btn-primary" href="/settings"><span class=" glyphicon glyphicon-wrench"></span></a>
 		</div>
 		<div class="clearfix"></div>
+	</div>
+	<div class="infos-icons">
+		<div class="btn-group">
+			<a href="{{info.href}}" class="btn btn-default info-number" ng-class="(info.glowing ? 'glow' : '') + (info.filtered ? ' filtered' : '')" ng-repeat="(key,info) in infos" title="{{info.fullName}}">
+				<master-icon type="{{info.fullName}}"></master-icon>
+				{{info.count}}
+			</a>
+		</div>	
 	</div>
 </div>

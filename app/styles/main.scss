@@ -223,7 +223,7 @@ height: 672px !important;
 		margin:0 auto;
 		// height:60px;
 		// padding-top:4px;
-        padding-bottom:16px;
+        //padding-bottom:16px;
         // padding-right:16px;
         // padding-left:16px;
         font-size:1.8rem;
@@ -263,9 +263,9 @@ height: 672px !important;
             padding-right:6px;
         }
 
-        .infos-icons {
+        /*.infos-icons {
             padding-left:44px;
-        }
+        }*/
 	}
 
 
@@ -718,3 +718,11 @@ img.identicon {
         }
     }
 
+#dashboard-btn {
+    color: white;
+    font-size: 30px;
+    left:8px;
+    top:6px;
+    text-decoration: none;
+    margin-right: 5px;
+}
