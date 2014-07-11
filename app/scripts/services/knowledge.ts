@@ -34,11 +34,13 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 				return itsa.incident(thing) ||
 					itsa.multimedia(thing) ||
 					itsa.order(thing) ||
+					itsa.response(thing) ||
 					itsa.risk(thing);
 			},
 			canDelete: (thing: ThingModel.Thing) => {
 				return itsa.multimedia(thing) ||
 					itsa.order(thing) ||
+					itsa.response(thing) ||
 					itsa.risk(thing);
 			},
 			getPropertiesOrder: (thingType: ThingModel.ThingType) =>

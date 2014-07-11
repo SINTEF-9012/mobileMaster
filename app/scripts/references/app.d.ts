@@ -115,6 +115,7 @@ interface ThingIdentifierService {
 	tweet(thing: ThingModel.Thing): boolean;
 	resource(thing: ThingModel.Thing): boolean;
 	incident(thing: ThingModel.Thing): boolean;
+	response(thing: ThingModel.Thing): boolean;
 	risk(thing: ThingModel.Thing): boolean;
 	beacon(thing: ThingModel.Thing): boolean;
 	order(thing: ThingModel.Thing): boolean;

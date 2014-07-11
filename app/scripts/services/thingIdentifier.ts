@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 angular.module('mobileMasterApp')
 	.service('itsa', function() {
@@ -8,6 +8,7 @@ angular.module('mobileMasterApp')
 		media = /(media|picture)/i,
 		tweet = /(tweet)/i,
 		resource = /(resource)/i,
+		response = /(response)/i,
 		incident = /(incident)/i,
 		risk = /(risk)/i,
 		beacon = /(beacon)/i,
@@ -24,6 +25,7 @@ angular.module('mobileMasterApp')
 		medias: media,
 		tweets: tweet,
 		resources: resource,
+		responses: response,
 		incidents: incident,
 		risks: risk,
 		beacons: beacon,
@@ -47,6 +49,7 @@ angular.module('mobileMasterApp')
 	this.media = (thing: ThingModel.Thing) =>		thing.Type && media.test(thing.Type.Name);
 	this.tweet = (thing: ThingModel.Thing) =>		thing.Type && tweet.test(thing.Type.Name);
 	this.resource = (thing: ThingModel.Thing) =>	thing.Type && resource.test(thing.Type.Name);
+	this.response = (thing: ThingModel.Thing) =>	thing.Type && response.test(thing.Type.Name);
 	this.incident = (thing: ThingModel.Thing) =>	thing.Type && incident.test(thing.Type.Name);
 	this.risk = (thing: ThingModel.Thing) =>		thing.Type && risk.test(thing.Type.Name);
 	this.beacon = (thing: ThingModel.Thing) =>		thing.Type && beacon.test(thing.Type.Name);
@@ -68,6 +71,7 @@ angular.module('mobileMasterApp')
 		if (incident.test(type)) return 'Incidents';
 		if (risk.test(type)) return 'Risks';
 		if (resource.test(type)) return 'Resources';
+		if (response.test(type)) return 'Responses';
 		if (beacon.test(type)) return 'Beacons';
 
 		return 'Others';
