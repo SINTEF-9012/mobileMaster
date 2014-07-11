@@ -10,12 +10,12 @@
 	</div>
 	<div class="col-sm-4 col-md-3 col-lg-2 infos-tools">
 		<div class="btn-group pull-right">
-			<button type="button" class="btn btn-primary" ui-sref="background">
+			<a class="btn btn-primary" ui-sref="background">
 				<span class="glyphicon glyphicon-globe"></span>
-			</button>
-			<button type="button" class="btn btn-primary" ng-class="hasSomeFiltering ? 'hasSomeFiltering' : ''" ui-sref="filters">
+			</a>
+			<a class="btn btn-primary" ng-class="hasSomeFiltering ? 'hasSomeFiltering' : ''" ui-sref="filters">
 				<span class="glyphicon glyphicon-filter"></span>	
-			</button>
+			</a>
 			<div class="master-camera btn btn-primary">
 				<span class=" glyphicon glyphicon-camera"></span>
 				<input class="btn btn-primary btn-sm" type="file" accept="image/*,video/*,audio/*" capture ng-file-select="onCapture($files)" id="camera-file-upload"/>

@@ -15,7 +15,7 @@ angular.module('mobileMasterApp')
     var localStorageKey = "persistentLocalization";
 
     // Save the position in the local storage
-    var save = L.Util.throttle(() => {
+    var save = throttle(() => {
 		  if (!binded) {
 			  return;
 		  }
@@ -97,8 +97,10 @@ angular.module('mobileMasterApp')
 	    save();
     };
 
-	  this.restorePersistentLayer = (map: Master.Map) => {
-		  fetch();
+	  this.restorePersistentLayer = (map: Master.Map, disableFetch = false) => {
+		  if (!disableFetch) {
+			fetch();
+		  }
 
 	    if (layer) {
 			angular.forEach(map.getTilesLayers(), (iLayer: MasterScope.Layer) => {
@@ -110,6 +112,18 @@ angular.module('mobileMasterApp')
 		    map.showTileLayer(layer);
 	    }
     };
+
+	 $(window).on('storage', throttle(() => {
+		if (!binded) {
+			return;
+		}
+
+		var oldLayer = layer;
+		fetch();
+		if (oldLayer !== layer) {
+			this.restorePersistentLayer(masterMap);
+		}
+    }, 100));
 
     this.clear = () => {
 	    window.localStorage.removeItem(localStorageKey);
