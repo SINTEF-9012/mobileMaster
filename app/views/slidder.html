@@ -10,16 +10,19 @@
 	</div>
 	<div class="col-sm-4 col-md-3 col-lg-2 infos-tools">
 		<div class="btn-group pull-right">
-			<a class="btn btn-primary" ui-sref="background">
-				<span class="glyphicon glyphicon-globe"></span>
+			<a class="btn btn-default" ui-sref="add">
+				<span class="glyphicon glyphicon-map-marker"></span>	
 			</a>
-			<a class="btn btn-primary" ng-class="hasSomeFiltering ? 'hasSomeFiltering' : ''" ui-sref="filters">
-				<span class="glyphicon glyphicon-filter"></span>	
-			</a>
-			<div class="master-camera btn btn-primary">
+			<div class="master-camera btn btn-default">
 				<span class=" glyphicon glyphicon-camera"></span>
 				<input class="btn btn-primary btn-sm" type="file" accept="image/*,video/*,audio/*" capture ng-file-select="onCapture($files)" id="camera-file-upload"/>
 			</div>
+			<a class="btn btn-default" ui-sref="background">
+				<span class="glyphicon glyphicon-globe"></span>
+			</a>
+			<a class="btn btn-default" ng-class="hasSomeFiltering ? 'hasSomeFiltering' : ''" ui-sref="filters">
+				<span class="glyphicon glyphicon-filter"></span>	
+			</a>
 			<a class="btn btn-primary" href="/settings"><span class=" glyphicon glyphicon-wrench"></span></a>
 		</div>
 		<div class="clearfix"></div>
