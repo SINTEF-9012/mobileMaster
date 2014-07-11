@@ -37,6 +37,8 @@ angular.module('mobileMasterApp')
 
 		$scope.infos = {};
 
+		var from = $state.current.name.indexOf('map') === 0 ? 'map' : null;
+
 		$('#view-slidder, #dashboard-btn').on('touchmove', () => false);
 
 		var firstIteration = true,
@@ -63,7 +65,7 @@ angular.module('mobileMasterApp')
 					glowing: !firstIteration,
 					href: $state.href(type === 'Victims' ? 'victims' : 'table', {
 						thingtype: type,
-						from: 'map'
+						from: from
 					}),
 					filtered: filterService.isFilterEnabled(type)
 				};

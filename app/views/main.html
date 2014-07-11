@@ -11,12 +11,12 @@
 
 	<div class="row">
 		<div class="col-sm-5 col-md-4">
-			<div class="row" ng-controller="SlidderCtrl">
-				<div class="infoblock col-sm-6">
+			<div class="row" ng-controller="SlidderCtrl" ng-init="from=null">
+				<a class="infoblock col-sm-6" href="{{infos.Incidents.href}}">
 					<h3>Incidents</h3>
 					<div class="number-area">{{infos.Incidents.count || 0}}</div>	
-				</div>
-				<div class="col-sm-6 infoblock victims-block" ui-sref="victims">
+				</a>
+				<a class="col-sm-6 infoblock victims-block"  href="{{infos.Victims.href}}">
 					<h3>Patients</h3>
 					<div class="row">
 						<!-- <div class="col-lg-5 number-area">{{nbVictims}}</div>	 -->
@@ -24,24 +24,24 @@
 							<div id="victims-chart"></div>
 						</div>
 					</div>
-				</div>	
+				</a>	
 					
-				<div class="col-sm-6 infoblock">
+				<a class="col-sm-6 infoblock" href="{{infos.Risks.href}}">
 					<h3>Risks</h3>
 					<div class="number-area">{{infos.Risks.count || 0}}</div>	
-				</div>
-				<div class="col-sm-6 infoblock">
+				</a>
+				<a class="col-sm-6 infoblock" href="{{infos.Resources.href}}">
 					<h3>Resources</h3>
 					<div class="number-area">{{infos.Resources.count || 0}}</div>	
-				</div>
-				<div class="col-sm-6 infoblock">
+				</a>
+				<a class="col-sm-6 infoblock" href="{{infos.Responses.href}}">
 					<h3>Responses</h3>
 					<div class="number-area">{{infos.Responses.count || 0}}</div>	
-				</div>
-				<div class="col-sm-6 infoblock">
+				</a>
+				<a class="col-sm-6 infoblock" href="{{infos.Orders.href}}">
 					<h3>Orders</h3>
 					<div class="number-area">{{infos.Orders.count || 0}}</div>	
-				</div>
+				</a>
 
 
 			</div>
