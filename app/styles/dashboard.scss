@@ -24,7 +24,7 @@
 }
 
 #mastertitle {
-	a {
+	a:not(.summaryeditlink) {
 		padding:0.6em 1em 1em 1.4em;
 		text-decoration: none;
 		color: white;
@@ -33,15 +33,21 @@
 			color: $gray-light;
 		}
 	}
-	span {
+	
+	.summaryeditlink {
 		font-size: 0.5em;
 		float: right;
-		top: 2em;
+		top: 3.5em;
 		right: 0.5em;
 		display:none;
+		position:relative;
+		color:white;
+		span:hover {
+			color: $gray-light;
+		}
 	}
 
-	&:hover span {
+	&:hover .summaryeditlink {
 		display: block;
 	}
 }
