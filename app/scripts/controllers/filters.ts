@@ -10,6 +10,7 @@ angular.module('mobileMasterApp').controller('FiltersCtrl', (
 		{ name: "Victims", enabled: !filterService.isFilterEnabled("Victims") },
 		{ name: "Multimedias", enabled: !filterService.isFilterEnabled("Multimedias") },
 		{ name: "Resources", enabled: !filterService.isFilterEnabled("Resources") },
+		{ name: "Responses", enabled: !filterService.isFilterEnabled("Responses") },
 		{ name: "Incidents", enabled: !filterService.isFilterEnabled("Incidents") },
 		{ name: "Risks", enabled: !filterService.isFilterEnabled("Risks") },
 		{ name: "Beacons", enabled: !filterService.isFilterEnabled("Beacons") },

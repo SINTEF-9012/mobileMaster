@@ -654,6 +654,7 @@ angular.module('mobileMasterApp')
 				Victims: 0,
 				Resources: 3,
 				Incidents: 2,
+				Responses: 1,
 				Orders: 1,
 				Multimedias: 7,
 				Beacons: 5,
