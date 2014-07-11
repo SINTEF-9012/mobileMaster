@@ -6,7 +6,7 @@
 		    <a class="navbar-brand col-xs-2" ui-sref="{{previousState || 'map.slidder'}}"><span class="glyphicon glyphicon-remove"></span></a>
 
 		    <h3 class="col-xs-8">
-		    	Add
+		    	Add {{types[add.category].items[add.type] | lowercase}}
 	    	</h3>
 
 	    	<button type="submit" class="btn btn-primary navbar-btn pull-right" ng-click="save(true)">Save</button>
