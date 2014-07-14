@@ -5,7 +5,7 @@ angular.module('mobileMasterApp')
 
 	// Raw categories
 	var victim = /(victim|patient)/i,
-		media = /(media|picture)/i,
+		media = /(media|picture|video)/i,
 		tweet = /(tweet)/i,
 		resource = /(resource)/i,
 		response = /(response)/i,

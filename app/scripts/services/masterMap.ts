@@ -326,7 +326,7 @@ angular.module('mobileMasterApp')
 				content.text(name);
 				var url: string = null, img = $('<img />');
 
-				if (thing.Type && /(media|picture)/i.test(thing.Type.Name)) {
+				if (itsa.media(thing)) {
 					url = thing.String('url');
 					if (url) {
 						url = settingsService.getMediaServerUrl() +
