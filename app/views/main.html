@@ -14,145 +14,72 @@
 	</div>
 
 	<div class="row">
-		<div class="col-sm-5 col-md-4">
-			<div class="row" ng-controller="SlidderCtrl" ng-init="from=null">
-				<a class="infoblock col-sm-6" href="{{infos.Incidents.href}}">
+		<div class="col-sm-5 col-md-4" ng-controller="SlidderCtrl">
+			<div class="row responsive-infoblock-column">
+				<a class="infoblock col-xs-6 col-lg-4" href="{{infos.Incidents.href}}">
 					<h3>Incidents</h3>
-					<div class="number-area">{{infos.Incidents.count || 0}}</div>	
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Incidents.count || 0}}</div>	
+					</div>
 				</a>
-				<a class="col-sm-6 infoblock victims-block"  href="{{infos.Victims.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock victims-block"  href="{{infos.Victims.href}}">
 					<h3>Patients</h3>
-					<div class="row">
-						<!-- <div class="col-lg-5 number-area">{{nbVictims}}</div>	 -->
-						<div class="col-lg-7 barchart-area">
+					<div class="infoblockview">
+						<div class="number-area" ng-show="!infos.Victims.count">{{infos.Victims.count || 0}}</div>	
+						<div class="col-xs-12 barchart-area" ng-show="infos.Victims.count > 0">
 							<div id="victims-chart"></div>
 						</div>
 					</div>
 				</a>	
 					
-				<a class="col-sm-6 infoblock" href="{{infos.Risks.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Risks.href}}">
 					<h3>Risks</h3>
-					<div class="number-area">{{infos.Risks.count || 0}}</div>	
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Risks.count || 0}}</div>	
+					</div>
 				</a>
-				<a class="col-sm-6 infoblock" href="{{infos.Resources.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Resources.href}}">
 					<h3>Resources</h3>
-					<div class="number-area">{{infos.Resources.count || 0}}</div>	
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Resources.count || 0}}</div>	
+					</div>
 				</a>
-				<a class="col-sm-6 infoblock" href="{{infos.Responses.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Responses.href}}">
 					<h3>Responses</h3>
-					<div class="number-area">{{infos.Responses.count || 0}}</div>	
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Responses.count || 0}}</div>
+					</div>
 				</a>
-				<a class="col-sm-6 infoblock" href="{{infos.Orders.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Orders.href}}">
 					<h3>Orders</h3>
-					<div class="number-area">{{infos.Orders.count || 0}}</div>	
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Orders.count || 0}}</div>	
+					</div>
 				</a>
-
-
+				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Orders.href}}">
+					<h3>Orders</h3>
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Orders.count || 0}}</div>	
+					</div>
+				</a>
+				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Orders.href}}">
+					<h3>Orders</h3>
+					<div class="infoblockview">
+						<div class="number-area">{{infos.Orders.count || 0}}</div>	
+					</div>
+				</a>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-6" id="main-map">
+		<div class="col-sm-6 col-md-6">
+			<div class="row" id="main-map"></div>
+			<div class="row">
+				<a class="col-xs-12 infoblock mediablock" href="{{infos.Multimedias.href}}" ng-controller="MultimediasCtrl">
+					<img ng-repeat="media in medias" ng-src="{{media.url}}" alt="" class="multimedia-thumbnail"/>
+				</a>
+			</div>
 		</div>
 		<div class="col-sm-1 col-md-2">chat</div>
 	</div>	
 </div>
 
 <a ui-sref="map.slidder" id="main-map-link"></a>
-<!--<div class="container-fluid">
-	<div class="row">
-		<h1 class="col-sm-12">Master <small>{{title}}</small></h1>	
-	</div>
-  <div class="row">
-		<div class="col-md-3 col-sm-3">
-			<div class="infoblock summary-block" ui-sref="summary">
-				<div class="row header">
-					<div class="col-xs-12">
-						<h2>Summary</h2>
-					</div>
-				</div>
-				<div class="row summary">
-					<div class="col-xs-12" ng-bind-html="htmlSummary"></div>	
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-3">
-			<div class="infoblock victims-block" ui-sref="victims">
-				<div class="row header">
-					<div class="col-xs-12">
-						<h2>Victims</h2>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-5 number-area">{{nbVictims}}</div>	
-					<div class="col-md-7 barchart-area">
-						<div>
-							<div id="victims-chart"></div>
-						</div>
-					</div>	
-				</div>	
-			</div>
-		</div>
-		<a ui-sref="map.slidder" id="main-map-link"></a>
-		<div id="main-map" class="col-sm-6 col-lg-5"></div>
-
-		<div class="col-md-3 col-lg-2 col-sm-4">
-			<div class="infoblock">
-				<div class="row">
-					<h2 class="col-md-12">Resources</h2>	
-				</div>
-				<div class="row" style="background:#D2204C">
-					<h3 class="col-xs-8 col-sm-5">Ducks</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-3">7</h2>
-				</div>
-				<div class="row" style="background:#55BCBE">
-					<h3 class="col-xs-8 col-sm-5">Rabbits</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-3">198</h2>
-				</div>
-				<div class="row" style="background:#3E647E">
-					<h3 class="col-xs-8 col-sm-5">Dude</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-3">3</h2>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-3 col-lg-2 col-sm-4">
-			<div class="infoblock">
-				<div class="row">
-					<h2 class="col-md-12">Response</h2>	
-				</div>
-				<div class="row" style="background:#051039;color:white">
-					<h3 class="col-xs-8 col-sm-6">Local bases</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
-				</div>
-				<div class="row" style="background:#051039;color:white">
-					<h3 class="col-xs-8 col-sm-6">Road blocks</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">10</h2>
-				</div>
-				<div class="row" style="background:#051039;color:white">
-					<h3 class="col-xs-8 col-sm-6">Operation areas</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-3 col-lg-2 col-sm-4">
-			<div class="infoblock">
-				<div class="row">
-					<h2 class="col-md-12">Risks</h2>	
-				</div>
-				<div class="row" style="background:#F00;color:white">
-					<h3 class="col-xs-8 col-sm-6">High</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
-				</div>
-				<div class="row" style="background:#FF4B00;color:white">
-					<h3 class="col-xs-8 col-sm-6">Medium</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">10</h2>
-				</div>
-				<div class="row" style="background:#BAC900;color:white">
-					<h3 class="col-xs-8 col-sm-6">Low</h3>	
-					<h2 class="col-xs-4 col-sm-2 col-sm-offset-2">1</h2>
-				</div>
-			</div>
-		</div>
-  </div>
-</div>
--->

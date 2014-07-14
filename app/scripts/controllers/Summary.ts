@@ -68,6 +68,7 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 			thing.String('title', $scope.title != undefined ? $scope.title : "Default title");
 			thing.String('content', $scope.markdownSummary != undefined ? $scope.markdownSummary : "");
 		}, 'master-summary');
-		$state.go("main");
+
+		$state.go("summary");
 	};
 });

@@ -510,7 +510,8 @@ header + .container, header + .container-fluid {
 }
 
 
-@media (max-width: 400px) {
+
+@media (max-width: $screen-xs-max) {
     header + .container, header + .container-fluid,
     header + .container, header + .container-fluid {
         margin-top: 140px;
@@ -639,6 +640,7 @@ body:not(.touch) .thing.row:hover,  {
 #thing-map {
     border-left: 1px solid #e7e7e7;
     border-top: 1px solid #e7e7e7;
+    margin-top:-20px;
 }
 @media (min-width: $screen-md-min) {
     #thing-map {

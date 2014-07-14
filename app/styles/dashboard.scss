@@ -63,6 +63,7 @@
 
 .infoblock {
     //padding:4px;
+
     border: 6px solid $gray-darker;
 
     cursor:pointer;
@@ -73,49 +74,96 @@
     }
 
     h3 {
-    	margin:0.6em 0.5em 0.5em 0em;
+    	margin:0.6em 0.5em 0em 0em;
+    	overflow:hidden;
+    	text-overflow:ellipsis;
+    	width:100%;
     }
 
     .number-area {
         text-align: center;
+        align-self: center;
         font-size: 3.5em;
-        line-height: 2.67em;
+
+        width:100%;
     }
+
+	//min-height:200px;
+}
+
+@media (max-width: $screen-xs-max) {
+	.infoblock{
+
+		h3 {
+			font-size: 1.5em;
+		}
+
+		// .number-area {
+		// 	font-size:3em;
+		// }
+	}
 }
 
 a.infoblock {
-	display:block;
+	display:flex;
 	color: white;
 	text-decoration:none;
+	align-items:center;
+	flex-direction:column;
+
+
+	.infoblockview {
+		flex-grow:1;
+		display: flex;
+	    width:100%;
+	    height:100%;
+	}
 }
 
-.victims-block {
-	min-height:200px;
+a.infoblock.victims-block {
 
     .barchart-area {
         padding:0;
+        height:100%;
+
         & > div {
-            height:130px;
+            // height:130px;
             padding:0px 8px 8px 8px;
         }
     }
 }
 
-@media (max-width: $screen-sm-max) {
-    .victims-block {
-        .number-area {
-            line-height: 100px;
-        }
+a.mediablock {
+	background: #352847;
+	flex-direction: row-reverse;
+	flex-wrap: wrap;
+	justify-content:space-around;
 
+	padding:12px 0 0 12px;
+	min-height:140px;
+	max-height:304px;
+	overflow: hidden;
+
+	.multimedia-thumbnail.ng-scope {
+		margin-right: 12px;
+		margin-bottom: 12px;
+		box-shadow: 1px 1px 6px rgba(0,0,0,0.55);
+		height: 128px;
+		width: 128px;
+	}
+}
+
+/*@media (max-width: $screen-sm-max) {
+    .victims-block {
         .barchart-area {
             padding:0;
             & > div {
-                height:110px;
+                // height:110px;
                 padding:0px 30px 15px 30px;
             }
         }
     }
-}
+}*/
 
 .summary-block {
     .summary {
@@ -130,4 +178,5 @@ a.infoblock {
 
 #main-map {
 	padding:6px;
+	height:400px;
 }

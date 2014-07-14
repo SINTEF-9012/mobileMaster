@@ -170,12 +170,24 @@ angular.module('mobileMasterApp')
 
 	var jwindow = $($window);
 	var setLayout = throttle(() => {
-		var height = Math.floor(jwindow.height() / 2 - 120);
-		jMap.height(height);
-		jlink.height(height).width(jMap.width()).offset(jMap.offset());
-	}, 50);
+		/*var height = Math.floor(jwindow.height() / 2 - 120);
+		jMap.height(height);*/
+		console.log("la");
 
+		var column = $('.responsive-infoblock-column'),
+			blocs = column.children('.infoblock'),
+			height = jwindow.height() - column.offset().top - 6;
 
+		blocs.height(Math.min(blocs.first().innerWidth(), Math.floor(height / (blocs.length / 3))));
+
+		var mapHeight = Math.max(Math.floor(height - $('.mediablock').outerHeight() - 12), 300);
+		jMap.height(mapHeight);
+
+		window.setImmediate(() => {
+			masterMap.invalidateSize({});
+			jlink.height(mapHeight).width(jMap.width()).offset(jMap.offset());
+		});
+	}, 100);
 
 
 	var statsVictims: { [color: string]: number }, nbVictims = 0;
