@@ -68,7 +68,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		oldTime: number,
 		thingSpeed = 0.0;
 
-	var digestScope = L.Util.throttle(() => {
+	var digestScope = throttle(() => {
 		var thing = thingModel.warehouse.GetThing(id);
 
 		if (thing) {
@@ -170,7 +170,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.unfilterThing(id);
 
 
-	var setLayout = L.Util.throttle(() => {
+	var setLayout = throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
 		masterMap.invalidateSize({});

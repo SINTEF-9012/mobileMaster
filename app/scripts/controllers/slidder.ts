@@ -18,22 +18,11 @@ angular.module('mobileMasterApp')
 		$rootScope: MasterScope.Root
 	) => {
 
-		var setImmediateId = 0;
-		var digestLock = false,
-			digestNeeded = false;
-
-		var synchronizeScope = (scope) => {
-			if (!setImmediateId) {
-				setImmediateId = window.setImmediate(() => {
-					setImmediateId = 0;
-					if (digestLock) {
-						digestNeeded = true;
-					} else {
-						scope.$digest();
-					}
-				});
+		var digestScope = throttle(() => {
+			if (!$scope.$$phase) {
+				$scope.$digest();
 			}
-		};
+		}, 23);
 
 		$scope.infos = {};
 
@@ -79,7 +68,7 @@ angular.module('mobileMasterApp')
 
 			startGlowing(infos);
 
-			synchronizeScope($scope);
+			digestScope();
 		};
 
 		angular.forEach(thingModel.warehouse.Things, registerNew);
@@ -103,7 +92,7 @@ angular.module('mobileMasterApp')
 						startGlowing(infos);
 					};
 				}
-				synchronizeScope($scope);
+				digestScope();
 			},
 			Define: (thingType: ThingModel.ThingType) => {
 			}
