@@ -8,15 +8,16 @@
 				<span class="glyphicon glyphicon-pencil"></span>
 			</a>
 			<a ui-sref="summary">
-				{{title}}
+				{{!thingmodel || thingmodel.loading ? 'Loading' : title}}
 			</a>
 		</h1>	
 	</div>
 
 	<div class="row">
-		<div class="col-sm-5 col-md-4" ng-controller="SlidderCtrl">
+		<div class="col-sm-4 col-md-4" ng-controller="SlidderCtrl">
 			<div class="row responsive-infoblock-column">
-				<a class="infoblock col-xs-6 col-lg-4" href="{{infos.Incidents.href}}">
+				<a class="infoblock col-xs-6 col-lg-4"
+					href="{{infos.Incidents.href || '/table/Incidents'}}">
 					<h3>Incidents</h3>
 					<div class="infoblockview">
 						<div class="number-area">{{infos.Incidents.count || 0}}</div>	
@@ -32,40 +33,46 @@
 					</div>
 				</a>	
 					
-				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Risks.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock"
+					href="{{infos.Risks.href || '/table/Risks'}}">
 					<h3>Risks</h3>
 					<div class="infoblockview">
 						<div class="number-area">{{infos.Risks.count || 0}}</div>	
 					</div>
 				</a>
-				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Resources.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock"
+					href="{{infos.Resources.href || '/table/Resources'}}">
 					<h3>Resources</h3>
 					<div class="infoblockview">
 						<div class="number-area">{{infos.Resources.count || 0}}</div>	
 					</div>
 				</a>
-				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Responses.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock"
+					href="{{infos.Responses.href || '/table/Responses'}}">
 					<h3>Responses</h3>
 					<div class="infoblockview">
 						<div class="number-area">{{infos.Responses.count || 0}}</div>
 					</div>
 				</a>
-				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Orders.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock"
+					href="{{infos.Orders.href || '/table/Orders'}}">
 					<h3>Orders</h3>
 					<div class="infoblockview">
 						<div class="number-area">{{infos.Orders.count || 0}}</div>	
 					</div>
 				</a>
-				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Orders.href}}">
-					<h3>Orders</h3>
+				<a class="col-xs-6 col-lg-4 infoblock"
+					href="{{infos.Beacons.href || '/table/Beacons'}}">
+					<h3>Beacons</h3>
 					<div class="infoblockview">
-						<div class="number-area">{{infos.Orders.count || 0}}</div>	
+						<div class="number-area">{{infos.Beacons.count || 0}}</div>	
 					</div>
 				</a>
-				<a class="col-xs-6 col-lg-4 infoblock" href="{{infos.Orders.href}}">
-					<h3>Orders</h3>
+				<a class="col-xs-6 col-lg-4 infoblock"
+					href="{{infos.Others.href || '/table/Others'}}">
+					<h3>Others</h3>
 					<div class="infoblockview">
-						<div class="number-area">{{infos.Orders.count || 0}}</div>	
+						<div class="number-area">{{infos.Others.count || 0}}</div>	
 					</div>
 				</a>
 			</div>
@@ -73,7 +80,7 @@
 		<div class="col-sm-6 col-md-6">
 			<div class="row" id="main-map"></div>
 			<div class="row">
-				<a class="col-xs-12 infoblock mediablock" href="{{infos.Multimedias.href}}" ng-controller="MultimediasCtrl">
+				<a class="col-xs-12 infoblock mediablock" href="{{infos.Multimedias.href || '/Multimedias'}}" ng-controller="MultimediasCtrl" id="main-mediablock">
 					<img ng-repeat="media in medias" ng-src="{{media.url}}" alt="" class="multimedia-thumbnail"/>
 				</a>
 			</div>
