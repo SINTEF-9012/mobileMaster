@@ -78,7 +78,65 @@
 				</a>
 			</div>
 		</div>
-		<div class="col-sm-1 col-md-2">chat</div>
+		<div class="col-sm-2 col-md-2">
+			<div class="row chat-block" id="main-chat">
+				<h3 ui-sref="messenger">Chat</h3>
+
+				<div class="chat-area" ui-sref="messenger">
+					<div class="chat-message my-chat-message">
+						<img class="identicon" src="http://media.sec-bridge.eu:8075/identicon/moi-summary/?style=averagewindow" alt=""/>
+						<p class="message">J'aime les lapins
+et les canards</p>
+						<p class="chat-infos">
+							<span class="author">Me</span>
+							<span class="date">12 minutes ago</span>
+						</p>
+					</div>
+
+					<div class="chat-message">
+						<img class="identicon" src="http://media.sec-bridge.eu:8075/identicon/lorie-summary/?style=averagewindow" alt=""/>
+						<p class="message">Moi aussi</p>
+						<p class="chat-infos">
+							<span class="author">Lorie</span>
+							<span class="date">9 minutes ago</span>
+						</p>
+					</div>
+					<div class="chat-message">
+						<img class="identicon" src="http://media.sec-bridge.eu:8075/identicon/lorie-summary/?style=averagewindow" alt=""/>
+						<p class="message">Gloire à eux</p>
+						<p class="chat-infos">
+							<span class="author">Lorie</span>
+							<span class="date">9 minutes ago</span>
+						</p>
+					</div>
+					<div class="chat-message my-chat-message">
+						<img class="identicon" src="http://media.sec-bridge.eu:8075/identicon/moi-summary/?style=averagewindow" alt=""/>
+						<p class="message">Bref</p> 
+						<p class="chat-infos">
+							<span class="author">Me</span>
+							<span class="date">1 minute ago</span>
+						</p>
+					</div>
+					<div class="chat-message my-chat-message">
+						<img class="identicon" src="http://media.sec-bridge.eu:8075/identicon/moi-summary/?style=averagewindow" alt=""/>
+						<p class="message">Je voulais dire que la plus belle chose dans ce monde est peut-être que les lapins soient des êtres crées par Dieu.</p>
+						<p class="chat-infos">
+							<span class="author">Me</span>
+							<span class="date">just now</span>
+						</p>
+					</div>
+				</div>
+
+				<div class="chat-input">
+					<input type="text" class="form-control" ng-model="canard" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="infoblock timeline-block col-xs-12" id="main-timeline">
+					<h3>Timeline</h3>
+				</div>
+			</div>
+		</div>
 	</div>	
 </div>
 

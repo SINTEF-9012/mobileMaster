@@ -186,6 +186,18 @@ a.mediablock {
     }
 }*/
 
+.chat-block {
+	background: $messenger-bg;
+	padding: 0 8px 8px 8px;
+	display:flex;
+	flex-direction:column;
+
+	h3 {
+		margin:0;
+    	padding:0.6em 0.5em 0em 0em;
+	}
+}
+
 .summary-block {
     .summary {
         margin: 0;

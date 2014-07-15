@@ -1,4 +1,4 @@
-﻿/// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 
@@ -114,6 +114,11 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			url: '/camera/:hash/:extension',
 			controller: 'CameraCtrl',
 			templateUrl: 'views/camera.html'
+		})
+		.state('messenger', {
+			url: '/messenger',
+			controller: 'MessengerCtrl',
+			templateUrl: 'views/messenger.html'
 		})
 		.state('settings', {
 			url: '/settings',

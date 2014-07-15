@@ -158,7 +158,12 @@ angular.module('mobileMasterApp')
 
 	$rootScope.bodyClass = 'main-dashboard';
 
-	var jMap = $('#main-map'), jlink = $('#main-map-link');
+	var jMap = $('#main-map'),
+		jlink = $('#main-map-link'),
+		jChat = $('#main-chat'),
+		jMediablock = $('#main-mediablock'),
+		jTimeline = $('#main-timeline'),
+		jChatScrollarea = jChat.find('.chat-area').get(0);
 
 	persistentLocalization.restorePersistentLayer(masterMap);
 	persistentLocalization.unbindMasterMap(masterMap);
@@ -170,9 +175,6 @@ angular.module('mobileMasterApp')
 
 	var jwindow = $($window);
 	var setLayout = throttle(() => {
-		/*var height = Math.floor(jwindow.height() / 2 - 120);
-		jMap.height(height);*/
-		console.log("la");
 
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
@@ -180,8 +182,13 @@ angular.module('mobileMasterApp')
 
 		blocs.height(Math.min(blocs.first().innerWidth(), Math.floor(height / (blocs.length / 3))));
 
-		var mapHeight = Math.max(Math.floor(height - $('.mediablock').outerHeight() - 12), 300);
+		var mediablockHeight = jMediablock.outerHeight();
+
+		var mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 300);
 		jMap.height(mapHeight);
+		jChat.height(mapHeight - 8);
+		jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
+		jTimeline.height(mediablockHeight - 12);
 
 		window.setImmediate(() => {
 			masterMap.invalidateSize({});
