@@ -549,13 +549,34 @@ header + .master-list {
         margin-top: 100px;
     }
 }
-
  
 .master-list {
     padding-bottom: 30px;
 
     .pager {
         margin-bottom:0;
+    }
+}
+
+.master-list-navbar {
+    background-color: $indigo-color;
+    border-color: darken($indigo-color, 6.5%);
+}
+
+.messenger-navbar {
+    background-color: $messenger-bg;
+    border-color: darken($messenger-bg, 6.5%);
+}
+
+.master-list-navbar, .messenger-navbar {
+    color: white;
+
+    a,.navbar-brand {
+        color: white;
+
+        &:hover {
+            color: $gray-light;
+        }
     }
 }
 
