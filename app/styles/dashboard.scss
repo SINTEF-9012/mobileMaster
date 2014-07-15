@@ -52,7 +52,7 @@
 	}
 }
 
-#username {
+#username, #thingmodelstatus {
 	position:absolute;
 	right: 2em;
 	top:0;
@@ -61,7 +61,28 @@
 	padding:0.4em 1em;
 }
 
-.infoblock {
+#thingmodelstatus {
+	display:block;
+	position: fixed;
+	z-index: 100;
+	right: 22%;
+	background: $connection-bg;
+
+	animation-duration: 3s;
+	animation-name: glowingconnection;
+	animation-iteration-count: infinite;
+
+	span {
+		margin-left: 0.6em;
+	}
+
+	&:hover {
+		background: #ad1457;
+		text-decoration: none;
+	}
+}
+
+.infoblock, .chat-block {
     //padding:4px;
 
     border: 6px solid $gray-darker;
@@ -179,4 +200,28 @@ a.mediablock {
 #main-map {
 	padding:6px;
 	height:400px;
+}
+
+@keyframes glowingconnection {
+	from {
+		background-color:$connection-bg;
+	}
+	30% {
+		background-color:darken($connection-bg, 10%);
+	}
+
+	50% {
+		background-color:lighten($connection-bg, 5%);
+	}
+
+	75% {
+		background-color:darken($connection-bg, 15%);
+	}
+	to {
+		background-color:$connection-bg;
+	}
+}
+
+.timeline-block {
+	background-color: $timeline-bg;
 }

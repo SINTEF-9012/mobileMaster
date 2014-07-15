@@ -5,6 +5,12 @@ $gray-light:             lighten(#000, 80%) !default;   // #999
 //$gray-not-so-light:             lighten(#000, 80%) !default;   // #pas eee
 $gray-lighter:           lighten(#000, 95%) !default; // #pas eee
 
+$purple-dark: #422a6c;
+$pink-color: #880e4f;
+$indigo-color: #3f51b5;
+$pantone_408: #ada59a;
+$pantone_5405: #3e647e;
+
 $font-family-sans-serif:  "Fira Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $body-bg: $gray-lighter;
 $text-color: $gray-darker;
@@ -12,3 +18,16 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
 // $table-bg: darken($gray, 6);
 // $table-bg-accent: darken($gray, 5)b;
 // $table-border-color: darken($gray,12);
+
+
+// $navbar-default-color: white;
+// $navbar-default-brand-color: white;
+// $navbar-default-bg: $indigo-color;
+
+
+$mediablock-bg: $purple-dark; 
+$connection-bg: $pink-color;//darken(#e51e23, 3%);
+
+$messenger-bg: rgb(225, 149, 63);
+
+$timeline-bg: $pantone_5405;

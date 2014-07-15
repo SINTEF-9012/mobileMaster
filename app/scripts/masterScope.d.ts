@@ -21,6 +21,13 @@ declare module MasterScope {
 
 		layoutautoscroll: boolean;
 		previousState: string;
+
+		thingmodel: {
+			loading: boolean;
+			connected: boolean;
+			nbTransactions: number;
+			nbSend: number;
+		}
 	}
 
 	interface Settings extends ng.IScope {

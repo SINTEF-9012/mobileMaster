@@ -1,7 +1,8 @@
-﻿/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+/// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 angular.module("mobileMasterApp").provider("thingModel", function () {
-	this.$get = ($rootScope: MasterScope.Root,
+	this.$get = (
+		$rootScope: MasterScope.Root,
 		Knowledge: KnowledgeModule,
 		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
@@ -9,7 +10,44 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		var clientID = settingsService.getClientName() + " - " + navigator.userAgent;
 		var endPoint = settingsService.getThingModelUrl();
 
+		$rootScope.thingmodel = {
+			loading: true,
+			connected: false,
+			nbTransactions: 0,
+			lastSenderName: null,
+			nbSend: 0
+		};
+
+		var applyScope = throttle(() => {
+			if (!$rootScope.$$phase) {
+				$rootScope.$digest();
+			}
+		}, 50);
+
 		this.client = new ThingModel.WebSockets.Client(clientID, endPoint, this.warehouse);
+
+		this.client.RegisterObserver({
+			OnFirstOpen: () => {
+				$rootScope.thingmodel.loading = false;
+			},
+			OnOpen: () => {
+				$rootScope.thingmodel.connected = true;
+				applyScope();
+			},
+			OnClose: () => {
+				$rootScope.thingmodel.connected = false;
+				applyScope();
+			},
+			OnTransaction: (senderName: string) => {
+				++$rootScope.thingmodel.nbTransactions;
+				$rootScope.thingmodel.lastSenderName = senderName;
+				applyScope();
+			},
+			OnSend: () => {
+				++$rootScope.thingmodel.nbSend;
+				applyScope();
+			}
+		});
 
 		this.RemoveThing = (id: string)=> {
 			var thing = this.warehouse.GetThing(id);

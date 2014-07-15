@@ -40,7 +40,10 @@
 
     <div class="_container" ui-view="" autoscroll="false"></div>
 
-    <script>L_PREFER_CANVAS = true;</script>
+    <a href="/settings" id="thingmodelstatus" ng-show="!thingmodel.connected">
+        {{!thingmodel || thingmodel.loading ? 'Connecting' : 'Reconnecting'}} <span class="glyphicon glyphicon-wrench"></span>
+    </a>
+
     <script>
     defaultThingModelUrl = 'wss://master-bridge.eu/thingmodel';
     defaultMediaServerUrl = 'https://master-bridge.eu/medias';
