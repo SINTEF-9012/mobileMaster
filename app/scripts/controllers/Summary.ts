@@ -24,6 +24,8 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	thingModel: ThingModelService
 	) => {
 
+	var defaultTitle = 'Untitled situation';
+
 	var computeSummary = () => {
 		var summary = thingModel.warehouse.GetThing('master-summary');
 		if (summary) {
@@ -32,9 +34,14 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 			$scope.htmlSummary = $scope.markdownSummary ? $sce.trustAsHtml(marked($scope.markdownSummary)
 				.replace(/<table>/g, '<table class="table table-striped">')) : '';
 		} else {
-			$scope.title = 'Default situation title';
+
+			if (!$state.is('summary.edit')) {
+				$state.go('summary.edit');
+			}
+
+			$scope.title = defaultTitle;
 			$scope.markdownSummary = '';
-			$scope.htmlSummary = $sce.trustAsHtml('Default situation summary');
+			$scope.htmlSummary = '';//$sce.trustAsHtml(defaultTitle);
 		}
 
 		if (!$scope.$$phase) {
@@ -65,7 +72,7 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	$scope.publish = () => {
 
 		AddService.register('master:wiki', null, (thing : ThingModel.ThingPropertyBuilder) => {
-			thing.String('title', $scope.title != undefined ? $scope.title : "Default title");
+			thing.String('title', $scope.title != undefined ? $scope.title : defaultTitle);
 			thing.String('content', $scope.markdownSummary != undefined ? $scope.markdownSummary : "");
 		}, 'master-summary');
 

@@ -272,8 +272,8 @@ angular.module('mobileMasterApp')
 			var content = summary.GetString('content');
 			$scope.htmlSummary = content ? $sce.trustAsHtml(marked(content)) : '';
 		} else {
-			$scope.title = 'Default situation title';
-			$scope.htmlSummary = $sce.trustAsHtml('Default situation summary');
+			$scope.title = 'Untitled situation';
+			$scope.htmlSummary = '';//$sce.trustAsHtml('Default situation summary');
 		}
 
 		if (!first) {
