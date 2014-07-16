@@ -134,14 +134,16 @@ angular.module('mobileMasterApp')
 			}
 		}, 
 		Updated: (thing: ThingModel.Thing) => {
-			var t = _.find(globalList, (s: any) => s.ID === thing.ID);
-			if (t) {
-				thingModel.ApplyThingToScope(t, thing);
+			if (filter(thing)) {
+				var t = _.find(globalList, (s: any) => s.ID === thing.ID);
+				if (t) {
+					thingModel.ApplyThingToScope(t, thing);
 
-				if (t.triage_status) {
-					t.triage_status = t.triage_status.toLocaleLowerCase();
+					if (t.triage_status) {
+						t.triage_status = t.triage_status.toLocaleLowerCase();
+					}
+					digestScope();
 				}
-				digestScope();
 			}
 		},
 		Deleted: (thing: ThingModel.Thing) => {

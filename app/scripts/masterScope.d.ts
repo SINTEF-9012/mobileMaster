@@ -26,6 +26,7 @@ declare module MasterScope {
 			loading: boolean;
 			connected: boolean;
 			nbTransactions: number;
+			lastSenderName: string;
 			nbSend: number;
 		}
 	}

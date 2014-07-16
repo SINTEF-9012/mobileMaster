@@ -49,10 +49,12 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			}
 		});
 
-		this.RemoveThing = (id: string)=> {
+		this.RemoveThing = (id: string, send: boolean = true)=> {
 			var thing = this.warehouse.GetThing(id);
 			this.warehouse.RemoveThing(thing);
-			this.client.Send();
+			if (send) {
+				this.client.Send();
+			}
 		};
 
 		this.ApplyThingToScope = ($scope: any, thing: ThingModel.Thing) => {

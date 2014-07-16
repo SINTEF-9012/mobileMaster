@@ -64,7 +64,7 @@
 #thingmodelstatus {
 	display:block;
 	position: fixed;
-	z-index: 100;
+	z-index: 2500;
 	right: 22%;
 	background: $connection-bg;
 
@@ -79,6 +79,13 @@
 	&:hover {
 		background: #ad1457;
 		text-decoration: none;
+	}
+}
+
+@media (max-width: $screen-xs-max) {
+	#thingmodelstatus {
+		right:auto;
+		left:12%;
 	}
 }
 

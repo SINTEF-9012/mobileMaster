@@ -35,7 +35,7 @@
 		background: white;
 		color: $purple-dark;
 		padding: 4px 6px;
-		white-space: pre-line;
+		white-space: pre-wrap;
 		margin-bottom:0px;
 	}
 
@@ -78,6 +78,7 @@
 		}
 
 		img.identicon {
+			top:0px;
 			left:-1px;
 		}
 	}
@@ -86,7 +87,6 @@
 		width:26px;
 		height:26px;
 		position:absolute;
-		bottom:0px;
 	}
 }
 
@@ -96,6 +96,7 @@
 	margin-left:1em;
 
 	img.identicon {
+		bottom:0px;
 		right:-1px;	
 	}
 
@@ -183,12 +184,23 @@
 	}
 }
 
-footer {
-	position: fixed;
+header + .container-fluid.messenger-fullscreen {
+	position:absolute;
+	top:50px;
+	right:0;
+	bottom:60px;
+	left:0;
+	margin-top:0;
+	padding-top:20px;
+	overflow-y:auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+footer.chat-input {
+	position:absolute;
+	right:0;
 	bottom:0;
 	left:0;
-	right:0;
-
 	input {
 		border-top: 1px solid darken($pantone_408, 6.5%);
 		font-size: 24px;
@@ -232,10 +244,10 @@ footer {
 	}
 }
 
-@media (max-width: $screen-xs-max) {
+/*@media (max-width: $screen-xs-max) {*/
 
-	// Disable scroll on mobile, because double scrolls are bad
-	.main-dashboard .chat-area {
-		overflow-y: hidden;
-	}
+// Disable scroll on the dashboard, because double scrolls are bad
+.main-dashboard .chat-area {
+	overflow-y: hidden;
 }
+//}

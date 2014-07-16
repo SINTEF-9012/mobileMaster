@@ -69,7 +69,7 @@ declare module PersistentLocalization {
 interface ThingModelService {
 	warehouse: ThingModel.Warehouse;
 	client: ThingModel.WebSockets.Client;
-	RemoveThing(id: string);
+	RemoveThing(id: string, send?: boolean);
 	ApplyThingToScope($scope: any, thing: ThingModel.Thing);
 	EditThing(id: string, values: { [property: string]: { value: string;type: string } });
 }
@@ -120,6 +120,7 @@ interface ThingIdentifierService {
 	beacon(thing: ThingModel.Thing): boolean;
 	order(thing: ThingModel.Thing): boolean;
 	multimedia(thing: ThingModel.Thing): boolean;
+	message(thing: ThingModel.Thing): boolean;
 
 	other(thing: ThingModel.Thing): boolean;
 

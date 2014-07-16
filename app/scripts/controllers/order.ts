@@ -178,7 +178,7 @@ angular.module('mobileMasterApp')
 
 	var lineStart: L.LatLng = null,
 		dragLine: L.Path = null,
-		renderUpdate = L.Util.throttle(() => (<any>masterMap)._renderer._update(), 100, (<any>masterMap)._renderer);
+		renderUpdate = throttle(() => (<any>masterMap)._renderer._update(), 100, (<any>masterMap)._renderer);
 
 	var lineDraw = throttle(() => {
 		if (!lineStart) {

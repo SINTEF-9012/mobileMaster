@@ -1,7 +1,7 @@
-﻿angular.module('mobileMasterApp')
+angular.module('mobileMasterApp')
   .directive('identicon', (settingsService: SettingsService) => {
     return {
-        template: '<img alt="" src="{{url}}" title="{{id}}" class="identicon"/>',
+        template: '<img alt="" ng-src="{{url}}" title="{{id}}" class="identicon"/>',
 		restrict: 'E',
 		scope: {
 			id: '='
