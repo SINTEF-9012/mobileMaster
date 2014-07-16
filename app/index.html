@@ -41,7 +41,7 @@
 
     <div class="_container" ui-view="" autoscroll="false"></div>
 
-    <a href="/settings" id="thingmodelstatus" ng-show="!thingmodel.connected">
+    <a href="/settings" id="thingmodelstatus" class="ng-hide" ng-show="!thingmodel.connected">
         {{!thingmodel || thingmodel.loading ? 'Connecting' : 'Reconnecting'}} <span class="glyphicon glyphicon-wrench"></span>
     </a>
 
