@@ -263,9 +263,9 @@ height: 672px !important;
             padding-right:6px;
         }
 
-        /*.infos-icons {
-            padding-left:44px;
-        }*/
+        .infos-icons .btn-group {
+            margin-left:8px;
+        }
 	}
 
 
@@ -754,3 +754,18 @@ img.identicon {
     text-decoration: none;
     margin-right: 5px;
 }
+
+.settings-controller {
+    height: auto;
+    background: url(/images/settings_background.png) repeat;
+
+    #layout-top {
+        height:auto;
+        background: none;
+    }
+
+    #thingmodelstatus {
+        display: none;
+    }
+}
+

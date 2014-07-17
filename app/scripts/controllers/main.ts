@@ -156,14 +156,11 @@ angular.module('mobileMasterApp')
     itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
 
-	$rootScope.bodyClass = 'main-dashboard';
-
 	var jMap = $('#main-map'),
 		jlink = $('#main-map-link'),
 		jChat = $('#main-chat'),
 		jMediablock = $('#main-mediablock'),
-		jTimeline = $('#main-timeline'),
-		jChatScrollarea = jChat.find('.chat-area').get(0);
+		jTimeline = $('#main-timeline');
 
 	persistentLocalization.restorePersistentLayer(masterMap);
 	persistentLocalization.unbindMasterMap(masterMap);
@@ -180,14 +177,20 @@ angular.module('mobileMasterApp')
 			blocs = column.children('.infoblock'),
 			height = jwindow.height() - column.offset().top - 6;
 
-		blocs.height(Math.min(blocs.first().innerWidth(), Math.floor(height / (blocs.length / 3))));
+		var lg = blocs.length / 2, windowWidth = jwindow.width();
+		if (windowWidth >= 1200) {
+			lg = blocs.length / 3;
+		} else if (windowWidth < 768) {
+			lg = 4;
+		}
+
+		blocs.height(Math.min(blocs.first().innerWidth(), Math.floor(height / lg))-12);
 
 		var mediablockHeight = jMediablock.outerHeight();
 
 		var mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 300);
 		jMap.height(mapHeight);
 		jChat.height(mapHeight - 8);
-		jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 		jTimeline.height(mediablockHeight - 12);
 
 		window.setImmediate(() => {
@@ -287,7 +290,6 @@ angular.module('mobileMasterApp')
 	thingModel.warehouse.RegisterObserver(observer);
 
 	$scope.$on('$destroy', () => {
-		$rootScope.bodyClass = '';
 		jwindow.off('resize', setLayout);
 		thingModel.warehouse.UnregisterObserver(observer);
 	});
