@@ -160,6 +160,7 @@ angular.module('mobileMasterApp')
 		jlink = $('#main-map-link'),
 		jChat = $('#main-chat'),
 		jMediablock = $('#main-mediablock'),
+		jChatScrollarea = $('.chat-scroll-area').get(0),
 		jTimeline = $('#main-timeline');
 
 	persistentLocalization.restorePersistentLayer(masterMap);
@@ -196,6 +197,8 @@ angular.module('mobileMasterApp')
 		window.setImmediate(() => {
 			masterMap.invalidateSize({});
 			jlink.height(mapHeight).width(jMap.width()).offset(jMap.offset());
+
+			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 		});
 	}, 100);
 
