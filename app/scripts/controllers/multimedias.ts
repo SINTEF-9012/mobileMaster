@@ -14,6 +14,7 @@ angular.module('mobileMasterApp')
 		$stateParams: any
 		) => {
 
+		$scope.from = $stateParams.from;
 		var stateBack = $stateParams.from === 'map' ? 'map.slidder' : 'main';
 		$scope.returnLink = $state.href(stateBack);
 

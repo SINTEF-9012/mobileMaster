@@ -18,6 +18,7 @@ angular.module('mobileMasterApp')
 
 	//$controller('TableCtrl', { $scope: $scope });
 
+	$scope.from = $stateParams.from;
 	var stateBack = $stateParams.from === 'map' ? 'map.slidder' : 'main';
 	$scope.returnLink = $state.href(stateBack);
 
