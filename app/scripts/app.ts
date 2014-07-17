@@ -138,8 +138,10 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
   }).run(($rootScope) => {
 	  $rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
 		$rootScope.previousState = fromState.name;
-		$rootScope.bodyClass = toState.name.replace('.', '-controller ')+"-controller";
 		$rootScope.currentState = toState.name;
+	});
+	$rootScope.$on('$stateChangeSuccess', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
+		$rootScope.bodyClass = toState.name.replace('.', '-controller ')+"-controller";
 	});
 });
 
