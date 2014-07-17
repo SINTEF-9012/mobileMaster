@@ -18,11 +18,14 @@ angular.module('mobileMasterApp')
 	//$controller('TableCtrl', { $scope: $scope });
 
 	var currentList = [];
-	$scope.things = [];
+
+	var waitingDeletionList = [];
+
+	$scope.messages = [];
 
 	var maxMsg = 25;
 
-	var limit = $state.is('main') ? 12 : maxMsg;
+	var limit = $state.is('main') ? 8 : maxMsg;
 
 	angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
 		if (itsa.message(thing)) {
@@ -39,12 +42,17 @@ angular.module('mobileMasterApp')
 		if (currentList.length > 0) {
 			currentList.sort((a, b) => a.datetime - b.datetime);
 
-			$scope.things = $scope.things.concat(currentList);
+			$scope.messages = $scope.messages.concat(currentList);
 
 			currentList = [];
 
-			if ($scope.things.length > limit) {
-				$scope.things = $scope.things.slice($scope.things.length - limit);
+
+			if ($scope.messages.length > limit) {
+				var thelimit = $scope.messages.length - limit;
+
+				waitingDeletionList = waitingDeletionList.concat($scope.messages.slice(0, thelimit));
+
+				$scope.messages = $scope.messages.slice(thelimit);
 			}
 		}
 
@@ -52,8 +60,8 @@ angular.module('mobileMasterApp')
 			$scope.$digest();
 		}
 
-		window.setTimeout(scrollDown, 10);
-	}, 40);
+		scrollDown();
+	}, 40, {leading: false});
 
 	var observer = {
 		New: (thing: ThingModel.Thing) => {
@@ -66,7 +74,7 @@ angular.module('mobileMasterApp')
 		}, 
 		Updated: (thing: ThingModel.Thing) => {
 			if (itsa.message(thing)) {
-				var t = _.find($scope.things, (s: any) => s.ID === thing.ID);
+				var t = _.find($scope.messages, (s: any) => s.ID === thing.ID);
 				if (t) {
 					thingModel.ApplyThingToScope(t, thing);
 
@@ -76,7 +84,7 @@ angular.module('mobileMasterApp')
 		},
 		Deleted: (thing: ThingModel.Thing) => {
 			if (itsa.message(thing)) {
-				$scope.things = _.reject($scope.things, (s: any) => s.ID === thing.ID);
+				$scope.messages = _.reject($scope.messages, (s: any) => s.ID === thing.ID);
 				digestScope();
 			}
 		},
@@ -91,12 +99,9 @@ angular.module('mobileMasterApp')
 		// Is this experimental ?
 		var minAge = 1000 * 60 * 20;
 
-		if ($scope.things && $scope.things.length > maxMsg) {
-			for (var i = 0, l = $scope.things.length - maxMsg; i < l; ++i) {
-				var t = $scope.things[i];
-				if (l < maxMsg && +now - t.datetime < minAge) {
-					break;
-				}
+		for (var i = 0, l = waitingDeletionList.length; i < l; ++i) {
+			var t = waitingDeletionList[i];
+			if (+now - t.datetime > minAge) {
 				thingModel.RemoveThing(t.ID, false);
 			}
 		}
@@ -111,11 +116,14 @@ angular.module('mobileMasterApp')
 	};
 
 	var jChatScrollarea = $('.chat-scroll-area').get(0);
-	var scrollDown = () => {
-		jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
-	} 
-
 	var jwindow = $($window);
+
+	var scrollDown = () => {
+		window.setTimeout(() => {
+			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
+		}, 10);
+	};
+
 	jwindow.on('resize', scrollDown);
 
 	$scope.$on('$destroy', () => {
