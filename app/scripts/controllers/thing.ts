@@ -34,6 +34,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	if ($stateParams.from === 'map') {
 		stateBack = 'map.slidder';
 	}
+	else if ($stateParams.from === 'multimedias') {
+		stateBack = 'multimedias';
+	}
 
 	var deleteTimer = 0;
 	$scope.startDeleteTimer = () => {
