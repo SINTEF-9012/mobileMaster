@@ -22,7 +22,7 @@
 		<div class="btn-group">
 			<a href="{{info.href}}" class="btn btn-default info-number" ng-class="(info.glowing ? 'glow' : '') + (info.filtered ? ' filtered' : '')" ng-repeat="(key,info) in infos" title="{{info.fullName}}">
 				<master-icon type="{{info.fullName}}"></master-icon>
-				{{info.count}}
+				{{info.fullName !== 'Messages' ? info.count : null}}
 			</a>
 		</div>	
 	</div>

@@ -10,8 +10,12 @@ angular.module('mobileMasterApp')
 		itsa: ThingIdentifierService,
 		$window: ng.IWindowService,
 		settingsService: SettingsService,
-		$state: ng.ui.IStateService
+		$state: ng.ui.IStateService,
+		$stateParams: any
 		) => {
+
+		var stateBack = $stateParams.from === 'map' ? 'map.slidder' : 'main';
+		$scope.returnLink = $state.href(stateBack);
 
 		// Max number of medias in the list
 		var maxMedias = $state.is('main') ? 16 : 256;

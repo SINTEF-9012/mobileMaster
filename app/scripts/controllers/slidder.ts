@@ -48,11 +48,27 @@ angular.module('mobileMasterApp')
 				infos = $scope.infos[type];
 
 			if (!infos) {
+				var href: string = null;
+
+				switch (type) {
+					case 'Victims':
+						href = 'victims';
+						break;
+					case 'Messages':
+						href = 'messenger';
+						break;
+					case 'Multimedias':
+						href = 'multimedias';
+						break;
+					default:
+						href = 'table';
+				}
+
 				$scope.infos[type] = infos = {
 					count: 1,
 					fullName: type,
 					glowing: !firstIteration,
-					href: $state.href(type === 'Victims' ? 'victims' : 'table', {
+					href: $state.href(href, {
 						thingtype: type,
 						from: from
 					}),

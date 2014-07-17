@@ -116,17 +116,17 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			templateUrl: 'views/camera.html'
 		})
 		.state('multimedias', {
-			url: '/Multimedias',
+			url: '/Multimedias?from',
 			controller: 'MultimediasCtrl',
 			templateUrl: 'views/multimedias.html'
 		})
 		.state('messenger', {
-			url: '/messenger',
+			url: '/messenger?from',
 			controller: 'MessengerCtrl',
 			templateUrl: 'views/messenger.html'
 		})
 		.state('timeline', {
-			url: '/timeline',
+			url: '/timeline?from',
 			templateUrl: 'views/timeline.html'
 		})
 		.state('settings', {

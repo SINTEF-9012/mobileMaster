@@ -12,10 +12,14 @@ angular.module('mobileMasterApp')
 	thingModel: ThingModelService,
 	itsa: ThingIdentifierService,
 	$window: ng.IWindowService,
-	$state: ng.ui.IStateService
+	$state: ng.ui.IStateService,
+	$stateParams: any
 ) => {
 
 	//$controller('TableCtrl', { $scope: $scope });
+
+	var stateBack = $stateParams.from === 'map' ? 'map.slidder' : 'main';
+	$scope.returnLink = $state.href(stateBack);
 
 	var currentList = [];
 
