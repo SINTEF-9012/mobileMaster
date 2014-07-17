@@ -552,6 +552,7 @@ angular.module('mobileMasterApp')
 				if (!situationOverviewEnabled) {
 					situationOverviewEnabled = true;
 					instance.on('move', processView);
+					instance.closePopup();
 					processView();
 				}
 			}
