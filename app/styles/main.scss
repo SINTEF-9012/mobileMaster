@@ -573,7 +573,13 @@ header + .master-list {
     border-color: darken($mediablock-bg, 6.5%);
 }
 
-.master-list-navbar, .messenger-navbar, .multimedias-navbar {
+.timeline-navbar {
+   background-color: $timeline-bg; 
+   border-color: darken($timeline-bg, 6.5%);
+}
+
+.master-list-navbar, .messenger-navbar,
+.multimedias-navbar, .timeline-navbar {
     color: white;
 
     a,.navbar-brand {
