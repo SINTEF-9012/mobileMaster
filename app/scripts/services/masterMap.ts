@@ -354,7 +354,10 @@ angular.module('mobileMasterApp')
 					popup.setContent(content.get(0));
 					popup.update();
 				} else {
-					marker.bindPopup(content.get(0), {closeButton: false});
+					marker.bindPopup(content.get(0), {
+						closeButton: false
+						
+					});
 					marker.on('dblclick', () => {
 						$state.go(toState, {
 							ID: (<any>marker)._masterMapThingId,
