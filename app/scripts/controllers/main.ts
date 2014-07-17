@@ -185,7 +185,7 @@ angular.module('mobileMasterApp')
 			lg = 4;
 		}
 
-		blocs.height(Math.min(blocs.first().innerWidth(), Math.floor(height / lg))-12);
+		blocs.height(Math.max(Math.min(blocs.first().innerWidth(), Math.floor(height / lg))-12, 120));
 
 		var mediablockHeight = jMediablock.outerHeight();
 
