@@ -17,7 +17,7 @@
 
 <div class="center-row">
 <div masonry masonry-options="{columnWidth: 60, isFitWidth: true, gutter: 10}" style="margin:0 auto">
-	<a ng-href="media.full" class="masonry-brick multimedias-link" ng-repeat="media in medias | orderBy:reverse">
+	<a ng-href="{{media.full}}" class="masonry-brick multimedias-link" ng-repeat="media in medias | orderBy:reverse">
 		<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
 		<!-- <video ng-if="media.video" ng-src="{{media.video ? media.src : null}}" controls reload="none" poster="{{media.url}}" width="320" height="240" loop> -->
 
