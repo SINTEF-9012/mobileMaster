@@ -34,10 +34,11 @@
     & > div {
         display: flex;
         align-items: center;
+        padding-right:10px;
 
         &.with-identicon {
             position: relative;
-            padding: 5px 5px 4px 52px;
+            padding: 5px 10px 4px 52px;
             min-height: 41px;
 
             img {
@@ -56,21 +57,22 @@
 
         &.with-media {
             position: relative;
-            padding: 0px 10px 0px 0px;
+            padding: 0px 6px 0px 0px;
             min-height: 41px;
+            min-width:255px;
             img {
-                margin-right:15px;
+                margin-right:21px;
             }
         }
     }
 
 
     font-weight: bold;
-    margin:0 10px 0 0;
+    margin:0;
 
 }
 
-body:not(.disable-markers-animations) {
+html:not(.disable-markers-animations) {
     #map, #thing-map, #main-map{
         .leaflet-marker-icon, .leaflet-marker-shadow,
         .leaflet-thing-icon {
@@ -81,7 +83,7 @@ body:not(.disable-markers-animations) {
     }
 }
 
-body:not(.disable-markers-animations).popup-transition .leaflet-popup{
+html:not(.disable-markers-animations).popup-transition .leaflet-popup{
     -webkit-transition:transform 0.5s linear;
     transition:transform 0.5s linear;
     -moz-transition:transform 0.5s linear;

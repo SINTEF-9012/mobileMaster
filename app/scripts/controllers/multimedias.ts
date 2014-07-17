@@ -53,7 +53,7 @@ angular.module('mobileMasterApp')
 			}
 
 			jwindow.trigger('resize');
-		}, 42);
+		}, 42, { leading: false });
 
 
 	var mediaServerUrl = settingsService.getMediaServerUrl();

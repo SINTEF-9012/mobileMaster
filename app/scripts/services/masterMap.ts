@@ -61,17 +61,19 @@ angular.module('mobileMasterApp')
 
 			var instance = <Master.Map> L.map(this.container, this.options);
 
-			var jbody = $(document.body);
+			var jbody = $(document.body.parentElement);
 
 			var eventState = {
 				'zoom': false,
 				'move': false,
-				'margerdrag': false
+				'margerdrag': false,
+				'container': false
 			};
 			instance.on('zoomstart movestart markerdragstart', (e) => {
 
 				if (eventState.zoom === false &&
 					eventState.move === false &&
+					eventState.container === false &&
 					eventState.margerdrag === false) {
 					jbody.addClass("disable-markers-animations");
 				}
@@ -84,6 +86,7 @@ angular.module('mobileMasterApp')
 
 				if (eventState.zoom === false &&
 					eventState.move === false &&
+					eventState.container === false &&
 					eventState.margerdrag === false) {
 					window.setImmediate(() => jbody.removeClass("disable-markers-animations"));
 				}
@@ -94,6 +97,8 @@ angular.module('mobileMasterApp')
 			var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet(100);
 
 			instance.addLayer(cluster);
+
+			//L.tileLayer('http://d2z9m7k9h4f0yp.cloudfront.net/tiles/cycling/color3/{z}/{x}/{y}.png').addTo(instance);
 
 			var masterIcon = L.Icon.extend({
 				options: {
@@ -349,7 +354,7 @@ angular.module('mobileMasterApp')
 					popup.setContent(content.get(0));
 					popup.update();
 				} else {
-					marker.bindPopup(content.get(0));
+					marker.bindPopup(content.get(0), {closeButton: false});
 					marker.on('dblclick', () => {
 						$state.go(toState, {
 							ID: (<any>marker)._masterMapThingId,
@@ -551,7 +556,7 @@ angular.module('mobileMasterApp')
 				if (situationOverviewEnabled) {
 					cluster.FitBounds();
 				}
-			}, 1000, instance);
+			}, 1000, {leading: true});
 
 			instance.disableSituationOverview = () => {
 				situationOverviewEnabled = false;
@@ -793,16 +798,18 @@ angular.module('mobileMasterApp')
 			};
 
 			instance.moveTo = (div: HTMLElement) => {
+				eventState.container = true;
 				jbody.addClass('disable-markers-animations');
 				div.appendChild(instance.getContainer());
 
 				(<any>L.Util.falseFn)(div.offsetWidth); // redraw ?
 
-				instance.invalidateSize({});
+				instance.invalidateSize(false);
 
-				window.setImmediate(() => {
+				window.setTimeout(() => {
+					eventState.container = false;
 					jbody.removeClass('disable-markers-animations');
-				});
+				}, interval*2);
 			};
 
 			var shadowLayer = null;
