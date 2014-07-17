@@ -33,7 +33,7 @@
 	.message {
 		display: block;
 		background: white;
-		color: $purple-dark;
+		color: $gray-darker;
 		padding: 4px 6px;
 		white-space: pre-wrap;
 		margin-bottom:0px;
@@ -125,7 +125,7 @@
 	}
 }
 
-.main-messenger {
+.messenger-controller {
 	background: $pantone_408;
 	margin-bottom:80px;
 }
@@ -210,7 +210,7 @@ footer.chat-input {
 
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
 
-	.main-dashboard {
+	.main-controller {
 		.chat-message {
 
 			img.identicon {
@@ -244,10 +244,10 @@ footer.chat-input {
 	}
 }
 
-/*@media (max-width: $screen-xs-max) {*/
+//@media (max-width: $screen-xs-max) {
 
-// Disable scroll on the dashboard, because double scrolls are bad
-.main-dashboard .chat-area {
-	overflow-y: hidden;
-}
+	// Disable scroll on the dashboard, because double scrolls are bad
+	.main-controller .chat-area {
+		overflow-y: hidden;
+	}
 //}

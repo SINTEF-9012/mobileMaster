@@ -52,7 +52,7 @@ angular.module('mobileMasterApp')
 			$scope.$digest();
 		}
 
-		window.setInterval(scrollDown, 10);
+		window.setTimeout(scrollDown, 10);
 	}, 40);
 
 	var observer = {
@@ -83,10 +83,6 @@ angular.module('mobileMasterApp')
 		Define: (thingType: ThingModel.ThingType) => {}
 	}
 	thingModel.warehouse.RegisterObserver(observer);
-
-	if (!$state.is('main')) {
-		$rootScope.bodyClass = 'main-messenger';
-	}
 
 	$scope.send = () => {
 
@@ -125,10 +121,6 @@ angular.module('mobileMasterApp')
 	$scope.$on('$destroy', () => {
 		thingModel.warehouse.UnregisterObserver(observer);
 		jwindow.off('resize', scrollDown);
-
-		if (!$state.is('main')) {
-			$rootScope.bodyClass = '';
-		}
 	});
 
 	digestScope();
