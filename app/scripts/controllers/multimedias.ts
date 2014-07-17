@@ -9,26 +9,50 @@ angular.module('mobileMasterApp')
 		thingModel: ThingModelService,
 		itsa: ThingIdentifierService,
 		$window: ng.IWindowService,
-		settingsService: SettingsService
+		settingsService: SettingsService,
+		$state: ng.ui.IStateService
 		) => {
 
 		// Max number of medias in the list
-		var maxMedias = 16;
+		var maxMedias = $state.is('main') ? 16 : 256;
 
+		var currentList = [];
 		$scope.medias = [];
 
 		var jwindow = $($window);
 
-		var digestScope = throttle(() => {
-			if ($scope.medias.length > maxMedias) {
-				$scope.medias = $scope.medias.slice(0, maxMedias);
+		/**
+		 * Randomize array element order in-place.
+		 * Using Fisher-Yates shuffle algorithm.
+		 */
+		function shuffleArray(array) {
+			for (var i = array.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			}
+			return array;
+		}
 
+		var digestScope = throttle(() => {
+			if (currentList.length > 0) {
+				shuffleArray(currentList);
+
+				$scope.medias = $scope.medias.concat(currentList);
+
+				currentList = [];
+
+				if ($scope.medias.length > maxMedias) {
+					$scope.medias = $scope.medias.slice($scope.medias.length - maxMedias);
+				}
 			}
 
 			if (!$scope.$$phase) {
-				jwindow.trigger('resize');
 				$scope.$digest();
 			}
+
+			jwindow.trigger('resize');
 		}, 42);
 
 
@@ -38,10 +62,22 @@ angular.module('mobileMasterApp')
 		var url = thing.String("url");
 
 		if (url) {
-			url = mediaServerUrl + "/thumbnail/" + url;
-			$scope.medias.push({
+			var src  = mediaServerUrl + '/' + url;
+			var full = mediaServerUrl + "/resize/256/256/" + url;
+			var thumbnail = mediaServerUrl + "/thumbnail/" + url;
+
+			var isVideo = /video/i.test(thing.Type.Name);
+
+			if (isVideo) {
+				full = null;
+			}
+
+			currentList.push({
 				ID: thing.ID,
-				url: url
+				url: thumbnail,
+				full: full,
+				video: isVideo,
+				src: src
 			});
 		}
 	};
@@ -57,8 +93,10 @@ angular.module('mobileMasterApp')
 		return cpt < maxMedias;
 	});
 
+	digestScope();
+
 	var deleteThumbnail = (id:string) => {
-		$scope.medias = _.filter($scope.medias, (media) => {
+		$scope.medias = _.filter($scope.medias, (media: any) => {
 			return media.ID !== id;
 		});
 	};

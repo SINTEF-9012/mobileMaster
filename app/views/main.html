@@ -86,10 +86,10 @@
 			</div>
 		</div>
 		<div class="col-sm-2 col-md-2">
-			<div class="row chat-block chat-scroll-area" id="main-chat" ng-controller="MessengerCtrl">
+			<div class="row chat-block" id="main-chat" ng-controller="MessengerCtrl">
 				<h3 ui-sref="messenger">Chat</h3>
 
-				<div class="chat-area" ui-sref="messenger">
+				<div class="chat-area chat-scroll-area" ui-sref="messenger">
 					<chat-message ng-repeat="thing in things" thing="thing" />
 				</div>
 
@@ -100,7 +100,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="infoblock timeline-block col-xs-12" id="main-timeline">
+				<div class="infoblock timeline-block col-xs-12" id="main-timeline" ui-sref="timeline">
 					<h3>Timeline</h3>
 				</div>
 			</div>

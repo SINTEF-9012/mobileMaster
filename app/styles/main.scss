@@ -568,7 +568,12 @@ header + .master-list {
     border-color: darken($messenger-bg, 6.5%);
 }
 
-.master-list-navbar, .messenger-navbar {
+.multimedias-navbar {
+   background-color: $mediablock-bg; 
+    border-color: darken($mediablock-bg, 6.5%);
+}
+
+.master-list-navbar, .messenger-navbar, .multimedias-navbar {
     color: white;
 
     a,.navbar-brand {

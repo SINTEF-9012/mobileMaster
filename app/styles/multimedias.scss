@@ -1,0 +1,20 @@
+@import "_settings";
+@import "compass";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
+
+.multimedias-controller {
+    background: $gray-darker;
+    color:white;
+
+   	a.multimedias-link {
+		border-radius: 4px;
+		box-shadow: 0px 0px 8px rgba(0,0,0,0.75);
+		border: 2px solid rgba(0,0,0,0.75);
+		margin-bottom:10px;
+
+		&:hover {
+			border-color: white;
+			box-shadow: 0px 0px 8px rgba(255,255,255,0.75);
+		}
+   	} 
+}

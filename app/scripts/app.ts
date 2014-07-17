@@ -8,7 +8,7 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment'])
+angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment', 'wu.masonry'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     if (!window.navigator.device) {
@@ -115,10 +115,19 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			controller: 'CameraCtrl',
 			templateUrl: 'views/camera.html'
 		})
+		.state('multimedias', {
+			url: '/Multimedias',
+			controller: 'MultimediasCtrl',
+			templateUrl: 'views/multimedias.html'
+		})
 		.state('messenger', {
 			url: '/messenger',
 			controller: 'MessengerCtrl',
 			templateUrl: 'views/messenger.html'
+		})
+		.state('timeline', {
+			url: '/timeline',
+			templateUrl: 'views/timeline.html'
 		})
 		.state('settings', {
 			url: '/settings',

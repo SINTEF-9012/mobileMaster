@@ -1,0 +1,28 @@
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top multimedias-navbar" role="navigation">
+		<div class="container-fluid">
+			<div class="row">
+
+				<a class="navbar-brand col-xs-2" ui-sref="main" ><span class="glyphicon glyphicon-th"></span></a>
+
+				<h3 class="col-xs-8">Multimedias</h3>
+			</div>
+		</div>
+	</nav>
+</header>
+
+
+	
+<div class="container-fluid">
+
+<div class="center-row">
+<div masonry masonry-options="{columnWidth: 60, isFitWidth: true, gutter: 10}" style="margin:0 auto">
+	<a ng-href="media.full" class="masonry-brick multimedias-link" ng-repeat="media in medias | orderBy:reverse">
+		<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
+		<!-- <video ng-if="media.video" ng-src="{{media.video ? media.src : null}}" controls reload="none" poster="{{media.url}}" width="320" height="240" loop> -->
+
+		<!-- </video> -->
+	</a>	
+</masonry>
+</div>
+</div>
