@@ -551,6 +551,7 @@ angular.module('mobileMasterApp')
 			instance.enableSituationOverview = () => {
 				if (!situationOverviewEnabled) {
 					situationOverviewEnabled = true;
+					instance.on('move', processView);
 					processView();
 				}
 			}
@@ -559,10 +560,11 @@ angular.module('mobileMasterApp')
 				if (situationOverviewEnabled) {
 					cluster.FitBounds();
 				}
-			}, 1000, {leading: true});
+			}, 1000);
 
 			instance.disableSituationOverview = () => {
 				situationOverviewEnabled = false;
+				instance.off('move', processView);
 			}
 
 			instance.getLayerClass = (name: string) => this.layerClasses[name];
