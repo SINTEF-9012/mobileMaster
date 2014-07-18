@@ -13,6 +13,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	$stateParams: any,
 	$rootScope: MasterScope.Root,
     persistentLocalization : PersistentLocalization,
+	settingsService: SettingsService,
 	itsa: ThingIdentifierService,
 	masterMap: Master.Map,
 	$window: ng.IWindowService,
@@ -23,6 +24,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	persistentLocalization.restorePersistentLayer(masterMap);
 	persistentLocalization.unbindMasterMap(masterMap);
 
+	var multimediaServer = settingsService.getMediaServerUrl();
 
 	var id = $stateParams.ID;
 	var stateBack = $state.is('victim') ? 'victims' : 'table',
@@ -134,6 +136,13 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.canOrder = Knowledge.canOrder(thing);
 			$scope.canEdit = Knowledge.canEdit(thing);
 			$scope.canDelete = Knowledge.canDelete(thing);
+
+			var url = $scope.thing.url;
+			$scope.isPicture = url != null;
+
+			if ($scope.isPicture) {
+				$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
+			}
 
 			if (!$scope.$$phase) {
 				$scope.$digest();

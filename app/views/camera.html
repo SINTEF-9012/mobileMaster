@@ -19,10 +19,10 @@
 	<div class="row" >
 		<div class="col-sm-5 col-lg-3 properties-list add-view">
 			<div class="row">
-				<p ng-show="isPicture">
-					<img src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail"/>
+				<p ng-if="isPicture">
+					<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail"/>
 				</p>
-				<p ng-show="isVideo">
+				<p ng-if="isVideo">
 					<video controls="controls" loop="loop" preload="auto" src="{{url}}">
 						<a target="_blank" href="{{url}}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-play"></span> Play</a>
 					</video>

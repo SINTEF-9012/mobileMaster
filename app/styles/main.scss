@@ -438,10 +438,7 @@ left: 2em;
     //position:relative;
     overflow:hidden;
 
-    .glyphicon {
-        top:3px;
-    }
-    
+
     input {
         position:absolute;
         z-index:12;
@@ -453,6 +450,10 @@ left: 2em;
         cursor:pointer;
         opacity:0;
     }
+}
+
+.multimedias-controller .camera-trigger .glyphicon {
+    top:3px;
 }
 
 
