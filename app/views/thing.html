@@ -38,6 +38,9 @@
 		<p ng-if="isPicture">
 			<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail" ng-click="$parent.$parent.showPicture()"/>
 		</p>
+		<p ng-if="isVideo">
+			<video ng-src="{{fullUrl}}" controls preload="auto" poster="{{posterUrl}}" loop autoplay class="img-thumbnail"></video>
+		</p>
 
 		<div class="row" ng-repeat="(type,value) in thing">
 			<h3>{{type}}</h3>	

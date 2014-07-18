@@ -142,40 +142,54 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.canDelete = Knowledge.canDelete(thing);
 
 			var url = $scope.thing.url;
-			$scope.isPicture = url != null;
+			var isMedia = url != null && itsa.media(thing);
 
-			if ($scope.isPicture) {
-				var width = jwindow.width();
+			if (isMedia) {
 
-				var size = '/';
-				if (width <= 640) {
-					size = '/resize/640/480/';
-				} else if (width <= 1280) {
-					size = '/resize/1280/720/';
-				} else if (width <= 1920) {
-					size = '/resize/1920/1080/';
+				$scope.isVideo = /video/i.test(thing.Type.Name);
+				$scope.isPicture = !$scope.isVideo;
+
+				// TODO not so beautiful
+				delete $scope.thing.url;
+
+				if ($scope.isVideo) {
+					$scope.fullUrl = multimediaServer + '/' + url;
+					$scope.posterUrl = multimediaServer + '/thumbnail/' + url;
 				}
 
-				$scope.fullUrl = multimediaServer + size + url;
-				$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
+				if ($scope.isPicture) {
+					var width = jwindow.width();
 
-				$scope.showPicture = () => {
-					$scope.fullscreenPicture = true;
+					var size = '/';
+					if (width <= 640) {
+						size = '/resize/640/480/';
+					} else if (width <= 1280) {
+						size = '/resize/1280/720/';
+					} else if (width <= 1920) {
+						size = '/resize/1920/1080/';
+					}
 
-					window.setImmediate(() => {
-						cfpLoadingBar.start();
+					$scope.fullUrl = multimediaServer + size + url;
+					$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
 
-						(<any>$('#picture-view')).imagesLoaded(() => {
-							cfpLoadingBar.complete();
+					$scope.showPicture = () => {
+						$scope.fullscreenPicture = true;
+
+						window.setImmediate(() => {
+							cfpLoadingBar.start();
+
+							(<any>$('#picture-view')).imagesLoaded(() => {
+								cfpLoadingBar.complete();
+							});
 						});
-					});
+					}
 				}
 			}
 
-			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
+			//$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
 
 			// The location is already displayed on the map
-			// delete $scope.thing.location;
+			delete $scope.thing.location; // TODO�TMP�MUST�USE�knowledge
 
 			if (!$scope.$$phase) {
 				$scope.$digest();

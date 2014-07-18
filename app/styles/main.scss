@@ -685,6 +685,7 @@ body:not(.touch) .thing.row:hover,  {
     margin-top:20px;
 }
 
+
 @media (min-width: $screen-md-min) {
     #thing-map, #thing-view {
         margin-top:-20px;
@@ -694,6 +695,11 @@ body:not(.touch) .thing.row:hover,  {
         overflow-y:auto;
         -webkit-overflow-scrolling: touch;
     }
+}
+
+#thing-view  video {
+    width:100%;
+    min-height:256px;
 }
 
 #picture-view {

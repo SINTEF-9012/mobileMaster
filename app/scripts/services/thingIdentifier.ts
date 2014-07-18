@@ -19,7 +19,7 @@ angular.module('mobileMasterApp')
 		message = /(message)/i,
 
 	// Some more high level categories
-		multimedia = /(picture|video|tweet)/i;
+		multimedia = /(media|picture|video|tweet)/i;
 
 	var lockup = {
 		victims: victim,
