@@ -11,6 +11,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	$state: ng.ui.IStateService,
 	$scope: any,
 	$stateParams: any,
+	cfpLoadingBar: any,
 	$rootScope: MasterScope.Root,
     persistentLocalization : PersistentLocalization,
 	settingsService: SettingsService,
@@ -39,6 +40,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	else if ($stateParams.from === 'multimedias') {
 		stateBack = 'multimedias';
 	}
+
+	var jwindow = $($window), jMap = $('#thing-map'), jView = $('#thing-view');
 
 	var deleteTimer = 0;
 	$scope.startDeleteTimer = () => {
@@ -142,10 +145,34 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.isPicture = url != null;
 
 			if ($scope.isPicture) {
+				var width = jwindow.width();
+
+				var size = '/';
+				if (width <= 640) {
+					size = '/resize/640/480/';
+				} else if (width <= 1280) {
+					size = '/resize/1280/720/';
+				} else if (width <= 1920) {
+					size = '/resize/1920/1080/';
+				}
+
+				$scope.fullUrl = multimediaServer + size + url;
 				$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
+
+				$scope.showPicture = () => {
+					$scope.fullscreenPicture = true;
+
+					window.setImmediate(() => {
+						cfpLoadingBar.start();
+
+						(<any>$('#picture-view')).imagesLoaded(() => {
+							cfpLoadingBar.complete();
+						});
+					});
+				}
 			}
 
-			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : {};
+			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
 
 			// The location is already displayed on the map
 			// delete $scope.thing.location;
@@ -156,6 +183,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			}
 		}
 	}, 10);
+
 
 	digestScope();
 
@@ -180,7 +208,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	};
 	thingModel.warehouse.RegisterObserver(observer);
 
-	var jwindow = $($window), jMap = $('#thing-map');
 
 	masterMap.closePopup();
 	masterMap.enableInteractions();
@@ -190,8 +217,14 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 
 	var setLayout = throttle(() => {
+		var width = jwindow.width();
+
+
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
+		if (width >= 768) {
+			jView.height(height - 11 /* margin bottom */);
+		}
 		masterMap.invalidateSize({});
 	}, 50);
 

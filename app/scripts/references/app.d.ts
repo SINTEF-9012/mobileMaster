@@ -147,7 +147,12 @@ interface KnowledgeService {
 	canOrder(thing: ThingModel.Thing): boolean;
 	canDelete(thing: ThingModel.Thing): boolean;
 
-	getPropertiesOrder(thingType: ThingModel.ThingType): {[key: string]: number};
+	getPropertiesOrder(thingType: ThingModel.ThingType): {
+		key: string;
+		required: boolean;
+		type: string;
+		score: number;
+	}[];
 }
 
 declare module L {

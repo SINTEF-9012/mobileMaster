@@ -66,7 +66,8 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 						var scopeProp: any = {
 							key: prop.Key,
 							required: prop.Required,
-							type: ThingModel.Type[prop.Type]
+							type: ThingModel.Type[prop.Type],
+							score: score + (prop.Required ? 1 : 0)
 						};
 
 						// TODO identify undefined source and fixe it
@@ -77,11 +78,8 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 							scopeProp.description = prop.Description;
 						}
 
-						list.push({
-							key: prop.Key,
-							property: scopeProp,
-							score: score + (prop.Required ? 1 : 0)
-						});
+
+						list.push(scopeProp);
 					}
 				});
 				list.sort((a, b) => {

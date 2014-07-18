@@ -678,12 +678,59 @@ body:not(.touch) .thing.row:hover,  {
 #thing-map {
     border-left: 1px solid #e7e7e7;
     border-top: 1px solid #e7e7e7;
-    margin-top:-20px;
+    // margin-top:-20px;
 }
+
+#thing-view > div {
+    margin-top:20px;
+}
+
 @media (min-width: $screen-md-min) {
-    #thing-map {
+    #thing-map, #thing-view {
         margin-top:-20px;
     }
+    
+    .properties-list {
+        overflow-y:auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+#picture-view {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 3000;
+    text-align: center;
+    background: black;
+    cursor: zoom-out;
+
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    div {
+        height:100%;
+        text-align: center;
+        font: 0/0 a;
+    }
+
+    div:before {
+        content: ' ';
+        display: inline-block;
+        vertical-align: middle;
+        height:100%;
+    }
+}
+
+#camera-thumbnail {
+    cursor: zoom-in;
 }
 
 img.identicon {
@@ -697,6 +744,7 @@ img.identicon {
     padding-left:24px;
     padding-right:26px;
     padding-bottom:11px;
+    word-wrap: break-word;
 }
 
 
