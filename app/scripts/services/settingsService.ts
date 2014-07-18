@@ -1,15 +1,24 @@
 angular.module('mobileMasterApp')
 	.config(($sceDelegateProvider: ng.ISCEDelegateProvider) => {
-	  if (window.localStorage && window.localStorage.hasOwnProperty('mediaServerUrl')) {
-		  $sceDelegateProvider.resourceUrlWhitelist([
-			  'self', window.localStorage.getItem('mediaServerUrl') + '/**']);
-	  } else {
-		  $sceDelegateProvider.resourceUrlWhitelist([
-			  'self', (
-			window.hasOwnProperty('defaultMediaServerUrl') ?
-				window['defaultMediaServerUrl'] : 
-			"http://" + window.location.hostname + ":8075/")]);
-	  }
+		var mediaServerUrl;
+
+		if (window.localStorage && window.localStorage.hasOwnProperty('mediaServerUrl')) {
+			mediaServerUrl = window.localStorage.getItem('mediaServerUrl');
+		} else if (window.hasOwnProperty('defaultMediaServerUrl')) {
+			mediaServerUrl = window['defaultMediaServerUrl'];
+		} else {
+			mediaServerUrl = "http://" + window.location.hostname + ":8075/";
+		}
+
+		if (mediaServerUrl[mediaServerUrl.length - 1] !== '/') {
+			mediaServerUrl += '/**';
+		} else {
+			mediaServerUrl += '**';
+		}
+
+		$sceDelegateProvider.resourceUrlWhitelist([
+			'self', mediaServerUrl
+		]);
 	})
 	.service('settingsService', function() {
 
