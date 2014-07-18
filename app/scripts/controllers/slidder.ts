@@ -9,9 +9,6 @@ angular.module('mobileMasterApp')
 		thingModel: ThingModelService,
 		itsa: ThingIdentifierService,
 		//$rootScope: MasterScope.Root,
-		$upload: any,
-		cfpLoadingBar: any,
-		settingsService: SettingsService,
 		filterService: FilterService,
 		$timeout: ng.ITimeoutService,
 		$state: ng.ui.IStateService,
@@ -133,23 +130,4 @@ angular.module('mobileMasterApp')
 			thingModel.warehouse.UnregisterObserver(observer);
 		});
 
-		$scope.onCapture = ($files) => {
-			var c = $('#camera-file-upload');
-			c.replaceWith(c.clone(true));
-
-			cfpLoadingBar.start();
-			$upload.upload({
-				url: settingsService.getMediaServerUrl() + '/upload',
-				file: $files
-			}).progress((e) => {
-				cfpLoadingBar.set(e.loaded / e.total);
-			}).success((data) => {
-				//console.log(data);
-				$state.go('camera', data);
-			}).error(() => {
-				alert("Sorry, file upload error");
-			}).then(() => {
-				cfpLoadingBar.complete();
-			});
-		};
 	});
