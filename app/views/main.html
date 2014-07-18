@@ -23,7 +23,7 @@
 						<div class="number-area">{{infos.Incidents.count || 0}}</div>	
 					</div>
 				</a>
-				<a class="col-xs-6 col-lg-4 infoblock victims-block"  href="{{infos.Victims.href}}">
+				<a class="col-xs-6 col-lg-4 infoblock victims-block"  href="{{infos.Victims.href || '/victims'}}">
 					<h3>Patients</h3>
 					<div class="infoblockview">
 						<div class="number-area" ng-show="!infos.Victims.count">{{infos.Victims.count || 0}}</div>	
@@ -81,6 +81,7 @@
 			<div class="row" id="main-map"></div>
 			<div class="row">
 				<a class="col-xs-12 infoblock mediablock" href="{{infos.Multimedias.href || '/Multimedias'}}" ng-controller="MultimediasCtrl" id="main-mediablock">
+					<h3 ng-show="medias.length == 0">Multimedias</h3>
 					<img ng-repeat="media in medias" ng-src="{{media.url}}" alt="" class="multimedia-thumbnail"/>
 				</a>
 			</div>

@@ -181,6 +181,13 @@ a.mediablock {
 		height: 128px;
 		width: 128px;
 	}
+
+	h3 {
+		align-self: flex-start;
+		margin-top: -12px;
+		margin-left: 12px;
+		padding-top: 0.6em;
+	}
 }
 
 /*@media (max-width: $screen-sm-max) {
