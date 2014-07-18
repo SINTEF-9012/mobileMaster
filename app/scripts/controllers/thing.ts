@@ -49,8 +49,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				thingModel.RemoveThing(id);
 				$state.go(stateBack, stateInfos);
 				deleteTimer = 0;
+			} else {
+				$scope.$digest();
 			};
-			$scope.$digest();
 		}, 1000);
 	};
 
