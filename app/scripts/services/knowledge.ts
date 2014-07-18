@@ -43,13 +43,11 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 					itsa.response(thing) ||
 					itsa.risk(thing);
 			},
-			getPropertiesOrder: (thingType: ThingModel.ThingType) =>
-			{
+			getPropertiesOrder: _.memoize((thingType: ThingModel.ThingType) => {
 				var scores = {};
-				_.each(knowledge, (k: Knowledge)=> {
+				_.each(knowledge, (k: Knowledge) => {
 					if (thingType.Name.match(k.typeName)) {
-						_.each(k.tablePropertiesOrder, (score, key) =>
-						{
+						_.each(k.tablePropertiesOrder, (score, key) => {
 							if (scores.hasOwnProperty(key)) {
 								scores[key] += score;
 							} else {
@@ -69,7 +67,7 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 							key: prop.Key,
 							required: prop.Required,
 							type: ThingModel.Type[prop.Type]
-					};
+						};
 
 						// TODO identify undefined source and fixe it
 						if (prop.Name !== "undefined") {
@@ -93,7 +91,7 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 				});
 
 				return list;
-			}
-		};
+			}, (thingType: ThingModel.ThingType) => thingType.Name)
+		}
 	};
 });
