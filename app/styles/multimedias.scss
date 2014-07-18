@@ -20,6 +20,34 @@
 			border-color: white;
 			// box-shadow: 0px 0px 4px rgba(255,255,255,0.75), 0px 0px 8px rgba(0,0,0,0.75);
 		}
+
+		span {
+			display:none;
+		}	
+
+		&.multimedias-video-link {
+			padding:0 2em;
+			background:black;
+
+			img {
+				height:128px;
+				width: 128px;
+			}
+
+			span {
+				display:inline;
+				position:absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				color: white;
+				font-size: 48px;
+				text-align: center;
+				line-height: 121px;
+				text-shadow: 0px 0px 11px rgba(0,0,0,0.5);
+			}
+		}
    	} 
 
    	.container-fluid > div {

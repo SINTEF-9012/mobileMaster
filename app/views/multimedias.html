@@ -16,18 +16,10 @@
 </header>
 
 <div class="container-fluid">
-
-		<!-- div masonry column-width="60" masonry-options="{columnWidth: 60, isFitWidth: true, gutter: 10}" style="margin:0 auto">
-			<a ui-sref="thing({ID: media.ID, from: 'multimedias'})" class="masonry-brick multimedias-link" ng-repeat="media in medias">
-				<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
-				<!- <video ng-if="media.video" ng-src="{{media.video ? media.src : null}}" controls reload="none" poster="{{media.url}}" width="320" height="240" loop>
-
-				<!- </video> ->
-			</a>	
-		<!- </div> -->
 	<div masonry='{"transitionDuration":"0.4s","itemSelector": ".multimedias-link", "columnWidth": 60, "isFitWidth": true, "gutter": 10}'>
-		<a ui-sref="thing({ID: media.ID, from: 'multimedias'})" masonry-tile class="multimedias-link" ng-repeat="media in medias">
+		<a ui-sref="thing({ID: media.ID, from: 'multimedias'})" masonry-tile class="multimedias-link" ng-repeat="media in medias" ng-class="media.video ? 'multimedias-video-link' : 'multimedias-image-link'">
 			<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
+			<span class="glyphicon glyphicon-play-circle"></span>
 		</a>	
 	</div>
 </div>
