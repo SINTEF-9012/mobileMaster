@@ -58,13 +58,13 @@ angular.module('mobileMasterApp')
 
 		if ($scope.isPicture) {
 			$scope.thumbnailUrl = s + '/resize/640/480/' + p;
-			var camThumb = $('#camera-thumbnail');
+			/*var camThumb = $('#camera-thumbnail');
 
-			camThumb.on('error', () => {
+			/*(<any>camThumb).imagesLoaded().fail(() => {
 				$('#camera-submit').removeClass('btn-primary').addClass('btn-danger').text('Publish anyway');
 				$('<div class="alert alert-danger">The picture seems to be broken.</div>').insertAfter(camThumb);
 //				camThumb.remove();
-			});
+			});*/
 		}
 		var position = masterMap.getCenter();
 
