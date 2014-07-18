@@ -27,7 +27,7 @@ angular.module('mobileMasterApp')
 	thingModel: ThingModelService,
 	$state: ng.ui.IStateService,
 	itsa: ThingIdentifierService,
-	Knowledge,
+	Knowledge: KnowledgeService,
 	masterMap: Master.Map) {
 
 	$scope.types = {};

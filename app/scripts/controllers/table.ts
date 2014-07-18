@@ -3,12 +3,12 @@
 
 'use strict';
 angular.module('mobileMasterApp')
-.config(function(KnowledgeProvider: any) {
+/*.config(function(KnowledgeProvider: any) {
 	KnowledgeProvider.addKnowledge({
 		typeName: /minecraft/,
 		tablePropertiesOrder: { healt: 6, pitch: 1 }
 	});
-})
+})*/
 .controller('TableCtrl', (
 	$scope: any,
 	thingModel : ThingModelService,

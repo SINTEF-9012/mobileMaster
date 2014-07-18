@@ -142,6 +142,14 @@ interface FilterService {
 	disableFilter(name: string, save?: boolean/* = true*/): void;
 }
 
+interface KnowledgeService {
+	canEdit(thing: ThingModel.Thing): boolean;
+	canOrder(thing: ThingModel.Thing): boolean;
+	canDelete(thing: ThingModel.Thing): boolean;
+
+	getPropertiesOrder(thingType: ThingModel.ThingType): {[key: string]: number};
+}
+
 declare module L {
 	export var Renderer: any;
 	export var Layer: any;

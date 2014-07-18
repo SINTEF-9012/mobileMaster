@@ -17,7 +17,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	itsa: ThingIdentifierService,
 	masterMap: Master.Map,
 	$window: ng.IWindowService,
-	Knowledge,
+	Knowledge : KnowledgeService,
 	thingModel: ThingModelService
 	) => {
 
@@ -80,7 +80,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		if (thing) {
 
 			$scope.unfound = false;
-				
+
 			thingModel.ApplyThingToScope($scope.thing, thing);
 
 			var location = thing.LocationLatLng();
@@ -103,8 +103,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					zoom = 16;
 				} else if (thingSpeed > 80.0 && oldZoom === 16.0) {
 					zoom = 16;
-				}
-				else if (thingSpeed > 18.0) {
+				} else if (thingSpeed > 18.0) {
 					zoom = 17;
 				} else if (thingSpeed > 15.0 && oldZoom === 17.0) {
 					zoom = 17;
@@ -117,6 +116,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				if ((oldPosition === null && !/^(thing|victim)/.test($rootScope.previousState)) ||
 					masterMap.getZoom() !== zoom || !masterMap.getBounds().pad(-0.2).contains(pos)) {
 					masterMap.setView(pos, zoom);
+					// TODO it's a bit ugly but it's july
+					window.setTimeout(() => masterMap.setView(pos, zoom), 4);
 				}
 
 				oldPosition = pos;
@@ -143,6 +144,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			if ($scope.isPicture) {
 				$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
 			}
+
+			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : {};
+
+			// The location is already displayed on the map
+			// delete $scope.thing.location;
 
 			if (!$scope.$$phase) {
 				$scope.$digest();
