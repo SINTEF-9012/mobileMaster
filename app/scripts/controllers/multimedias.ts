@@ -40,7 +40,7 @@ angular.module('mobileMasterApp')
 			return array;
 		}
 
-		var digestScope = throttle(() => {
+		var digestScope = _.debounce(() => {
 			if (currentList.length > 0) {
 				shuffleArray(currentList);
 
