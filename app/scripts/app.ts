@@ -9,7 +9,8 @@
 
 'use strict';
 
-angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment', 'masonry'])
+angular.module('mobileMasterApp', [
+	'ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment', 'masonry', 'FBAngular'])
   .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     if (!window.navigator.device) {

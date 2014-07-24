@@ -437,16 +437,18 @@ left: 2em;
 .camera-trigger {
     //position:relative;
     overflow:hidden;
-
+    cursor:pointer;
 
     input {
         position:absolute;
         z-index:12;
         top:0;
         right:0;
+        bottom:0;
+        left:0;
+        width:100%;
         margin:0;
         padding:0;
-        bottom:0;
         cursor:pointer;
         opacity:0;
     }
@@ -686,7 +688,7 @@ body:not(.touch) .thing.row:hover,  {
 }
 
 
-@media (min-width: $screen-md-min) {
+@media (min-width: $screen-xs-max) {
     #thing-map, #thing-view {
         margin-top:-20px;
     }
@@ -697,47 +699,6 @@ body:not(.touch) .thing.row:hover,  {
     }
 }
 
-#thing-view  video {
-    width:100%;
-    min-height:256px;
-}
-
-#picture-view {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 3000;
-    text-align: center;
-    background: black;
-    cursor: zoom-out;
-
-
-    img {
-        max-width: 100%;
-        max-height: 100%;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    div {
-        height:100%;
-        text-align: center;
-        font: 0/0 a;
-    }
-
-    div:before {
-        content: ' ';
-        display: inline-block;
-        vertical-align: middle;
-        height:100%;
-    }
-}
-
-#camera-thumbnail {
-    cursor: zoom-in;
-}
 
 img.identicon {
     image-rendering: pixelated;
@@ -821,7 +782,7 @@ img.identicon {
     margin-right: 5px;
 }
 
-.settings-controller {
+.settings-controller, .checklist-controller {
     height: auto;
     background: url(/images/settings_background.png) repeat;
 

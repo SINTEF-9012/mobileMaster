@@ -12,6 +12,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	$scope: any,
 	$stateParams: any,
 	cfpLoadingBar: any,
+	Fullscreen: any,
 	$rootScope: MasterScope.Root,
     persistentLocalization : PersistentLocalization,
 	settingsService: SettingsService,
@@ -181,15 +182,23 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 							(<any>$('#picture-view')).imagesLoaded(() => {
 								cfpLoadingBar.complete();
 							});
+
 						});
 					}
+
+					Fullscreen.$on('FBFullscreen.change', (e, isEnabled) => {
+						if (!isEnabled) {
+							$scope.fullscreenPicture = false;
+						}
+					});
+
 				}
 			}
 
 			//$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
 
 			// The location is already displayed on the map
-			delete $scope.thing.location; // TODO�TMP�MUST�USE�knowledge
+			delete $scope.thing.location; // TODO TMP MUST USE knowledge
 
 			if (!$scope.$$phase) {
 				$scope.$digest();

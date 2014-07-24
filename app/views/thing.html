@@ -39,7 +39,7 @@
 			<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail" ng-click="$parent.$parent.showPicture()"/>
 		</p>
 		<p ng-if="isVideo">
-			<video ng-src="{{fullUrl}}" controls preload="auto" poster="{{posterUrl}}" loop autoplay class="img-thumbnail"></video>
+			<video id="video{{thing.id}}" ng-src="{{fullUrl}}" controls preload="none" poster="{{posterUrl}}" loop autoplay fullscreen="videoFullscreen" ngi-click="videoFullscreen = !videoFullscreen"></video>
 		</p>
 
 		<div class="row" ng-repeat="(type,value) in thing">
@@ -57,8 +57,8 @@
 </div>
 </div>
 
-<div ng-if="fullscreenPicture" id="picture-view" ng-click="$parent.fullscreenPicture = false">
+<div ng-if="fullscreenPicture" id="picture-view" ng-click="$parent.fullscreenPicture = false" fullscreen="$parent.fullscreenPicture">
 	<div>
-		<img ng-src="{{fullUrl}}">
+		<img ng-src="{{fullUrl}}" alt="" />
 	</div>
 </div>
