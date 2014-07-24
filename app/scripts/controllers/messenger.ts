@@ -4,7 +4,8 @@ angular.module('mobileMasterApp')
 		.WhichIs('Chat message')
 		.ContainingA.String("author")
 		.AndA.String("content")
-		.AndA.DateTime("datetime").Build());
+		.AndA.DateTime("datetime")
+		.AndA.NotRequired.Int("number").Build());
 }).controller('MessengerCtrl', (
 	$scope: any,
 	$rootScope,
@@ -32,10 +33,14 @@ angular.module('mobileMasterApp')
 
 	var limit = $state.is('main') ? 8 : maxMsg;
 
+	var maxOrderNumber = 0;
+
 	angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
 		if (itsa.message(thing)) {
 			var s: any = {};
 			thingModel.ApplyThingToScope(s, thing);
+
+			maxOrderNumber = Math.max(maxOrderNumber, thing.Int("number"));
 
 			currentList.push(s);
 		}
@@ -45,7 +50,13 @@ angular.module('mobileMasterApp')
 	var digestScope = throttle(() => {
 
 		if (currentList.length > 0) {
-			currentList.sort((a, b) => a.datetime - b.datetime);
+			currentList.sort((a, b) => {
+				if (a.number && b.number) {
+					return a.number - b.number;
+				} else {
+					return a.datetime - b.datetime;
+				}
+			});
 
 			$scope.messages = $scope.messages.concat(currentList);
 
@@ -73,6 +84,7 @@ angular.module('mobileMasterApp')
 			if (itsa.message(thing)) {
 				var s : any = {};
 				thingModel.ApplyThingToScope(s, thing);
+				maxOrderNumber = Math.max(maxOrderNumber, thing.Int("number"));
 				currentList.push(s);
 				digestScope();
 			}
@@ -82,6 +94,7 @@ angular.module('mobileMasterApp')
 				var t = _.find($scope.messages, (s: any) => s.ID === thing.ID);
 				if (t) {
 					thingModel.ApplyThingToScope(t, thing);
+					maxOrderNumber = Math.max(maxOrderNumber, thing.Int("number"));
 
 					digestScope();
 				}
@@ -115,6 +128,7 @@ angular.module('mobileMasterApp')
 			thing.String('author', 'John Doe');
 			thing.String('content', $scope.messageContent);
 			thing.DateTime("datetime", now);
+			thing.Int("number", ++maxOrderNumber);
 		});
 
 		$scope.messageContent = '';
