@@ -15,7 +15,7 @@
     "setimmediate": "~1.0.1",
     "Leaflet.CanvasLayer": "yellowiscool/Leaflet.CanvasLayer#gh-pages",
     "Leaflet-MiniMap": "SINTEF-9012/Leaflet-MiniMap#master",
-    "ng-file-upload": "~1.4.0",
+    "ng-file-upload": "~1.6.1",
     "marked": "~0.3.2",
     "PruneCluster": "~0.6.0",
     "bootstrap-sass-official": "~3.2.0",
@@ -26,7 +26,8 @@
     "angular-moment": "~0.7.1",
     "lodash": "~2.4.1",
     "imagesloaded": "~3.1.8",
-    "angular-masonry-directive": "yellowiscool/angular-masonry-directive"
+    "angular-masonry-directive": "yellowiscool/angular-masonry-directive",
+    "angular-fullscreen": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.18",
