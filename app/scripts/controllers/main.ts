@@ -176,7 +176,7 @@ angular.module('mobileMasterApp')
 
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
-			height = jwindow.height() - column.offset().top - 6;
+			height = $window.innerHeight - column.offset().top - 6;
 
 		var lg = blocs.length / 2, windowWidth = jwindow.width();
 		if (windowWidth >= 1200) {
@@ -185,11 +185,18 @@ angular.module('mobileMasterApp')
 			lg = 4;
 		}
 
-		blocs.height(Math.max(Math.min(blocs.first().innerWidth(), Math.floor(height / lg))-12, 120));
-
 		var mediablockHeight = jMediablock.outerHeight();
 
+		var blockHeight = Math.max(Math.min(blocs.first().innerWidth(), Math.floor(height / lg)) - 12, 120);
 		var mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 300);
+
+		// If it's a mobile or a tablet in portrait
+		if (window.innerWidth <= 768) {
+			mapHeight = 360;
+			blockHeight = 180;
+		}
+
+		blocs.height(blockHeight);
 		jMap.height(mapHeight);
 		jChat.height(mapHeight - 8);
 		jTimeline.height(mediablockHeight - 12);
