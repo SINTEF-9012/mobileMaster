@@ -1,4 +1,5 @@
 /// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/modernizr/modernizr.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 
@@ -133,9 +134,14 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 			url: '/settings',
 			controller: 'SettingsCtrl',
 			templateUrl: 'views/settings.html'
+		})
+		.state('checklist', {
+			url: '/checklist',
+			controller: 'CheckListCtrl',
+			templateUrl: 'views/checklist.html'
 		});
 
-  }).run(($rootScope) => {
+  }).run(($rootScope: MasterScope.Root, $state: ng.ui.IStateService) => {
 	  $rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
 		$rootScope.previousState = fromState.name;
 		$rootScope.currentState = toState.name;
@@ -143,7 +149,18 @@ angular.module('mobileMasterApp', ['ui.router', 'angularFileUpload', 'angular-lo
 	$rootScope.$on('$stateChangeSuccess', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
 		$rootScope.bodyClass = toState.name.replace('.', '-controller ')+"-controller";
 	});
-});
+
+
+	// Check if the browser is compatible
+	// We need to wait a bit for the initialization of ui.state
+	// 3 seconds should be enough
+	window.setTimeout(() => {
+		if (!Modernizr.websockets || !Modernizr.canvas || !Modernizr.localstorage || !Modernizr.video || !Modernizr.audio) {
+			$state.go('checklist');
+		}
+	}, 3000);
+  });
+
 
 if (window.navigator.standalone) {
 	document.body.className += " standalone";

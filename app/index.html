@@ -28,6 +28,7 @@
 
     <!-- build:css styles/plugins.css -->
     <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+    <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
     <link rel="stylesheet" href="bower_components/leaflet/leaflet.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/src/loading-bar.css">
     <link rel="stylesheet" href="bower_components/Leaflet-MiniMap/src/Control.MiniMap.css">
@@ -53,9 +54,19 @@
 
     <div class="_container" ui-view="" autoscroll="false"></div>
 
-    <a href="/settings" id="thingmodelstatus" class="ng-hide" ng-show="!thingmodel.connected">
+    <a href="/settings" id="thingmodelstatus" class="ng-hide" ng-show="!thingmodel.connected" ng-cloack>
         {{!thingmodel || thingmodel.loading ? 'Connecting' : 'Reconnecting'}} <span class="glyphicon glyphicon-wrench"></span>
     </a>
+
+    <div class="container">
+        <h2 ng-show="false">Master <small>…loading</small></h2>
+        <noscript>
+            <div class="alert alert-danger" role="alert">
+                <strong>JavaScript unfound!</strong>
+                This application requires JavaScript. Please enable JavaScript or use a different navigator.
+            </div>
+        </noscript>
+    </div>
 
     <script>
     defaultThingModelUrl = 'wss://master-bridge.eu/thingmodel';
@@ -98,6 +109,7 @@
     <!-- build:js scripts/modules.js -->
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-loading-bar/src/loading-bar.js"></script>
+    <script src="scripts/modernizr.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -132,6 +144,7 @@
     <script src="scripts/controllers/summary.js"></script>
     <script src="scripts/controllers/multimedias.js"></script>
     <script src="scripts/controllers/messenger.js"></script>
+    <script src="scripts/controllers/checklist.js"></script>
 
     <script src="scripts/filters/distance.js"></script>
     <script src="scripts/filters/humanizeDistance.js"></script>

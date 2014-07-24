@@ -29,6 +29,9 @@ declare module MasterScope {
 			lastSenderName: string;
 			nbSend: number;
 		}
+
+		currentState: string;
+		bodyClass: string;
 	}
 
 	interface Settings extends ng.IScope {
