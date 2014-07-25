@@ -568,6 +568,13 @@ angular.module('mobileMasterApp')
 				instance.off('move', processView);
 			}
 
+			instance.showOverview = () => {
+				var oldSituationOverview = situationOverviewEnabled;
+				situationOverviewEnabled = true;
+				overviewWorker();
+				situationOverviewEnabled = oldSituationOverview;
+			}
+
 			instance.getLayerClass = (name: string) => this.layerClasses[name];
 
 			if (defaultLayerName) {

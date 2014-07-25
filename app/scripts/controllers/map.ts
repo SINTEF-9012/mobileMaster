@@ -15,8 +15,9 @@ angular.module('mobileMasterApp')
     $scope,
     masterMap : Master.Map,
     thingModel : ThingModelService,
-	$state: any,
+	$state: ng.ui.IStateService,
 	$window: ng.IWindowService,
+	hotkeys: ng.hotkeys.HotkeysProvider,
 	persistentLocalization: PersistentLocalization) {
 
 	masterMap.closePopup();
@@ -33,6 +34,23 @@ angular.module('mobileMasterApp')
 		masterMap.enableMiniMap();
 	});
 
+	// The <any> is ugly. A pull-request on definitelyTyped is on the way
+	(<any>hotkeys.bindTo($scope)
+		.add({
+			combo: 'f',
+			description: 'Change filters',
+			callback: () => $state.go('filters')
+		})
+		).add({
+			combo: 'b',
+			description: 'Map background filters',
+			callback: () => $state.go('background')
+		})
+		.add({
+			combo: '0',
+			description: 'Center the map on the situation',
+			callback: () => masterMap.showOverview()
+		});
     /*var markersThings : {[ID: string] : PruneCluster.Marker} = {};
 
     // Manage markers
