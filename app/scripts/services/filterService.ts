@@ -31,6 +31,10 @@ angular.module('mobileMasterApp')
 			enabled: false,
 			filter: (thing) => itsa.resource(thing)
 		},
+		"Responses": {
+			enabled: false,
+			filter: (thing) => itsa.response(thing)
+		},
 		"Incidents": {
 			enabled: false,
 			filter: (thing) => itsa.incident(thing)
