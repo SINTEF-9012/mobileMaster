@@ -182,6 +182,14 @@ if (!!("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 0) {
 	});
 }
 
+if (window.applicationCache) {
+	window.applicationCache.addEventListener('updateready', function () {
+		if (confirm('An new version of Master is available. Restart now?')) {
+			window.location.reload();
+		}
+	});
+}
+
 if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {
 	document.body.parentElement.className = "ipad ios7";
 

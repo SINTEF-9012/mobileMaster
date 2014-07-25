@@ -361,7 +361,27 @@ module.exports = function (grunt) {
         }]
       }
     },
-    
+    manifest: {
+      dist: {
+        options: {
+          basePath: './dist/',
+          verbose: false,
+          preferOnline: true,
+          fallback: ['/ index.html']
+        },
+        src: [
+          'index.html',
+          'styles/*.css',
+          'scripts/*.js',
+          'views/*.html',
+          'images/*.png',
+          'images/icons/*.png',
+          'fonts/*-webfont.{eot,svg,ttf,woff}',
+          'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*'
+        ],
+        dest: './dist/cache.manifest'
+      }
+    } 
   });
 
   grunt.event.on('watch', function(action, filepath) {
@@ -419,7 +439,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     // 'rev',
-    'usemin'
+    'usemin',
+    'manifest'
   ]);
 
   grunt.registerTask('default', [
