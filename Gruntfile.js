@@ -57,6 +57,10 @@ module.exports = function (grunt) {
           options: {
             spawn: false, //important so that the task runs in the same context
           }
+      },
+      manifest: {
+        files: ['<%= yeoman.app %>/index.html'],
+        tasks: ['manifest:dynamic']
       }
     },
     ts: {
@@ -325,7 +329,8 @@ module.exports = function (grunt) {
       },
       server: [
         'compass:server',
-        'copy:styles'
+        'copy:styles',
+        'manifest:dynamic'
       ],
       test: [
         'compass',
@@ -379,6 +384,13 @@ module.exports = function (grunt) {
           'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*.woff'
         ],
         dest: './dist/cache.manifest'
+      },
+      dynamic: {
+        options: {
+          basePath: './app/'
+        },
+        src: ['index.html'],
+        dest: './app/cache.manifest'
       }
     } 
   });
@@ -426,7 +438,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'ts:build',
+    //'ts:build',
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',

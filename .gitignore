@@ -5,6 +5,7 @@ dist
 .tscache
 obj
 app/bower_components
+app/cache.manifest
 app/scripts/**/*.d.ts
 app/scripts/**/*.js
 app/scripts/**/*.js.map
