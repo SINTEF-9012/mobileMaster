@@ -11,11 +11,13 @@
 
 angular.module('mobileMasterApp', [
 	'ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment', 'masonry', 'FBAngular'])
-  .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider) {
 
     if (!window.navigator.device) {
       $locationProvider.html5Mode(true);
-    }
+	}
+
+	cfpLoadingBarProvider.includeSpinner = false;
 
     $urlRouterProvider.otherwise("/");
 	$stateProvider
