@@ -138,6 +138,7 @@ angular.module('mobileMasterApp')
 	var jwindow = $($window);
 
 	var scrollDown = () => {
+		jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 		window.setTimeout(() => {
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 		}, 10);

@@ -193,7 +193,10 @@ header + .container-fluid.messenger-fullscreen {
 	margin-top:0;
 	padding-top:20px;
 	overflow-y:auto;
-	-webkit-overflow-scrolling: touch;
+
+	// This is no longer working
+	// (the view can be hidden before an user input)
+	// -webkit-overflow-scrolling: touch;
 }
 
 footer.chat-input {
