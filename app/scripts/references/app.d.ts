@@ -24,6 +24,8 @@ declare module Master {
 		enableSituationOverview();
 		disableSituationOverview();
 
+		showOverview();
+
 		setVerticalTopMargin(margin: number);
 
 		getLayerClass(name: string): L.ILayer;
