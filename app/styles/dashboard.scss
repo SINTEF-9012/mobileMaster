@@ -156,7 +156,19 @@ a.infoblock {
 
 a.infoblock.victims-block {
 
+	.infoblockview {
+		position:relative;
+	}
+	
     .barchart-area {
+    	/* This is ugly but Chrome has a bug with 
+    	flexbox and the dynamic height of the charts */
+		position: absolute;
+		top:0;
+		right:0;
+		bottom:0;
+		left:0;
+
         padding:0;
         height:100%;
 
