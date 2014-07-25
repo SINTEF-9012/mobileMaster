@@ -375,8 +375,8 @@ module.exports = function (grunt) {
           'scripts/*.js',
           'views/*.html',
           'images/*.png',
-          'fonts/*-webfont.{eot,svg,ttf,woff}',
-          'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*'
+          'fonts/*-webfont.woff',
+          'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*.woff'
         ],
         dest: './dist/cache.manifest'
       }
