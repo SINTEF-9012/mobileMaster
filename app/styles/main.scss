@@ -434,9 +434,12 @@ left: 2em;
     border-radius: 0;
 }
 
+camera-trigger {
+    overflow:hidden;
+}
+
 .camera-trigger {
     //position:relative;
-    overflow:hidden;
     cursor:pointer;
 
     input {
