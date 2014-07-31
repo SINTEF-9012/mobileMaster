@@ -40,6 +40,7 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 			canDelete: (thing: ThingModel.Thing) => {
 				return itsa.multimedia(thing) ||
 					itsa.order(thing) ||
+					itsa.incident(thing) ||
 					itsa.response(thing) ||
 					itsa.risk(thing);
 			},

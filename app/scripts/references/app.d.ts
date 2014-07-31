@@ -174,3 +174,5 @@ declare module L {
 declare var throttle: (fn: () => void, wait: number, options?: any) => () => void;
 
 declare var PruneClusterLeafletSpiderfier: any;
+
+declare var RGBaster: any;

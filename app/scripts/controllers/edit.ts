@@ -1,4 +1,4 @@
-﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
@@ -14,7 +14,8 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	thingModel: ThingModelService
 	) => {
 
-	$scope.$parent.showSaveButton = true;
+	//$scope.$parent.returnLink = $state.href('^');
+	/*$scope.$parent.showSaveButton = true;*/
 	$scope.$parent.hideToolbarButtons = true;
 
 //	var layer = masterMap.getLayerClass("sight");
