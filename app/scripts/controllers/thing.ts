@@ -63,6 +63,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	$scope.cancelDeleteTimer = () => {
 		window.clearInterval(deleteTimer);
+		deleteTimer = 0;
 		$scope.deleteTimerRunning = false;
 		$scope.hideToolbarButtons = false;
 	};
