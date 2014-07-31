@@ -125,6 +125,11 @@ angular.module('mobileMasterApp', [
 			controller: 'MultimediasCtrl',
 			templateUrl: 'views/multimedias.html'
 		})
+		.state('media', {
+			url: '/media/:ID?from',
+			controller: 'ThingCtrl',
+			templateUrl: 'views/media.html'
+		})
 		.state('messenger', {
 			url: '/messenger?from',
 			controller: 'MessengerCtrl',

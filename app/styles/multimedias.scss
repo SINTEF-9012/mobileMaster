@@ -2,7 +2,7 @@
 @import "compass";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
 
-.multimedias-controller {
+.multimedias-controller, .media-controller {
     background: $gray-darker;
     color:white;
 
@@ -50,9 +50,14 @@
 		}
    	} 
 
-   	.container-fluid > div {
+   	& > .container-fluid > div {
    		margin: 0 auto;
    	}
+
+    #thing-map {
+        border-left-color: $gray-darker;
+        border-top-color: $gray-darker;
+    }
 }
 
 #thing-view  video {
@@ -103,4 +108,19 @@
 
 #camera-thumbnail {
     cursor: zoom-in;
+}
+
+.media-view {
+    margin-left: -8px;
+    margin-right: -8px;
+
+    .img-thumbnail {
+        border-radius:0;
+        border:none;
+        padding:0;
+    }
+}
+
+.media-properties {
+    margin-top:18px;
 }

@@ -1,0 +1,66 @@
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top multimedias-navbar" role="navigation">
+	  <div class="container-fluid">
+	  	<div class="row">
+	  		
+		    <a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+		    <h3 class="col-xs-8 identicon">
+		    	<identicon id="id" />
+	    		{{thing.name}}
+	    		<span class="text-danger ng-hide" ng-show="unfound">Thing not found</span>
+	    	</h3>
+
+
+	    	<button type="button" class="btn btn-danger navbar-btn pull-right ng-hide" ng-click="cancelDeleteTimer()" ng-show="deleteTimerRunning">Cancel deletion ({{delay}})</button>
+
+	    	<div class="btn-group navbar-btn-group pull-right" ng-show="!hideToolbarButtons">
+	    		<!-- <a ui-sref="thing.edit" class="btn navbar-btn btn-primary ng-hide" ng-show="canEdit">Edit</a> -->
+	    		<button type="button" ng-click="startDeleteTimer()" class="btn navbar-btn btn-primary ng-hide" ng-show="canDelete">Delete</a>
+	    	</div>
+
+	    </div>
+	  </div>
+	</nav>
+</header>
+
+<div class="container-fluid">
+
+<div class="row" >
+<div class="col-sm-5 col-lg-4 properties-list" id="thing-view">
+
+	<div ui-view>
+		<p ng-if="isPicture" class="media-view">
+			<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail" ng-click="$parent.$parent.showPicture()"/>
+		</p>
+		<p ng-if="isVideo" class="media-view">
+			<video id="video{{thing.id}}" ng-src="{{fullUrl}}" controls preload="none" poster="{{posterUrl}}" loop autoplay fullscreen="videoFullscreen" ngi-click="videoFullscreen = !videoFullscreen"></video>
+		</p>
+
+		<div class="row media-properties">
+			<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
+				<div class="thingInfobox">
+					<h3>{{type}}</h3>	
+					<div class="infoboxview">
+						<span>{{value}}</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="row" ng-repeat="type in knowledge">
+			<h3>{{type}}</h3>	
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
+</div>
+</div>
+</div>
+
+<div ng-if="fullscreenPicture" id="picture-view" ng-click="$parent.fullscreenPicture = false" fullscreen="$parent.fullscreenPicture">
+	<div>
+		<img ng-src="{{fullUrl}}" alt="" />
+	</div>
+</div>

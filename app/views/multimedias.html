@@ -17,7 +17,7 @@
 
 <div class="container-fluid">
 	<div masonry='{"transitionDuration":"0.4s","itemSelector": ".multimedias-link", "columnWidth": 60, "isFitWidth": true, "gutter": 10}'>
-		<a ui-sref="thing({ID: media.ID, from: 'multimedias'})" masonry-tile class="multimedias-link" ng-repeat="media in medias" ng-class="media.video ? 'multimedias-video-link' : 'multimedias-image-link'">
+		<a ui-sref="media({ID: media.ID, from: 'multimedias'})" masonry-tile class="multimedias-link" ng-repeat="media in medias" ng-class="media.video ? 'multimedias-video-link' : 'multimedias-image-link'">
 			<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
 			<span class="glyphicon glyphicon-play-circle"></span>
 		</a>	
