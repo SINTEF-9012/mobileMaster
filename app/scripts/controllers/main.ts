@@ -170,9 +170,8 @@ angular.module('mobileMasterApp')
     masterMap.disableMiniMap();
     masterMap.disableScale();
 
-
 	var jwindow = $($window);
-	var setLayout = throttle(() => {
+	var setLayout = _.debounce(() => {
 
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
@@ -188,7 +187,7 @@ angular.module('mobileMasterApp')
 		var mediablockHeight = jMediablock.outerHeight();
 
 		var blockHeight = Math.max(Math.min(blocs.first().innerWidth(), Math.floor(height / lg)) - 12, 120);
-		var mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 300);
+		var mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 270);
 
 		// If it's a mobile or a tablet in portrait
 		if (window.innerWidth <= 768) {
@@ -207,7 +206,7 @@ angular.module('mobileMasterApp')
 
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 		});
-	}, 100);
+	}, 42);
 
 
 	var statsVictims: { [color: string]: number }, nbVictims = 0;
