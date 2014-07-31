@@ -171,7 +171,7 @@ angular.module('mobileMasterApp')
     masterMap.disableScale();
 
 	var jwindow = $($window);
-	var setLayout = _.debounce(() => {
+	var setLayout = throttle(() => {
 
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
@@ -206,7 +206,7 @@ angular.module('mobileMasterApp')
 
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 		});
-	}, 42);
+	}, 200);
 
 
 	var statsVictims: { [color: string]: number }, nbVictims = 0;
