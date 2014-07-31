@@ -28,7 +28,8 @@
     "imagesloaded": "~3.1.8",
     "angular-masonry-directive": "yellowiscool/angular-masonry-directive",
     "angular-fullscreen": "*",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0",
+    "rgbaster": "9d580f15363d0836233d6bc969a07678570a8952"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.18",

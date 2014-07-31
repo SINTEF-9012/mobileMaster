@@ -30,7 +30,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var id = $stateParams.ID;
 	var stateBack = $state.is('victim') ? 'victims' : 'table',
-		stateInfos = {thingtype: 'all'};
+		stateInfos = { thingtype: 'all' },
+		isMedia = false;
 
 	$scope.from = $stateParams.from;
 	$scope.id = id;
@@ -144,7 +145,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.canDelete = Knowledge.canDelete(thing);
 
 			var url = $scope.thing.url;
-			var isMedia = url != null && itsa.media(thing);
+			isMedia = url != null && itsa.media(thing);
 
 			if (isMedia) {
 
@@ -154,9 +155,12 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				// TODO not so beautiful
 				delete $scope.thing.url;
 
+				var smallThumbnailUrl = multimediaServer + '/thumbnail/' + url;
+				console.log(smallThumbnailUrl);
+
 				if ($scope.isVideo) {
 					$scope.fullUrl = multimediaServer + '/' + url;
-					$scope.posterUrl = multimediaServer + '/thumbnail/' + url;
+					$scope.posterUrl = smallThumbnailUrl;
 				}
 
 				if ($scope.isPicture) {
@@ -194,6 +198,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					});
 
 				}
+
+				colorFromImage(smallThumbnailUrl);
 			}
 
 			//$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
@@ -239,15 +245,22 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.disableMiniMap();
 	masterMap.unfilterThing(id);
 
+	var tileColor = null, oldTileColor = null;
 
 	var setLayout = throttle(() => {
 		var width = jwindow.width();
 
+		if (tileColor !== oldTileColor) {
+			oldTileColor = tileColor;
+			setTilesColors(tileColor);
+		}
 
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
 		if (width >= 768) {
 			jView.height(height - 11 /* margin bottom */);
+		} else {
+			jView.height('auto');
 		}
 		masterMap.invalidateSize({});
 	}, 50);
@@ -268,4 +281,41 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	setLayout();
 	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
+
+	function whiteOrBlack(color: string) {
+		var match = color.match(/rgb\((\d+),(\d+),(\d+)\)/),
+			r = parseInt(match[1]),
+			g = parseInt(match[2]),
+			b = parseInt(match[3]),
+
+			// lightness (from HSL)
+			max = Math.max(r, g, b),
+			min = Math.min(r, g, b),
+			l = (max + min) / 2;
+
+		return l > 128 ? 'black' : 'white';
+	}
+
+	function setTilesColors(color) {
+		tileColor = color;
+		$('.victimInfobox, .thingInfobox').css({
+			'background': color,
+			'color': whiteOrBlack(color)
+		});
+	}
+
+	function colorFromImage(img, exclude = false) {
+		RGBaster.colors(img, {
+			paletteSize: 3,
+			exclude: exclude ? ['rgb(255,255,255)'] : undefined,
+			success: (e) => setTilesColors(e.dominant)
+		});
+	}
+
+	// ReSharper disable once ExpressionIsAlwaysConst
+	if (!isMedia) {
+		var imgIdenticon = $('img.identicon');
+		(<any>imgIdenticon).imagesLoaded(() => colorFromImage(imgIdenticon.get(0), true));
+	}
+
 }); 
