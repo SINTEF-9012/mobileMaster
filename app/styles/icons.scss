@@ -341,13 +341,17 @@ master-icon {
 	float:left;
 	margin-right:7px;
 	border:1px solid black;
-	// box-shadow: 2px 2px 8px rgba(255,255,255,0.5) inset,-2px -2px 6px rgba(0,0,0,0.33) inset;
+    // cartoon/flat shadow
+    box-shadow: -1px -2px 0px 0px rgba(0, 0, 0, 0.2) inset,
+        1px 1px 0px 0px rgba(255, 255, 255, 0.3) inset
 }
 
 .map master-icon.patient {
-	background:black;
-	border-radius:50%;
+	//background:black;
+	//border-radius:50%;
 	// box-shadow:0px 0px 10px rgba(0,0,0,0.66);
+    // It's maybe an optimization
+	text-shadow: none;
 }
 .map master-icon .triage-light {
 	height:38px;
@@ -355,7 +359,11 @@ master-icon {
 	margin-top:1px;
 	margin-left:1px;
 	border-radius:50%;
-	border:2px solid white;
+	// border:2px solid white;
+	border: none;
+    box-shadow: -3px -4px 0px 0px rgba(0, 0, 0, 0.2) inset,
+        2px 1px 0px 0px rgba(255, 255, 255, 0.35) inset,
+        0 0 0 1px rgba(0,0,0,0.35);
 }
 
 .map master-icon .glyphicon {

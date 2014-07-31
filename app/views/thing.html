@@ -12,8 +12,8 @@
 	    	</h3>
 
 
-	    	<button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSaveButton">Save</button>
-	    	<button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSendButton">Send</button>
+	    	<!-- <button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSaveButton">Save</button> -->
+	    	<!-- <button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSendButton">Send</button> -->
 
     		<a ui-sref="order({ID:id, from: from})" class="btn navbar-btn pull-right btn-primary ng-hide" ng-show="canOrder">Order</a>
 
@@ -32,19 +32,19 @@
 <div class="container-fluid">
 
 <div class="row" >
-<div class="col-sm-5 col-lg-3 properties-list" id="thing-view">
+<div class="col-sm-5 col-lg-4 properties-list" id="thing-view">
 
 	<div ui-view>
-		<p ng-if="isPicture">
-			<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail" ng-click="$parent.$parent.showPicture()"/>
-		</p>
-		<p ng-if="isVideo">
-			<video id="video{{thing.id}}" ng-src="{{fullUrl}}" controls preload="none" poster="{{posterUrl}}" loop autoplay fullscreen="videoFullscreen" ngi-click="videoFullscreen = !videoFullscreen"></video>
-		</p>
+		<div class="row">
+			<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
+				<div class="thingInfobox">
+					<h3>{{type}}</h3>	
+					<div class="infoboxview">
+						<span>{{value}}</span>
+					</div>
+				</div>
+			</div>
 
-		<div class="row" ng-repeat="(type,value) in thing">
-			<h3>{{type}}</h3>	
-			<p>{{value}}</p>
 		</div>
 		<div class="row" ng-repeat="type in knowledge">
 			<h3>{{type}}</h3>	
@@ -52,7 +52,7 @@
 	</div>
 </div>
 
-<div class="col-sm-7 col-lg-9" id="thing-map" ng-hide="hideMap"></div>
+<div class="col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
 </div>
 </div>
 </div>
