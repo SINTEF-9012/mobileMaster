@@ -32,27 +32,23 @@
 	<div class="container-fluid">
 
 		<div class="row" >
-			<div class="col-sm-5 col-lg-4 properties-list" id="thing-view">
+			<div class="col-sm-5 col-lg-4 properties-list" ng-class="hideMap ? 'col-xs-12 col-sm-12 col-lg-12' : ''" id="thing-view">
 
 				<div ui-view>
 					<div class="row">
-						<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
+						<div class="col-xs-6" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
 							<div class="thingInfobox">
-								<h3>{{type}}</h3>	
+								<h3>{{type.name}}</h3>	
 								<div class="infoboxview">
-									<span>{{value}}</span>
+									<thing-property value="thing[type.key]" key="{{type.key}}"></thing-property>
 								</div>
 							</div>
 						</div>
-
-					</div>
-					<div class="row" ng-repeat="type in knowledge">
-						<h3>{{type}}</h3>	
 					</div>
 				</div>
 			</div>
 
-			<div class="col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
+			<div class="col-xs-12 col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
 		</div>
 	</div>
 </div>

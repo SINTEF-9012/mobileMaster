@@ -152,11 +152,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				$scope.isVideo = /video/i.test(thing.Type.Name);
 				$scope.isPicture = !$scope.isVideo;
 
-				// TODO not so beautiful
-				delete $scope.thing.url;
-
 				var smallThumbnailUrl = multimediaServer + '/thumbnail/' + url;
-				console.log(smallThumbnailUrl);
+				//console.log(smallThumbnailUrl);
 
 				if ($scope.isVideo) {
 					$scope.fullUrl = multimediaServer + '/' + url;
@@ -202,10 +199,32 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				colorFromImage(smallThumbnailUrl);
 			}
 
-			//$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
+			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
 
-			// The location is already displayed on the map
-			delete $scope.thing.location; // TODO TMP MUST USE knowledge
+			var missingProperties: { [key: string]: boolean } = {
+				ID: true,
+				type: true,
+				location: true
+			};
+
+			_.each($scope.knowledge, (property: any) => missingProperties[<string>(property.key)] = true);
+
+			_.each($scope.thing, (value, key) => {
+				if (!missingProperties[key]) {
+					if (key !== 'name' /*|| $scope.thing.description !== $scope.thing.name*/ ||
+					(key !== 'undefined' && !$scope.thing.undefined)) {
+						$scope.knowledge.push({
+							key: key,
+							required: false,
+							score: 0,
+							name: key.charAt(0).toUpperCase() + key.slice(1)
+						});
+					}
+				}
+			});
+
+			// The name information is already in the page title
+			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 && k.key !== 'name');
 
 			if (!$scope.$$phase) {
 				$scope.$digest();
@@ -257,7 +276,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
-		if (width >= 768) {
+		if (width >= 768 && !$scope.hideMap) {
 			jView.height(height - 11 /* margin bottom */);
 		} else {
 			jView.height('auto');

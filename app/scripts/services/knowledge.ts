@@ -4,15 +4,24 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 
 	var knowledge = [
 		{
-			typeName: "", // default
-			tablePropertiesOrder: { name : 10, location: -1} /*,
-			icon: (thing)=> {
-				return L.marker();
-			}*/
+			typeName: null, // default
+			tablePropertiesOrder: { name : 10, location: -5}
 		},
 		{
-			typeName: "vehicle",
+			typeName: "tweets",
+			tablePropertiesOrder: {
+				description: 5,
+				tags: 3,
+				available: 2
+			}	
+		},
+		{
+			typeName: "resources",
 			tablePropertiesOrder: { speed: 5 }
+		},
+		{
+			typeName: "medias",
+			tablePropertiesOrder: {url: -1}
 		}
 	];
 
@@ -20,7 +29,16 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 		knowledge.push(k);
 	};
 
-	this.$get = (itsa: ThingIdentifierService)=> {
+	this.$get = (itsa: ThingIdentifierService) => {
+
+		_.each(knowledge, (k: Knowledge) => {
+			if (k.typeName) {
+				k.typeTest = itsa.testfor(k.typeName);
+			} else {
+				k.typeTest = /^/;
+			}
+		});
+
 		return {
 			canOrder: (thing: ThingModel.Thing) => {
 				if (!itsa.resource(thing)) {
@@ -47,7 +65,7 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 			getPropertiesOrder: _.memoize((thingType: ThingModel.ThingType) => {
 				var scores = {};
 				_.each(knowledge, (k: Knowledge) => {
-					if (thingType.Name.match(k.typeName)) {
+					if (k.typeTest.test(thingType.Name)) {
 						_.each(k.tablePropertiesOrder, (score, key) => {
 							if (scores.hasOwnProperty(key)) {
 								scores[key] += score;
@@ -63,7 +81,7 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 				_.each(thingType.Properties, (prop: ThingModel.PropertyType) => {
 					var score = scores[prop.Key] || 0;
 
-					if (score >= 0) {
+					if (prop.Key !== "undefined") {
 						var scopeProp: any = {
 							key: prop.Key,
 							required: prop.Required,
@@ -74,7 +92,10 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 						// TODO identify undefined source and fixe it
 						if (prop.Name !== "undefined") {
 							scopeProp.name = prop.Name;
+						} else {
+							scopeProp.name = prop.Key.charAt(0).toUpperCase() + prop.Key.slice(1);
 						}
+
 						if (prop.Description !== "undefined") {
 							scopeProp.description = prop.Description;
 						}

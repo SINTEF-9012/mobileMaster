@@ -1,39 +1,56 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-  .directive('thingProperty', (settingsService: SettingsService) => {
+	.directive('thingProperty', (
+		settingsService: SettingsService,
+	    $compile: ng.ICompileService
+) => {
     return {
-      template: '<span>{{value}}</span>',
+      template: '<span>{{result}}</span>',
 		restrict: 'E',
 		scope: {
-			thing: '=thing',
-			property: '=property'
+			value: '='
 		},
-		link: (scope, element : JQuery, attrs) => {
-			var type = scope.property.property.type,
-				key = scope.property.key;
+		link: (scope, element: JQuery, attrs) => {
 
-			scope.key = key;
+			var key = attrs.key;
 
-			scope.$watch('thing[key]', (value) => {
+			scope.$watch('value', (value) => {
 
-				element.addClass("thing-property-" + key);
-				element.addClass("thing-property-" + type.replace(/\s+/g, '-').toLowerCase());
+				var type = 'default';
+
+				if (_.isNumber(value)) {
+					type = 'Number';
+				} else if (_.isDate(value)) {
+					type = 'DateTime';
+				} else if (_.isBoolean(value)) {
+					type = 'Boolean';
+				}
+
+				element.removeClass().addClass("thing-property-" + key + " thing-property-" + type.replace(/\s+/g, '-').toLowerCase());
 
 				if (type === 'DateTime') {
-					scope.value = value ? value.toLocaleString(window.navigator.userLanguage || window.navigator.language) : '';
-				}
-				else if (type === 'Double') {
-					scope.value = parseFloat(value === null ? 0.0 : value).toLocaleString([]);
-				} else if (type === 'Boolean') {
-					var v = !!value;
-					scope.value = v;
+					scope.result = value ? value.toLocaleString(window.navigator.userLanguage || window.navigator.language) : '';
 
-					element.prepend(v ?
+					var roger = $('<p class="date" am-time-ago="value"></p>');
+					$compile(roger)(scope);
+					element.append(roger);
+				}
+				else if (type === 'Number') {
+					scope.result = value.toLocaleString([]);
+				} else if (type === 'Boolean') {
+					scope.result = '';
+
+					element.prepend(value ?
 						'<span class="glyphicon glyphicon-ok"></span> ' :
 						'<span class="glyphicon glyphicon-remove"></span> ');
 				} else {
-					scope.value = value ? value : '';
+					if (value) {
+						scope.result = value;
+					} else {
+						scope.result = '\u2205';
+						element.addClass("thing-property-empty");
+					}
 				}
 
 				// TODO transfer this stuff somewhere else
@@ -47,13 +64,13 @@ angular.module('mobileMasterApp')
 							element.prepend(heart.clone());
 						}
 					}
-					scope.value = "";
-				} else if (key === 'status' || key === 'triage_status') {
+					scope.result = "";
+				} else if (/*key === 'status' || */key === 'triage_status') {
 					var light = $('<div class="triage-light"></div>');
 					light.css('background', value.toLowerCase());
 					element.prepend(light);
 				} else if (type === 'String' && key === 'url') {
-					scope.value = '';
+					scope.result = '';
 					var proxy = settingsService.getMediaServerUrl();
 					var href =  proxy +'/'+ value;
 					var a = $('<a target="_blank"/>').attr('href', href).text('Open');

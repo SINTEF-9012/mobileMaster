@@ -78,8 +78,9 @@ declare module MasterScope {
 }
 
 interface Knowledge {
-	typeName: RegExp;
-	tablePropertiesOrder: {[key: string] : number};
+	typeName: string;
+	tablePropertiesOrder: { [key: string]: number };
+	typeTest?: RegExp;
 //	icon(thing: ThingModel.Thing): L.Icon;
 }
 

@@ -1,12 +1,12 @@
 @import "_settings";
 
-.thing-property-triage_status, .thing-property-status, .thing-property-boolean {
+/*.thing-property-triage_status, .thing-property-status, .thing-property-boolean {
 	color:$gray-light;
 
 	.glyphicon {
 		color:black;
 	}
-}
+}*/
 
 .master-table thing-property img {
 	max-width:64px;
@@ -15,4 +15,15 @@
 	&.img-thumbnail {
 		padding:0px;
 	}
+}
+
+.thing-property-datetime {
+	.date {
+		font-size:90%;
+	}
+}
+
+.thing-property-empty {
+	opacity: 0.25;
+	font-size: 2em;
 }
