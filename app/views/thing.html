@@ -1,64 +1,58 @@
 <header>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	  <div class="container-fluid">
-	  	<div class="row">
-	  		
-		    <a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		<div class="container-fluid">
+			<div class="row">
+				
+				<a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
-		    <h3 class="col-xs-8 identicon">
-		    	<identicon id="id" />
-	    		{{thing.name}}
-	    		<span class="text-danger ng-hide" ng-show="unfound">Thing not found</span>
-	    	</h3>
+				<h3 class="col-xs-8 identicon">
+					<identicon id="id" />
+					{{thing.name}}
+					<span class="text-danger ng-hide" ng-show="unfound">Thing not found</span>
+				</h3>
 
 
-	    	<!-- <button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSaveButton">Save</button> -->
-	    	<!-- <button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSendButton">Send</button> -->
+				<!-- <button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSaveButton">Save</button> -->
+				<!-- <button type="button" class="btn btn-primary navbar-btn pull-right ng-hide" ng-click="save(true)" ng-show="showSendButton">Send</button> -->
 
-    		<a ui-sref="order({ID:id, from: from})" class="btn navbar-btn pull-right btn-primary ng-hide" ng-show="canOrder">Order</a>
+				<a ui-sref="order({ID:id, from: from})" class="btn navbar-btn pull-right btn-primary ng-hide" ng-show="canOrder">Order</a>
 
-	    	<button type="button" class="btn btn-danger navbar-btn pull-right ng-hide" ng-click="cancelDeleteTimer()" ng-show="deleteTimerRunning">Cancel deletion ({{delay}})</button>
+				<button type="button" class="btn btn-danger navbar-btn pull-right ng-hide" ng-click="cancelDeleteTimer()" ng-show="deleteTimerRunning">Cancel deletion ({{delay}})</button>
 
-	    	<div class="btn-group navbar-btn-group pull-right" ng-show="!hideToolbarButtons">
-	    		<a ui-sref="thing.edit" class="btn navbar-btn btn-default ng-hide" ng-show="canEdit">Edit</a>
-	    		<button type="button" ng-click="startDeleteTimer()" class="btn navbar-btn btn-default ng-hide" ng-show="canDelete">Delete</a>
-	    	</div>
+				<div class="btn-group navbar-btn-group pull-right" ng-show="!hideToolbarButtons">
+					<a ui-sref="thing.edit" class="btn navbar-btn btn-default ng-hide" ng-show="canEdit">Edit</a>
+					<button type="button" ng-click="startDeleteTimer()" class="btn navbar-btn btn-default ng-hide" ng-show="canDelete">Delete</a>
+					</div>
 
-	    </div>
-	  </div>
-	</nav>
-</header>
+				</div>
+			</div>
+		</nav>
+	</header>
 
-<div class="container-fluid">
+	<div class="container-fluid">
 
-<div class="row" >
-<div class="col-sm-5 col-lg-4 properties-list" id="thing-view">
+		<div class="row" >
+			<div class="col-sm-5 col-lg-4 properties-list" id="thing-view">
 
-	<div ui-view>
-		<div class="row">
-			<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
-				<div class="thingInfobox">
-					<h3>{{type}}</h3>	
-					<div class="infoboxview">
-						<span>{{value}}</span>
+				<div ui-view>
+					<div class="row">
+						<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
+							<div class="thingInfobox">
+								<h3>{{type}}</h3>	
+								<div class="infoboxview">
+									<span>{{value}}</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="row" ng-repeat="type in knowledge">
+						<h3>{{type}}</h3>	
 					</div>
 				</div>
 			</div>
 
+			<div class="col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
 		</div>
-		<div class="row" ng-repeat="type in knowledge">
-			<h3>{{type}}</h3>	
-		</div>
-	</div>
-</div>
-
-<div class="col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
-</div>
-</div>
-</div>
-
-<div ng-if="fullscreenPicture" id="picture-view" ng-click="$parent.fullscreenPicture = false" fullscreen="$parent.fullscreenPicture">
-	<div>
-		<img ng-src="{{fullUrl}}" alt="" />
 	</div>
 </div>

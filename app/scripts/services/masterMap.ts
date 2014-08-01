@@ -313,7 +313,7 @@ angular.module('mobileMasterApp')
 					return;
 				}
 
-				var toState = itsa.victim(thing) ? 'victim' : 'thing';
+				var toState = itsa.victim(thing) ? 'victim' : (itsa.media(thing) ? 'media' : 'thing');
 
 				content.click(() => {
 					$state.go(toState, { ID: id, from: $stateParams.from ? $stateParams.from : 'map' });
