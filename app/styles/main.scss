@@ -523,9 +523,16 @@ header + .container, header + .container-fluid {
 
 
 @media (max-width: $screen-xs-max) {
-    header + .container, header + .container-fluid,
     header + .container, header + .container-fluid {
-        margin-top: 140px;
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: $screen-xs-max) {
+    .media-controller header + .container-fluid,
+    .victim-controller header + .container-fluid,
+    .thing-controller header + .container-fluid {
+        margin-top: 70px;
     }
 }
 
@@ -555,7 +562,7 @@ header + .master-list {
     padding-top: 20px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: $screen-xs-max) {
     header + .master-list {
         margin-top: 100px;
     }
@@ -759,7 +766,7 @@ img.identicon {
         // margin-top: 2px;
         margin: 0.6em 0.5em 0em 0.7em;
         flex-shrink:0;
-        width:100%;
+        // width:100%;
         overflow: hidden;
         text-overflow: ellipsis;
         text-align: left;

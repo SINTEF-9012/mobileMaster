@@ -1,11 +1,15 @@
 <div class="container-fluid">
-<form role="form" class="form form-horizontal col-md-10 col-md-offset-1"
+<p>This part is currently disabled, because it's under a huge refactoring :-)</p>
+<!-- <form role="form" class="form form-horizontal col-md-10 col-md-offset-1"
 	ng-submit="save()">
-	<h1>{{thing.name}}
-	<br/><small>{{thing.typeName}}</small>
-	</h1>
-	{{thing.ID}}
-	<hr/>
+						<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
+							<div class="thingInfobox">
+								<h3>{{type}}</h3>	
+								<div class="infoboxview">
+									<thing-property value="value" key="{{type}}"></thing-property>
+								</div>
+							</div>
+						</div>
 	<div class="form-group row" ng-repeat="property in properties">
 		<label for="input{{property.key}}" class="col-sm-3 control-label">{{property.name || property.key}}</label>
 		<div class="col-sm-9">
@@ -20,4 +24,4 @@
 	</div>
 	<input type="submit" style="visibility:hidden" value="Save" />
 </form>
-</div>
+ --></div>
