@@ -371,7 +371,7 @@ module.exports = function (grunt) {
         options: {
           basePath: './dist/',
           verbose: false,
-          preferOnline: true,
+          //preferOnline: true,
           fallback: ['/ index.html']
         },
         src: [
