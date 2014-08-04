@@ -69,7 +69,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		$scope.hideToolbarButtons = false;
 	};
 
-	$scope.returnLink = $state.href(stateBack, stateInfos);
+	var returnLink = $scope.returnLink = $state.href(stateBack, stateInfos);
 	$scope.hideToolbarButtons = false;
 
 	$scope.thing = {};
@@ -138,7 +138,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				stateInfos = { thingtype: type };
 			}
 
-			$scope.returnLink = $state.href(stateBack, stateInfos);
+			returnLink = $scope.returnLink = $state.href(stateBack, stateInfos);
 
 			$scope.canOrder = Knowledge.canOrder(thing);
 			$scope.canEdit = Knowledge.canEdit(thing);
@@ -224,6 +224,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			});
 
 			// The name information is already in the page title
+			$scope.rawKnowledge = $scope.knowledge;
 			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 && k.key !== 'name');
 
 			if (!$scope.$$phase) {
@@ -284,9 +285,22 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		masterMap.invalidateSize({});
 	}, 50);
 
+	var disableStateChangeSuccessCallback =
+	$rootScope.$on('$stateChangeSuccess', () => {
+		$scope.returnLink = returnLink;
+		$scope.hideToolbarButtons = false;
+
+		if (!$scope.$$phase) {
+			$scope.$digest();
+		}
+
+		window.setImmediate(() => setTilesColors(tileColor));
+	});
+
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);
 		thingModel.warehouse.UnregisterObserver(observer);
+		disableStateChangeSuccessCallback();
 
 		if (deleteTimer !== 0) {
 			window.clearInterval(deleteTimer);

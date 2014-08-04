@@ -1,5 +1,4 @@
 <div class="container-fluid">
-<p>This part is currently disabled, because it's under a huge refactoring :-)</p>
 <!-- <form role="form" class="form form-horizontal col-md-10 col-md-offset-1"
 	ng-submit="save()">
 						<div class="col-xs-6 col-md-6 destination" ng-repeat="(type,value) in thing">
@@ -24,4 +23,30 @@
 	</div>
 	<input type="submit" style="visibility:hidden" value="Save" />
 </form>
- --></div>
+ -->
+
+<form role="form" class="form form-horizontal" ng-submit="save()">
+	<div class="form-group has-feedback row" ng-repeat="type in properties">
+		<label for="input{{type.key}}" class="col-sm-3 control-label">{{type.name}}</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="input{{type.key}}"name="input{{type.key}}" ng-model="newValues[type.key]"/>
+			<p class="help-block">
+				<a class="btn btn-default btn-xs ng-hide" ng-click="cancelProperty(type.key)" ng-show="newValues.hasOwnProperty(type.key)">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+				<a class="btn btn-default btn-xs" ng-click="newValues[type.key] = thing[type.key]" ng-show="thing[type.key]">
+					<span class="glyphicon glyphicon-chevron-up"></span>
+				</a>
+				{{thing[type.key]}}
+				<a class="btn btn-default btn-xs" style="visibility:hidden">&nbsp;</a>
+			</p>
+			<span class="glyphicon glyphicon-export form-control-feedback ng-hide" ng-show="newValues.hasOwnProperty(type.key)"></span>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-9 col-sm-offset-3">
+			<button type="submit" class="btn btn-primary btn-lg">Save</button>
+		</div>
+	</div>
+</form>
+ </div>
