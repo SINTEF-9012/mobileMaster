@@ -271,10 +271,11 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          /*removeCommentsFromCDATA: true,
+          removeComments: true,
+          //removeCommentsFromCDATA: true,
           // https://github.com/yeoman/grunt-usemin/issues/44
           //collapseWhitespace: true,
-          collapseBooleanAttributes: true,
+          /*collapseBooleanAttributes: true,
           removeAttributeQuotes: true,
           removeRedundantAttributes: true,
           useShortDoctype: true,
@@ -284,6 +285,18 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
+          src: ['views/*.html'],
+          dest: '<%= yeoman.dist %>'
+        }]
+      },
+      deploy: {
+        options: {
+          collapseWhitespace: true
+        },
+        files: [{
+          expand: true,
+          removeComments: true,
+          cwd: '<%= yeoman.dist %>',
           src: ['*.html', 'views/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
@@ -299,8 +312,9 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             '*.{ico,png,txt}',
+            'index.html',
             '.htaccess',
-            'bower_components/**/*',
+            'bower_components/bootstrap-sass-official/assets/fonts/**/*',
             'images/{,*/}*.{gif,webp}',
             'fonts/*'
           ]
@@ -341,7 +355,7 @@ module.exports = function (grunt) {
         'copy:styles',
         'imagemin',
         'svgmin',
-        'htmlmin'
+        'htmlmin:dist'
       ]
     },
     karma: {
@@ -451,6 +465,7 @@ module.exports = function (grunt) {
     'uglify',
     // 'rev',
     'usemin',
+    'htmlmin:deploy',
     'manifest'
   ]);
 
