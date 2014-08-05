@@ -29,23 +29,29 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		this.client.RegisterObserver({
 			OnFirstOpen: () => {
 				$rootScope.thingmodel.loading = false;
+				$rootScope.$emit('thingmodel.firstopen');
 			},
 			OnOpen: () => {
 				$rootScope.thingmodel.connected = true;
+				$rootScope.thingmodel.loading = false;
+				$rootScope.$emit('thingmodel.open');
 				applyScope();
 			},
 			OnClose: () => {
 				$rootScope.thingmodel.connected = false;
 				applyScope();
+				$rootScope.$emit('thingmodel.close');
 			},
 			OnTransaction: (senderName: string) => {
 				++$rootScope.thingmodel.nbTransactions;
 				$rootScope.thingmodel.lastSenderName = senderName;
 				applyScope();
+				$rootScope.$emit('thingmodel.transaction');
 			},
 			OnSend: () => {
 				++$rootScope.thingmodel.nbSend;
 				applyScope();
+				$rootScope.$emit('thingmodel.send');
 			}
 		});
 

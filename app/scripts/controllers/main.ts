@@ -277,26 +277,31 @@ angular.module('mobileMasterApp')
 	};
 
 
-	var computeSummary = (first?: boolean) => {
+	var computeSummary = () => {
 		var summary = thingModel.warehouse.GetThing('master-summary');
 		if (summary) {
 			$scope.title = summary.GetString('title');
 			var content = summary.GetString('content');
-			$scope.htmlSummary = content ? $sce.trustAsHtml(marked(content)) : '';
+			//$scope.htmlSummary = content ? $sce.trustAsHtml(marked(content)) : '';
 		} else {
 			$scope.title = 'Untitled situation';
-			$scope.htmlSummary = '';//$sce.trustAsHtml('Default situation summary');
+			//$scope.htmlSummary = '';//$sce.trustAsHtml('Default situation summary');
 		}
 
-		if (!first) {
-			$scope.$apply();
+		if (!$scope.$$phase) {
+			$scope.$digest();
 			setLayout();
 		}
 	};
 
+	$rootScope.$on('thingmodel.open', () => {
+		computeSummary();
+	});
+
 	computeStats(true);
-	computeSummary(true);
+	computeSummary();
 	thingModel.warehouse.RegisterObserver(observer);
+
 
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);
