@@ -127,7 +127,7 @@ angular.module('mobileMasterApp')
 			} else if (/video/i.test(type)) {
 				element.append(glyphicon('film'));
 				element.addClass('glyph video');
-			} else if (/(incident|resource|risk|response|helpbeacon)/i.test(type)) {
+			} else if (/(incident|resource|risk|response|beacon)/i.test(type)) {
 
 				var cat: string;
 
@@ -141,7 +141,7 @@ angular.module('mobileMasterApp')
 					case /response/i.test(type):
 						cat = 'response';
 						break;	
-					case /helpbeacon/i.test(type):
+					case /beacon/i.test(type):
 						cat = 'helpbeacon';
 						break;	
 					default:
@@ -160,7 +160,7 @@ angular.module('mobileMasterApp')
 					}
 
 					if (type === 'ResourceType') {
-						// TODO HOTFIX
+						// TODOï¿½HOTFIX
 						type += " " + thing.String("type").replace(/medic/i, 'health')
 							.replace(/fire personnel/i, 'fire and rescue personnel');
 					}
