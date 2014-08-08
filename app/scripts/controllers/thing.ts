@@ -121,9 +121,10 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 				if ((oldPosition === null && !/^(thing|victim)/.test($rootScope.previousState)) ||
 					masterMap.getZoom() !== zoom || !masterMap.getBounds().pad(-0.2).contains(pos)) {
-					masterMap.setView(pos, zoom);
+					var options = oldPosition === null ? { animate: false } : undefined;
+					masterMap.setView(pos, zoom, options);
 					// TODO it's a bit ugly but it's july
-					window.setTimeout(() => masterMap.setView(pos, zoom), 4);
+					window.setTimeout(() => masterMap.setView(pos, zoom, options), 4);
 				}
 
 				oldPosition = pos;
