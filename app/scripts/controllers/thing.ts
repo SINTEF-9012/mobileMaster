@@ -78,7 +78,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	var oldPosition: L.LatLng = null,
 		oldZoom = 18,
 		oldTime: number,
-		thingSpeed = 0.0;
+		oldBounds: L.LatLngBounds = null,
+		thingSpeed = 0.0,
+		registeredViewLostDate = 0;
 
 	var digestScope = throttle(() => {
 		var thing = thingModel.warehouse.GetThing(id);
@@ -118,13 +120,50 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				}
 
 				//console.log(thingSpeed, zoom);
+				/*var centerPoint = masterMap.project(pos, zoom),
+					size = masterMap.getSize().divideBy(2),
+					viewBounds = new L.Bounds(centerPoint.subtract(size), centerPoint.add(size)),
+					viewLatLngBounds = new L.LatLngBounds(
+						masterMap.unproject(viewBounds.min, zoom),
+						masterMap.unproject(viewBounds.max, zoom));
 
-				if ((oldPosition === null && !/^(thing|victim)/.test($rootScope.previousState)) ||
-					masterMap.getZoom() !== zoom || !masterMap.getBounds().pad(-0.2).contains(pos)) {
-					var options = oldPosition === null ? { animate: false } : undefined;
-					masterMap.setView(pos, zoom, options);
-					// TODO it's a bit ugly but it's july
-					window.setTimeout(() => masterMap.setView(pos, zoom, options), 4);
+				masterMap.setMaxBounds(viewLatLngBounds);*/
+
+				var mapBounds = masterMap.getBounds();
+
+				var changeView = false, initSetView = false;
+				if (oldPosition === null && !/^(thing|victim)/.test($rootScope.previousState)) {
+					changeView = true;
+					initSetView = true;
+				} else if (mapBounds.contains(pos)) {
+					if (masterMap.getZoom() > zoom || !mapBounds.pad(-0.2).contains(pos)) {
+						changeView = true;
+					}
+				} else {
+					if (registeredViewLostDate) {
+						if (!mapBounds.equals(oldBounds)) {
+							registeredViewLostDate = now;
+							oldBounds = mapBounds;
+						}
+						else if (now - registeredViewLostDate > 4200) {
+							changeView = true;
+							registeredViewLostDate = 0;
+						}
+					} else {
+						registeredViewLostDate = +new Date();
+						oldBounds = mapBounds;
+					}
+				}
+
+				if (changeView) {
+					if (initSetView || !$('html').hasClass('disable-markers-animations')) {
+						var options = oldPosition === null ? { animate: false } : undefined;
+						masterMap.setView(pos, zoom, options);
+						// TODO it's a bit ugly but it's the summer
+						window.setTimeout(() => {
+							masterMap.setView(pos, zoom, options);
+						}, 4);
+					}
 				}
 
 				oldPosition = pos;
