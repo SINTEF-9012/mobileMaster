@@ -4,6 +4,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 	this.$get = (
 		$rootScope: MasterScope.Root,
 		Knowledge: KnowledgeModule,
+		$state: ng.ui.IStateService,
 		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
 
@@ -24,7 +25,13 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			}
 		}, 50);
 
-		this.client = new ThingModel.WebSockets.Client(clientID, endPoint, this.warehouse);
+		try {
+			this.client = new ThingModel.WebSockets.Client(clientID, endPoint, this.warehouse);
+		} catch (e) {
+			alert("ThingModel error: " + e.message);
+			$state.go('settings');
+			return
+		} 
 
 		this.client.RegisterObserver({
 			OnFirstOpen: () => {
