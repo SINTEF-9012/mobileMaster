@@ -1,6 +1,7 @@
 /// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/modernizr/modernizr.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/ravenjs/ravenjs.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/angular-hotkeys/angular-hotkeys.d.ts" />
 
@@ -12,8 +13,18 @@
 
 angular.module('mobileMasterApp', [
 	'ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment', 'masonry', 'FBAngular', 'cfp.hotkeys'])
-  .config(function ($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider) {
+  .config(function ($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, $provide) {
 
+	$provide.decorator("$exceptionHandler", ['$delegate', function ($delegate) {
+		  return function (exception, cause) {
+			  $delegate(exception, cause);
+			  if (typeof Raven !== 'undefined') {
+				  Raven.captureException(exception, { cause: cause });
+			  }
+			  alert(exception.message);
+		  };
+	}]);
+	
     if (!window.navigator.device) {
       $locationProvider.html5Mode(true);
 	}
