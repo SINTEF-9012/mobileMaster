@@ -175,7 +175,8 @@ angular.module('mobileMasterApp')
 
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
-			height = $window.innerHeight - column.offset().top - 6;
+			columnOffset = column.offset(),
+			height = $window.innerHeight - (columnOffset ? columnOffset.top : 0) - 6;
 
 		var lg = blocs.length / 2, windowWidth = jwindow.width();
 		if (windowWidth >= 1200) {
