@@ -1,3 +1,5 @@
+@import "_settings";
+
 @font-face {
 	font-family: 'bridgeiconsregular';
 	src: url('/fonts/font4799-webfont.eot');
@@ -36,6 +38,16 @@
 	font-weight: bold;
 	// padding-left: 2.2em;
 	// padding-right: 0.2em;
+	master-icon {
+		margin-right: 0.3em;
+
+		&.order, &.victims, &.resources, &.messages, &.multimedias {
+			height: 25px;
+			width: 25px;
+			margin-top: -5px;
+			margin-bottom: -5px;
+		}
+	}
 }
 
 master-icon {
@@ -50,27 +62,77 @@ master-icon {
 	line-height: 1.5em;
 	text-align: center;
 	vertical-align: middle;
+	image-rendering:optimizequality;
 	// position: relative;
 // background: #ada59a;
 // border-radius: 50%;
-&.default-icon {
-	background: #ECB813;
+&.default-icon,&.others {
+	background: $pantone_130;
 	border-radius:50%;
 }
+
 
 &.order {
 	background:url(../images/reticle-icon.png) no-repeat center;
 	background-size:100% 100%;
-	@media (min--moz-device-pixel-ratio: 1.3),
+}
+
+&.victims {
+	background:url(../images/victims-icon.png) no-repeat center;
+	background-size:100% 100%;
+}
+
+&.resources {
+	background:url(../images/resources-icon.png) no-repeat center;
+	background-size:100% 100%;
+}
+
+&.messages {
+	background:url(../images/messages-icon.png) no-repeat center;
+	background-size:100% 100%;
+}
+
+&.multimedias {
+	background:url(../images/smartphone-icon.png) no-repeat center;
+	background-size:100% 100%;
+}
+
+&.others {
+	color: white;
+	background-color:$indigo-color;
+}
+
+@media (min--moz-device-pixel-ratio: 1.3),
 	(-o-min-device-pixel-ratio: 2.6/2),
 	(-webkit-min-device-pixel-ratio: 1.3),
 	(min-device-pixel-ratio: 1.3),
 	(min-resolution: 1.3dppx) {
+
+	&.order {
 		background:url(../images/reticle-icon@2x.png) no-repeat center;
 		background-size:100% 100%;
 	}
-}
 
+	&.victims {
+		background:url(../images/victims-icon@2x.png) no-repeat center;
+		background-size:100% 100%;
+	}
+	
+	&.resources {
+		background:url(../images/resources-icon@2x.png) no-repeat center;
+		background-size:100% 100%;
+	}
+
+	&.messages {
+		background:url(../images/messages-icon@2x.png) no-repeat center;
+		background-size:100% 100%;
+	}
+
+	&.multimedias {
+		background:url(../images/smartphone-icon@2x.png) no-repeat center;
+		background-size:100% 100%;
+	}
+}
 &.fonticon > div {
 	text-rendering:geometricPrecision;
 	font-family: 'bridgeiconsregular';
@@ -177,7 +239,7 @@ master-icon {
 		width: 42px;
 		height: 42px;
 		top: -4px;
-		left: 2px;
+		left: 4px;
 
 		animation-duration: 3s;
 		animation-name: glowingopacity;
@@ -191,7 +253,7 @@ master-icon {
 
 	&.order:after {
 		top:-4px;
-		left:1px;
+		left:4px;
 	}
 }
 
@@ -271,7 +333,7 @@ master-icon {
 	}
 }
 
-.infos {
+/*.infos {
 	master-icon.order {
 		background:url(../images/reticle-icon-21.png) no-repeat center;
 		background-size:21px;
@@ -284,7 +346,7 @@ master-icon {
 			background-size:100% 100%;
 		}
 	}
-}
+}*/
 
 #map {
 

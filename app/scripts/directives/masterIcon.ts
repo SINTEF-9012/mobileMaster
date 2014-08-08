@@ -127,6 +127,8 @@ angular.module('mobileMasterApp')
 			} else if (/video/i.test(type)) {
 				element.append(glyphicon('film'));
 				element.addClass('glyph video');
+			} else if (/resources/i.test(type)) {
+				element.addClass('resources');
 			} else if (/(incident|resource|risk|response|beacon)/i.test(type)) {
 
 				var cat: string;
@@ -180,6 +182,15 @@ angular.module('mobileMasterApp')
 
 			} else if (/order/i.test(type)) {
 				element.addClass('order');
+			} else if (/victims/i.test(type)) {
+				element.addClass('victims');
+			} else if (/messages/i.test(type)) {
+				element.addClass('messages');
+			} else if (/multimedias/i.test(type)) {
+				element.addClass('multimedias');
+			} else if (/others/i.test(type)) {
+				element.addClass('others');
+				element.text('?');
 			} else {
 				element.addClass('default-icon');
 				element.text(type[0]);
