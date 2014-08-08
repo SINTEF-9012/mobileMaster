@@ -96,7 +96,7 @@ angular.module('mobileMasterApp')
 
 		var more = false;
 		$scope.things = _.filter(globalList, (s: any) => {
-				if (($scope.filter === 'all' || $scope.filter === s.triage_status) &&
+				if (s.ID !== "master-summary" && ($scope.filter === 'all' || $scope.filter === s.triage_status) &&
 				(cpt++ >= startPageCount)) {
 					if (cpt <= endPageCount) {
 						return true;

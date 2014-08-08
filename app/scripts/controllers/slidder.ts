@@ -41,6 +41,12 @@ angular.module('mobileMasterApp')
 			};
 
 		var registerNew = (thing: ThingModel.Thing) => {
+
+			// Ignore the summary
+			if (thing.ID === "master-summary") {
+				return;
+			}
+
 			var type = itsa.typefrom(thing),
 				infos = $scope.infos[type];
 
