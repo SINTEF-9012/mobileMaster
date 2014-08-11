@@ -31,7 +31,8 @@ angular.module('mobileMasterApp')
 				"police vehicle": "I",
 				"civil defence": "J",
 				"people aid": "K",
-				"red cross": "K"
+				"red cross": "K",
+				"uav": "T"
 			}
 		},
 		"risk": {
@@ -162,7 +163,7 @@ angular.module('mobileMasterApp')
 					}
 
 					if (type === 'ResourceType') {
-						// TODO�HOTFIX
+						// TODO HOTFIX
 						type += " " + thing.String("type").replace(/medic/i, 'health')
 							.replace(/fire personnel/i, 'fire and rescue personnel');
 					}

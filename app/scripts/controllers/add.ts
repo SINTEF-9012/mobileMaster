@@ -74,7 +74,8 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"resource fire and rescue personnel": "Fireman",
 				"resource civil defence": "Civil defence",
 				"resource red cross": "Red cross",
-				"resource people aid": "People's aid"
+				"resource people aid": "People's aid",
+				"resource hexacopter uav": "Copter UAV"
 			}
 		},
 		"risk": {
