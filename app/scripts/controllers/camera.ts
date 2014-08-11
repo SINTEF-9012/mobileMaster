@@ -45,11 +45,15 @@ angular.module('mobileMasterApp')
 	    persistentLocalization : PersistentLocalization,
 		$state: ng.ui.IStateService) => {
 
-			var p = $stateParams.hash + '.' + $stateParams.extension,
-				s = settingsService.getMediaServerUrl();
-		$scope.url = s + '/' + p;
-//		$scope.identicon = settingsService.getMediaServerUrl() + '/identicon/' + $stateParams.hash;
+		var url = $stateParams.hash + '.' + $stateParams.extension,
+			multimediaServer = settingsService.getMediaServerUrl();
 
+		$scope.url = multimediaServer + '/' + url;
+
+		$scope.mp4Url = multimediaServer + '/convert/mp4/480/' + url;
+		$scope.webmUrl = multimediaServer + '/convert/webm/480/' + url;
+
+//		$scope.identicon = settingsService.getMediaServerUrl() + '/identicon/' + $stateParams.hash;
 
 		// Small list but it should be enough in 2014 (and we support web)
 		$scope.isPicture = /(bmp|png|jpeg|jpg|gif|tiff|webp)/i.test($stateParams.extension);
@@ -57,7 +61,7 @@ angular.module('mobileMasterApp')
 		var type = $scope.isPicture ? 'master:picture' : ($scope.isVideo ? 'master:video' : 'master:document');
 
 		if ($scope.isPicture) {
-			$scope.thumbnailUrl = s + '/resize/640/480/' + p;
+			$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
 			/*var camThumb = $('#camera-thumbnail');
 
 			/*(<any>camThumb).imagesLoaded().fail(() => {
@@ -65,6 +69,8 @@ angular.module('mobileMasterApp')
 				$('<div class="alert alert-danger">The picture seems to be broken.</div>').insertAfter(camThumb);
 //				camThumb.remove();
 			});*/
+		} else {
+			$scope.thumbnailUrl = multimediaServer + '/thumbnail/' + url;
 		}
 		var position = masterMap.getCenter();
 

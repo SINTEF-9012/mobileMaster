@@ -196,7 +196,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				//console.log(smallThumbnailUrl);
 
 				if ($scope.isVideo) {
-					$scope.fullUrl = multimediaServer + '/' + url;
+					$scope.mp4Url = multimediaServer + '/convert/mp4/480/' + url;
+					$scope.webmUrl = multimediaServer + '/convert/webm/480/' + url;
 					$scope.posterUrl = smallThumbnailUrl;
 				}
 

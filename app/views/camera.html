@@ -23,7 +23,9 @@
 					<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail"/>
 				</p>
 				<p ng-if="isVideo">
-					<video controls="controls" loop="loop" preload="auto" src="{{url}}">
+					<video controls="controls" loop="loop" preload="auto" poster="{{posterUrl}}" autoplay>
+						<source ng-src="{{mp4Url}}" type="video/mp4">
+						<source ng-src="{{webmUrl}}" type="video/webm">
 						<a target="_blank" href="{{url}}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-play"></span> Play</a>
 					</video>
 				</p>
