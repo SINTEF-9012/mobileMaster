@@ -199,12 +199,21 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
 
-	var jwindow = $($window), jMap = $('#thing-map');
+	var jwindow = $($window), jMap = $('#thing-map'), jView = $('#thing-view');
 
 	var setLayout = throttle(() => {
+		var width = jwindow.width();
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		masterMap.invalidateSize({});
 		jMap.height(height - 1 /* border */);
+
+		if (width >= 768 && !$scope.hideMap) {
+			jView.height(height - 11 /* margin bottom */);
+		} else {
+			jView.height('auto');
+		}
+
+		masterMap.invalidateSize({});
 	}, 50);
 
 	$scope.$on('$destroy', () => {
