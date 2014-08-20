@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "1579671": "https://gist.github.com/1579671.git",
-    "angular": "~1.2.18",
-    "angular-route": "~1.2.18",
+    "angular": "~1.2.22",
+    "angular-route": "1.2.22",
     "jquery": "~2.1.1",
     "angular-ui-router": "~0.2.10",
     "compass.js": "https://github.com/ai/compass.js.git#~0.1.1",
@@ -15,27 +15,31 @@
     "setimmediate": "~1.0.1",
     "Leaflet.CanvasLayer": "yellowiscool/Leaflet.CanvasLayer#gh-pages",
     "Leaflet-MiniMap": "SINTEF-9012/Leaflet-MiniMap#master",
-    "ng-file-upload": "~1.6.1",
+    "ng-file-upload": "~1.6.5",
     "marked": "~0.3.2",
-    "PruneCluster": "~0.6.0",
-    "bootstrap-sass-official": "~3.2.0",
+    "PruneCluster": "~0.8.0",
+    "bootstrap-sass-official": "~3.2.0+1",
     "a99d99f275e5c274a6ba": "https://gist.github.com/a99d99f275e5c274a6ba.git",
-    "angular-loading-bar": "~0.4.3",
+    "angular-loading-bar": "~0.5.0",
     "normalize.css": "~3.0.1",
     "Leaflet.GameController": "~0.0.3",
-    "angular-moment": "~0.7.1",
+    "angular-moment": "~0.8.0",
     "lodash": "~2.4.1",
     "imagesloaded": "~3.1.8",
     "angular-masonry-directive": "yellowiscool/angular-masonry-directive",
     "angular-fullscreen": "*",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0",
-    "rgbaster": "9d580f15363d0836233d6bc969a07678570a8952"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.3",
+    "rgbaster": "9d580f15363d0836233d6bc969a07678570a8952",
+    "protobuf": "~3.4.0",
+    "angular-deckgrid": "~0.4.4",
+    "angular-mocks": "1.2.22",
+    "angular-scenario": "1.2.22"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.18",
     "angular-scenario": "~1.2.18"
   },
   "resolutions": {
-    "angular": "~1.2.18"
+    "angular": "~1.2.22"
   }
 }
