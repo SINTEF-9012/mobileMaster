@@ -43,7 +43,7 @@
 					<div class="row media-properties">
 						<div class="col-xs-6" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
 							<div class="thingInfobox">
-								<h3>{{type.name}}</h3>	
+								<h3>{{type.name | humanizeCamelCase}}</h3>	
 								<div class="infoboxview">
 									<thing-property value="thing[type.key]" key="{{type.key}}"></thing-property>
 								</div>
