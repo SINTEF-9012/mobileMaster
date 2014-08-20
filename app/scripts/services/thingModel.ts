@@ -81,18 +81,21 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 			if (!(name = thing.String('name'))) {
 				if (!(name = thing.String('title'))) {
 					if (!(name = thing.String('description'))) {
-						name = undefined;
+						if (!(name = thing.String('message'))) {
+							name = undefined;
+						}
 					}
 				}
 			}
 
 			$scope.ID = thing.ID;
-			$scope.name = name;
 			$scope.type = thing.Type ? thing.Type.Name : undefined;
 
 			_.each(thing.Properties, (property: ThingModel.Property) => {
 				$scope[property.Key] = (<any>property).Value;
 			});
+
+			$scope.name = name;
 		};
 
 		this.EditThing = (id: string, values: { [property: string]: { value: string; type: string } }) => {

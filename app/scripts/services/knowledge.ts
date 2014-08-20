@@ -5,7 +5,7 @@ angular.module('mobileMasterApp').provider('Knowledge', function () {
 	var knowledge = [
 		{
 			typeName: null, // default
-			tablePropertiesOrder: { name : 10, location: -5}
+			tablePropertiesOrder: { name : 10, location: -5, _type: -5}
 		},
 		{
 			typeName: "tweets",

@@ -107,11 +107,18 @@ angular.module('mobileMasterApp')
 				type = attrs.type;
 			} else if (attrs.thingid) {
 				thing = thingModel.warehouse.GetThing(attrs.thingid);
-				if (thing && thing.Type) {
-					type = thing.Type.Name;
+				if (thing) {
+					if (thing.Type) {
+						type = thing.Type.Name;
+					}
+					var _type = thing.String("_type");
+					if (_type) {
+						type = type + " " + _type;
+					}
 				}
 			}
-			var wrapper = element.get(0).firstChild;
+
+			console.log(thing, type)
 
 
 			if (/patient/i.test(type)) {
@@ -157,10 +164,6 @@ angular.module('mobileMasterApp')
 
 				// TODO fix it in the adapter?
 				if (thing) {
-
-					if (type === 'Incident') {
-						type = thing.String('name');
-					}
 
 					if (type === 'ResourceType') {
 						// TODO HOTFIX

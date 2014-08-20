@@ -15,6 +15,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
     $compile : ng.ICompileService,
 	masterMap: Master.Map,
 	AddService: AddService,
+	hotkeys: ng.hotkeys.HotkeysProvider,
 	$window: ng.IWindowService,
     persistentLocalization : PersistentLocalization
 	) => {
@@ -75,7 +76,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"resource civil defence": "Civil defence",
 				"resource red cross": "Red cross",
 				"resource people aid": "People's aid",
-				"resource hexacopter uav": "Copter UAV"
+				"resource hexacopter uav": "Helicopter UAV"
 			}
 		},
 		"risk": {
@@ -170,12 +171,14 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	$scope.save = (goToMainAfter: boolean) => {
 
-		var type = "master:" + $rootScope.add.type; 
+		var type = "master:" + $rootScope.add.category; 
 		AddService.register(type, masterMap.getCenter(), (thing: ThingModel.ThingPropertyBuilder) => {
 			if ($scope.description) {
 				thing.String('description', $scope.description);
 			}
-		});	
+			thing.String('name', $scope.types[$rootScope.add.category].items[$rootScope.add.type]);
+			thing.String('_type', $rootScope.add.type);
+		});
 
 		//alert($scope.description)
 		
@@ -235,5 +238,12 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		persistentLocalization.restorePersistentLayer(masterMap);
 		masterMap.panTo(position);
 		masterMap.enableShadow(undefined, iconContainer, 'flex');
+	});
+
+	hotkeys.bindTo($scope)
+		.add({
+			combo: 'return',
+			description: 'Save',
+			callback: () => $scope.save()
 	});
 });

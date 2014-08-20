@@ -245,7 +245,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			var missingProperties: { [key: string]: boolean } = {
 				ID: true,
 				type: true,
-				location: true
+				location: true,
+				_type: true
 			};
 
 			_.each($scope.knowledge, (property: any) => missingProperties[<string>(property.key)] = true);
