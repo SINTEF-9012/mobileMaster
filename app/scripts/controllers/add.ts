@@ -82,19 +82,19 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		"risk": {
 			title: "Risks",
 			items: {
-				"automobile risk": "Automobile Risk",
-				"bomb risk": "Bomb risk",
-				"chemical risk": "Chemical risk",
-				"explosion risk": "Explosion risk",
-				"fire risk": "Fire risk",
-				"generic risk": "Generic risk",
-				"rock slide risk": "Rock slide risk"
+				"risk automobile": "Automobile Risk",
+				"risk bomb": "Bomb risk",
+				"risk chemical": "Chemical risk",
+				"risk explosion": "Explosion risk",
+				"risk fire": "Fire risk",
+				"risk generic": "Generic risk",
+				"risk rock slide": "Rock slide risk"
 			}
 		},
 		"response_aligment": {
 			title: "Aligments",
 			items: {
-				"response generic alignment": "Generic alignment",
+				"response alignment generic": "Generic alignment",
 				"response alignment police car": "Police car alignment",
 				"response alignment firetruck": "Firetruck alignment",
 				"response alignment ambulances": "Ambulances alignment"
@@ -106,25 +106,25 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"response assembly area generic": "Assembly area",
 				"response assembly area dead": "Assembly area dead",
 				"response assembly area evacuated": "Assembly area evacuated",
-				"response assembly area injured": "Assembly area injured",
+				"response assembly area injured": "Assembly area injured"
 			}
 		},
 		"response_points": {
 			title: "Points",
 			items: {
-				"response meeting point fire": "Meeting point fire personnel",
-				"response meeting point health": "Meeting point health personnel",
-				"response meeting point police": "Meeting point police personnel",
-				"response control point ": "Control point",
-				"response exit point ": "Exit point",
-				"response entry point": "Entry point",
-				"response meeting point": "Meeting point"
+				"response point meeting": "Meeting point",
+				"response point meeting fire": "Meeting point fire personnel",
+				"response point meeting health": "Meeting point health personnel",
+				"response point meeting police": "Meeting point police personnel",
+				"response point control ": "Control point",
+				"response point exit": "Exit point",
+				"response point entry": "Entry point"
 			}
 		},
 		"generic_response": {
 			title: "Responses",
 			items: {
-				"generic response": "Generic response",
+				"response generic": "Generic response",
 				"response command post": "Command post",
 				"response helicopter landing": "Helicopter landing",
 				"response roadblock": "RoadBlock",

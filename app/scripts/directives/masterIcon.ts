@@ -50,8 +50,8 @@ angular.module('mobileMasterApp')
 		"response": {
 			char: "1",
 			types: {
-				"generic response": "",
-				"generic alignment": "j",
+				"response generic": "",
+				"alignment generic": "j",
 				"alignment police car": "m",
 				"alignment firetruck": "l",
 				"alignment ambulances": "k",
@@ -59,15 +59,15 @@ angular.module('mobileMasterApp')
 				"assembly area dead": "o",
 				"assembly area evacuated": "q",
 				"assembly area injured": "p",
-				"control point": "s",
-				"exit point": "t",
-				"entry point": "u",
+				"point control": "s",
+				"point exit": "t",
+				"point entry": "u",
 				"command post": "w",
-				"meeting point": "x",
+				"point meeting": "x",
 				"helicopter landing": "v",
-				"meeting point fire": "z",
-				"meeting point health": "y",
-				"meeting point police": "A",
+				"point meeting fire": "z",
+				"point meeting health": "y",
+				"point meeting police": "A",
 				"roadblock": "B",
 				"depot": "D"
 			}
@@ -117,9 +117,6 @@ angular.module('mobileMasterApp')
 					}
 				}
 			}
-
-			console.log(thing, type)
-
 
 			if (/patient/i.test(type)) {
 				// triage_status
