@@ -680,6 +680,18 @@ body:not(.touch) .thing.row:hover,  {
         }
     }
 
+    h3 {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    h3:hover {
+        // overflow: auto;
+        white-space: inherit;
+        text-overflow: inherit;
+    }
+
     h3.identicon {
         margin: 4px 0;
         img {

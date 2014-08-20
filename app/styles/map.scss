@@ -40,6 +40,10 @@
         align-items: center;
         padding-right:10px;
 
+        img {
+            flex-shrink: 0;
+        }
+
         &.with-identicon {
             position: relative;
             padding: 5px 10px 4px 52px;
