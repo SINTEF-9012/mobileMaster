@@ -22,7 +22,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap: Master.Map,
 	$window: ng.IWindowService,
 	Knowledge : KnowledgeService,
-	thingModel: ThingModelService
+	thingModel: ThingModelService,
+	colorFromImage: ColorFromImageService
 	) => {
 
 	persistentLocalization.restorePersistentLayer(masterMap);
@@ -238,7 +239,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 				}
 
-				colorFromImage(smallThumbnailUrl);
+				colorFromImage.applyColor(smallThumbnailUrl, setTilesColors);
 			}
 
 			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
@@ -358,40 +359,18 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
 
-	function whiteOrBlack(color: string) {
-		var match = color.match(/rgb\((\d+),(\d+),(\d+)\)/),
-			r = parseInt(match[1]),
-			g = parseInt(match[2]),
-			b = parseInt(match[3]),
-
-			// lightness (from HSL)
-			max = Math.max(r, g, b),
-			min = Math.min(r, g, b),
-			l = (max + min) / 2;
-
-		return l > 128 ? 'black' : 'white';
-	}
-
 	function setTilesColors(color) {
 		tileColor = color;
 		$('.victimInfobox, .thingInfobox').css({
 			'background': color,
-			'color': whiteOrBlack(color)
-		});
-	}
-
-	function colorFromImage(img, exclude = false) {
-		RGBaster.colors(img, {
-			paletteSize: 3,
-			exclude: exclude ? ['rgb(255,255,255)'] : undefined,
-			success: (e) => setTilesColors(e.dominant)
+			'color': colorFromImage.whiteOrBlack(color)
 		});
 	}
 
 	// ReSharper disable once ExpressionIsAlwaysConst
 	if (!isMedia) {
 		var imgIdenticon = $('img.identicon');
-		(<any>imgIdenticon).imagesLoaded(() => colorFromImage(imgIdenticon.get(0), true));
+		(<any>imgIdenticon).imagesLoaded(() => colorFromImage.applyColor(imgIdenticon.get(0), setTilesColors, true));
 	}
 
 }); 

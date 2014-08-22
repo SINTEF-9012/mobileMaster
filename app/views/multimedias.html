@@ -21,5 +21,10 @@
 			<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
 			<span class="glyphicon glyphicon-play-circle"></span>
 		</a>	
+		<a ui-sref="thing({ID: tweet.ID, from: 'multimedias'})" masonry-tile class="multimedias-tweet-link multimedias-link" ng-repeat="tweet in tweets" ng-style="{color: tweet.color, background: tweet.background}">
+			<span class="glyphicon glyphicon-comment"></span> 
+			{{tweet.description}}
+		</a>	
 	</div>
+
 </div>

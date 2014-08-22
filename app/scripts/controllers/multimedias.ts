@@ -13,7 +13,8 @@ angular.module('mobileMasterApp')
 		$window: ng.IWindowService,
 		settingsService: SettingsService,
 		$state: ng.ui.IStateService,
-		$stateParams: any
+		$stateParams: any,
+		colorFromImage: ColorFromImageService
 		) => {
 
 		$scope.from = $stateParams.from;
@@ -25,6 +26,7 @@ angular.module('mobileMasterApp')
 
 		var currentList = [];
 		$scope.medias = [];
+		$scope.tweets = [];
 
 		var jwindow = $($window);
 
@@ -68,6 +70,10 @@ angular.module('mobileMasterApp')
 	var createThumbnail = (thing: ThingModel.Thing) => {
 		var url = thing.String("url");
 
+		if (url && url.trim) {
+			url = url.trim();
+		}
+
 		if (url) {
 			var src  = mediaServerUrl + '/' + url;
 			var full = mediaServerUrl + "/resize/256/256/" + url;
@@ -86,6 +92,23 @@ angular.module('mobileMasterApp')
 				video: isVideo,
 				src: src
 			});
+		} else if (itsa.tweet(thing)) {
+			var tweet = {
+				ID: thing.ID,
+				description: thing.String("description"),
+				color: 'white',
+				background: 'black'
+			};
+
+			$scope.tweets.push(tweet);
+
+			colorFromImage.applyColor(
+				mediaServerUrl + '/identicon/' + encodeURIComponent(thing.ID) + '/?style=averagewindow',
+				(color) => {
+					tweet.background = color;
+					tweet.color = colorFromImage.whiteOrBlack(color);
+					digestScope();
+				});
 		}
 	};
 
