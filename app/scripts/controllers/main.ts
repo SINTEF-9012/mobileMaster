@@ -151,7 +151,6 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope,
 	$window: ng.IWindowService,
-	$sce: ng.ISCEService,
     persistentLocalization : PersistentLocalization,
     itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
@@ -282,11 +281,11 @@ angular.module('mobileMasterApp')
 		var summary = thingModel.warehouse.GetThing('master-summary');
 		if (summary) {
 			$scope.title = summary.GetString('title');
-			var content = summary.GetString('content');
-			//$scope.htmlSummary = content ? $sce.trustAsHtml(marked(content)) : '';
+			//var content = summary.GetString('content');
+			//$scope.htmlSummary = content ? marked(content)) : '';
 		} else {
 			$scope.title = 'Untitled situation';
-			//$scope.htmlSummary = '';//$sce.trustAsHtml('Default situation summary');
+			//$scope.htmlSummary = '';
 		}
 
 		if (!$scope.$$phase) {

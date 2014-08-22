@@ -19,7 +19,6 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	$state,
 	$scope,
 	$stateParams,
-	$sce: ng.ISCEService,
 	AddService: AddService,
 	thingModel: ThingModelService
 	) => {
@@ -31,8 +30,8 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 		if (summary) {
 			$scope.title = summary.GetString('title');
 			$scope.markdownSummary = summary.GetString('content');
-			$scope.htmlSummary = $scope.markdownSummary ? $sce.trustAsHtml(marked($scope.markdownSummary)
-				.replace(/<table>/g, '<table class="table table-striped">')) : '';
+			$scope.htmlSummary = $scope.markdownSummary ? marked($scope.markdownSummary)
+				.replace(/<table>/g, '<table class="table table-striped">') : '';
 		} else {
 
 			if (!$state.is('summary.edit')) {
