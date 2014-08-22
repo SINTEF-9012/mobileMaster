@@ -358,8 +358,8 @@
 					popup.update();
 				} else {
 					marker.bindPopup(content.get(0), {
-						closeButton: false
-						
+						closeButton: false,
+						keepInView: false
 					});
 					marker.on('dblclick', () => {
 						$state.go(toState, {
