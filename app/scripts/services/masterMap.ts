@@ -361,6 +361,17 @@
 						closeButton: false,
 						keepInView: false
 					});
+					popup = marker.getPopup();
+
+					popup.setLatLng = L.Util.bind(function (latlng: L.LatLng) {
+						this._latlng = latlng;
+						if (this._map) {
+							this._updatePosition();
+							// NO this._adjustPan();
+						}
+						return this;
+					}, popup);
+
 					marker.on('dblclick', () => {
 						$state.go(toState, {
 							ID: (<any>marker)._masterMapThingId,
