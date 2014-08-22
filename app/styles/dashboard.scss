@@ -180,13 +180,13 @@ a.infoblock.victims-block {
     	/* This is ugly but Chrome has a bug with 
     	flexbox and the dynamic height of the charts */
 		position: absolute;
-		top:0;
+		top:10%;
 		right:0;
 		bottom:0;
 		left:0;
 
         padding:0;
-        height:100%;
+        height:90%;
 
         & > div {
             // height:130px;
@@ -203,7 +203,7 @@ a.mediablock {
 	justify-content:space-around;
 
 	padding:12px 0 0 12px;
-	min-height:140px;
+	height:164px;
 	max-height:304px;
 	overflow: hidden;
 

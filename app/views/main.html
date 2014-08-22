@@ -82,7 +82,7 @@
 			<div class="row">
 				<a class="col-xs-12 infoblock mediablock" href="{{infos.Multimedias.href || '/Multimedias'}}" ng-controller="MultimediasCtrl" id="main-mediablock">
 					<h3 ng-show="medias.length == 0">Multimedias</h3>
-					<img ng-repeat="media in medias" ng-src="{{media.url}}" alt="" class="multimedia-thumbnail"/>
+					<img ng-repeat="media in medias" ng-src="{{media.url}}" alt="" class="multimedia-thumbnail" height="128" width="128" />
 				</a>
 			</div>
 		</div>
