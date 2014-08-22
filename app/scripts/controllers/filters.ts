@@ -1,4 +1,6 @@
+/// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp').controller('FiltersCtrl', (

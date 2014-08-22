@@ -1,4 +1,8 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/marked/marked.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) => {
@@ -8,13 +12,6 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 			.WhichIs('A wiki document')
 			.ContainingA.String('title')
 			.AndA.String('content').Build());
-
-	marked.setOptions({
-		gfm: true,
-		tables: true,
-		breaks: true
-	});
-
 }).controller('SummaryCtrl', (
 	$state,
 	$scope,

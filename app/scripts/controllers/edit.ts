@@ -1,4 +1,5 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
@@ -17,11 +18,6 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	$scope.$parent.returnLink = $state.href('^');
 	/*$scope.$parent.showSaveButton = true;*/
 	$scope.$parent.hideToolbarButtons = true;
-
-//	var layer = masterMap.getLayerClass("sight");
-//	var ll = new layer("Order");
-
-//	ll.addTo(masterMap);
 
 	var id = $scope.$parent.id;
 
@@ -77,7 +73,6 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 		delete $scope.newValues[key];
 	};
 
-	//$rootScope.$on('main.thing.edit.save', $scope.save);
 
 	$scope.remove = () => {
 		thingModel.RemoveThing(id);

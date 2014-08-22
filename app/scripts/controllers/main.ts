@@ -2,9 +2,12 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../../bower_components/a99d99f275e5c274a6ba/SuperSimpleCharts.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/marked/marked.d.ts" />
+
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
+
+'use strict';
 
 angular.module('mobileMasterApp')
 .config((masterMapProvider: Master.MapConfig) => {
@@ -175,24 +178,27 @@ angular.module('mobileMasterApp')
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
 			columnOffset = column.offset(),
-			height = $window.innerHeight - (columnOffset ? columnOffset.top : 0) - 6;
+			height = $window.innerHeight - (columnOffset ? columnOffset.top : 0) - 6,
+			windowWidth = jwindow.width(),
+			mediablockHeight = jMediablock.outerHeight();
 
-		var lg = blocs.length / 2, windowWidth = jwindow.width();
-		if (windowWidth >= 1200) {
-			lg = blocs.length / 3;
-		} else if (windowWidth < 768) {
-			lg = 4;
-		}
 
-		var mediablockHeight = jMediablock.outerHeight();
-
-		var blockHeight = Math.max(Math.min(blocs.first().innerWidth(), Math.floor(height / lg)) - 12, 120);
-		var mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 270);
+		var mapHeight, blockHeight;
 
 		// If it's a mobile or a tablet in portrait
-		if (window.innerWidth <= 768) {
+		if (windowWidth <= 768) {
 			mapHeight = 360;
 			blockHeight = 180;
+		} else {
+
+			var lg = blocs.length / (windowWidth >= 1200 ? 3 : 2);
+
+			blockHeight = Math.floor(height / Math.ceil(lg)) - 12;
+			var width = blocs.first().innerWidth();
+			if (blockHeight / width > 1.42) {
+				blockHeight = Math.min(150, blockHeight);
+			} 
+			mapHeight = Math.max(Math.floor(height - mediablockHeight - 12), 270);
 		}
 
 		blocs.height(blockHeight);
@@ -201,10 +207,12 @@ angular.module('mobileMasterApp')
 		jTimeline.height(mediablockHeight - 12);
 
 		window.setImmediate(() => {
-			masterMap.invalidateSize({});
 			jlink.height(mapHeight).width(jMap.width()).offset(jMap.offset());
 
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
+
+			masterMap.invalidateSize({});
+			masterMap.showOverview();
 		});
 	}, 200);
 
@@ -317,5 +325,5 @@ angular.module('mobileMasterApp')
 		masterMap.moveTo(jMap.get(0));
 		setLayout();
 		masterMap.enableSituationOverview();
-	});
+    });
 });

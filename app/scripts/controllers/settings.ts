@@ -1,3 +1,8 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')

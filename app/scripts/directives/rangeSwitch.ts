@@ -1,3 +1,5 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -9,7 +11,7 @@ angular.module('mobileMasterApp')
 			name:'=',
 			model:'='
 		},
-	    link: (scope, element, attrs) => {
+	    link: (scope: any, element, attrs) => {
 	    	
 	    	scope.$watch('model', () => {
 	    		scope.internalValue = scope.model ? '1' : '0';

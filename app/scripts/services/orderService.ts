@@ -1,6 +1,12 @@
-﻿'use strict';
+﻿/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 
-angular.module('mobileMasterApp').provider('orderService', function () {
+/// <reference path="./../references/app.d.ts" />
+
+'use strict';
+
+(<any>angular.module('mobileMasterApp'))
+	.provider('orderService', function() {
 
 	var orderType = ThingModel.BuildANewThingType.Named("master:order")
 		.WhichIs("An instruction ordeeeer mouhahhahaa")

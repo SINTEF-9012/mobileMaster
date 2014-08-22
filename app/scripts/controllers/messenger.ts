@@ -1,3 +1,12 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+/// <reference path="./../masterScope.d.ts" />
+
+'use strict';
+
 angular.module('mobileMasterApp')
 .config((AddServiceProvider: AddServiceConfig) => {
 	AddServiceProvider.defineType(ThingModel.BuildANewThingType.Named('messenger:message')
@@ -16,8 +25,6 @@ angular.module('mobileMasterApp')
 	$state: ng.ui.IStateService,
 	$stateParams: any
 ) => {
-
-	//$controller('TableCtrl', { $scope: $scope });
 
 	$scope.from = $stateParams.from;
 	var stateBack = $stateParams.from === 'map' ? 'map.slidder' : 'main';

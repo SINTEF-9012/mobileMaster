@@ -1,7 +1,11 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/moment/moment.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-hotkeys/angular-hotkeys.d.ts" />
+
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')

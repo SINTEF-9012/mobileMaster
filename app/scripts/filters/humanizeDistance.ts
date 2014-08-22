@@ -1,10 +1,11 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
-  .filter('humanizeDistance', function () {
+  .filter('humanizeDistance', () => {
   	// The distance is in meters
-    return function (orgDistance : number) : string {
+    return (orgDistance : number) : string => {
       var distance = Math.round(orgDistance);
 
       if(distance >= 1000000) {

@@ -1,3 +1,7 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
+'use strict';
+
 angular.module('mobileMasterApp')
   .directive('chatMessage', () => {
     return {
@@ -16,6 +20,7 @@ angular.module('mobileMasterApp')
 		link: (scope, element: JQuery, attrs) => {
 
 			scope.$watch('thing.author', () => {
+				// TODO this is obviously wrong
 				if (scope.thing.author === 'John Doe') {
 					scope.messageClass = 'my-chat-message';
 				} else {

@@ -1,6 +1,8 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
-/// <reference path="./../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
+
 /// <reference path="./../references/app.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')

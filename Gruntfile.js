@@ -452,7 +452,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
-    //'ts:build',
+    'ts:build',
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',

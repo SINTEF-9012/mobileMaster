@@ -1,6 +1,11 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+
 'use strict';
 
-angular.module('mobileMasterApp')
+(<any>angular.module('mobileMasterApp'))
 	.provider('AddService', function() {
 		var types: { [name: string]: ThingModel.ThingType } = {};
 

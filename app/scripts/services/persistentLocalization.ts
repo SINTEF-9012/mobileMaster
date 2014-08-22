@@ -1,4 +1,6 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
+/// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 
 'use strict';

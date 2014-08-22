@@ -1,14 +1,16 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
-/// <reference path="./../../bower_components/PruneCluster/PruneCluster.ts" />
-/// <reference path="./../../bower_components/PruneCluster/LeafletAdapter.ts" />
-/// <reference path="./../references/NodeMaster.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+
 /// <reference path="./../references/app.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
+/// <reference path="./../references/PruneCluster.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
+
 'use strict';
 
-angular.module('mobileMasterApp')
+(<any>angular.module('mobileMasterApp'))
 	.provider('masterMap', function() {
 
 		var layersTable = {},
@@ -137,6 +139,7 @@ angular.module('mobileMasterApp')
 
 				createShadow: () => null
 			});
+
 
 			var colors = ['#ff4b00', '#bac900', '#EC1813', '#55BCBE', '#D2204C', '#7109aa', '#ada59a', '#3e647e'],
 				// rouge orange, vert pomme, jaune, bleu ciel, magenta, violet, gris beige, bleu marine
@@ -369,34 +372,6 @@ angular.module('mobileMasterApp')
 			};
 
 			cluster.BuildLeafletClusterIcon = (cluster: PruneCluster.Cluster) => {
-
-				/*var results = [];
-
-				angular.forEach(cluster.stats, (value, key) => {
-					results.push({count: value, name: key});
-				});
-
-				results.sort((a, b) => b.count - a.count);
-
-				var more = results.length > 3;
-
-				if (more) {
-					results = results.slice(0, 3);
-				}
-
-				var div = angular.element('<div/>');
-				for (var i = 0, l = results.length; i < l; ++i) {
-					var e = angular.element('<master-icon />');
-						e.attr('type', results[i].name);
-						var masterIconElement = $compile(e);
-						masterIconElement($rootScope).appendTo(div);
-				}
-
-				return new L.DivIcon({
-					html: div.html(),
-					className: 'cluster-multi',
-					iconSize: L.point(40, 40)
-				});*/
 
 				var e = new clusterIcon();
 

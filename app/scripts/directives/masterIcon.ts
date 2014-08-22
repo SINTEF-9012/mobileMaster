@@ -1,5 +1,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 
+/// <reference path="./../references/app.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -191,7 +193,7 @@ angular.module('mobileMasterApp')
 				element.addClass('multimedias');
 			} else if (/others/i.test(type)) {
 				element.addClass('others');
-				element.text('?');
+				element.text('\u25C6');
 			} else {
 				element.addClass('default-icon');
 				element.text(type[0]);

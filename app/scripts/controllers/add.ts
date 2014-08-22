@@ -1,5 +1,6 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-hotkeys/angular-hotkeys.d.ts" />
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
@@ -23,33 +24,13 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	var position: L.LatLng;
 
+	// The location can be specified as state parameters
 	if ($stateParams.lat && $stateParams.lng) {
 		position = L.latLng($stateParams.lat, $stateParams.lng);
-		// Pan to the position if it's not visible
-		//if (!masterMap.getBounds().pad(0.8).contains(position)) {
-		//	masterMap.panTo(position);
-		//}
 	} else {
 		position = masterMap.getCenter();
 	}
 
-
-	/*var marker = new L.Marker(position, {
-		draggable: true
-	});
-
-	marker.on('dragstart', (e)=> {
-		masterMap.fire('markerdragstart', e);
-	}).on('dragend', (e)=> {
-		window.setImmediate(()=> {
-			masterMap.fire('markerdragend', e);
-		});
-
-		var pos = marker.getLatLng();
-
-		// TODO update the URL params in a beautiful and wonderful way
-		//$state.go('main.add', pos);
-	});*/
 
 	$scope.types = {
 		"incident": {

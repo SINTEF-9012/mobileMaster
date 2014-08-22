@@ -1,12 +1,28 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
-angular.module("mobileMasterApp").provider("thingModel", function () {
+/// <reference path="./../references/generic.d.ts" />
+/// <reference path="./../references/app.d.ts" />
+
+'use strict';
+
+(<any>angular.module("mobileMasterApp")).provider("thingModel", function () {
 	this.$get = (
 		$rootScope: MasterScope.Root,
 		Knowledge: KnowledgeModule,
 		$state: ng.ui.IStateService,
 		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
+
+		/*window.onbeforeunload = () => {
+			try {
+				var serializer = new ThingModel.Proto.ToProtobuf();
+				var transaction = serializer.Convert(this.warehouse.Things, [], this.warehouse.ThingsTypes, "offline save");
+				window.localStorage.setItem("ThingModelWarehouseOfflineSave", transaction.toBase64());
+			} catch (e) {}
+		}*/
 
 		var clientID = settingsService.getClientName() + " - " + navigator.userAgent;
 		var endPoint = settingsService.getThingModelUrl();
@@ -30,7 +46,7 @@ angular.module("mobileMasterApp").provider("thingModel", function () {
 		} catch (e) {
 			alert("ThingModel error: " + e.message);
 			$state.go('settings');
-			return
+			return this;
 		} 
 
 		this.client.RegisterObserver({

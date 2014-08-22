@@ -132,6 +132,8 @@ interface ThingIdentifierService {
 	police(thing: ThingModel.Thing): boolean;
 	medic(thing: ThingModel.Thing): boolean;
 	fire(thing: ThingModel.Thing): boolean;
+
+	imageOverlay(thing: ThingModel.Thing): boolean;
 }
 
 interface FilterService {
@@ -157,22 +159,7 @@ interface KnowledgeService {
 	}[];
 }
 
-declare module L {
-	export var Renderer: any;
-	export var Layer: any;
-
-	export module Control {
-		export var RTSMiniMap: any;
-	}
-
-	/*export module Util {
-		export var throttle: (fn: () => void, time: number, context?: any) => () => void;
-	}*/
-
+interface ColorFromImageService {
+	whiteOrBlack: (color: string) => string;
+	applyColor: (img: any, callback: (color: string) => void, exclude?: boolean) => void;
 }
-
-declare var throttle: (fn: () => void, wait: number, options?: any) => () => void;
-
-declare var PruneClusterLeafletSpiderfier: any;
-
-declare var RGBaster: any;

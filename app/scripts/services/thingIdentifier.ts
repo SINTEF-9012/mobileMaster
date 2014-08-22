@@ -1,3 +1,7 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -17,6 +21,7 @@ angular.module('mobileMasterApp')
 		medic = /(health|medic)/i,
 		fire = /(fire)/i,
 		message = /(message)/i,
+		imageOverlay = /(imageOverlay)/i,
 
 	// Some more high level categories
 		multimedia = /(media|picture|video|tweet)/i;
@@ -33,6 +38,7 @@ angular.module('mobileMasterApp')
 		orders: order,
 		multimedias: multimedia,
 		messages: message,
+		imageoverlays: imageOverlay
 	};
 	// Compute the oposite of all these regexp
 
@@ -47,18 +53,19 @@ angular.module('mobileMasterApp')
 	lockup['all'] = /.*/;
 
 
-	this.victim = (thing: ThingModel.Thing) =>		thing.Type && victim.test(thing.Type.Name);
-	this.media = (thing: ThingModel.Thing) =>		thing.Type && media.test(thing.Type.Name);
-	this.tweet = (thing: ThingModel.Thing) =>		thing.Type && tweet.test(thing.Type.Name);
-	this.resource = (thing: ThingModel.Thing) =>	thing.Type && resource.test(thing.Type.Name);
-	this.response = (thing: ThingModel.Thing) =>	thing.Type && response.test(thing.Type.Name);
-	this.incident = (thing: ThingModel.Thing) =>	thing.Type && incident.test(thing.Type.Name);
-	this.risk = (thing: ThingModel.Thing) =>		thing.Type && risk.test(thing.Type.Name);
-	this.beacon = (thing: ThingModel.Thing) =>		thing.Type && beacon.test(thing.Type.Name);
-	this.order = (thing: ThingModel.Thing) =>		thing.Type && order.test(thing.Type.Name);
-	this.multimedia = (thing: ThingModel.Thing) =>	thing.Type && multimedia.test(thing.Type.Name);
-	this.message = (thing: ThingModel.Thing) =>		thing.Type && message.test(thing.Type.Name);
-	this.other = (thing: ThingModel.Thing) =>		!thing.Type || !other_invert.test(thing.Type.Name);
+	this.victim = (thing: ThingModel.Thing) =>			thing.Type && victim.test(thing.Type.Name);
+	this.media = (thing: ThingModel.Thing) =>			thing.Type && media.test(thing.Type.Name);
+	this.tweet = (thing: ThingModel.Thing) =>			thing.Type && tweet.test(thing.Type.Name);
+	this.resource = (thing: ThingModel.Thing) =>		thing.Type && resource.test(thing.Type.Name);
+	this.response = (thing: ThingModel.Thing) =>		thing.Type && response.test(thing.Type.Name);
+	this.incident = (thing: ThingModel.Thing) =>		thing.Type && incident.test(thing.Type.Name);
+	this.risk = (thing: ThingModel.Thing) =>			thing.Type && risk.test(thing.Type.Name);
+	this.beacon = (thing: ThingModel.Thing) =>			thing.Type && beacon.test(thing.Type.Name);
+	this.order = (thing: ThingModel.Thing) =>			thing.Type && order.test(thing.Type.Name);
+	this.multimedia = (thing: ThingModel.Thing) =>		thing.Type && multimedia.test(thing.Type.Name);
+	this.message = (thing: ThingModel.Thing) =>			thing.Type && message.test(thing.Type.Name);
+	this.imageOverlay = (thing: ThingModel.Thing) =>	thing.Type && imageOverlay.test(thing.Type.Name);
+	this.other = (thing: ThingModel.Thing) =>			!thing.Type || !other_invert.test(thing.Type.Name);
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {
 		if (!thing.Type) {
@@ -77,6 +84,7 @@ angular.module('mobileMasterApp')
 		if (resource.test(type)) return 'Resources';
 		if (response.test(type)) return 'Responses';
 		if (beacon.test(type)) return 'Beacons';
+		if (imageOverlay.test(type)) return 'ImageOverlays';
 
 		return 'Others';
 	};

@@ -1,7 +1,9 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
-  .filter('distance', function () {
+  .filter('distance', () => {
 
   	// var HaversineDistance = function(latA: number, lngA: number, latB: number, lngB: number) : number {
   	// 	var R =  6378137,
@@ -16,7 +18,7 @@ angular.module('mobileMasterApp')
   	// 		return R * c;
   	// };
 
-    return function (input : any) : number {
+    return (input : any) : number => {
     	if (input && input.from && input.from.lat != undefined && input.from.lng != undefined
     		&& input.to && input.to.lat != undefined && input.to.lng != undefined) {
 

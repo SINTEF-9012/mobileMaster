@@ -1,10 +1,12 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
-/// <reference path="./../references/NodeMaster.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp').controller('ThingCtrl', (
@@ -193,7 +195,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				$scope.isPicture = !$scope.isVideo;
 
 				var smallThumbnailUrl = multimediaServer + '/thumbnail/' + url;
-				//console.log(smallThumbnailUrl);
 
 				if ($scope.isVideo) {
 					$scope.mp4Url = multimediaServer + '/convert/mp4/480/' + url;

@@ -1,3 +1,9 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+
+'use strict';
+
 angular.module('mobileMasterApp')
   .directive('identicon', (settingsService: SettingsService) => {
     return {

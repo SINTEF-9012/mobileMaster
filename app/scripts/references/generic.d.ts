@@ -24,3 +24,23 @@ interface JQuery{
 declare var OSMBuildings;
 declare var rebound;
 
+declare module L {
+	export var Renderer: any;
+	export var Layer: any;
+
+	export module Control {
+		export var RTSMiniMap: any;
+	}
+
+	/*export module Util {
+		export var throttle: (fn: () => void, time: number, context?: any) => () => void;
+	}*/
+
+	export var MasterImageOverlay: any;
+}
+
+declare var throttle: (fn: () => void, wait: number, options?: any) => () => void;
+
+declare var PruneClusterLeafletSpiderfier: any;
+
+declare var RGBaster: any;

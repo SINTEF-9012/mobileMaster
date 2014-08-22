@@ -77,12 +77,6 @@ angular.module('mobileMasterApp')
 		var icon = angular.element('<master-icon />');
 		icon.attr('type', type);
 		var compiledIcon = $compile(icon)($scope);
-		/*var marker = new L.Marker(position, {
-			draggable: true,
-			icon: masterMap.createMasterIconWithType(type,$scope)
-		});
-
-		marker.addTo(masterMap);*/
 
 		masterMap.locate({
 			watch: true,
@@ -98,7 +92,8 @@ angular.module('mobileMasterApp')
 			AddService.register(type, masterMap.getCenter(), (thing : ThingModel.ThingPropertyBuilder) => {
 				thing.String('description', $scope.description != undefined ? $scope.description : "");
 				thing.String('url', $scope.url);
-				//thing.DateTime('creation', new Date());
+				// TODO check if it's working
+				thing.DateTime('creation', new Date());
 			});
 
 			$state.go($rootScope.previousState || 'map.slidder');

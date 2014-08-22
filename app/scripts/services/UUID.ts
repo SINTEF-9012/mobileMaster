@@ -1,3 +1,7 @@
+/// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
+
 'use strict';
 
 angular.module('mobileMasterApp')
@@ -25,7 +29,7 @@ angular.module('mobileMasterApp')
 
 			// Just for fun
 			if (thingModel.warehouse.GetThing(id)) {
-				alert("Take a picture : epic UUID collision : http://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates");
+				alert("Take a picture : epic UUID collision : http://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates");
 				return this.generate();
 			}
 

@@ -1,14 +1,12 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+
+/// <reference path="./../references/app.d.ts" />
 
 'use strict';
+
 angular.module('mobileMasterApp')
-/*.config(function(KnowledgeProvider: any) {
-	KnowledgeProvider.addKnowledge({
-		typeName: /minecraft/,
-		tablePropertiesOrder: { healt: 6, pitch: 1 }
-	});
-})*/
 .controller('TableCtrl', (
 	$scope: any,
 	thingModel : ThingModelService,
@@ -33,7 +31,6 @@ angular.module('mobileMasterApp')
 
 	var thingTypeTest = itsa.testfor($stateParams.thingtype || 'victims');
 		//new RegExp($stateParams.thingtype, 'i')
-		//: /(victim|patient)/i;
 
 	var filter: (thing: ThingModel.Thing) => boolean =
 		thingTypeTest ? (t) => t.Type && thingTypeTest.test(t.Type.Name) :
@@ -60,7 +57,6 @@ angular.module('mobileMasterApp')
 			globalList.push(s);
 		}
 	});
-	//$scope.things = globalList;
 
 
 	var sortVictims =  () => {
@@ -81,12 +77,15 @@ angular.module('mobileMasterApp')
 			return ta > tb ? 1 : -1;
 		});
 	},
+	dateSort = () => {
+		globalList.sort((a, b) => a.datetime - b.datetime);
+	},
 	defaultSort = () => {
 		globalList.sort((a, b) => a.ID < b.ID ? 1 : a.ID > b.ID ? -1 : 0);
 	};
 
 
-	var sortThings = $state.is('victims') ? sortVictims : defaultSort;
+	var sortThings = $state.is('victims') ? sortVictims : ($state.is('messenger') ? dateSort : defaultSort);
 
 	var digestScope = throttle(() => {
 		sortThings();
@@ -171,12 +170,4 @@ angular.module('mobileMasterApp')
 		$scope.sortDirection = direction;
 		$scope.sortPropertyKey = key;
 	};
-
-	/*$scope.filter = (filter: string) => {
-		filter = filter.toLocaleLowerCase();
-
-		$scope.filter = filter;
-		$stateParams.filter = filter;
-		digestScope();
-	};*/
 });

@@ -1,6 +1,7 @@
 /// <reference path="./../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/modernizr/modernizr.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/phonegap/phonegap.d.ts" />
+/// <reference path="./../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/ravenjs/ravenjs.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../bower_components/DefinitelyTyped/angular-hotkeys/angular-hotkeys.d.ts" />
@@ -12,11 +13,19 @@
 'use strict';
 
 angular.module('mobileMasterApp', [
-	'ui.router', 'angularFileUpload', 'angular-loading-bar', 'cfp.loadingBar', 'angularMoment', 'masonry', 'FBAngular', 'cfp.hotkeys'])
-  .config(function ($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, $provide) {
+	'ui.router',
+	'angularFileUpload',
+	'angular-loading-bar',
+	'cfp.loadingBar',
+	'angularMoment',
+	'masonry',
+	'FBAngular',
+	'cfp.hotkeys',
+	'ngSanitize'])
+  .config(($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, $provide) => {
 
-	$provide.decorator("$exceptionHandler", ['$delegate', function ($delegate) {
-		  return function (exception, cause) {
+	$provide.decorator("$exceptionHandler", ['$delegate', ($delegate) => {
+		  return (exception, cause) => {
 			  $delegate(exception, cause);
 			  if (typeof Raven !== 'undefined') {
 				  Raven.captureException(exception, { cause: cause });
@@ -76,22 +85,6 @@ angular.module('mobileMasterApp', [
 			controller: 'TableCtrl',
 			templateUrl: 'views/table.html'
 		})
-		/*.state('main.compass', {
-			url: 'compass',
-			views: {
-//			top: {
-//				templateUrl: 'views/map.html',
-//				controller: 'MapCtrl',
-//			},
-				'bottom@': {
-					controller: 'CompassCtrl',
-					templateUrl: 'views/compass.html'
-				},
-//			slidder: {
-//				templateUrl: 'views/slidder.html'
-//			}
-			}
-		})*/
 		.state('background', {
 			url: '/background',
 			controller: 'BackgroundCtrl',
@@ -237,16 +230,13 @@ var throttle = <(fn: () => void, wait: number, options?: any) => () => void>_.th
 if (!!("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 0) {
 	document.body.className += " touch";
 
-	$(document)/*.on('focus', 'input, textarea', () => {
-		//$('.navbar.navbar-fixed-top').css('position', 'absolute');
-	})*/.on('blur', 'input, textarea', () => {
-		//$('.navbar.navbar-fixed-top').css('position', 'fixed');
+	$(document).on('blur', 'input, textarea', () => {
 		window.scrollTo(0, 0);
 	});
 }
 
 if (window.applicationCache) {
-	window.applicationCache.addEventListener('updateready', function () {
+	window.applicationCache.addEventListener('updateready', () => {
 		if (confirm('An new version of Master is available. Restart now?')) {
 			window.location.reload();
 		}
@@ -256,7 +246,7 @@ if (window.applicationCache) {
 if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {
 	document.body.parentElement.className = "ipad ios7";
 
-  window.addEventListener('orientationchange', function () {
+  window.addEventListener('orientationchange', () => {
     window.scrollTo(0, 0);
   });
 }
