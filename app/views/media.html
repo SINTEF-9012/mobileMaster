@@ -34,7 +34,7 @@
 						<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail" ng-click="$parent.$parent.showPicture()"/>
 					</p>
 					<p ng-if="isVideo" class="media-view">
-						<video id="video{{thing.id}}" controls preload="none" poster="{{posterUrl}}" loop autoplay fullscreen="videoFullscreen" ngi-click="videoFullscreen = !videoFullscreen">
+						<video id="video{{thing.id}}" controls poster="{{posterUrl}}" loop autoplay fullscreen="videoFullscreen" ngi-click="videoFullscreen = !videoFullscreen">
 							<source ng-src="{{mp4Url}}" type="video/mp4">
 							<source ng-src="{{webmUrl}}" type="video/webm">
 						</video>
