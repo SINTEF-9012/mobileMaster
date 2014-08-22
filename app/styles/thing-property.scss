@@ -27,3 +27,19 @@
 	opacity: 0.25;
 	font-size: 2em;
 }
+
+thing-property .markdown-property {
+	text-align:left;
+	font-size: 0.9em;
+}
+
+.thing-property-url,
+.victimInfobox .infoboxview > .thing-property-url,
+.thingInfobox .infoboxview > .thing-property-url {
+	text-align:left;
+	font-size:0.8em;
+
+	a {
+		color: $indigo-color;
+	}
+}

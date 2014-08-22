@@ -12,7 +12,7 @@ angular.module('mobileMasterApp')
 	    $compile: ng.ICompileService
 ) => {
     return {
-      template: '<span>{{result}}</span>',
+      template: '<span title="{{rawValue}}">{{result}}<span ng-bind-html="HTMLResult" ng-if="HTMLResult" class="markdown-property"></span></span>',
 		restrict: 'E',
 		scope: {
 			value: '='
@@ -21,9 +21,13 @@ angular.module('mobileMasterApp')
 
 			var key = attrs.key;
 
+			var testMarkdown = /(\n|[*>|=#].*[*>|=#]|http:\/\/)/;
+
 			scope.$watch('value', (value) => {
 
 				var type = 'default';
+
+				scope.rawValue = value;
 
 				if (_.isNumber(value)) {
 					type = 'Number';
@@ -75,27 +79,32 @@ angular.module('mobileMasterApp')
 					var light = $('<div class="triage-light"></div>');
 					light.css('background', value.toLowerCase());
 					element.prepend(light);
-				} else if (type === 'String' && key === 'url') {
-					scope.result = '';
-					var proxy = settingsService.getMediaServerUrl();
-					var href =  proxy +'/'+ value;
-					var a = $('<a target="_blank"/>').attr('href', href).text('Open');
+				} else if (type === 'default') {
 
-					if (scope.thing.typeName === 'PictureType' || scope.thing.typeName === 'master:picture') {
-						if (value) {
-							var img = $('<img class="img-thumbnail"/>').attr('src', proxy + '/thumbnail/' + value);
-							a.text('').append(img);
-						}
-					} 
-					else if (scope.thing.typeName === 'VideoType' || scope.thing.typeName === 'master:video') {
-						a.addClass('btn btn-default btn-sm');
-						a.text(' Play');
-						a.prepend($('<span/>').addClass('glyphicon glyphicon-play'));
-					} else {
-						a.addClass('btn btn-default');
+					if (key === 'url') {
+						scope.result = '';
+						var proxy = settingsService.getMediaServerUrl();
+						var href = proxy + '/' + value;
+						var a = $('<a target="_blank"></a>').attr('href', href).text(value);
+
+						/*if (scope.thing.typeName === 'PictureType' || scope.thing.typeName === 'master:picture') {
+							if (value) {
+								var img = $('<img class="img-thumbnail"/>').attr('src', proxy + '/thumbnail/' + value);
+								a.text('').append(img);
+							}
+						} else if (scope.thing.typeName === 'VideoType' || scope.thing.typeName === 'master:video') {
+							a.addClass('btn btn-default btn-sm');
+							a.text(' Play');
+							a.prepend($('<span/>').addClass('glyphicon glyphicon-play'));
+						} else {*/
+
+						element.append(a);
+					} else if (testMarkdown.test(value)) {
+
+						scope.result = '';
+						scope.HTMLResult = marked(value)
+							.replace(/<table>/g, '<table class="table table-striped">');
 					}
-
-					element.append(a);
 				}
 			});
 		}
