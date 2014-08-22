@@ -545,10 +545,7 @@
 			}
 
 			instance.showOverview = () => {
-				var oldSituationOverview = situationOverviewEnabled;
-				situationOverviewEnabled = true;
-				overviewWorker();
-				situationOverviewEnabled = oldSituationOverview;
+				cluster.FitBounds();
 			}
 
 			instance.getLayerClass = (name: string) => this.layerClasses[name];
