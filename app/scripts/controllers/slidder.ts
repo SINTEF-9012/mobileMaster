@@ -65,6 +65,9 @@ angular.module('mobileMasterApp')
 					case 'Multimedias':
 						href = 'multimedias';
 						break;
+					// Ignore image overlays
+					case 'ImageOverlays':
+						return;
 					default:
 						href = 'table';
 				}

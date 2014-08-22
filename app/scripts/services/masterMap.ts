@@ -719,10 +719,34 @@
 				}
 			};
 
-			angular.forEach(thingModel.warehouse.Things, addMarker);
+			var addImageOverlay = (thing: ThingModel.Thing) => {
+				// TODO
+				console.log(thing);
+				var topLeft = thing.LocationLatLng("topleft"),
+					bottomRight = thing.LocationLatLng("bottomright"),
+					url = thing.String("url");
+
+				var overlay = new L.MasterImageOverlay(url,
+					new L.LatLngBounds([
+						new L.LatLng(topLeft.Latitude, topLeft.Longitude),
+						new L.LatLng(bottomRight.Latitude, bottomRight.Longitude)
+					]));
+
+				overlay.addTo(instance);
+			};
+
+			var addMarkerOrOverlay = (thing: ThingModel.Thing) => {
+				if (itsa.imageOverlay(thing)) {
+					addImageOverlay(thing);
+				} else {
+					addMarker(thing);
+				}
+			};
+
+			angular.forEach(thingModel.warehouse.Things, addMarkerOrOverlay);
 
 			thingModel.warehouse.RegisterObserver({
-				New: addMarker,
+				New: addMarkerOrOverlay,
 				Updated: (thing: ThingModel.Thing) => {
 					var marker = thingsOnTheMap[thing.ID];
 
@@ -792,12 +816,20 @@
 				div.appendChild(instance.getContainer());
 
 				(<any>L.Util.falseFn)(div.offsetWidth); // redraw ?
+				instance.invalidateSize(true);
 
-				instance.invalidateSize(false);
+				// TODO IS IT USEFULL?
+				window.setImmediate(() => {
+					instance.invalidateSize(true);
+				});
 
 				window.setTimeout(() => {
 					eventState.container = false;
-					jbody.removeClass('disable-markers-animations');
+					if (eventState.zoom === false &&
+						eventState.move === false &&
+						eventState.margerdrag === false) {
+						jbody.removeClass('disable-markers-animations');
+					}
 				}, interval*2);
 			};
 
