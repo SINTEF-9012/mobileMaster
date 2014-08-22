@@ -67,8 +67,10 @@ master-icon {
 // background: #ada59a;
 // border-radius: 50%;
 &.default-icon,&.others {
-	background: $pantone_130;
+	// background: $pantone_130;
+	background:$indigo-color;
 	border-radius:50%;
+	color: white;
 }
 
 
@@ -97,10 +99,10 @@ master-icon {
 	background-size:100% 100%;
 }
 
-&.others {
+/*&.others {
 	color: white;
 	background-color:$indigo-color;
-}
+}*/
 
 @media (min--moz-device-pixel-ratio: 1.3),
 	(-o-min-device-pixel-ratio: 2.6/2),

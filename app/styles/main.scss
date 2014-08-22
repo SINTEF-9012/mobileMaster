@@ -10,7 +10,9 @@
     width:100%;
     height:100%;
 }*/
-
+body {
+    background:url(/images/background.png) repeat;
+}
 #main-map, #thing-map {
     /*position:absolute;
     display:block;*/
