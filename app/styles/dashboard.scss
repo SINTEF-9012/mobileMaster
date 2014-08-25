@@ -261,6 +261,10 @@ a.mediablock {
 #main-map {
 	padding:6px;
 	height:400px;
+
+	& > div {
+		height:100%;
+	}
 }
 
 @keyframes glowingconnection {

@@ -15,6 +15,8 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	thingModel: ThingModelService
 	) => {
 
+	masterMap.show();
+
 	$scope.$parent.returnLink = $state.href('^');
 	/*$scope.$parent.showSaveButton = true;*/
 	$scope.$parent.hideToolbarButtons = true;

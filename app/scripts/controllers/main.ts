@@ -17,7 +17,8 @@ angular.module('mobileMasterApp')
             zoomControl: false,
             attributionControl: false,
             maxZoom:20,
-            keyboard: false
+			keyboard: false,
+			trackResize: false
         })
         .declareTileLayer({
             name: "MapBox",
@@ -140,7 +141,8 @@ angular.module('mobileMasterApp')
                 });
             }
         })
-        .setDefaultTileLayer("MapBox");
+		.setDefaultTileLayer("MapBox")
+		.setContainer(document.getElementById("map-root"));
 
 	marked.setOptions({
 		gfm: true,
@@ -154,19 +156,20 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope,
 	$window: ng.IWindowService,
-    persistentLocalization : PersistentMap,
+    persistentMap : PersistentMap,
     itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
 
 	var jMap = $('#main-map'),
+		jMapBody = jMap.children(),
 		jlink = $('#main-map-link'),
 		jChat = $('#main-chat'),
 		jMediablock = $('#main-mediablock'),
 		jChatScrollarea = $('.chat-scroll-area').get(0),
 		jTimeline = $('#main-timeline');
 
-	persistentLocalization.restorePersistentLayer(masterMap);
-	persistentLocalization.unbindMasterMap(masterMap);
+	persistentMap.restorePersistentLayer(masterMap);
+	persistentMap.unbindMasterMap(masterMap);
 
     masterMap.disableInteractions();
     masterMap.disableMiniMap();
@@ -211,7 +214,8 @@ angular.module('mobileMasterApp')
 
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
 
-			masterMap.invalidateSize({});
+			masterMap.moveTo(jMapBody);
+			//masterMap.invalidateSize({});
 			masterMap.showOverview();
 		});
 	}, 200);

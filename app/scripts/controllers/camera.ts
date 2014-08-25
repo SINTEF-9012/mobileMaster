@@ -109,6 +109,7 @@ angular.module('mobileMasterApp')
 	var setLayout = throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
+		masterMap.moveTo(jMap);
 	}, 50);
 
 
@@ -122,9 +123,8 @@ angular.module('mobileMasterApp')
 
 	persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
-	setLayout();
-	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
+	setLayout();
 
 	window.setImmediate(() => {
 		persistentMap.restorePersistentLayer(masterMap);

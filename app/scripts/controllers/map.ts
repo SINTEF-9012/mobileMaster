@@ -4,6 +4,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 
 'use strict';
@@ -26,12 +27,18 @@ angular.module('mobileMasterApp')
 	masterMap.disableSituationOverview();
 
 	persistentMap.restorePersistentLayer(masterMap);
-	masterMap.moveTo(document.getElementById('map'));
 
-	window.setImmediate(() => {
-		persistentMap.bindMasterMap(masterMap);
-		masterMap.enableMiniMap();
-	});
+	var jMap = $('#map'), jwindow = $(window);
+	var setLayout = throttle(() => {
+		masterMap.moveTo(jMap);
+	}, 50);
+
+	setLayout();
+
+	//window.setImmediate(() => {
+	persistentMap.bindMasterMap(masterMap);
+	masterMap.enableMiniMap();
+	//});
 
 	hotkeys.bindTo($scope)
 		.add({
@@ -63,7 +70,10 @@ angular.module('mobileMasterApp')
 		masterMap.setVerticalTopMargin(slidder.outerHeight());
 	};
 
+	jwindow.resize(setLayout);
+
 	$scope.$on('$destroy', () => {
+		jwindow.off('resize', setLayout);
 		masterMap.off('contextmenu', contextmenu);
 		angular.element($window).off('resize', setMargin);
 	});

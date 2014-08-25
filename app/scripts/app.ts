@@ -112,7 +112,10 @@ angular.module('mobileMasterApp', [
 		})
 		.state('add.informations', {
 			url: '/informations',
-			templateUrl: 'views/addinformations.html'
+			templateUrl: 'views/addinformations.html',
+			controller: (masterMap: Master.Map) => {
+				masterMap.show();
+			}
 		})
         .state('order', {
 			url: '/order/:ID?from',
@@ -157,11 +160,15 @@ angular.module('mobileMasterApp', [
   }).run((
 	  $rootScope: MasterScope.Root,
 	  $state: ng.ui.IStateService,
+	  masterMap: Master.Map,
 	  hotkeys: ng.hotkeys.HotkeysProvider) => {
 	  $rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
-		$rootScope.previousState = fromState.name;
-		$rootScope.currentState = toState.name;
-	});
+			$rootScope.previousState = fromState.name;
+		  $rootScope.currentState = toState.name;
+		  if (!fromState.name || fromState.name.indexOf(toState.name + ".") !== 0) {
+			  masterMap.hide();
+		  }
+	  });
 	$rootScope.$on('$stateChangeSuccess', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
 		$rootScope.bodyClass = toState.name.replace('.', '-controller ')+"-controller";
 	});

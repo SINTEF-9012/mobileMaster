@@ -135,7 +135,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				var mapBounds = masterMap.getBounds();
 
 				var changeView = false, initSetView = false;
-				if (oldPosition === null && !/^(thing|victim)/.test($rootScope.previousState)) {
+				if (oldPosition === null && (!mapBounds.pad(-0.2).contains(pos) || Math.abs(masterMap.getZoom() - zoom) > 2)){
 					changeView = true;
 					initSetView = true;
 				} else if (mapBounds.contains(pos)) {
@@ -159,14 +159,25 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				}
 
 				if (changeView) {
-					if (initSetView || !$('html').hasClass('disable-markers-animations')) {
+					//if (trueinitSetView/* || !$('html').hasClass('disable-markers-animations')*/) {
+
 						var options = oldPosition === null ? { animate: false } : undefined;
-						masterMap.setView(pos, zoom, options);
-						// TODO it's a bit ugly but it's the summer
-						window.setTimeout(() => {
-							masterMap.setView(pos, zoom, options);
-						}, 4);
-					}
+
+					masterMap.setView(pos, zoom, options);
+
+					var asynchronousRah = () => {
+						if (oldPosition === pos && oldZoom === zoom && !masterMap.getCenter().equals(pos)) {
+							masterMap.setView(pos, zoom, {animate: false});
+						}
+					};
+
+					masterMap.on('moveend', asynchronousRah);
+
+					window.setTimeout(() => {
+						masterMap.off('moveend', asynchronousRah);
+					}, 500);
+
+					//}
 				}
 
 				oldPosition = pos;
@@ -239,7 +250,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 				}
 
-				colorFromImage.applyColor(smallThumbnailUrl, setTilesColors);
+				window.setImmediate(() => {
+					colorFromImage.applyColor(smallThumbnailUrl, setTilesColors);
+				});
 			}
 
 			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
@@ -278,6 +291,31 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		}
 	}, 10);
 
+	var setLayout = throttle(() => {
+		var width = jwindow.width();
+
+		if (tileColor !== oldTileColor) {
+			oldTileColor = tileColor;
+			setTilesColors(tileColor);
+		}
+
+		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
+		jMap.height(height - 1 /* border */);
+		if (width >= 768 && !$scope.hideMap) {
+			jView.height(height - 11 /* margin bottom */);
+		} else {
+			jView.height('auto');
+		}
+
+		masterMap.moveTo(jMap);
+
+		//if (oldPosition) {
+		//	masterMap.setView(oldPosition, oldZoom, {animate: false});
+		//}
+	}, 50);
+
+	setLayout();
+	masterMap.moveTo(jMap);
 
 	digestScope();
 
@@ -311,23 +349,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var tileColor = null, oldTileColor = null;
 
-	var setLayout = throttle(() => {
-		var width = jwindow.width();
 
-		if (tileColor !== oldTileColor) {
-			oldTileColor = tileColor;
-			setTilesColors(tileColor);
-		}
 
-		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
-		jMap.height(height - 1 /* border */);
-		if (width >= 768 && !$scope.hideMap) {
-			jView.height(height - 11 /* margin bottom */);
-		} else {
-			jView.height('auto');
-		}
-		masterMap.invalidateSize({});
-	}, 50);
 
 	var disableStateChangeSuccessCallback =
 	$rootScope.$on('$stateChangeSuccess', () => {
@@ -356,7 +379,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	masterMap.setVerticalTopMargin(0);
 	setLayout();
-	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
 
 	function setTilesColors(color) {
@@ -370,7 +392,12 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	// ReSharper disable once ExpressionIsAlwaysConst
 	if (!isMedia) {
 		var imgIdenticon = $('img.identicon');
-		(<any>imgIdenticon).imagesLoaded(() => colorFromImage.applyColor(imgIdenticon.get(0), setTilesColors, true));
+		(<any>imgIdenticon).imagesLoaded(() => {
+			// Double verification because it's asynchronous
+			if (!isMedia) {
+				colorFromImage.applyColor(imgIdenticon.get(0), setTilesColors, true);
+			}
+		});
 	}
 
 }); 

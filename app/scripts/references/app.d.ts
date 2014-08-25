@@ -33,6 +33,9 @@ declare module Master {
 		createMasterIconWithType(type: string, scope: ng.IScope, options?: L.IconOptions): L.Icon;
 
 		moveTo(div: HTMLElement);
+		moveTo(div: JQuery);
+		hide();
+		show();
 
 		enableShadow(title?: string, icon?: HTMLElement, className?:string);
 		disableShadow();

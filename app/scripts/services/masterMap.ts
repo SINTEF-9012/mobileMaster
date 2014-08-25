@@ -853,31 +853,76 @@
 				paddingTopLeft.y = margin + 20;
 			};
 
-			(<any>instance)._getMapPanePos = function () {
-				return L.DomUtil.getPosition(this._mapPane) || new L.Point(0,0);
+			/*(<any>instance)._getMapPanePos = function () {
+				return L.DomUtil.getPosition(this._mapPane) || new L.Point(0, 0);
+			};*/
+
+			var jContainer = $((<any>instance)._container),
+				oldOffsetTop = 0,
+				oldOffsetLeft = 0,
+				oldWidth = 0,
+				oldHeight = 0,
+				containerHidden = false,
+				immediateContainerHidding = 0;
+
+			instance.moveTo = (div: any) => {
+				instance.show();
+
+				div = $(div);
+
+				var width = div.outerWidth(),
+					height = div.outerHeight(),
+					offset = div.offset();
+
+				offset.top = Math.round(offset.top);
+				offset.left = Math.round(offset.left);
+
+				var diffTop = offset.top - oldOffsetTop,
+					diffLeft = offset.left - oldOffsetLeft;
+
+				oldOffsetTop = offset.top;
+				oldOffsetLeft = offset.left;
+
+
+				var invalidate = false;
+
+				if (diffTop !== 0 || diffLeft !== 0) {
+					jContainer.offset(offset);
+					(<any>instance)._rawPanBy(new L.Point(diffLeft, diffTop));
+					invalidate = true;
+				}
+
+				if (oldWidth !== width || oldHeight !== height) {
+					jContainer.width(width).height(height);
+					oldWidth = width;
+					oldHeight = height;
+					invalidate = true;
+				}
+
+				if (invalidate) {
+					instance.invalidateSize({ animate: false, pan: false });
+				}
 			};
 
-			instance.moveTo = (div: HTMLElement) => {
-				eventState.container = true;
-				jbody.addClass('disable-markers-animations');
-				div.appendChild(instance.getContainer());
+			instance.show = () => {
+				if (containerHidden) {
+					jContainer.show();
+					containerHidden = false;
+				}
+				if (immediateContainerHidding) {
+					window.clearImmediate(immediateContainerHidding);
+					immediateContainerHidding = 0;
+				}
+			};
 
-				(<any>L.Util.falseFn)(div.offsetWidth); // redraw ?
-				instance.invalidateSize(true);
-
-				// TODO IS IT USEFULL?
-				window.setImmediate(() => {
-					instance.invalidateSize(true);
-				});
-
-				window.setTimeout(() => {
-					eventState.container = false;
-					if (eventState.zoom === false &&
-						eventState.move === false &&
-						eventState.margerdrag === false) {
-						jbody.removeClass('disable-markers-animations');
+			instance.hide = () => {
+				immediateContainerHidding = window.setImmediate(() => {
+					if (!containerHidden) {
+						jContainer.hide();
+						containerHidden = true;
 					}
-				}, interval*2);
+					immediateContainerHidding = 0;
+				});
 			};
 
 			var shadowLayer = null;

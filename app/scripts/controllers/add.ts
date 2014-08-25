@@ -169,8 +169,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		}
 	};
 
-	var removeListener = $rootScope.$on('$stateChangeStart', (event : ng.IAngularEvent, toState:any)=> {
-//		console.log(event, toState, fromState);
+	var removeListener = $rootScope.$on('$stateChangeStart', (event: ng.IAngularEvent, toState: any) => {
 		if (toState.name === "main.add") {
 			$scope.save(false);
 		}
@@ -197,7 +196,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 			jView.height('auto');
 		}
 
-		masterMap.invalidateSize({});
+		masterMap.moveTo(jMap);
 	}, 50);
 
 	$scope.$on('$destroy', () => {
@@ -210,9 +209,8 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	//persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
-	setLayout();
-	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
+	setLayout();
 	persistentMap.bindMasterMap(masterMap);
 
 	window.setImmediate(() => {
