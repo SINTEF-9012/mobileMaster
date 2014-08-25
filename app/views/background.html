@@ -17,6 +17,7 @@
 		<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers" ui-sref="map.slidder">
 			</button>
 	</div>
+
 	<div class="row ng-hide" ng-show="enableWeather">
 		<h3 class="col-xs-12">Weather</h3>
 
@@ -32,4 +33,28 @@
 			<button class="btn btn-default" ng-class="time.selected ? 'active' : ''" type="button" ng-click="selectWeatherTime(time)" ng-repeat="time in weatherTime">{{time.name}}</button>
 		</div>
 	</div>
+
+	<div class="row">
+		<h3 class="col-xs-12">Overlay</h3>
+
+		<div ng-controller="TableCtrl" class="col-xs-12">
+			<div class="row background-overlay" ng-repeat="thing in things" >
+				<div class="col-xs-4 col-sm-3 col-lg-2">
+					<img ng-src="{{$parent.mediaServerUrl}}/thumbnail/{{thing.url}}" height="128" width="128" alt="" class="img-thumbnail pull-right"/>
+				</div>
+				<div class="col-xs-8 col-sm-9 col-lg-10">
+					<div>
+						<h4>{{thing.name}}</h4>
+						<p class="date"><strong am-time-ago="thing.timestamp"></strong> - {{thing.timestamp | date:'medium'}}</p>
+					</div>
+					<div ng-init="$parent.overlays[thing.ID] = $parent.overlays.hasOwnProperty(thing.ID) ? $parent.overlays[thing.ID] : true">
+						<range-switch name="thing.ID" model="$parent.overlays[thing.ID]"></range-switch>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
 </div>

@@ -603,7 +603,9 @@
 			};
 
 
-			var thingsOnTheMap : {[id:string] : PruneCluster.Marker}= {};
+			var thingsOnTheMap: { [id: string]: PruneCluster.Marker } = {};
+			var overlaysOnTheMap: { [id: string]: L.ImageOverlay } = {};
+			var filteredOverlaysLookupTable: { [id: string]: boolean } = {};
 
 			var serviceFilterMethod = filterService.getFilter();
 			var unfilteredThings: { [id: string]: boolean } = {};
@@ -700,6 +702,35 @@
 				processView();
 			};
 
+			var updateMarker = (thing: ThingModel.Thing) => {
+				var marker = thingsOnTheMap[thing.ID];
+
+				if (!marker) {
+					addMarker(thing);
+					return;
+				}
+
+				var location = thing.LocationLatLng();
+
+				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
+					removeMarker(thing);
+					return;
+				}
+
+				marker.Move(location.Latitude, location.Longitude);
+				marker.filtered = filteringMethod(thing);
+
+				if (miniMapEnabled) {
+					var minimapPoint = <L.LatLng>marker.data.minimapPoint;
+					if (minimapPoint) {
+						minimapPoint.lat = location.Latitude;
+						minimapPoint.lng = location.Longitude;
+					}
+				}
+
+				processView();
+			};
+
 			var removeMarkersTimeout = 0, markersToRemove = [];
 			var removeMarker = (thing: ThingModel.Thing) => {
 				var id = thing.ID;
@@ -728,8 +759,6 @@
 			};
 
 			var addImageOverlay = (thing: ThingModel.Thing) => {
-				// TODO
-				console.log(thing);
 				var topLeft = thing.LocationLatLng("topleft"),
 					bottomRight = thing.LocationLatLng("bottomright"),
 					url = thing.String("url");
@@ -742,7 +771,29 @@
 						resizeServiceEndpoint: settingsService.getMediaServerUrl()+"/resize/deform/{width}/{height}/{url}"	
 					});
 
-				overlay.addTo(instance);
+				if (!filteredOverlaysLookupTable.hasOwnProperty(thing.ID)) {
+					overlay.addTo(instance);
+				}
+				overlaysOnTheMap[thing.ID] = overlay;
+			},
+			removeImageOverlay = (thing: ThingModel.Thing) => {
+				if (overlaysOnTheMap.hasOwnProperty(thing.ID)) {
+					instance.removeLayer(overlaysOnTheMap[thing.ID]);
+				}
+			};
+
+			instance.hideOverlay =  (id: string) => {
+				filteredOverlaysLookupTable[id] = true;
+				if (overlaysOnTheMap.hasOwnProperty(id)) {
+					instance.removeLayer(overlaysOnTheMap[id]);
+				}
+			};
+
+			instance.showOverlay = (id: string) => {
+				delete filteredOverlaysLookupTable[id];
+				if (overlaysOnTheMap.hasOwnProperty(id)) {
+					instance.addLayer(overlaysOnTheMap[id]);
+				}
 			};
 
 			var addMarkerOrOverlay = (thing: ThingModel.Thing) => {
@@ -758,34 +809,20 @@
 			thingModel.warehouse.RegisterObserver({
 				New: addMarkerOrOverlay,
 				Updated: (thing: ThingModel.Thing) => {
-					var marker = thingsOnTheMap[thing.ID];
-
-					if (!marker) {
-						addMarker(thing);
-						return;
+					if (itsa.imageOverlay(thing)) {
+						removeImageOverlay(thing);
+						addImageOverlay(thing);
+					} else {
+						updateMarker(thing);
 					}
-
-					var location = thing.LocationLatLng();
-
-					if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
-						removeMarker(thing);
-						return;
-					}
-
-					marker.Move(location.Latitude, location.Longitude);
-					marker.filtered = filteringMethod(thing);
-
-					if (miniMapEnabled) {
-						var minimapPoint = <L.LatLng>marker.data.minimapPoint;
-						if (minimapPoint) {
-							minimapPoint.lat = location.Latitude;
-							minimapPoint.lng = location.Longitude;
-						}
-					}
-
-					processView();
 				},
-				Deleted: removeMarker,
+				Deleted: (thing: ThingModel.Thing) => {
+					if (itsa.imageOverlay(thing)) {
+						removeImageOverlay(thing);
+					} else {
+						removeMarker(thing);
+					}
+				},
 				Define: () => {}
 			});
 

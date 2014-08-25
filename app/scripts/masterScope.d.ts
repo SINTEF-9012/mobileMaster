@@ -40,6 +40,21 @@ declare module MasterScope {
 		reload: () => void;	
 	}
 
+	interface Background extends ng.IScope {
+		layers: Layer[];
+		layerClick: (layer: Layer) => void;
+
+		mediaServerUrl: string;
+
+		enableWeather: boolean;
+		weatherLayers: any[];
+		enableWeatherLayer: (name: string) => void;
+		selectWeatherTime: (any) => void;
+		weatherTime: any[];
+
+		overlays: {[id: string]: boolean};
+	}
+
     interface Layer {
         name: string;
         iconPath: string;

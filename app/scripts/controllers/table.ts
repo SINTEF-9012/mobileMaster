@@ -28,8 +28,7 @@ angular.module('mobileMasterApp')
 
 	$scope.typeName = $stateParams.thingtype;
 
-
-	var thingTypeTest = itsa.testfor($stateParams.thingtype || 'victims');
+	var thingTypeTest = itsa.testfor($stateParams.thingtype || ($state.is('background') ? 'imageoverlays': 'victims'));
 		//new RegExp($stateParams.thingtype, 'i')
 
 	var filter: (thing: ThingModel.Thing) => boolean =

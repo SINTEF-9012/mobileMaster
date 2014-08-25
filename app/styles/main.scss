@@ -849,6 +849,7 @@ img.identicon {
     top:6px;
     text-decoration: none;
     margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .settings-controller, .checklist-controller {
@@ -871,4 +872,8 @@ img.identicon {
     background: white;
     border: 0;
     min-width: 49px;
+}
+
+.background-overlay {
+    margin-bottom: 15px;
 }

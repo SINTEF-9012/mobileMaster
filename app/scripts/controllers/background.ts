@@ -12,7 +12,7 @@ angular.module('mobileMasterApp')
 	.controller('BackgroundCtrl', (
 	$rootScope: MasterScope.Root,
 	settingsService: SettingsService,
-	$scope,
+	$scope : MasterScope.Background,
 	hotkeys: ng.hotkeys.HotkeysProvider,
 	persistentMap: PersistentMap,
 	masterMap: Master.Map) => {
@@ -33,22 +33,6 @@ angular.module('mobileMasterApp')
 			masterMap.showTileLayer(layer.name);
 			persistentMap.saveCurrentLayer(layer);
 		}
-	};
-
-	$scope.centerView = () => {
-
-		var bounds = new L.LatLngBounds(null, null);
-
-		angular.forEach($scope.things, (thing: MasterScope.Thing) => {
-			var loc = thing.location;
-			if (!loc || isNaN(loc.x) || isNaN(loc.y)) {
-				return;
-			}
-
-			bounds.extend(new L.LatLng(loc.x, loc.y));
-		});
-
-		masterMap.fitBounds(bounds.pad(1.1));
 	};
 
 	var date;
@@ -118,7 +102,19 @@ angular.module('mobileMasterApp')
 			callback: () => $scope.enableWeather = true
 		});
 
-	$scope.overlays = {
+	$scope.overlays = {};
 
-	};
+	_.each(persistentMap.getHiddenOverlays(), (v) => {
+		$scope.overlays[v] = false;
+	});
+
+	$scope.$watchCollection('overlays', (overlays) => {
+		_.each(overlays, (v, key) => {
+			if (v) {
+				persistentMap.showOverlay(key);
+			} else {
+				persistentMap.hideOverlay(key);
+			}
+		});
+	});
 });

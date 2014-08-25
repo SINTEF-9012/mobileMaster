@@ -40,6 +40,9 @@ declare module Master {
 		unfilterThing(id:string);
 
 		GamepadController: L.IHandler;
+
+		hideOverlay(id: string);
+		showOverlay(id: string);
 	}
 
 	export interface MapConfig {
@@ -56,6 +59,9 @@ interface PersistentMap {
 	unbindMasterMap(map: Master.Map);
 	saveCurrentLayer(layer: MasterScope.Layer);
 	restorePersistentLayer(map: Master.Map);
+	hideOverlay(id: string);
+	showOverlay(id: string);
+	getHiddenOverlays() : string[];
 	clear();
 }
 
@@ -65,6 +71,7 @@ declare module PersistentMap {
 		lat?: number;
 		lng?: number;
 		layer?: string;
+		hiddenOverlays?: string[];
 	}
 }
 
