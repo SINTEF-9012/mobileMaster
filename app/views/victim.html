@@ -64,7 +64,11 @@
 					<div class="victimInfobox">
 						<h3>Report date</h3>
 						<div class="infoboxview">
-							<span>{{thing.reportDate | date}}</span>
+							<div>
+								<strong am-time-ago="thing.reportDate"></strong><br>
+								<span>{{thing.reportDate | date:'medium'}}</span>
+								
+							</div>
 						</div>
 					</div>
 				</div>

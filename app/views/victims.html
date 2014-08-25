@@ -60,7 +60,7 @@
 			<span ng-show="thing.transporting">Transporting</span>
 			<span ng-show="thing.transferredToDestination &amp;&amp; thing.transferredToDestination != 'Unknown'">Transfered to {{thing.transferredToDestination}}</span>
 			<small ng-show="thing.age &amp;&amp; thing.age >= 0">{{thing.age}} years old</small>
-			<small ng-show="thing.reportDate">Reported: {{thing.reportDate | date}}</small>
+			<small ng-if="thing.reportDate">Reported: <strong am-time-ago="thing.reportDate"></strong></small>
 		</div>
 
 		<div class="col-xs-2 col-sm-1 thing-row-right">
