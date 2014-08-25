@@ -738,7 +738,9 @@
 					new L.LatLngBounds([
 						new L.LatLng(topLeft.Latitude, topLeft.Longitude),
 						new L.LatLng(bottomRight.Latitude, bottomRight.Longitude)
-					]));
+					]), {
+						resizeServiceEndpoint: settingsService.getMediaServerUrl()+"/resize/deform/{width}/{height}/{url}"	
+					});
 
 				overlay.addTo(instance);
 			};

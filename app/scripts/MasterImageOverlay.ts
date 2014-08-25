@@ -13,7 +13,10 @@ L.MasterImageOverlay = L.Layer.extend({
 		// how much to extend the clip area around the map view (relative to its size)
 		// e.g. 0.1 would be 10% of map view in each direction
 		// defaults to clip with a two times bigger map view
-		padding: 1
+		padding: 1,
+
+		// Server side image resizing path
+		resizeServiceEndpoint: null
 	},
 
 	initialize: function (url, bounds, options) { // (String, LatLngBounds, Object)
@@ -121,15 +124,24 @@ L.MasterImageOverlay = L.Layer.extend({
 		this._size = size.x * size.y;
 
 		if (this._size > 8) {
-			var imageX = size.x,
-				imageY = size.y;
 
-			if (L.Browser.retina) {
-				imageX *= 2;
-				imageY *= 2;
+			if (this.options.resizeServiceEndpoint) {
+				var imageX = size.x,
+					imageY = size.y;
+
+				if (L.Browser.retina) {
+					imageX *= 2;
+					imageY *= 2;
+				}
+
+				image.src = L.Util.template(this.options.resizeServiceEndpoint, {
+					url: this._url,
+					width: imageX,
+					height: imageY
+				});
+			} else {
+				image.src = this._url;
 			}
-
-			image.src = 'http://medias.master-bridge.eu/resize/' + imageX + '/' + imageY + '/' + this._url;
 		} else {
 			image.src = L.Util.emptyImageUrl;
 		}
