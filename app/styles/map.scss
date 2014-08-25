@@ -34,6 +34,12 @@
     padding:0;
 }
 
+// Remove the Android 2.0 hack
+// (cf https://github.com/Leaflet/Leaflet/issues/2282)
+.leaflet-container img.leaflet-image-layer {
+    max-width: none !important;
+}
+
 .leaflet-popup-content {
     & > div {
         display: flex;
