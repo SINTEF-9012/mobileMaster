@@ -51,7 +51,7 @@ declare module Master {
 	}
 }
 
-interface PersistentLocalization {
+interface PersistentMap {
 	bindMasterMap(map: Master.Map);
 	unbindMasterMap(map: Master.Map);
 	saveCurrentLayer(layer: MasterScope.Layer);
@@ -59,7 +59,7 @@ interface PersistentLocalization {
 	clear();
 }
 
-declare module PersistentLocalization {
+declare module PersistentMap {
 	export interface Storage {
 		zoom?: number;
 		lat?: number;

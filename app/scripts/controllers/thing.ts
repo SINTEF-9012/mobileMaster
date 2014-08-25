@@ -16,7 +16,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	cfpLoadingBar: any,
 	Fullscreen: any,
 	$rootScope: MasterScope.Root,
-    persistentLocalization : PersistentLocalization,
+    persistentMap : PersistentMap,
 	settingsService: SettingsService,
 	itsa: ThingIdentifierService,
 	masterMap: Master.Map,
@@ -26,8 +26,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	colorFromImage: ColorFromImageService
 	) => {
 
-	persistentLocalization.restorePersistentLayer(masterMap);
-	persistentLocalization.unbindMasterMap(masterMap);
+	persistentMap.restorePersistentLayer(masterMap);
+	persistentMap.unbindMasterMap(masterMap);
 
 	var multimediaServer = settingsService.getMediaServerUrl();
 

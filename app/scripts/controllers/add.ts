@@ -18,7 +18,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	AddService: AddService,
 	hotkeys: ng.hotkeys.HotkeysProvider,
 	$window: ng.IWindowService,
-    persistentLocalization : PersistentLocalization
+    persistentMap : PersistentMap
 	) => {
 
 
@@ -208,15 +208,15 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 
 	jwindow.resize(setLayout);
 
-	//persistentLocalization.unbindMasterMap(masterMap);
+	//persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
 	setLayout();
 	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
-	persistentLocalization.bindMasterMap(masterMap);
+	persistentMap.bindMasterMap(masterMap);
 
 	window.setImmediate(() => {
-		persistentLocalization.restorePersistentLayer(masterMap);
+		persistentMap.restorePersistentLayer(masterMap);
 		masterMap.panTo(position);
 		masterMap.enableShadow(undefined, iconContainer, 'flex');
 	});

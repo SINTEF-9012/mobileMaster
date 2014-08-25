@@ -17,7 +17,7 @@ angular.module('mobileMasterApp')
 	$state: ng.ui.IStateService,
 	$window: ng.IWindowService,
 	hotkeys: ng.hotkeys.HotkeysProvider,
-	persistentLocalization: PersistentLocalization) => {
+	persistentMap: PersistentMap) => {
 
 	masterMap.closePopup();
 
@@ -25,11 +25,11 @@ angular.module('mobileMasterApp')
     masterMap.enableScale();
 	masterMap.disableSituationOverview();
 
-	persistentLocalization.restorePersistentLayer(masterMap);
+	persistentMap.restorePersistentLayer(masterMap);
 	masterMap.moveTo(document.getElementById('map'));
 
 	window.setImmediate(() => {
-		persistentLocalization.bindMasterMap(masterMap);
+		persistentMap.bindMasterMap(masterMap);
 		masterMap.enableMiniMap();
 	});
 

@@ -154,7 +154,7 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope,
 	$window: ng.IWindowService,
-    persistentLocalization : PersistentLocalization,
+    persistentLocalization : PersistentMap,
     itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
 

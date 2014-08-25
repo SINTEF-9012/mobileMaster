@@ -10,32 +10,36 @@
 
 angular.module('mobileMasterApp')
 	.controller('BackgroundCtrl', (
-		$rootScope:MasterScope.Root,
-		$scope,
-		hotkeys: ng.hotkeys.HotkeysProvider,
-	    persistentLocalization : PersistentLocalization,
-		masterMap: Master.Map) => {
+	$rootScope: MasterScope.Root,
+	settingsService: SettingsService,
+	$scope,
+	hotkeys: ng.hotkeys.HotkeysProvider,
+	persistentMap: PersistentMap,
+	masterMap: Master.Map) => {
 
-    // Register the layers into the scope
-    $scope.layers = masterMap.getTilesLayers();
+	$scope.mediaServerUrl = settingsService.getMediaServerUrl();
 
-    $scope.layerClick = (layer : MasterScope.Layer) => {
+	// Register the layers into the scope
+	$scope.layers = masterMap.getTilesLayers();
 
-        if (!layer.active) {
-            angular.forEach($scope.layers, (iLayer: MasterScope.Layer) => {
-                masterMap.hideTileLayer(iLayer.name);
-            });
 
-            masterMap.showTileLayer(layer.name);
-            persistentLocalization.saveCurrentLayer(layer);
-        }
+	$scope.layerClick = (layer: MasterScope.Layer) => {
+
+		if (!layer.active) {
+			angular.forEach($scope.layers, (iLayer: MasterScope.Layer) => {
+				masterMap.hideTileLayer(iLayer.name);
+			});
+
+			masterMap.showTileLayer(layer.name);
+			persistentMap.saveCurrentLayer(layer);
+		}
 	};
 
 	$scope.centerView = () => {
 
 		var bounds = new L.LatLngBounds(null, null);
 
-		angular.forEach($scope.things, (thing: MasterScope.Thing)=> {
+		angular.forEach($scope.things, (thing: MasterScope.Thing) => {
 			var loc = thing.location;
 			if (!loc || isNaN(loc.x) || isNaN(loc.y)) {
 				return;
@@ -70,16 +74,16 @@ angular.module('mobileMasterApp')
 	$scope.enableWeather = false;
 
 	$scope.weatherLayers = [
-		{name: 'precipitation_3h_global', title: 'Clouds precipitation'},
-		{name: 'clouds_precipitation_regional', title: 'Clouds precipitation (Norway)'},
-		{name: 'radar_precipitation_intensity', title: 'Radar precipitation intensity (Norway)'},
-		{name: 'temperature_2m_global', title: 'Temperature'},
-		{name: 'temperature_2m_regional', title: 'Temperature (Norway)'},
-		{name: 'wind_10m_global', title: 'Wind'},
-		{name: 'wind_10m_regional', title: 'Wind (Norway)'},
-		{name: 'sea_temperature_regional', title: 'Sea temparture'},
-		{name: 'sea_current_regional', title: 'Sea current'},
-		{name: 'sea_wave_height_direction_regional', title: 'Sea wave'},
+		{ name: 'precipitation_3h_global', title: 'Clouds precipitation' },
+		{ name: 'clouds_precipitation_regional', title: 'Clouds precipitation (Norway)' },
+		{ name: 'radar_precipitation_intensity', title: 'Radar precipitation intensity (Norway)' },
+		{ name: 'temperature_2m_global', title: 'Temperature' },
+		{ name: 'temperature_2m_regional', title: 'Temperature (Norway)' },
+		{ name: 'wind_10m_global', title: 'Wind' },
+		{ name: 'wind_10m_regional', title: 'Wind (Norway)' },
+		{ name: 'sea_temperature_regional', title: 'Sea temparture' },
+		{ name: 'sea_current_regional', title: 'Sea current' },
+		{ name: 'sea_wave_height_direction_regional', title: 'Sea wave' },
 	];
 
 	$scope.selectWeatherTime = (time) => {
@@ -97,12 +101,12 @@ angular.module('mobileMasterApp')
 	};
 
 	$scope.weatherTime = [
-		{name: 'Now', add: 0, selected: false},
-		{name: '+1h', add: 1, selected: false},
-		{name: '+3h', add: 3, selected: false},
-		{name: '+6h', add: 6, selected: false},
-		{name: '+12h', add: 12, selected: false},
-		{name: '+24h', add: 24, selected: false}
+		{ name: 'Now', add: 0, selected: false },
+		{ name: '+1h', add: 1, selected: false },
+		{ name: '+3h', add: 3, selected: false },
+		{ name: '+6h', add: 6, selected: false },
+		{ name: '+12h', add: 12, selected: false },
+		{ name: '+24h', add: 24, selected: false }
 	];
 
 	$scope.selectWeatherTime($scope.weatherTime[0]);
@@ -112,5 +116,9 @@ angular.module('mobileMasterApp')
 			combo: '/',
 			description: 'Weather (alpha)',
 			callback: () => $scope.enableWeather = true
-	});
+		});
+
+	$scope.overlays = {
+
+	};
 });

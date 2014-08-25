@@ -42,7 +42,7 @@ angular.module('mobileMasterApp')
 		AddService: AddService,
 		$window: ng.IWindowService,
 		$compile : ng.ICompileService,
-	    persistentLocalization : PersistentLocalization,
+	    persistentMap : PersistentMap,
 		$state: ng.ui.IStateService) => {
 
 		var url = $stateParams.hash + '.' + $stateParams.extension,
@@ -120,14 +120,14 @@ angular.module('mobileMasterApp')
 
 	jwindow.resize(setLayout);
 
-	persistentLocalization.unbindMasterMap(masterMap);
+	persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
 	setLayout();
 	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
 
 	window.setImmediate(() => {
-		persistentLocalization.restorePersistentLayer(masterMap);
+		persistentMap.restorePersistentLayer(masterMap);
 		masterMap.panTo(position);
 		masterMap.enableShadow(undefined, compiledIcon.get(0), 'flex');
 	});

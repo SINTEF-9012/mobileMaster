@@ -6,22 +6,22 @@
 'use strict';
 
 angular.module('mobileMasterApp')
-  .service('persistentLocalization', function Persistentlocalization() {
+  .service('persistentMap', function() {
 
     var center = null,
-      zoom = null,
+		zoom = null,
 		layer = null,
 		binded = false,
       masterMap : Master.Map = null;
 
-    var localStorageKey = "persistentLocalization";
+    var localStorageKey = "persistentMap";
 
     // Save the position in the local storage
     var save = throttle(() => {
 		  if (!binded) {
 			  return;
 		  }
-      var data : PersistentLocalization.Storage = {};
+      var data : PersistentMap.Storage = {};
 
       if (zoom) {
         data.zoom = zoom;
@@ -49,7 +49,7 @@ angular.module('mobileMasterApp')
 		  // Load the saved position if it exist
 		  var storage = window.localStorage.getItem(localStorageKey);
 		  if (storage !== null) {
-			  var data : PersistentLocalization.Storage = JSON.parse(storage);
+			  var data : PersistentMap.Storage = JSON.parse(storage);
 
 			  if (data.zoom) {
 				  zoom = data.zoom;

@@ -24,7 +24,7 @@ angular.module('mobileMasterApp')
 	$stateParams,
 	$window: ng.IWindowService,
 	AddService: AddService,
-    persistentLocalization : PersistentLocalization,
+    persistentMap : PersistentMap,
 	thingModel: ThingModelService,
 	$state: ng.ui.IStateService,
 	itsa: ThingIdentifierService,
@@ -300,15 +300,15 @@ angular.module('mobileMasterApp')
 
 	jwindow.resize(setLayout);
 
-	//persistentLocalization.unbindMasterMap(masterMap);
+	//persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
 	setLayout();
 	masterMap.moveTo(jMap.get(0));
 	masterMap.disableSituationOverview();
 
 	window.setImmediate(() => {
-		persistentLocalization.bindMasterMap(masterMap);
-		persistentLocalization.restorePersistentLayer(masterMap);
+		persistentMap.bindMasterMap(masterMap);
+		persistentMap.restorePersistentLayer(masterMap);
 		masterMap.enableShadow();
 	});
 
