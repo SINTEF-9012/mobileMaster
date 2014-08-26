@@ -865,7 +865,7 @@
 				containerHidden = false,
 				immediateContainerHidding = 0;
 
-			instance.moveTo = (div: any) => {
+			instance.moveTo = (div: any, keepCenter: boolean = false) => {
 				instance.show();
 
 				div = $(div);
@@ -894,6 +894,19 @@
 
 				if (oldWidth !== width || oldHeight !== height) {
 					jContainer.width(width).height(height);
+
+					if (oldWidth === width) {
+						(<any>instance)._rawPanBy(new L.Point(0, (oldHeight - height) * 0.5 - diffTop).round());
+					} else if (oldHeight === height) {
+						(<any>instance)._rawPanBy(new L.Point((oldWidth - width) * 0.5 - diffLeft, 0).round());
+					} else if (keepCenter || shadowLayer !== null) {
+						(<any>instance)._rawPanBy(new L.Point((oldWidth - width) * 0.5 - diffLeft, (oldHeight - height) * 0.5 - diffTop).round());
+						keepCenter = false;
+					}
+					/*if (keepCenter) {
+						diffLeft -= (oldWidth - width)*0.5;
+						diffTop -= (oldHeight - height)*0.5;
+					}*/
 					oldWidth = width;
 					oldHeight = height;
 					invalidate = true;
@@ -901,6 +914,9 @@
 
 				if (invalidate) {
 					instance.invalidateSize({ animate: false, pan: false });
+					if (keepCenter) {
+						instance.panBy(new L.Point(-diffLeft, -diffTop), {animate: false});
+					}
 				}
 			};
 

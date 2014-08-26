@@ -4,6 +4,7 @@
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 
 'use strict';
@@ -187,7 +188,6 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	var setLayout = throttle(() => {
 		var width = jwindow.width();
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
-		masterMap.invalidateSize({});
 		jMap.height(height - 1 /* border */);
 
 		if (width >= 768 && !$scope.hideMap) {
@@ -199,13 +199,26 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		masterMap.moveTo(jMap);
 	}, 50);
 
+	jwindow.resize(setLayout);
+	var delayedClick = () => {
+		var interval = window.setInterval(() => {
+			masterMap.moveTo(jMap, true);
+		}, 33);
+		window.setTimeout(() => {
+			masterMap.moveTo(jMap, true);
+			setLayout();
+			window.clearInterval(interval);
+		}, 300);
+	};
+	jView.on('click', delayedClick);
+
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);
+		jView.off('click', delayedClick);
 		masterMap.disableShadow();
 		//thingModel.warehouse.UnregisterObserver(observer);
 	});
 
-	jwindow.resize(setLayout);
 
 	//persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);
@@ -218,6 +231,8 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 		masterMap.panTo(position);
 		masterMap.enableShadow(undefined, iconContainer, 'flex');
 	});
+
+	setLayout();
 
 	hotkeys.bindTo($scope)
 		.add({

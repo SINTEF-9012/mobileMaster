@@ -32,8 +32,8 @@ declare module Master {
 
 		createMasterIconWithType(type: string, scope: ng.IScope, options?: L.IconOptions): L.Icon;
 
-		moveTo(div: HTMLElement);
-		moveTo(div: JQuery);
+		moveTo(div: HTMLElement, keepCenter?: boolean);
+		moveTo(div: JQuery, keepCenter?: boolean);
 		hide();
 		show();
 

@@ -279,7 +279,7 @@ angular.module('mobileMasterApp')
 	masterMap.disableMiniMap();
 	masterMap.unfilterThing(id);
 
-	var jwindow = $($window), jMap = $('#thing-map');
+	var jwindow = $($window), jMap = $('#thing-map'), jView = $('.add-view');
 	var setLayout = throttle(() => {
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
@@ -287,9 +287,23 @@ angular.module('mobileMasterApp')
 	}, 50);
 
 
+	jwindow.resize(setLayout);
+	var delayedClick = () => {
+		var interval = window.setInterval(() => {
+			masterMap.moveTo(jMap, true);
+		}, 33);
+		window.setTimeout(() => {
+			masterMap.moveTo(jMap, true);
+			setLayout();
+			window.clearInterval(interval);
+		}, 300);
+	};
+	jView.on('click', delayedClick);
+	delayedClick();
 
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);
+		jView.off('click', delayedClick);
 		masterMap.removeLayer(dragLine);
 		if (lineDraw) {
 			masterMap.off('viewreset move', lineDraw);
@@ -298,7 +312,6 @@ angular.module('mobileMasterApp')
 		thingModel.warehouse.UnregisterObserver(observer);
 	});
 
-	jwindow.resize(setLayout);
 
 	//persistentMap.unbindMasterMap(masterMap);
 	masterMap.setVerticalTopMargin(0);

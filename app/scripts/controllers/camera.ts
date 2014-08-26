@@ -3,6 +3,7 @@
 /// <reference path="../../bower_components/ThingModel/TypeScript/build/ThingModel.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 
 'use strict';
@@ -62,7 +63,6 @@ angular.module('mobileMasterApp')
 
 		if ($scope.isPicture) {
 			$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
-			/*var camThumb = $('#camera-thumbnail');
 
 			/*(<any>camThumb).imagesLoaded().fail(() => {
 				$('#camera-submit').removeClass('btn-primary').addClass('btn-danger').text('Publish anyway');
@@ -112,9 +112,13 @@ angular.module('mobileMasterApp')
 		masterMap.moveTo(jMap);
 	}, 50);
 
+	var mapInterval = window.setInterval(() => {
+		masterMap.moveTo(jMap, true);
+	}, 500);
 
 	$scope.$on('$destroy', () => {
 		jwindow.off('resize', setLayout);
+		window.clearInterval(mapInterval);
 		masterMap.disableShadow();
 		masterMap.off('drag', disablePositionWatching);
 	});
