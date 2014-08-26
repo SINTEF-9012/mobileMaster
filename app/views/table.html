@@ -33,7 +33,7 @@
 		</div>
 	</a>
 
-	<p ng-if="things.length == 0">The list is empty</p>
+	<p class="empty-message" ng-if="things.length == 0">The list is empty</p>
 
 	<ul class="pager ng-hide" ng-show="nextPage >= 0">
 		<li><a href="#" ui-sref="table({page: nextPage})">Next</a></li>

@@ -77,6 +77,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	$scope.thing = {};
 	$scope.unfound = true;
+	$scope.hideMap = false;
 
 	var oldPosition: L.LatLng = null,
 		oldZoom = 18,
@@ -307,7 +308,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			jView.height('auto');
 		}
 
-		masterMap.moveTo(jMap);
+		if ($scope.hideMap) {
+			masterMap.hide();
+		} else {
+			masterMap.moveTo(jMap);
+		}
 
 		//if (oldPosition) {
 		//	masterMap.setView(oldPosition, oldZoom, {animate: false});
@@ -315,7 +320,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	}, 50);
 
 	setLayout();
-	masterMap.moveTo(jMap);
+	// ??? masterMap.moveTo(jMap);
 
 	digestScope();
 

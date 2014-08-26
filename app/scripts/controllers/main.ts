@@ -163,7 +163,7 @@ angular.module('mobileMasterApp')
 
 	$scope.username = authenticationService.getUserName();
 	$scope.changeUserName = () => {
-		var newname = window.prompt("What is your name ? (A real authentication is coming)");
+		var newname = window.prompt("What is your name ? (A real authentication is coming)", $scope.username);
 		if (newname) {
 			$scope.username = newname;
 			authenticationService.setUserName(newname);

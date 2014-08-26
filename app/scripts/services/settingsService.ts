@@ -23,7 +23,7 @@ angular.module('mobileMasterApp')
 		}
 
 		$sceDelegateProvider.resourceUrlWhitelist([
-			'self', mediaServerUrl
+			'self', /^rstp.*/i, mediaServerUrl
 		]);
 	})
 	.service('settingsService', function() {

@@ -20,7 +20,7 @@ angular.module('mobileMasterApp')
 	$rootScope : MasterScope.Root,
 	AddService: AddService,
 	thingModel: ThingModelService,
-	authentificationService: AuthentificationService,
+	authenticationService: AuthenticationService,
 	itsa: ThingIdentifierService,
 	$window: ng.IWindowService,
 	$state: ng.ui.IStateService,
