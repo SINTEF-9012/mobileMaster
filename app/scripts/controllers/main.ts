@@ -154,11 +154,21 @@ angular.module('mobileMasterApp')
 .controller('MainCtrl', function(
 	masterMap: Master.Map,
 	$scope,
-	$rootScope,
+	$rootScope : MasterScope.Root,
 	$window: ng.IWindowService,
-    persistentMap : PersistentMap,
+	persistentMap: PersistentMap,
+	authenticationService: AuthenticationService,
     itsa : ThingIdentifierService,
     thingModel: ThingModelService) {
+
+	$scope.username = authenticationService.getUserName();
+	$scope.changeUserName = () => {
+		var newname = window.prompt("What is your name ? (A real authentication is coming)");
+		if (newname) {
+			$scope.username = newname;
+			authenticationService.setUserName(newname);
+		}
+	};
 
 	var jMap = $('#main-map'),
 		jMapBody = jMap.children(),

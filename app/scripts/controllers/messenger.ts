@@ -17,9 +17,10 @@ angular.module('mobileMasterApp')
 		.AndA.NotRequired.Int("number").Build());
 }).controller('MessengerCtrl', (
 	$scope: any,
-	$rootScope,
+	$rootScope : MasterScope.Root,
 	AddService: AddService,
 	thingModel: ThingModelService,
+	authentificationService: AuthentificationService,
 	itsa: ThingIdentifierService,
 	$window: ng.IWindowService,
 	$state: ng.ui.IStateService,
@@ -132,7 +133,7 @@ angular.module('mobileMasterApp')
 		}
 
 		AddService.register("messenger:message", null, (thing: ThingModel.ThingPropertyBuilder) => {
-			thing.String('author', 'John Doe');
+			thing.String('author', authenticationService.getUserName());
 			thing.String('content', $scope.messageContent);
 			thing.DateTime("datetime", now);
 			thing.Int("number", ++maxOrderNumber);

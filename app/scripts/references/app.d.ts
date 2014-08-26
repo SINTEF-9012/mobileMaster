@@ -173,3 +173,8 @@ interface ColorFromImageService {
 	whiteOrBlack: (color: string) => string;
 	applyColor: (img: any, callback: (color: string) => void, exclude?: boolean) => void;
 }
+
+interface AuthenticationService {
+	getUserName: () => string;
+	setUserName: (username: string) => void;
+}
