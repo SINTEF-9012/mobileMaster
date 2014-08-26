@@ -143,6 +143,7 @@ interface ThingIdentifierService {
 	medic(thing: ThingModel.Thing): boolean;
 	fire(thing: ThingModel.Thing): boolean;
 
+	stream(thing: ThingModel.Thing): boolean;
 	imageOverlay(thing: ThingModel.Thing): boolean;
 }
 

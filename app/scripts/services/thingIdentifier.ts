@@ -10,6 +10,7 @@ angular.module('mobileMasterApp')
 	// Raw categories
 	var victim = /(victim|patient)/i,
 		media = /(media|picture|video)/i,
+		stream = /(stream)/i,
 		tweet = /(tweet)/i,
 		resource = /(resource)/i,
 		response = /(response)/i,
@@ -24,11 +25,12 @@ angular.module('mobileMasterApp')
 		imageOverlay = /(imageOverlay)/i,
 
 	// Some more high level categories
-		multimedia = /(media|picture|video|tweet)/i;
+		multimedia = /(media|picture|video|tweet|stream)/i;
 
 	var lockup = {
 		victims: victim,
 		medias: media,
+		streams: stream,
 		tweets: tweet,
 		resources: resource,
 		responses: response,
@@ -65,6 +67,7 @@ angular.module('mobileMasterApp')
 	this.multimedia = (thing: ThingModel.Thing) =>		thing.Type && multimedia.test(thing.Type.Name);
 	this.message = (thing: ThingModel.Thing) =>			thing.Type && message.test(thing.Type.Name);
 	this.imageOverlay = (thing: ThingModel.Thing) =>	thing.Type && imageOverlay.test(thing.Type.Name);
+	this.stream = (thing: ThingModel.Thing) =>			thing.Type && stream.test(thing.Type.Name);
 	this.other = (thing: ThingModel.Thing) =>			!thing.Type || !other_invert.test(thing.Type.Name);
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {
@@ -85,6 +88,7 @@ angular.module('mobileMasterApp')
 		if (response.test(type)) return 'Responses';
 		if (beacon.test(type)) return 'Beacons';
 		if (imageOverlay.test(type)) return 'ImageOverlays';
+		if (stream.test(type)) return 'Streams';
 
 		return 'Others';
 	};

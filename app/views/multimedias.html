@@ -17,6 +17,11 @@
 
 <div class="container-fluid">
 	<div masonry='{"transitionDuration":"0.4s","itemSelector": ".multimedias-link", "columnWidth": 60, "isFitWidth": true, "gutter": 10}'>
+
+		<div class="multimedias-link vlc-video-stream" mansonry-tile ng-repeat="stream in streams">
+			<videolan src="stream.url" mimetype="stream.mimetype"></videolan>
+		</div>
+		
 		<a ui-sref="media({ID: media.ID, from: 'multimedias'})" masonry-tile class="multimedias-link" ng-repeat="media in medias" ng-class="media.video ? 'multimedias-video-link' : 'multimedias-image-link'">
 			<img ng-src="{{media.video ? media.url : media.full}}" alt=""/>
 			<span class="glyphicon glyphicon-play-circle"></span>
@@ -24,7 +29,8 @@
 		<a ui-sref="thing({ID: tweet.ID, from: 'multimedias'})" masonry-tile class="multimedias-tweet-link multimedias-link" ng-repeat="tweet in tweets" ng-style="{color: tweet.color, background: tweet.background}">
 			<span class="glyphicon glyphicon-comment"></span> 
 			{{tweet.description}}
-		</a>	
+		</a>
+
 	</div>
 
 </div>

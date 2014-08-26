@@ -27,6 +27,7 @@ angular.module('mobileMasterApp')
 		var currentList = [];
 		$scope.medias = [];
 		$scope.tweets = [];
+		$scope.streams = [];
 
 		var jwindow = $($window);
 
@@ -74,7 +75,16 @@ angular.module('mobileMasterApp')
 			url = url.trim();
 		}
 
-		if (url) {
+		if (itsa.stream(thing)) {
+			var stream = {
+				ID: thing.ID,
+				url: thing.String("url"),
+				mimetype: thing.String("mimetype")
+			};
+
+			$scope.streams.push(stream);
+
+		} else if (url) {
 			var src  = mediaServerUrl + '/' + url;
 			var full = mediaServerUrl + "/resize/256/256/" + url;
 			var thumbnail = mediaServerUrl + "/thumbnail/" + url;
