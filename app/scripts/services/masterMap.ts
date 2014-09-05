@@ -129,6 +129,10 @@
 						e.attr('type', this.type);
 					}
 
+					if (this.selected) {
+						e.attr('selected', this.selected);
+					}
+
 					var masterIconElement = $compile(e);
 					masterIconElement(this.scope).appendTo(div);
 
@@ -326,7 +330,9 @@
 				if (!(name = thing.String('name'))) {
 					if (!(name = thing.String('title'))) {
 						if (!(name = thing.String('description'))) {
-							name = thing.Type ? thing.Type.Name : 'unknown object';
+							if (!(name = thing.String('message'))) {
+								name = thing.Type ? thing.Type.Name : 'unknown object';
+							}
 						}
 					}
 				}
@@ -608,15 +614,12 @@
 			var filteredOverlaysLookupTable: { [id: string]: boolean } = {};
 
 			var serviceFilterMethod = filterService.getFilter();
-			var unfilteredThings: { [id: string]: boolean } = {};
+			var filteredThings: { [id: string]: boolean } = {};
 
 
 
 			var filteringMethod: (thing: ThingModel.Thing) => boolean = (thing: ThingModel.Thing) => {
-				if (serviceFilterMethod(thing)) {
-					return !unfilteredThings.hasOwnProperty(thing.ID);
-				}
-				return false;
+				return serviceFilterMethod(thing) || filteredThings.hasOwnProperty(thing.ID);
 			};
 
 			$rootScope.$on('filterServiceUpdate', () => {
@@ -628,9 +631,9 @@
 			});
 
 			$rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
-				var copyUnfilteredThings = _.clone(unfilteredThings);
-				unfilteredThings = {};
-				angular.forEach(copyUnfilteredThings, (value, id) => {
+				var copyfilteredThings = _.clone(filteredThings);
+				filteredThings = {};
+				angular.forEach(copyfilteredThings, (value, id) => {
 					var previousThing = thingsOnTheMap[id];
 					if (previousThing) {
 						var thing = thingModel.warehouse.GetThing(id);
@@ -640,17 +643,69 @@
 					}
 				});
 
+				instance.removeSelectedThing();
 				// TODO process view here ?
 			});
 
-			instance.unfilterThing = (id: string) => {
+			instance.filterThing = (id: string) => {
 				var thing = thingsOnTheMap[id];
 				if (thing) {
-					thing.filtered = false;
+					thing.filtered = true;
 				}
 
-				unfilteredThings[id] = true;
+				filteredThings[id] = true;
 				processView();
+			};
+
+			var selectedMapMarker = null, selectedMarkerId = null, noAnimTimeout = 0;
+			instance.setSelectedThing = (id: string, lat: number, lng: number) => {
+				if (selectedMapMarker && selectedMarkerId !== id) {
+					instance.removeSelectedThing();
+					instance.setSelectedThing(id, lat, lng);
+					return;
+				}	
+
+				if (jbody.hasClass("disable-markers-animations")) {
+					noAnimTimeout = window.setTimeout(() => {
+						instance.setSelectedThing(id, lat, lng);
+						noAnimTimeout = 0;
+					}, 150);
+					return;
+				}
+
+				if (noAnimTimeout) {
+					window.clearTimeout(noAnimTimeout);
+					noAnimTimeout = 0;
+				}
+
+				if (!selectedMapMarker) {
+					selectedMapMarker = new L.Marker(new L.LatLng(lat, lng));
+					var icon = new masterIcon();
+					icon.scope = $rootScope;
+					icon.thingID = id;
+					icon.selected = true;
+					selectedMapMarker.setIcon(icon);
+					selectedMapMarker.setZIndexOffset(1000);
+					instance.addLayer(selectedMapMarker);
+				} else {
+					selectedMapMarker.setLatLng(new L.LatLng(lat, lng));
+				}
+
+				selectedMarkerId = id;
+			};
+
+			instance.removeSelectedThing = () => {
+				if (selectedMapMarker != null) {
+					var m = selectedMapMarker;
+					window.setTimeout(() => {
+						m.setOpacity(0);
+					}, 300);
+
+					window.setTimeout(() => {
+						instance.removeLayer(m);
+					}, 600);
+					selectedMapMarker = null;
+				}
 			};
 
 			// rouge orange 0, vert pomme 1, jaune 2, bleu ciel 3, magenta 4, violet 5, gris beige 6, bleu marine 7

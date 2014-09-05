@@ -219,6 +219,7 @@ angular.module('mobileMasterApp')
 			if (location && !isNaN(location.Latitude) && !isNaN(location.Longitude)) {
 				lineStart = new L.LatLng(location.Latitude, location.Longitude);
 				lineDraw();
+				masterMap.setSelectedThing(id, location.Latitude, location.Longitude);
 			}
 
 			if (itsa.police(thing)) {
@@ -277,7 +278,7 @@ angular.module('mobileMasterApp')
 	masterMap.enableInteractions();
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
-	masterMap.unfilterThing(id);
+	masterMap.filterThing(id);
 
 	var jwindow = $($window), jMap = $('#thing-map'), jView = $('.add-view');
 	var setLayout = throttle(() => {

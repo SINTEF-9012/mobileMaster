@@ -101,6 +101,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				$scope.hideMap = true;
 			} else {
 				$scope.hideMap = false;
+
+				masterMap.setSelectedThing(id, location.Latitude, location.Longitude);
+
 				var pos = new L.LatLng(location.Latitude, location.Longitude),
 					now = +new Date();
 
@@ -329,7 +332,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			if (thing.ID === id) {
 				digestScope();
 			} 
-		}, 
+		},
 		Updated: (thing: ThingModel.Thing) => {
 			if (thing.ID === id) {
 				digestScope();
@@ -350,7 +353,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.enableInteractions();
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
-	masterMap.unfilterThing(id);
+	masterMap.filterThing(id);
 
 	var tileColor = null, oldTileColor = null;
 

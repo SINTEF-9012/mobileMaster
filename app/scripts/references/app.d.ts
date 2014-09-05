@@ -40,7 +40,10 @@ declare module Master {
 		enableShadow(title?: string, icon?: HTMLElement, className?:string);
 		disableShadow();
 
-		unfilterThing(id:string);
+		filterThing(id: string);
+
+		setSelectedThing(id: string, lat: number, lng: number);
+		removeSelectedThing();
 
 		GamepadController: L.IHandler;
 

@@ -473,6 +473,42 @@ master-icon {
 	}
 }
 
+.map .advise {
+	& > div {
+		line-height: 18px;
+	}
+
+	width:1.5em;
+	height:1.5em;
+	font-size: 1.8em;
+}
+
+.map master-icon.selected {
+
+	&.fonticon > div {
+		text-shadow: 0px 0px 30px rgb(0, 82, 255), 0px 0px 7px rgb(85, 106, 255);
+		&:before, div {
+			text-shadow: none;
+		}
+	}
+
+	&.order {
+		background-color:rgba(0, 82, 255, 0.5);
+		border-radius:50%;
+	}
+
+	&.advise, &.glyph, &.order {
+		box-shadow: 0px 0px 30px rgb(0, 82, 255), 0px 0px 7px rgb(85, 106, 255);
+	}
+
+	.triage-light {
+	    box-shadow: -1px -2px 0px 0px rgba(0, 0, 0, 0.2) inset,
+	        1px 1px 0px 0px rgba(255, 255, 255, 0.3) inset,
+	        0px 0px 30px rgb(0, 82, 255),
+	        0px 0px 7px rgb(85, 106, 255);
+	}
+}
+
 /*@keyframes glowingtext {
 	from {
 		text-shadow: 0px 0px 6px yellow;
