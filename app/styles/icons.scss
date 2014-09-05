@@ -73,6 +73,57 @@ master-icon {
 	color: white;
 }
 
+&.advise {
+	//position:relative;
+	//border:1px solid $gray;
+	box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.33);
+	transform: rotate(45deg);
+
+	& > div {
+		position:absolute;
+		width:50%;
+		height:50%;
+		font-size: 8px;
+		line-height: 12px;
+
+	}
+
+	.advise-health, .advise-fire, .advise-instability, .advise-specific {
+		& > span {
+			color: black;
+			display: block;
+			transform: rotate(-45deg);
+		}
+	}
+
+	.advise-health {
+		bottom:0;
+		left:0;
+		background: rgb(0, 176,240);
+		//border-right:1px solid white;
+	}
+
+	.advise-fire {
+		left:0;
+		top:0;
+		background: rgb(240,70,70);
+		//border-right:1px solid white;
+		//border-bottom:1px solid white;
+	}
+
+	.advise-instability {
+		top:0;
+		right:0;
+		background: rgb(255,240,0);
+		//border-bottom:1px solid white;
+	}
+
+	.advise-specific {
+		bottom:0;
+		right:0;
+		background:white;
+	}
+}
 
 &.order {
 	background:url(../images/reticle-icon.png) no-repeat center;
@@ -98,6 +149,7 @@ master-icon {
 	background:url(../images/smartphone-icon.png) no-repeat center;
 	background-size:100% 100%;
 }
+
 
 /*&.others {
 	color: white;
@@ -275,6 +327,7 @@ master-icon {
 	&.fonticon > div {
 		font-size:40px;
 		left:0;
+		//top: 1px;
 
 		&.resource, &.response {
 			&:before {

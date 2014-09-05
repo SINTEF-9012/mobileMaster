@@ -191,12 +191,48 @@ angular.module('mobileMasterApp')
 				element.addClass('messages');
 			} else if (/multimedias/i.test(type)) {
 				element.addClass('multimedias');
+			} else if (/advise/i.test(type)) {
+				element.addClass('advise');
+				var health = $('<div>').addClass("advise-health"),
+					fire = $('<div>').addClass("advise-fire"),
+					instability = $('<div>').addClass("advise-instability"),
+					specific = $('<div>').addClass("advise-specific");
+
+				if (thing) {
+					var prop = thing.Int("healthLevel");
+					if (prop !== null) {
+						$('<span>').text(prop).appendTo(health);
+					}
+
+					prop = thing.Int("flammabilityLevel");
+					if (prop !== null) {
+						$('<span>').text(prop).appendTo(fire);
+					}
+
+					prop = thing.Int("instabilityLevel");
+					if (prop !== null) {
+						$('<span>').text(prop).appendTo(instability);
+					}
+
+					var sprop = thing.String("hazard");
+					if (sprop !== null) {
+						$('<span>').text(sprop.substr(0, 2)).appendTo(specific);
+					}
+				}
+
+				element.append(health).append(fire).append(instability).append(specific);
+
 			} else if (/others/i.test(type)) {
 				element.addClass('others');
 				element.text('\u25C6');
 			} else {
 				element.addClass('default-icon');
 				element.text(type[0]);
+			}
+
+
+			if (attrs.selected) {
+				element.addClass('selected');
 			}
 
 /*			if (categorie) {
