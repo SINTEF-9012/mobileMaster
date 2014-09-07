@@ -685,7 +685,7 @@
 					icon.thingID = id;
 					icon.selected = true;
 					selectedMapMarker.setIcon(icon);
-					selectedMapMarker.setZIndexOffset(1000);
+					selectedMapMarker.setZIndexOffset(8000);
 					instance.addLayer(selectedMapMarker);
 				} else {
 					selectedMapMarker.setLatLng(new L.LatLng(lat, lng));
