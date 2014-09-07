@@ -295,7 +295,13 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		}
 	}, 10);
 
+	var destroyed = false;
+
 	var setLayout = throttle(() => {
+		if (destroyed) {
+			return;
+		}
+
 		var width = jwindow.width();
 
 		if (tileColor !== oldTileColor) {
@@ -373,6 +379,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	});
 
 	$scope.$on('$destroy', () => {
+		destroyed = true;
 		jwindow.off('resize', setLayout);
 		thingModel.warehouse.UnregisterObserver(observer);
 		disableStateChangeSuccessCallback();

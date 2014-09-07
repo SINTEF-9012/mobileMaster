@@ -29,16 +29,20 @@ angular.module('mobileMasterApp')
 	persistentMap.restorePersistentLayer(masterMap);
 
 	var jMap = $('#map'), jwindow = $(window);
+	destroyed = false;
 	var setLayout = throttle(() => {
+		if (destroyed) {
+			return;
+		}
 		masterMap.moveTo(jMap);
 	}, 50);
 
 	setLayout();
 
-	//window.setImmediate(() => {
-	persistentMap.bindMasterMap(masterMap);
-	masterMap.enableMiniMap();
-	//});
+	window.setImmediate(() => {
+		persistentMap.bindMasterMap(masterMap);
+		masterMap.enableMiniMap();
+	});
 
 	hotkeys.bindTo($scope)
 		.add({
@@ -73,6 +77,7 @@ angular.module('mobileMasterApp')
 	jwindow.resize(setLayout);
 
 	$scope.$on('$destroy', () => {
+		destroyed = true;
 		jwindow.off('resize', setLayout);
 		masterMap.off('contextmenu', contextmenu);
 		angular.element($window).off('resize', setMargin);

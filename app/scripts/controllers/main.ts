@@ -186,7 +186,14 @@ angular.module('mobileMasterApp')
     masterMap.disableScale();
 
 	var jwindow = $($window);
+
+	var destroyed = false;
+
 	var setLayout = throttle(() => {
+
+		if (destroyed) {
+			return;
+		}
 
 		var column = $('.responsive-infoblock-column'),
 			blocs = column.children('.infoblock'),
@@ -324,8 +331,10 @@ angular.module('mobileMasterApp')
 	computeSummary();
 	thingModel.warehouse.RegisterObserver(observer);
 
+	
 
 	$scope.$on('$destroy', () => {
+		destroyed = true;
 		jwindow.off('resize', setLayout);
 		thingModel.warehouse.UnregisterObserver(observer);
 	});

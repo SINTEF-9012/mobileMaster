@@ -184,8 +184,13 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	masterMap.disableMiniMap();
 
 	var jwindow = $($window), jMap = $('#thing-map'), jView = $('#thing-view');
+	var destroyed = false;
 
 	var setLayout = throttle(() => {
+		if (destroyed) {
+			return;
+		}
+
 		var width = jwindow.width();
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
@@ -213,6 +218,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	jView.on('click', delayedClick);
 
 	$scope.$on('$destroy', () => {
+		destroyed = true;
 		jwindow.off('resize', setLayout);
 		jView.off('click', delayedClick);
 		masterMap.disableShadow();

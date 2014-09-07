@@ -929,6 +929,10 @@
 					height = div.outerHeight(),
 					offset = div.offset();
 
+				if (width === 0 || height === 0) {
+					return;
+				}
+
 				offset.top = Math.round(offset.top);
 				offset.left = Math.round(offset.left);
 

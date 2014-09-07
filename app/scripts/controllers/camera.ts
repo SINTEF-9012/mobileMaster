@@ -106,7 +106,12 @@ angular.module('mobileMasterApp')
 
 	var jwindow = $($window), jMap = $('#thing-map');
 
+	var destroyed = false;
+
 	var setLayout = throttle(() => {
+		if (destroyed) {
+			return;
+		}
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
 		masterMap.moveTo(jMap);
@@ -117,6 +122,7 @@ angular.module('mobileMasterApp')
 	}, 500);
 
 	$scope.$on('$destroy', () => {
+		destroyed = true;
 		jwindow.off('resize', setLayout);
 		window.clearInterval(mapInterval);
 		masterMap.disableShadow();
