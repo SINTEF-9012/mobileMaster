@@ -52,7 +52,8 @@ declare module MasterScope {
 		selectWeatherTime: (any) => void;
 		weatherTime: any[];
 
-		overlays: {[id: string]: boolean};
+		overlays: { [id: string]: boolean };
+		zoomToOverlay: (thing: Thing) => void;
 	}
 
     interface Layer {

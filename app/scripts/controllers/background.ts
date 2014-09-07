@@ -1,5 +1,6 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angularjs/angular.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/moment/moment.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-hotkeys/angular-hotkeys.d.ts" />
 
@@ -14,6 +15,7 @@ angular.module('mobileMasterApp')
 	settingsService: SettingsService,
 	$scope : MasterScope.Background,
 	hotkeys: ng.hotkeys.HotkeysProvider,
+	$state: ng.ui.IStateService,
 	persistentMap: PersistentMap,
 	masterMap: Master.Map) => {
 
@@ -117,4 +119,22 @@ angular.module('mobileMasterApp')
 			}
 		});
 	});
+
+	$scope.zoomToOverlay = (thing: any) => {
+
+		try {
+			var bounds = new L.LatLngBounds([
+				new L.LatLng(thing.topleft.Latitude, thing.topleft.Longitude),
+				new L.LatLng(thing.bottomright.Latitude, thing.bottomright.Longitude)
+			]);
+
+			window.setTimeout(() => {
+				masterMap.fitBounds(bounds);
+			}, 33);
+
+			$state.go('map.slidder');
+		} catch (e) {
+
+		} 
+	};
 });
