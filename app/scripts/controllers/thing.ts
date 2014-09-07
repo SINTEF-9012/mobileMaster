@@ -126,7 +126,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					zoom = Math.max(masterMap.getZoom(), zoom);
 				}
 
-				//console.log(thingSpeed, zoom);
 				/*var centerPoint = masterMap.project(pos, zoom),
 					size = masterMap.getSize().divideBy(2),
 					viewBounds = new L.Bounds(centerPoint.subtract(size), centerPoint.add(size)),
@@ -259,20 +258,21 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				});
 			}
 
-			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing.Type) : [];
+			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing) : [];
 
-			var missingProperties: { [key: string]: boolean } = {
+			/*var missingProperties: { [key: string]: boolean } = {
 				ID: true,
 				type: true,
 				location: true,
 				_type: true
 			};
 
+
 			_.each($scope.knowledge, (property: any) => missingProperties[<string>(property.key)] = true);
 
 			_.each($scope.thing, (value, key) => {
 				if (!missingProperties[key]) {
-					if (key !== 'name' /*|| $scope.thing.description !== $scope.thing.name*/ ||
+					if (key !== 'name' || $scope.thing.description !== $scope.thing.name ||
 					(key !== 'undefined' && !$scope.thing.undefined)) {
 						$scope.knowledge.push({
 							key: key,
@@ -282,7 +282,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 						});
 					}
 				}
-			});
+			});*/
 
 			// The name information is already in the page title
 			$scope.rawKnowledge = $scope.knowledge;

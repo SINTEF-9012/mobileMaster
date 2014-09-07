@@ -165,7 +165,7 @@ interface KnowledgeService {
 	canOrder(thing: ThingModel.Thing): boolean;
 	canDelete(thing: ThingModel.Thing): boolean;
 
-	getPropertiesOrder(thingType: ThingModel.ThingType): {
+	getPropertiesOrder(thing: ThingModel.Thing): {
 		key: string;
 		required: boolean;
 		type: string;

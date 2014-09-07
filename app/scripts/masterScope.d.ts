@@ -83,7 +83,3 @@ interface Knowledge {
 	typeTest?: RegExp;
 }
 
-interface KnowledgeModule {
-	getPropertiesOrder(thingType: ThingModel.ThingType) : {key:string;score:number;property:ThingModel.PropertyType}[];
-}
-
