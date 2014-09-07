@@ -29,7 +29,7 @@ angular.module('mobileMasterApp')
 	persistentMap.restorePersistentLayer(masterMap);
 
 	var jMap = $('#map'), jwindow = $(window);
-	destroyed = false;
+	var destroyed = false;
 	var setLayout = throttle(() => {
 		if (destroyed) {
 			return;
