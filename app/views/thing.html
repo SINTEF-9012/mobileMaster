@@ -35,7 +35,11 @@
 			<div class="col-sm-5 col-lg-4 properties-list" ng-class="hideMap ? 'col-xs-12 col-sm-12 col-lg-12' : ''" id="thing-view">
 
 				<div ui-view>
+					<div class="row big-advise-icon" ng-if="thing.type == 'AdviseUpdateType'">
+						<master-icon watch="thing.ID"></master-icon>
+					</div>
 					<div class="row">
+
 						<div ng-class="(''+thing[type.key]).length > 60 ? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
 							<div class="thingInfobox">
 								<h3 title="{{type.key}}">{{type.name | humanizeCamelCase}}</h3>	

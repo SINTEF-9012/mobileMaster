@@ -621,3 +621,18 @@ master-icon {
 		opacity:0;
 	}
 }
+
+.big-advise-icon {
+	text-align:center;
+	
+	master-icon {
+		font-size: 7em;
+		margin: 0.5em;
+		margin-bottom: 0.7em;
+
+		&.advise > div {
+			font-size: 0.3em;
+			line-height: 2.6em;
+		}
+	}
+}
