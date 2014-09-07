@@ -98,161 +98,172 @@ angular.module('mobileMasterApp')
 		return c.append(t);
 	}
 
-	return {
-//		template: '''<div class="">?<div class="type"></div></div>',
+	function setIcon(element: JQuery, type: string, thing: ThingModel.Thing, attrs) {
+		if (/patient/i.test(type)) {
+			// triage_status
+			var color = (thing && thing.HasProperty('triage_status')) ? thing.String('triage_status') : '#FF4B00';
+			element.append(patientTriageIcon(color));
+			element.addClass('patient');
+		} else if (/picture/i.test(type)) {
+			element.append(glyphicon('picture'));
+			element.addClass('glyph picture');
+		} else if (/tweet/i.test(type)) {
+			element.append(glyphicon('comment'));
+			element.addClass('glyph tweet');
+		} else if (/video/i.test(type)) {
+			element.append(glyphicon('film'));
+			element.addClass('glyph video');
+		} else if (/resources/i.test(type)) {
+			element.addClass('resources');
+		} else if (/(incident|resource|risk|response|beacon)/i.test(type)) {
+
+			var cat: string;
+
+			switch (true) {
+				case /incident/i.test(type):
+					cat = 'incident';
+					break;	
+				case /risk/i.test(type):
+					cat = 'risk';
+					break;	
+				case /response/i.test(type):
+					cat = 'response';
+					break;	
+				case /beacon/i.test(type):
+					cat = 'helpbeacon';
+					break;	
+				default:
+				//case /resource/i.test(type):
+					cat = 'resource';
+					break;	
+			}
+
+			var infos = categories[cat];
+
+			// TODO fix it in the adapter?
+			if (thing) {
+
+				if (type === 'ResourceType') {
+					// TODO HOTFIX
+					type += " " + thing.String("type").replace(/medic/i, 'health')
+						.replace(/fire personnel/i, 'fire and rescue personnel');
+				}
+			}
+
+			var letter = '';
+			var ltype = type.toLowerCase();
+			for (var iconType in infos.types) {
+				if (ltype.indexOf(iconType) >= 0) {
+					letter = infos.types[iconType];
+					break;
+				} 	
+			}
+
+			element.append(fonticon(cat, ltype, letter));
+			element.addClass('fonticon');
+
+		} else if (/order/i.test(type)) {
+			element.addClass('order');
+		} else if (/victims/i.test(type)) {
+			element.addClass('victims');
+		} else if (/messages/i.test(type)) {
+			element.addClass('messages');
+		} else if (/multimedias/i.test(type)) {
+			element.addClass('multimedias');
+		} else if (/advise/i.test(type)) {
+			element.addClass('advise');
+			var health = $('<div>').addClass("advise-health"),
+				fire = $('<div>').addClass("advise-fire"),
+				instability = $('<div>').addClass("advise-instability"),
+				specific = $('<div>').addClass("advise-specific");
+
+			if (thing) {
+				var prop = thing.Int("healthLevel");
+				if (prop !== null) {
+					$('<span>').text(prop).appendTo(health);
+				}
+
+				prop = thing.Int("flammabilityLevel");
+				if (prop !== null) {
+					$('<span>').text(prop).appendTo(fire);
+				}
+
+				prop = thing.Int("instabilityLevel");
+				if (prop !== null) {
+					$('<span>').text(prop).appendTo(instability);
+				}
+
+				var sprop = thing.String("hazard");
+				if (sprop !== null) {
+					$('<span>').text(sprop.substr(0, 2)).appendTo(specific);
+				}
+			}
+
+			element.append(health).append(fire).append(instability).append(specific);
+
+		} else if (/others/i.test(type)) {
+			element.addClass('others');
+			element.text('\u25C6');
+		} else {
+			element.addClass('default-icon');
+			element.text(type[0]);
+		}
+
+
+		if (attrs.selected) {
+			element.addClass('selected');
+		}
+
+	}
+
+		return {
+		template: '<div></div>',
 		restrict: 'E',
+		scope: {
+			watch: '='
+		},
 		link: function postLink(scope, element : JQuery, attrs) {
 
 			var type = 'default',
-				thing : ThingModel.Thing = null;
+				thing: ThingModel.Thing = null,
+				_type = null;
 			if (attrs.type) {
 				type = attrs.type;
 			} else if (attrs.thingid) {
 				thing = thingModel.warehouse.GetThing(attrs.thingid);
+
 				if (thing) {
 					if (thing.Type) {
 						type = thing.Type.Name;
 					}
-					var _type = thing.String("_type");
+
+					_type = thing.String("_type");
 					if (_type) {
 						type = type + " " + _type;
 					}
 				}
-			}
-
-			if (/patient/i.test(type)) {
-				// triage_status
-				var color = (thing && thing.HasProperty('triage_status')) ? thing.String('triage_status') : '#FF4B00';
-				element.append(patientTriageIcon(color));
-				element.addClass('patient');
-			} else if (/picture/i.test(type)) {
-				element.append(glyphicon('picture'));
-				element.addClass('glyph picture');
-			} else if (/tweet/i.test(type)) {
-				element.append(glyphicon('comment'));
-				element.addClass('glyph tweet');
-			} else if (/video/i.test(type)) {
-				element.append(glyphicon('film'));
-				element.addClass('glyph video');
-			} else if (/resources/i.test(type)) {
-				element.addClass('resources');
-			} else if (/(incident|resource|risk|response|beacon)/i.test(type)) {
-
-				var cat: string;
-
-				switch (true) {
-					case /incident/i.test(type):
-						cat = 'incident';
-						break;	
-					case /risk/i.test(type):
-						cat = 'risk';
-						break;	
-					case /response/i.test(type):
-						cat = 'response';
-						break;	
-					case /beacon/i.test(type):
-						cat = 'helpbeacon';
-						break;	
-					default:
-					//case /resource/i.test(type):
-						cat = 'resource';
-						break;	
-				}
-
-				var infos = categories[cat];
-
-				// TODO fix it in the adapter?
-				if (thing) {
-
-					if (type === 'ResourceType') {
-						// TODO HOTFIX
-						type += " " + thing.String("type").replace(/medic/i, 'health')
-							.replace(/fire personnel/i, 'fire and rescue personnel');
-					}
-				}
-
-				var letter = '';
-				var ltype = type.toLowerCase();
-				for (var iconType in infos.types) {
-					if (ltype.indexOf(iconType) >= 0) {
-						letter = infos.types[iconType];
-						break;
-					} 	
-				}
-
-				element.append(fonticon(cat, ltype, letter));
-				element.addClass('fonticon');
-
-			} else if (/order/i.test(type)) {
-				element.addClass('order');
-			} else if (/victims/i.test(type)) {
-				element.addClass('victims');
-			} else if (/messages/i.test(type)) {
-				element.addClass('messages');
-			} else if (/multimedias/i.test(type)) {
-				element.addClass('multimedias');
-			} else if (/advise/i.test(type)) {
-				element.addClass('advise');
-				var health = $('<div>').addClass("advise-health"),
-					fire = $('<div>').addClass("advise-fire"),
-					instability = $('<div>').addClass("advise-instability"),
-					specific = $('<div>').addClass("advise-specific");
-
-				if (thing) {
-					var prop = thing.Int("healthLevel");
-					if (prop !== null) {
-						$('<span>').text(prop).appendTo(health);
-					}
-
-					prop = thing.Int("flammabilityLevel");
-					if (prop !== null) {
-						$('<span>').text(prop).appendTo(fire);
-					}
-
-					prop = thing.Int("instabilityLevel");
-					if (prop !== null) {
-						$('<span>').text(prop).appendTo(instability);
-					}
-
-					var sprop = thing.String("hazard");
-					if (sprop !== null) {
-						$('<span>').text(sprop.substr(0, 2)).appendTo(specific);
-					}
-				}
-
-				element.append(health).append(fire).append(instability).append(specific);
-
-			} else if (/others/i.test(type)) {
-				element.addClass('others');
-				element.text('\u25C6');
 			} else {
-				element.addClass('default-icon');
-				element.text(type[0]);
+				scope.$watch('watch', () => {
+					element.empty().removeClass();	
+
+					thing = thingModel.warehouse.GetThing(scope.watch);
+					console.log(scope, scope.watch);
+					if (thing) {
+						if (thing.Type) {
+							type = thing.Type.Name;
+						}
+
+						_type = thing.String("_type");
+						if (_type) {
+							type = type + " " + _type;
+						}
+					}
+					setIcon(element, type, thing, attrs);
+				});
+				return;
 			}
 
-
-			if (attrs.selected) {
-				element.addClass('selected');
-			}
-
-/*			if (categorie) {
-				wrapper.firstChild.data = categorie.char;
-
-				var type = categorie.types[attrs.type.toLowerCase()];
-				
-				if (type) {
-					wrapper.lastChild.appendChild(document.createTextNode(type));
-				}
-			} else {
-//				wrapper.firstChild.data = "?";
-//				element.find('.type').text('?');
-			}*/
-
-//			wrapper.setAttribute("class", attrs.category + " " + attrs.type.replace(/\s+/g, "-"));
-
-//			if (!wrapper.lastChild.firstChild) {
-//				wrapper.removeChild(wrapper.lastChild);
-//			}
+			setIcon(element, type, thing, attrs);
 		}
 	};
 });
