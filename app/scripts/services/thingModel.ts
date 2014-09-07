@@ -11,7 +11,7 @@
 (<any>angular.module("mobileMasterApp")).provider("thingModel", function () {
 	this.$get = (
 		$rootScope: MasterScope.Root,
-		Knowledge: KnowledgeModule,
+		Knowledge: KnowledgeService,
 		$state: ng.ui.IStateService,
 		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
@@ -120,10 +120,22 @@
 				return;
 			}
 
-			_.each(values, (value: {value:string;type:string}, property: string)=> {
+			_.each(values, (value: {value:any;type:string}, property: string)=> {
 				var prop;	
 				switch (value.type.toLowerCase()) {
 					case 'localization':
+						if (value.value.type === 'latlng') {
+							prop = new ThingModel.Property.Location.LatLng(property, value.value);
+							break;
+						}
+						if (value.value.type === 'point') {
+							prop = new ThingModel.Property.Location.Point(property, value.value);
+							break;
+						}
+						if (value.value.type === 'equatorial') {
+							prop = new ThingModel.Property.Location.Equatorial(property, value.value);
+							break;
+						}
 						throw "Not implemented";
 					case 'number':
 					case 'double':

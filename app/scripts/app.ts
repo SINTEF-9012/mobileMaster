@@ -137,6 +137,11 @@ angular.module('mobileMasterApp', [
 			controller: 'ThingCtrl',
 			templateUrl: 'views/media.html'
 		})
+		.state('media.edit', {	
+			url: '/edit',
+			controller: 'EditCtrl',
+			templateUrl: 'views/thingedit.html'
+        })
 		.state('messenger', {
 			url: '/messenger?from',
 			controller: 'MessengerCtrl',

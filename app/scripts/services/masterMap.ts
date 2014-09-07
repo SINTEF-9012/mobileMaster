@@ -657,7 +657,12 @@
 				processView();
 			};
 
-			var selectedMapMarker = null, selectedMarkerId = null, noAnimTimeout = 0;
+			var selectedMapMarker = null,
+				selectedMarkerId = null,
+				noAnimTimeout = 0,
+				draggableSelectedThing = false,
+				selectedMapMarkerHasBeenDragged = false;
+
 			instance.setSelectedThing = (id: string, lat: number, lng: number) => {
 				if (selectedMapMarker && selectedMarkerId !== id) {
 					instance.removeSelectedThing();
@@ -679,7 +684,7 @@
 				}
 
 				if (!selectedMapMarker) {
-					selectedMapMarker = new L.Marker(new L.LatLng(lat, lng));
+					selectedMapMarker = new L.Marker(new L.LatLng(lat, lng), {draggable: draggableSelectedThing});
 					var icon = new masterIcon();
 					icon.scope = $rootScope;
 					icon.thingID = id;
@@ -687,7 +692,20 @@
 					selectedMapMarker.setIcon(icon);
 					selectedMapMarker.setZIndexOffset(8000);
 					instance.addLayer(selectedMapMarker);
-				} else {
+					L.DomUtil.addClass(selectedMapMarker._icon, "no-anim");
+					selectedMapMarker.setOpacity(0);
+
+					window.setTimeout(() => {
+						L.DomUtil.removeClass(selectedMapMarker._icon, "no-anim");
+						selectedMapMarker.setOpacity(1);
+					}, 1);
+
+					if (draggableSelectedThing) {
+						selectedMapMarker.once('dragend', () => {
+							selectedMapMarkerHasBeenDragged = true;
+						});
+					}
+				} else if (!selectedMapMarkerHasBeenDragged) {
 					selectedMapMarker.setLatLng(new L.LatLng(lat, lng));
 				}
 
@@ -705,8 +723,18 @@
 						instance.removeLayer(m);
 					}, 600);
 					selectedMapMarker = null;
+
+					draggableSelectedThing = false;
 				}
 			};
+
+			instance.draggableSelectedThing = (id, lat, lng) => {
+				instance.removeSelectedThing();
+				draggableSelectedThing = true;
+				instance.setSelectedThing(id, lat, lng);
+			}
+
+			instance.getDraggedMarkerPosition = () => selectedMapMarkerHasBeenDragged ? selectedMapMarker.getLatLng() : null;
 
 			// rouge orange 0, vert pomme 1, jaune 2, bleu ciel 3, magenta 4, violet 5, gris beige 6, bleu marine 7
 			var lockupTypeColor = {

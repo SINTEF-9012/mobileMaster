@@ -45,6 +45,9 @@ declare module Master {
 		setSelectedThing(id: string, lat: number, lng: number);
 		removeSelectedThing();
 
+		draggableSelectedThing(id: string, lat: number, lng: number);
+		getDraggedMarkerPosition(): L.LatLng;
+
 		GamepadController: L.IHandler;
 
 		hideOverlay(id: string);

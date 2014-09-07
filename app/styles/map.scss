@@ -92,6 +92,11 @@ html:not(.disable-markers-animations) {
             transition:transform 0.3s linear, opacity 0.3s linear;
             -moz-transition:transform 0.3s linear, opacity 0.3s linear;
         }
+        .leaflet-marker-draggable:not(.no-anim) {
+            -webkit-transition: none;
+            transition: none;
+            -moz-transition: none;
+        }
     }
 }
 

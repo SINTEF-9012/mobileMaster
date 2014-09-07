@@ -247,7 +247,7 @@ angular.module('mobileMasterApp')
 					element.empty().removeClass();	
 
 					thing = thingModel.warehouse.GetThing(scope.watch);
-					console.log(scope, scope.watch);
+
 					if (thing) {
 						if (thing.Type) {
 							type = thing.Type.Name;

@@ -370,6 +370,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	$rootScope.$on('$stateChangeSuccess', () => {
 		$scope.returnLink = returnLink;
 		$scope.hideToolbarButtons = false;
+		masterMap.filterThing(id);
+
+		if ($scope.thing.location) {
+			masterMap.setSelectedThing(id, $scope.thing.location.Latitude, $scope.thing.location.Longitude);
+		}
 
 		if (!$scope.$$phase) {
 			$scope.$digest();

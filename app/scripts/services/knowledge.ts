@@ -73,6 +73,7 @@
 					itsa.multimedia(thing) ||
 					itsa.order(thing) ||
 					itsa.response(thing) ||
+					itsa.other(thing) ||
 					itsa.risk(thing);
 			},
 			canDelete: (thing: ThingModel.Thing) => {
@@ -80,6 +81,7 @@
 					itsa.order(thing) ||
 					itsa.incident(thing) ||
 					itsa.response(thing) ||
+					itsa.other(thing) ||
 					itsa.risk(thing);
 			},
 			getPropertiesOrder: (thing: ThingModel.Thing) => {
