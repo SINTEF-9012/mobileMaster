@@ -216,12 +216,8 @@ angular.module('mobileMasterApp')
 
 	}
 
-		return {
-		template: '<div></div>',
+	return {
 		restrict: 'E',
-		scope: {
-			watch: '='
-		},
 		link: function postLink(scope, element : JQuery, attrs) {
 
 			var type = 'default',
@@ -242,28 +238,34 @@ angular.module('mobileMasterApp')
 						type = type + " " + _type;
 					}
 				}
-			} else {
-				scope.$watch('watch', () => {
-					element.empty().removeClass();	
-
-					thing = thingModel.warehouse.GetThing(scope.watch);
-
-					if (thing) {
-						if (thing.Type) {
-							type = thing.Type.Name;
-						}
-
-						_type = thing.String("_type");
-						if (_type) {
-							type = type + " " + _type;
-						}
-					}
-					setIcon(element, type, thing, attrs);
-				});
-				return;
 			}
 
 			setIcon(element, type, thing, attrs);
 		}
 	};
-});
+})
+.directive('watchMasterIcon', ($compile) => {
+		return {
+			template:'<div></div>',
+			restrict: 'E',
+			scope: {
+				thingid: '=',
+			},
+			link: (scope, element: JQuery, attrs: any) => {
+
+				scope.$watch('thingid', () => {
+					element.empty().removeClass();
+
+					var e = angular.element('<master-icon />');
+					e.attr('thingid', scope.thingid);
+
+					if (attrs.selected) {
+						e.attr('selected', attrs.selected);
+					}
+
+					var masterIconElement = $compile(e);
+					masterIconElement(scope).appendTo(element);
+				});
+			}
+		};
+	})

@@ -227,6 +227,9 @@ angular.module('mobileMasterApp')
 		jTimeline.height(mediablockHeight - 12);
 
 		window.setImmediate(() => {
+			if (destroyed) {
+				return;
+			}
 			jlink.height(mapHeight).width(jMap.width()).offset(jMap.offset());
 
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
@@ -343,6 +346,9 @@ angular.module('mobileMasterApp')
 
 	// Update the panel height after the layout initialization
     window.setImmediate(() => {
+		if (destroyed) {
+			return;
+		}
 		setLayout();
 		masterMap.setVerticalTopMargin(0);
 		masterMap.moveTo(jMap.get(0));
