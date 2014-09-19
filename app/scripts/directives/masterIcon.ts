@@ -193,9 +193,9 @@ angular.module('mobileMasterApp')
 					$('<span>').text(prop).appendTo(instability);
 				}
 
-				var sprop = thing.String("hazard");
-				if (sprop !== null) {
-					$('<span>').text(sprop.substr(0, 2)).appendTo(specific);
+				prop = thing.Int("specialLevel");
+				if (prop !== null) {
+					$('<span>').text(prop).appendTo(specific);
 				}
 			}
 
