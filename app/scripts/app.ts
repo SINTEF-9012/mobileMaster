@@ -255,7 +255,7 @@ if (window.applicationCache) {
 	});
 }
 
-if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && !window.navigator.standalone) {
+if (navigator.userAgent.match(/iPad;.*CPU.*OS [78]_\d/i) && !window.navigator.standalone) {
 	document.body.parentElement.className = "ipad ios7";
 
   window.addEventListener('orientationchange', () => {
