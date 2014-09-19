@@ -55,7 +55,7 @@ angular.module('mobileMasterApp')
 		}
 
 		this.setMediaServerUrl = (url: string) => {
-			if (url.length && url[url.length - 1] === '/') {
+			if (url && (typeof(url.length) !== "undefined") && url[url.length - 1] === '/') {
 				url = url.slice(0, -1);
 			}
 			mediaServerUrl = url;
