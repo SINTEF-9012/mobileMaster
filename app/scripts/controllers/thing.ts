@@ -297,6 +297,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var destroyed = false;
 
+	var tileColor = null;//, oldTileColor = null;
+
 	var setLayout = throttle(() => {
 		if (destroyed) {
 			return;
@@ -304,10 +306,10 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 		var width = jwindow.width();
 
-		if (tileColor !== oldTileColor) {
-			oldTileColor = tileColor;
-			setTilesColors(tileColor);
-		}
+		//if (tileColor !== oldTileColor) {
+		//	oldTileColor = tileColor;
+		setTilesColors(tileColor);
+		////}
 
 		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
@@ -361,7 +363,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.disableMiniMap();
 	masterMap.filterThing(id);
 
-	var tileColor = null, oldTileColor = null;
 
 
 
@@ -402,6 +403,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.disableSituationOverview();
 
 	function setTilesColors(color) {
+		if (!color) return;
 		tileColor = color;
 		$('.victimInfobox, .thingInfobox').css({
 			'background': color,
