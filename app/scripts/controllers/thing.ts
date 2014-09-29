@@ -291,6 +291,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			if (!$scope.$$phase) {
 				$scope.$digest();
 				setLayout();
+			} else {
+				window.setImmediate(() => setLayout());
 			}
 		}
 	}, 10);
