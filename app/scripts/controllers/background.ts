@@ -96,12 +96,32 @@ angular.module('mobileMasterApp')
 	];
 
 	$scope.selectWeatherTime($scope.weatherTime[0]);
+	var armaAltisMap = null;
+	var enabledArmaAltis = false;
 
 	hotkeys.bindTo($scope)
 		.add({
 			combo: '/',
 			description: 'Weather (alpha)',
 			callback: () => $scope.enableWeather = true
+		}).add({
+			combo: '-',
+			description: 'Toggle Arma Altis Map',
+			callback: () => {
+				if (!armaAltisMap) {
+					armaAltisMap = new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.armaaltis/{z}/{x}/{y}.png', {
+						detectRetina: true,
+						reuseTiles: true,
+						maxNativeZoom: 17
+					});
+					enabledArmaAltis = !enabledArmaAltis;
+					if (enabledArmaAltis) {
+						armaAltisMap.addTo(masterMap);
+					} else {
+						masterMap.removeLayer(armaAltisMap);
+					}
+				}
+			}
 		});
 
 	$scope.overlays = {};
@@ -137,4 +157,6 @@ angular.module('mobileMasterApp')
 
 		} 
 	};
+
+
 });
