@@ -705,6 +705,9 @@
 							selectedMapMarkerHasBeenDragged = true;
 						});
 					}
+
+					(<any>cluster).spiderfier.Unspiderfy();
+
 				} else if (!selectedMapMarkerHasBeenDragged) {
 					selectedMapMarker.setLatLng(new L.LatLng(lat, lng));
 				}
