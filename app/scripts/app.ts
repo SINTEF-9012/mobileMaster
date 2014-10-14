@@ -81,7 +81,7 @@ angular.module('mobileMasterApp', [
             templateUrl: 'views/main.html'
 		})
 		.state('table', {
-			url: '/table/:thingtype?order&page&from',
+			url: '/table/:thingtype?filter&order&page&from',
 			controller: 'TableCtrl',
 			templateUrl: 'views/table.html'
 		})

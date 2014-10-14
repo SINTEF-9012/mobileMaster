@@ -86,15 +86,30 @@ angular.module('mobileMasterApp')
 
 	var sortThings = $state.is('victims') ? sortVictims : ($state.is('messenger') ? dateSort : defaultSort);
 
+	var filterRegex = /^(\w+):(.*)$/;
 	var digestScope = throttle(() => {
 		sortThings();
 
 		$scope.things = [];
 		var cpt = 0;
 
+		var showAll = $scope.filter === 'all';
+		var filterKey, filterValue;
+
+		if (!showAll) {
+			var m = $scope.filter.match(filterRegex);
+			if (m) {
+				filterKey = m[1];
+				filterValue = m[2].toLowerCase();
+			} else {
+				filterKey = "triage_status";
+				filterValue = $scope.filter.toLowerCase();
+			}
+		}
+
 		var more = false;
 		$scope.things = _.filter(globalList, (s: any) => {
-				if (s.ID !== "master-summary" && ($scope.filter === 'all' || $scope.filter === s.triage_status) &&
+				if (s.ID !== "master-summary" && (showAll || (""+s[filterKey]).toLowerCase() == filterValue) &&
 				(cpt++ >= startPageCount)) {
 					if (cpt <= endPageCount) {
 						return true;
@@ -156,17 +171,4 @@ angular.module('mobileMasterApp')
 	$scope.$on('$destroy', () => {
 		thingModel.warehouse.UnregisterObserver(observer);
 	});
-
-	// Sort by the id ascending by default
-	$scope.sortExpression = '+ID';
-	$scope.sortPropertyKey = 'ID';
-	$scope.sortDirection = '+';
-
-	$scope.sortThings = (key: string) => {
-		var direction = key == $scope.sortPropertyKey ?
-		($scope.sortDirection === '+' ? '-' : '+') : '+';
-		$scope.sortExpression = direction + key;
-		$scope.sortDirection = direction;
-		$scope.sortPropertyKey = key;
-	};
 });

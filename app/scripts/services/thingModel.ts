@@ -13,6 +13,7 @@
 		$rootScope: MasterScope.Root,
 		Knowledge: KnowledgeService,
 		$state: ng.ui.IStateService,
+		itsa: ThingIdentifierService,
 		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
 
@@ -92,8 +93,24 @@
 				return;
 			}
 
-			var name: string;
+			var name = this.GetThingName(thing);
 
+			$scope.ID = thing.ID;
+			$scope.type = thing.Type ? thing.Type.Name : undefined;
+
+			_.each(thing.Properties, (property: ThingModel.Property) => {
+				$scope[property.Key] = (<any>property).Value;
+			});
+
+			$scope._masterName = name;
+		};
+
+		this.GetThingName = (thing: ThingModel.Thing) => {
+			if (itsa.beacon(thing)) {
+				return thing.String("message");
+			}
+
+			var name: string;
 			if (!(name = thing.String('name'))) {
 				if (!(name = thing.String('title'))) {
 					if (!(name = thing.String('description'))) {
@@ -103,15 +120,7 @@
 					}
 				}
 			}
-
-			$scope.ID = thing.ID;
-			$scope.type = thing.Type ? thing.Type.Name : undefined;
-
-			_.each(thing.Properties, (property: ThingModel.Property) => {
-				$scope[property.Key] = (<any>property).Value;
-			});
-
-			$scope.name = name;
+			return name;
 		};
 
 		this.EditThing = (id: string, values: { [property: string]: { value: string; type: string } }) => {

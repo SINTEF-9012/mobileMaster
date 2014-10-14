@@ -326,15 +326,10 @@
 					$state.go(toState, { ID: id, from: $stateParams.from ? $stateParams.from : 'map' });
 				});
 
-				var name : string;
-				if (!(name = thing.String('name'))) {
-					if (!(name = thing.String('title'))) {
-						if (!(name = thing.String('description'))) {
-							if (!(name = thing.String('message'))) {
-								name = thing.Type ? thing.Type.Name : 'unknown object';
-							}
-						}
-					}
+				var name = thingModel.GetThingName(thing);
+
+				if (!name) {
+					name = thing.Type ? thing.Type.Name : 'unknown object';
 				}
 
 				content.text(name);
