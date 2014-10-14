@@ -103,7 +103,7 @@ angular.module('mobileMasterApp')
 	}
 
 	function setIcon(element: JQuery, type: string, thing: ThingModel.Thing, attrs) {
-		if (/patient/i.test(type)) {
+		if (/patient/i.test(type) && !/patients/i.test(type)) {
 			// triage_status
 			var color = (thing && thing.HasProperty('triage_status')) ? thing.String('triage_status') : '#FF4B00';
 			element.append(patientTriageIcon(color));
@@ -174,8 +174,8 @@ angular.module('mobileMasterApp')
 
 		} else if (/order/i.test(type)) {
 			element.addClass('order');
-		} else if (/victims/i.test(type)) {
-			element.addClass('victims');
+		} else if (/(victims|patients)/i.test(type)) {
+			element.addClass('patients');
 		} else if (/messages/i.test(type)) {
 			element.addClass('messages');
 		} else if (/multimedias/i.test(type)) {

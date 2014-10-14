@@ -5,34 +5,34 @@
 	  		
 		    <a class="navbar-brand col-xs-1" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
 
-	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-6 ng-hide" ng-show="filter">Victims{{filter != 'all' ? ' ' + filter : ''}}</h3>
+	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-6 ng-hide" ng-show="filter">Patients{{filter != 'all' ? ' ' + filter : ''}}</h3>
 
 	    	<div class="btn-group navbar-btn-group pull-right" data-toggle="buttons">
 			  <label class="btn navbar-btn btn-primary" ng-class="filter === 'all' ? 'active' : ''"
-			  ui-sref="victims({filter: 'all', page: undefined})">
+			  ui-sref="patients({filter: 'all', page: undefined})">
 			    <input type="radio" name="status"> All
 			  </label>
 			  <label class="btn navbar-btn btn-primary"
 				ng-class="filter === 'black' ? 'active' : ''"
-			  	ui-sref="victims({filter: 'black', page: undefined})">
+			  	ui-sref="patients({filter: 'black', page: undefined})">
 			    <input type="radio" name="status">
 			    <div class="triage-light" style="background:black"></div>
 			  </label>
 			  <label class="btn navbar-btn btn-primary" 
 				ng-class="filter === 'red' ? 'active' : ''"
-			  	ui-sref="victims({filter: 'red', page: undefined})">
+			  	ui-sref="patients({filter: 'red', page: undefined})">
 			    <input type="radio" name="status">
 			    <div class="triage-light" style="background:red"></div>
 			  </label>
 			  <label class="btn navbar-btn btn-primary"
 				ng-class="filter === 'yellow' ? 'active' : ''"
-			  	ui-sref="victims({filter: 'yellow', page: undefined})">
+			  	ui-sref="patients({filter: 'yellow', page: undefined})">
 			    <input type="radio" name="status">
 			    <div class="triage-light" style="background:yellow"></div>
 			  </label>
 			  <label class="btn navbar-btn btn-primary"
 				ng-class="filter === 'green' ? 'active' : ''"
-			  	ui-sref="victims({filter: 'green', page: undefined})">
+			  	ui-sref="patients({filter: 'green', page: undefined})">
 			    <input type="radio" name="status">
 			    <div class="triage-light" style="background:green"></div>
 			  </label>
@@ -45,10 +45,10 @@
 
 <div class="container-fluid master-list" ui-view>
 	<ul class="pager ng-hide" ng-show="previousPage >= 0">
-		<li><a href="#" ui-sref="victims({page: previousPage})">Previous</a></li>
+		<li><a href="#" ui-sref="patients({page: previousPage})">Previous</a></li>
 	</ul>
 
-	<a class="victim thing row" ng-repeat="thing in things" ui-sref="victim({ID: thing.ID, from: thingfrom})">
+	<a class="patient thing row" ng-repeat="thing in things" ui-sref="patient({ID: thing.ID, from: thingfrom})">
 
 		<div class="col-xs-2 col-sm-1 thing-row-left">
 			<div class="pull-right">
@@ -73,6 +73,6 @@
 	<p class="empty-message" ng-if="things.length == 0">The list is empty</p>
 
 	<ul class="pager ng-hide" ng-show="nextPage >= 0">
-		<li><a href="#" ui-sref="victims({page: nextPage})">Next</a></li>
+		<li><a href="#" ui-sref="patients({page: nextPage})">Next</a></li>
 	</ul>
 </div>

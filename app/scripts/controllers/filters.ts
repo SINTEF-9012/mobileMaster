@@ -9,7 +9,7 @@ angular.module('mobileMasterApp').controller('FiltersCtrl', (
 	$scope) => {
 
 	$scope.filters = [
-		{ name: "Victims", enabled: !filterService.isFilterEnabled("Victims") },
+		{ name: "Patients", enabled: !filterService.isFilterEnabled("Patients") },
 		{ name: "Multimedias", enabled: !filterService.isFilterEnabled("Multimedias") },
 		{ name: "Resources", enabled: !filterService.isFilterEnabled("Resources") },
 		{ name: "Responses", enabled: !filterService.isFilterEnabled("Responses") },

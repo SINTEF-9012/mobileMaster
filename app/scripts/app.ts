@@ -65,15 +65,15 @@ angular.module('mobileMasterApp', [
 			url: '/editsummary',
 			templateUrl: 'views/editsummary.html'
 		})
-		.state('victims', {
-			url: '/victims?filter&page&from',
+		.state('patients', {
+			url: '/patients?filter&page&from',
 			controller: 'TableCtrl',
-			templateUrl: 'views/victims.html'
+			templateUrl: 'views/patients.html'
 		})
-		.state('victim', {
-			url: '/victim/:ID?from',
+		.state('patient', {
+			url: '/patient/:ID?from',
 			controller: 'ThingCtrl',
-			templateUrl: 'views/victim.html'
+			templateUrl: 'views/patient.html'
 		})
         .state('main', {
             url: '/',
@@ -202,8 +202,8 @@ angular.module('mobileMasterApp', [
 	});
 	hotkeys.add({
 		combo: 'v',
-		description: 'victims',
-		callback: () => $state.go('victims')
+		description: 'Patients',
+		callback: () => $state.go('patients')
 	});
 	hotkeys.add({
 		combo: 's',

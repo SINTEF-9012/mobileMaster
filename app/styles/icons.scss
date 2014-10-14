@@ -41,7 +41,7 @@
 	master-icon {
 		margin-right: 0.3em;
 
-		&.order, &.victims, &.resources, &.messages, &.multimedias {
+		&.order, &.patients, &.resources, &.messages, &.multimedias {
 			height: 25px;
 			width: 25px;
 			margin-top: -5px;
@@ -130,8 +130,8 @@ master-icon {
 	background-size:100% 100%;
 }
 
-&.victims {
-	background:url(../images/victims-icon.png) no-repeat center;
+&.patients {
+	background:url(../images/patients-icon.png) no-repeat center;
 	background-size:100% 100%;
 }
 
@@ -167,8 +167,8 @@ master-icon {
 		background-size:100% 100%;
 	}
 
-	&.victims {
-		background:url(../images/victims-icon@2x.png) no-repeat center;
+	&.patients {
+		background:url(../images/patients-icon@2x.png) no-repeat center;
 		background-size:100% 100%;
 	}
 	

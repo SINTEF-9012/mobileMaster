@@ -320,7 +320,7 @@
 					return;
 				}
 
-				var toState = itsa.victim(thing) ? 'victim' : (itsa.media(thing) ? 'media' : 'thing');
+				var toState = itsa.patient(thing) ? 'patient' : (itsa.media(thing) ? 'media' : 'thing');
 
 				content.click(() => {
 					$state.go(toState, { ID: id, from: $stateParams.from ? $stateParams.from : 'map' });
@@ -736,7 +736,7 @@
 
 			// rouge orange 0, vert pomme 1, jaune 2, bleu ciel 3, magenta 4, violet 5, gris beige 6, bleu marine 7
 			var lockupTypeColor = {
-				Victims: 0,
+				Patients: 0,
 				Resources: 3,
 				Incidents: 2,
 				Responses: 1,

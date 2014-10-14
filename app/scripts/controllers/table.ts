@@ -28,7 +28,7 @@ angular.module('mobileMasterApp')
 
 	$scope.typeName = $stateParams.thingtype;
 
-	var thingTypeTest = itsa.testfor($stateParams.thingtype || ($state.is('background') ? 'imageoverlays': 'victims'));
+	var thingTypeTest = itsa.testfor($stateParams.thingtype || ($state.is('background') ? 'imageoverlays': 'patients'));
 		//new RegExp($stateParams.thingtype, 'i')
 
 	var filter: (thing: ThingModel.Thing) => boolean =
@@ -58,7 +58,7 @@ angular.module('mobileMasterApp')
 	});
 
 
-	var sortVictims =  () => {
+	var sortPatients =  () => {
 		globalList.sort((a, b) => {
 			var ta = a.triage_status, tb = b.triage_status;
 
@@ -84,7 +84,7 @@ angular.module('mobileMasterApp')
 	};
 
 
-	var sortThings = $state.is('victims') ? sortVictims : ($state.is('messenger') ? dateSort : defaultSort);
+	var sortThings = $state.is('patients') ? sortPatients : ($state.is('messenger') ? dateSort : defaultSort);
 
 	var filterRegex = /^(\w+):(.*)$/;
 	var digestScope = throttle(() => {

@@ -526,7 +526,7 @@ header + .container, header + .container-fluid {
 
 
 @media (max-width: $screen-xs-max) {
-    .victim-controller header + .container-fluid,
+    .patient-controller header + .container-fluid,
     .media-controller header + .container-fluid,
     .thing-controller header + .container-fluid {
         margin-top: 100px;
@@ -637,7 +637,7 @@ header + .master-list {
     }
 }
 
-.thing.row:not(.victim) {
+.thing.row:not(.patient) {
     line-height:2.4em;
 }
 
@@ -649,7 +649,7 @@ body:not(.touch) .thing.row:hover,  {
     }
 }
 
-.victim {
+.patient {
     .triage-light {
         float: right;
         height: 36px;
@@ -739,7 +739,7 @@ img.identicon {
 }
 
 
-.victimInfobox, .thingInfobox {
+.patientInfobox, .thingInfobox {
     min-height: 170px;
 
     //background: #ff5722;

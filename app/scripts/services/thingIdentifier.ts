@@ -8,7 +8,7 @@ angular.module('mobileMasterApp')
 	.service('itsa', function() {
 
 	// Raw categories
-	var victim = /(victim|patient)/i,
+	var patient = /(victim|patient)/i,
 		media = /(media|picture|video)/i,
 		stream = /(stream)/i,
 		tweet = /(tweet)/i,
@@ -28,7 +28,7 @@ angular.module('mobileMasterApp')
 		multimedia = /(media|picture|video|tweet|stream)/i;
 
 	var lockup = {
-		victims: victim,
+		patients: patient,
 		medias: media,
 		streams: stream,
 		tweets: tweet,
@@ -55,7 +55,7 @@ angular.module('mobileMasterApp')
 	lockup['all'] = /.*/;
 
 
-	this.victim = (thing: ThingModel.Thing) =>			thing.Type && victim.test(thing.Type.Name);
+	this.patient = (thing: ThingModel.Thing) =>			thing.Type && patient.test(thing.Type.Name);
 	this.media = (thing: ThingModel.Thing) =>			thing.Type && media.test(thing.Type.Name);
 	this.tweet = (thing: ThingModel.Thing) =>			thing.Type && tweet.test(thing.Type.Name);
 	this.resource = (thing: ThingModel.Thing) =>		thing.Type && resource.test(thing.Type.Name);
@@ -78,7 +78,7 @@ angular.module('mobileMasterApp')
 		var type = thing.Type.Name; 
 
 		// It must be a bit slow, but I am too lazy to build an efficient state machine
-		if (victim.test(type)) return 'Victims';
+		if (patient.test(type)) return 'Patients';
 		if (multimedia.test(type)) return 'Multimedias';
 		if (message.test(type)) return 'Messages';
 		if (order.test(type)) return 'Orders';

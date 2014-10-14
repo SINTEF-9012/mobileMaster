@@ -72,7 +72,7 @@ angular.module('mobileMasterApp')
 			"0": {
 				title: "Assign",
 				items: {
-					"triage victims": "Trigae victims",
+					"triage victims": "Triage victims",
 					"trauma treatment": "Trauma treatment",
 					"treat victim": "Treat victim",
 					"other task": "Task given by radio"

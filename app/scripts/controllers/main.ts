@@ -241,11 +241,11 @@ angular.module('mobileMasterApp')
 	}, 200);
 
 
-	var statsVictims: { [color: string]: number }, nbVictims = 0;
-	var victimsChart = new SuperSimpleCharts.BarChart(document.getElementById('victims-chart'));
+	var statsPatients: { [color: string]: number }, nbPatients = 0;
+	var patientsChart = new SuperSimpleCharts.BarChart(document.getElementById('patients-chart'));
 
 	var checkObserver = (thing: ThingModel.Thing) => {
-		if (itsa.victim(thing)) {
+		if (itsa.patient(thing)) {
 			computeStats();
 		}
 
@@ -280,11 +280,11 @@ angular.module('mobileMasterApp')
 	};
 
 	var computeStatsWorker = (first?: boolean) => {
-		nbVictims = 0;
-		statsVictims = {};
+		nbPatients = 0;
+		statsPatients = {};
 		angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
-			if (itsa.victim(thing)) {
-				nbVictims += 1;
+			if (itsa.patient(thing)) {
+				nbPatients += 1;
 
 				var triage_status: string;
 				if (!(triage_status = thing.GetString('triage_status'))) {
@@ -296,12 +296,12 @@ angular.module('mobileMasterApp')
 					}
 				}
 
-				statsVictims[triage_status] = (statsVictims[triage_status] + 1) || 1;
+				statsPatients[triage_status] = (statsPatients[triage_status] + 1) || 1;
 			}
 		});
 
-		victimsChart.SetData(statsVictims);
-		$scope.nbVictims = nbVictims;
+		patientsChart.SetData(statsPatients);
+		$scope.nbPatients = nbPatients;
 		if (!first) {
 			$scope.$apply();
 			setLayout();

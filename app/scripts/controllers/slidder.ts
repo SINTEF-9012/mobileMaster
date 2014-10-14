@@ -56,8 +56,8 @@ angular.module('mobileMasterApp')
 				var href: string = null;
 
 				switch (type) {
-					case 'Victims':
-						href = 'victims';
+					case 'Patients':
+						href = 'patients';
 						break;
 					case 'Messages':
 						href = 'messenger';

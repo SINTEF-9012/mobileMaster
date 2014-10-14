@@ -20,9 +20,9 @@ angular.module('mobileMasterApp')
 			filter: (thing: ThingModel.Thing) => boolean;
 		}
 	} = {
-		"Victims": {
+		"Patients": {
 			enabled: false,
-			filter: (thing) => itsa.victim(thing)
+			filter: (thing) => itsa.patient(thing)
 		},
 		"Multimedias": {
 			enabled: false,

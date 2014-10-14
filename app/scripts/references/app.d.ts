@@ -129,7 +129,7 @@ interface SettingsService {
 }
 
 interface ThingIdentifierService {
-	victim(thing: ThingModel.Thing): boolean;
+	patient(thing: ThingModel.Thing): boolean;
 	media(thing: ThingModel.Thing): boolean;
 	tweet(thing: ThingModel.Thing): boolean;
 	resource(thing: ThingModel.Thing): boolean;

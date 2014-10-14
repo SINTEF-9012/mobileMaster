@@ -34,7 +34,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	var multimediaServer = settingsService.getMediaServerUrl();
 
 	var id = $stateParams.ID;
-	var stateBack = $state.is('victim') ? 'victims' : 'table',
+	var stateBack = $state.is('patient') ? 'patients' : 'table',
 		stateInfos = { thingtype: 'all' },
 		isMedia = false;
 
@@ -408,7 +408,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	function setTilesColors(color) {
 		if (!color) return;
 		tileColor = color;
-		$('.victimInfobox, .thingInfobox').css({
+		$('.patientInfobox, .thingInfobox').css({
 			'background': color,
 			'color': colorFromImage.whiteOrBlack(color)
 		});
