@@ -8,7 +8,7 @@ angular.module('mobileMasterApp')
 		// Thanks to angularjs-camelCase-to-human-filter
 		return (input: any): string => {
 			var s = String(input);
-			return s.charAt(0).toUpperCase() + s.substr(1).replace(/[A-Z]/g, ' $&');
+			return s.charAt(0).toUpperCase() + s.substr(1).replace(/[A-Z]/g, ' $&').replace(/([A-Z]) ([A-Z])/g, '$1$2');
 		}
 
 	});
