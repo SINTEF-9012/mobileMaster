@@ -1,0 +1,113 @@
+@import "_settings";
+@import "compass";
+
+.row.timeline-data-block-area {
+	line-height:0px;
+	margin:auto;
+}
+.timeline-data-block {
+	display:inline-block;
+	width:40px;
+	height:40px;
+	background:blue;
+	margin:5px;
+	border-radius:50%;
+	cursor:pointer;
+}
+.timeline-data-block:hover {
+	//margin:0;
+	box-shadow:0px 0px 0px 4px $timeline-bg;
+	//border:5px solid blue;
+}
+input[type=range]::-ms-tooltip {
+    display: none;
+}
+input[type=range]{
+    -webkit-appearance: none;
+    background: #ddd;
+    padding:0;
+    margin:0;
+    height: 60px;
+    //border: 1px solid transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+    border: none;
+    height: 60px;
+    width: 5px;
+    border-left: 1px solid #d2204c;
+    border-right: 1px solid #ad1457;
+    background: #d2204c;
+}
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 60px;
+}
+/*input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}*/
+input[type=range]::-ms-track {
+    height: 60px;
+    background: #ddd;
+    border: none;
+
+    /* remove default tick marks */
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    outline: none;
+    background: #777;
+}
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 60px;
+    width: 3px;
+    border-left: 1px solid #d2204c;
+    border-right: 1px solid #ad1457;
+    background: #d2204c;
+}
+/*input[type=range]:focus::-ms-track {
+    background: #ccc;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}*/
+input[type=range]::-moz-range-track {
+    height: 60px;
+    background: #ddd;
+    border: none;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 60px;
+    width: 3px;
+    border-left: 1px solid #d2204c;
+    border-right: 1px solid #ad1457;
+    background: #d2204c;
+    border-radius:1px;
+}
+
+/*hide the outline behind the border*/
+/*input[type=range]:-moz-focusring{
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+}*/
+input[type=range]::-moz-focus-outer {
+  border: 0;
+}
+
+/*input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}*/
+
+
+.timeline-controller {
+	h3:first-letter {
+		text-transform: uppercase;
+	}	
+}

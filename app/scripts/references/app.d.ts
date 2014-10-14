@@ -90,7 +90,14 @@ interface ThingModelService {
 	RemoveThing(id: string, send?: boolean);
 	ApplyThingToScope($scope: any, thing: ThingModel.Thing);
 	GetThingName(thing: ThingModel.Thing): string;
-	EditThing(id: string, values: { [property: string]: { value: string;type: string } });
+	EditThing(id: string, values: { [property: string]: { value: string; type: string } });
+
+	Live(): void;
+	IsLive(): boolean;
+	Play(): void;
+	Pause(): void;
+	Load(date: Date): void;
+	CurrentTime(): Date;
 }
 
 interface OrderService {

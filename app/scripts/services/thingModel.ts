@@ -43,7 +43,7 @@
 		}, 50);
 
 		try {
-			this.client = new ThingModel.WebSockets.Client(clientID, endPoint, this.warehouse);
+			this.client = new ThingModel.WebSockets.ClientEnterpriseEdition(clientID, endPoint, this.warehouse);
 		} catch (e) {
 			alert("ThingModel error: " + e.message);
 			$state.go('settings');
@@ -169,6 +169,34 @@
 
 			this.warehouse.NotifyThingUpdate(thing);
 			this.client.Send();
+		};
+
+		this.Live = () => {
+			(<ThingModel.WebSockets.ClientEnterpriseEdition> this.client).Live();
+		};
+
+		var currentTime = null;
+		this.Load = (time: Date) => {
+			currentTime = time;
+			(<ThingModel.WebSockets.ClientEnterpriseEdition> this.client).Load(time);
+		};
+
+		this.Play = () => {
+			(<ThingModel.WebSockets.ClientEnterpriseEdition> this.client).Play();
+		};
+
+		this.Pause = () => {
+			(<ThingModel.WebSockets.ClientEnterpriseEdition> this.client).Pause();
+		};
+
+		this.IsLive = () =>
+			(<ThingModel.WebSockets.ClientEnterpriseEdition> this.client).IsLive;
+
+		this.CurrentTime = () => {
+			if (this.IsLive()) {
+				return new Date();
+			}
+			return currentTime;
 		};
 
 		return this;

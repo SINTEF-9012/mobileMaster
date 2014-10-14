@@ -6,6 +6,11 @@
 				<a class="navbar-brand col-xs-2" ui-sref="main"><span class="glyphicon glyphicon-th"></span></a>
 
 				<h3 class="col-xs-8">Timeline</h3>
+
+				<div class="navbar-btn-group pull-right" ng-show="!isLive">
+					<a ui-sref="main" class="btn navbar-btn btn-success">Load</a>
+			    	<button ng-click="live()" type="button" class="btn btn-danger navbar-btn pull-right">Live</button>
+				</div>
 			</div>
 		</div>
 	</nav>
@@ -13,117 +18,19 @@
 
 <div class="container-fluid" ng-init="date='now'">
 	<div class="row">
-		<h3 class="col-xs-12"><span am-time-ago="date"></span> {{date | date:'shortTime'}}</h3>
-		<input type="range" name="" min="0" max="1000" step="1" value="" placeholder="" class="col-xs-12">
+		<h3 class="col-xs-12">
+			<span ng-show="isLive">Live</span>
+			<span ng-show="!isLive"><span am-time-ago="date"></span> - {{date | date:'shortTime'}}</span>
+		</h3>
+		<input type="range" ng-model="sliderValue" name="" min="0" max="1000" step="1" value="" placeholder="" class="col-xs-12" ng-style="{backgroundImage: gradient}">
 
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
+		&nbsp;
 		<br/>
 	</div>
-	<div class="row">
-		<div class="timeline-data-block" ng-repeat="d in data" ng-style="{opacity: d.s/1000+0.1}" ng-mouseover="$parent.date = d.d">
-			{{d.s}}
+
+	<h3><ng-pluralize count="data.length" when="{'0': 'The situation is empty', 'one': '1 record', 'other': '{} records'}"></ng-pluralize></h3>
+	<div class="row timeline-data-block-area">
+		<div class="timeline-data-block" ng-repeat="d in data" ng-style="{backgroundColor: 'hsl(210,'+(30+d.s/5)+'%,'+(d.s + 10 > 80 ? 80 : d.s+10)+'%)'}" ng-mouseover="$parent.date = d.d" ng-click="selectRecord(d)">
 		</div>
 	</div>
 </div>
-<style type="text/css">
-.timeline-data-block {
-	display:inline-block;
-	width:44px;
-	height:44px;
-	background:blue;
-	border:5px solid white;
-}
-.timeline-data-block:hover {
-	border:5px solid blue;
-}
-input[type=range]::-ms-tooltip {
-    display: none;
-}
-input[type=range]{
-    -webkit-appearance: none;
-    background: #ddd;
-    padding:0;
-    margin:0;
-    height: 60px;
-    //border: 1px solid transparent;
-}
-
-input[type=range]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-    border: none;
-    height: 60px;
-    width: 5px;
-    border-left: 1px solid #d2204c;
-    border-right: 1px solid #ad1457;
-    background: #d2204c;
-}
-input[type=range]:focus {
-    outline: none;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    height: 60px;
-}
-/*input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
-}*/
-input[type=range]::-ms-track {
-    height: 60px;
-    background: #ddd;
-    border: none;
-
-    /* remove default tick marks */
-    color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-    outline: none;
-    background: #777;
-}
-input[type=range]::-ms-thumb {
-    border: none;
-    height: 60px;
-    width: 3px;
-    border-left: 1px solid #d2204c;
-    border-right: 1px solid #ad1457;
-    background: #d2204c;
-}
-/*input[type=range]:focus::-ms-track {
-    background: #ccc;
-}
-input[type=range]:focus::-ms-fill-lower {
-    background: #888;
-}*/
-input[type=range]::-moz-range-track {
-    height: 60px;
-    background: #ddd;
-    border: none;
-}
-
-input[type=range]::-moz-range-thumb {
-    border: none;
-    height: 60px;
-    width: 3px;
-    border-left: 1px solid #d2204c;
-    border-right: 1px solid #ad1457;
-    background: #d2204c;
-    border-radius:1px;
-}
-
-/*hide the outline behind the border*/
-/*input[type=range]:-moz-focusring{
-    outline: 1px solid transparent;
-    outline-offset: -1px;
-}*/
-input[type=range]::-moz-focus-outer {
-  border: 0;
-}
-
-/*input[type=range]:focus::-moz-range-track {
-    background: #ccc;
-}*/
-		</style>
