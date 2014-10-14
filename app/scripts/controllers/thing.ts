@@ -26,8 +26,10 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	colorFromImage: ColorFromImageService
 	) => {
 
+	masterMap.disableSituationOverview();
 	persistentMap.restorePersistentLayer(masterMap);
 	persistentMap.unbindMasterMap(masterMap);
+
 
 	var multimediaServer = settingsService.getMediaServerUrl();
 
@@ -286,7 +288,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 			// The name information is already in the page title
 			$scope.rawKnowledge = $scope.knowledge;
-			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 && k.key !== 'name');
+			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 /*&& k.key !== 'name'*/);
 
 			if (!$scope.$$phase) {
 				$scope.$digest();
@@ -402,7 +404,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	masterMap.setVerticalTopMargin(0);
 	setLayout();
-	masterMap.disableSituationOverview();
 
 	function setTilesColors(color) {
 		if (!color) return;

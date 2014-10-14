@@ -149,6 +149,7 @@ angular.module('mobileMasterApp', [
 		})
 		.state('timeline', {
 			url: '/timeline?from',
+			controller: 'TimelineCtrl',
 			templateUrl: 'views/timeline.html'
 		})
 		.state('settings', {

@@ -89,6 +89,7 @@ interface ThingModelService {
 	client: ThingModel.WebSockets.Client;
 	RemoveThing(id: string, send?: boolean);
 	ApplyThingToScope($scope: any, thing: ThingModel.Thing);
+	GetThingName(thing: ThingModel.Thing): string;
 	EditThing(id: string, values: { [property: string]: { value: string;type: string } });
 }
 
