@@ -26,7 +26,7 @@
 				<a class="col-xs-6 col-lg-4 infoblock patients-block"  href="{{infos.Patients.href || '/patients'}}">
 					<h3>Patients</h3>
 					<div class="infoblockview">
-						<div class="number-area" ng-sh/ow="!infos.Patients.count">{{infos.Patients.count || 0}}</div>	
+						<div class="number-area" ng-show="!infos.Patients.count">{{infos.Patients.count || 0}}</div>	
 						<div class="col-xs-12 barchart-area" ng-show="infos.Patients.count > 0">
 							<div id="patients-chart"></div>
 						</div>
