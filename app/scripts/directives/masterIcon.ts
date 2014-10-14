@@ -26,9 +26,13 @@ angular.module('mobileMasterApp')
 			char: "1",
 			types: {
 				"health personnel": "C",
+				"medic personnel": "C",
 				"health vehicle": "E",
+				"medic vehicle": "E",
 				"fire and rescue personnel": "F",
+				"fire personnel": "F",
 				"fire and rescue vehicle": "G",
+				"fire vehicle": "G",
 				"police personnel": "H",
 				"police vehicle": "I",
 				"civil defence": "J",
@@ -147,6 +151,12 @@ angular.module('mobileMasterApp')
 					// TODO HOTFIX
 					type += " " + thing.String("type").replace(/medic/i, 'health')
 						.replace(/fire personnel/i, 'fire and rescue personnel');
+				} else if (cat === 'helpbeacon') {
+					if (thing.Boolean("safe")) {
+						element.addClass("safe");
+					} else if (thing.Boolean("rescued")) {
+						element.addClass("rescued");
+					}
 				}
 			}
 
@@ -236,6 +246,11 @@ angular.module('mobileMasterApp')
 					_type = thing.String("_type");
 					if (_type) {
 						type = type + " " + _type;
+					}
+
+					var __type = thing.String("type");
+					if (__type) {
+						type = type + " " + __type;
 					}
 				}
 			}

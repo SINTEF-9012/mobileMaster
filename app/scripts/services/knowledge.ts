@@ -29,6 +29,28 @@
 			tablePropertiesOrder: {url: -1}
 		},
 		{
+			typeName: "beacons",
+			tablePropertiesOrder: {
+				message: 8,
+				rescued: 7,
+				safe: 6,
+				notified: 5,
+				name: -6,
+				time: 3,
+				lastScan: 2,
+				advertised: 1,
+				imei: -1
+			}
+		},
+		{
+			typeName: "orders",
+			tablePropertiesOrder: {
+				task: 10,
+				accepted: 5,
+				done: 4
+			}
+		},
+		{
 			typeTest: /./i,
 			tablePropertiesOrder: {
 				observationText: 5,
