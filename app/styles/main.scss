@@ -564,6 +564,9 @@ header + .master-list {
     header + .master-list {
         padding-top: 110px;
     }
+    header + .container-timeline {
+        padding-top: 70px;
+    }
 }
  
 .master-list {
@@ -744,7 +747,7 @@ img.identicon {
     min-height: 170px;
 
     //background: #ff5722;
-    background: #efebe9;
+    background: #ababab url(/images/background-moche.png) repeat;
     //border-radius: 2px;
     // padding: 16px;
     margin-top: 0;
@@ -795,6 +798,19 @@ img.identicon {
         float: none;
         margin: 0 auto;
     }
+}
+
+div:nth-child(even) > .thingInfobox {
+    background-position:-80px -120px;
+}
+div:nth-child(0) > .thingInfobox {
+    background-position:100px 200px;
+}
+div:nth-child(5) > .thingInfobox {
+    background-position:-100px 200px;
+}
+div:nth-child(3n+1) > .thingInfobox {
+    background-position:200px -100px;
 }
 
 #accordion .panel-heading {
