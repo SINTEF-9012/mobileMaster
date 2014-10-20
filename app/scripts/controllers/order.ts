@@ -33,7 +33,7 @@ angular.module('mobileMasterApp')
 	masterMap: Master.Map) {
 
 	if ($rootScope.pastSituation) {
-		notify({message: "Naaan", classes: "alert-warning"});
+		notify({message: "Live mode is required for assigning orders.", classes: "alert-warning"});
 		$state.go("main");
 		return;
 	}

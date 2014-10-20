@@ -48,7 +48,7 @@ angular.module('mobileMasterApp')
 		$state: ng.ui.IStateService) => {
 
 		if ($rootScope.pastSituation) {
-			notify({message: "Naaan", classes: "alert-warning"});
+			notify({message: "Live mode is required for adding new elements.", classes: "alert-warning"});
 			$state.go("main");
 			return;
 		}

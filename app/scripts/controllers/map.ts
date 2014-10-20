@@ -64,7 +64,7 @@ angular.module('mobileMasterApp')
 
 	var contextmenu = (e: L.LeafletMouseEvent) => {
 		if ($rootScope.pastSituation) {
-			notify({ message: "Naaan", classes: "alert-warning" });
+			notify({ message: "Live mode is required for adding new elements.", classes: "alert-warning" });
 		} else {
 			$state.go('add', e.latlng);
 		}

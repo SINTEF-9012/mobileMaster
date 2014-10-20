@@ -23,7 +23,7 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	) => {
 
 	if ($state.is('summary.edit') && $rootScope.pastSituation) {
-		notify({message: "Naaan", classes: "alert-warning"});
+		notify({message: "Live movde is required for editing the summary.", classes: "alert-warning"});
 		$state.go("main");
 		return;
 	}
