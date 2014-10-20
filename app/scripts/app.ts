@@ -30,7 +30,7 @@ angular.module('mobileMasterApp', [
 			  if (typeof Raven !== 'undefined') {
 				  Raven.captureException(exception, { cause: cause });
 			  }
-			  alert(exception.message);
+			  //alert(exception.message);
 		  };
 	}]);
 	
