@@ -43,5 +43,16 @@ angular.module('mobileMasterApp').service('colorFromImage', function() {
 				callback(e.dominant);
 			}
 		});
-	}
+	};
+
+	this.hasCache = (img: any): boolean => {
+		var cacheKey = null;
+		if (typeof img === 'string') {
+			cacheKey = img;
+		} else if (img && img.src) {
+			cacheKey = img.src;
+		}
+
+		return (cacheKey && cache.hasOwnProperty(cacheKey));
+	};
 });

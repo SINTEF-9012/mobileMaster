@@ -187,6 +187,7 @@ interface KnowledgeService {
 interface ColorFromImageService {
 	whiteOrBlack: (color: string) => string;
 	applyColor: (img: any, callback: (color: string) => void, exclude?: boolean) => void;
+	hasCache: (img: any) => boolean;
 }
 
 interface AuthenticationService {

@@ -409,7 +409,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		if (!color) return;
 		tileColor = color;
 		$('.patientInfobox, .thingInfobox').css({
-			'background': color,
+			'backgroundColor': color,
 			'color': colorFromImage.whiteOrBlack(color)
 		});
 	}
@@ -417,12 +417,17 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	// ReSharper disable once ExpressionIsAlwaysConst
 	if (!isMedia) {
 		var imgIdenticon = $('img.identicon');
-		(<any>imgIdenticon).imagesLoaded(() => {
-			// Double verification because it's asynchronous
-			if (!isMedia) {
-				colorFromImage.applyColor(imgIdenticon.get(0), setTilesColors, true);
-			}
-		});
+
+		if (colorFromImage.hasCache(imgIdenticon.get(0))) {
+			colorFromImage.applyColor(imgIdenticon.get(0), setTilesColors, true);
+		} else {
+			(<any>imgIdenticon).imagesLoaded(() => {
+				// Double verification because it's asynchronous
+				if (!isMedia) {
+					colorFromImage.applyColor(imgIdenticon.get(0), setTilesColors, true);
+				}
+			});
+		}
 	}
 
 }); 
