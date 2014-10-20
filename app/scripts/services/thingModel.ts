@@ -13,6 +13,7 @@
 		$rootScope: MasterScope.Root,
 		Knowledge: KnowledgeService,
 		$state: ng.ui.IStateService,
+		$http: ng.IHttpService,
 		itsa: ThingIdentifierService,
 		settingsService: SettingsService) => {
 		this.warehouse = new ThingModel.Warehouse();
@@ -35,6 +36,21 @@
 			lastSenderName: null,
 			nbSend: 0
 		};
+
+
+		$rootScope.timelineInfos = {
+			count: 0,
+			oldest: null,
+			newest: null
+		};
+
+		var infosUrl = endPoint.replace(/^ws/i, "http") + "/infos";
+
+		$http.get(infosUrl).success((data: any) => {
+			$rootScope.timelineInfos.count += data.count;
+			$rootScope.timelineInfos.oldest = new Date(data.oldest);
+			$rootScope.timelineInfos.newest = new Date(data.newest);
+		});
 
 		var applyScope = throttle(() => {
 			if (!$rootScope.$$phase) {
@@ -68,12 +84,18 @@
 			},
 			OnTransaction: (senderName: string) => {
 				++$rootScope.thingmodel.nbTransactions;
+				if (this.IsLive() && ($rootScope.thingmodel.nbTransactions > 1 || $rootScope.timelineInfos.newest === null)) {
+					$rootScope.timelineInfos.newest = new Date();
+					++$rootScope.timelineInfos.count;
+				}
 				$rootScope.thingmodel.lastSenderName = senderName;
 				applyScope();
 				$rootScope.$emit('thingmodel.transaction');
 			},
 			OnSend: () => {
 				++$rootScope.thingmodel.nbSend;
+				++$rootScope.timelineInfos.count;
+				$rootScope.timelineInfos.newest = new Date();
 				applyScope();
 				$rootScope.$emit('thingmodel.send');
 			}
@@ -173,6 +195,14 @@
 
 		this.Live = () => {
 			(<ThingModel.WebSockets.ClientEnterpriseEdition> this.client).Live();
+			$rootScope.timelineInfos.count = 0;
+			$rootScope.thingmodel.nbTransactions = 0;
+
+			$http.get(infosUrl).success((data: any) => {
+				$rootScope.timelineInfos.count += data.count;
+				$rootScope.timelineInfos.oldest = new Date(data.oldest);
+				$rootScope.timelineInfos.newest = new Date(data.newest);
+			});
 		};
 
 		var currentTime = null;

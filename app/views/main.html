@@ -103,6 +103,20 @@
 			<div class="row">
 				<div class="infoblock timeline-block col-xs-12" id="main-timeline" ui-sref="timeline">
 					<h3>Timeline</h3>
+
+					<ul class="list-unstyled">
+						<li>
+							<strong>Creation date&nbsp;: </strong> <br>
+							<span am-time-ago="timelineInfos.oldest">unknown</span>
+						</li>
+
+						<li>
+							<strong>Last change&nbsp;: </strong> <br>
+							<span am-time-ago="timelineInfos.newest">...loading...</span>
+						</li>
+	
+					</ul>
+					<span class="timeline-block-count">{{timelineInfos.count}}</span>
 				</div>
 			</div>
 		</div>

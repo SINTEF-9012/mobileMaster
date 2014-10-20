@@ -34,6 +34,12 @@ declare module MasterScope {
 
 		pastSituation: boolean;
 		situationDate: Date;
+
+		timelineInfos: {
+			oldest: Date;
+			newest: Date;
+			count: number;
+		}
 	}
 
 	interface Settings extends ng.IScope {
