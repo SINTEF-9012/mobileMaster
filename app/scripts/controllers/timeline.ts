@@ -54,13 +54,19 @@ angular.module('mobileMasterApp')
 
 	$scope.sliderValue = $scope.isLive ? 1000 : Math.max(Math.round(($scope.lorie - minDate)/diffDate * 1000), 0);
 
+	var date = null;
+	var throttledDate = throttle(() => {
+		var r = (date - minDate) / diffDate * 1000;
+		$scope.sliderValue = Math.round(r);
+		$scope.isLive = false;
+		$rootScope.pastSituation = true;
+		$rootScope.situationDate = $scope.date;
+	}, 60);
+
 	$scope.$watch('date', (newValue, oldValue) => {
 		if (newValue !== oldValue) {
-			var r = (newValue - minDate) / diffDate * 1000;
-			$scope.sliderValue = Math.round(r);
-			$scope.isLive = false;
-			$rootScope.pastSituation = true;
-			$rootScope.situationDate = $scope.date;
+			date = newValue;
+			throttledDate();
 		}
 	});
 
