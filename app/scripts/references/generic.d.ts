@@ -20,6 +20,10 @@ interface JQuery{
   bootstrapSwitch : any;
 }
 
+interface angularNotify {
+	(notification: any): void;
+}
+
 // Generic libraries (if somebody want to write definitions…)
 declare var OSMBuildings;
 declare var rebound;

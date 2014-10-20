@@ -20,7 +20,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	hotkeys: ng.hotkeys.HotkeysProvider,
 	$window: ng.IWindowService,
 	persistentMap: PersistentMap,
-	notify
+	notify: angularNotify
 	) => {
 
 	if ($rootScope.pastSituation) {

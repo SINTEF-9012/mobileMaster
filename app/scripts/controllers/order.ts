@@ -22,7 +22,7 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope : MasterScope.Root,
 	$stateParams,
-	notify,
+	notify: angularNotify,
 	$window: ng.IWindowService,
 	AddService: AddService,
     persistentMap : PersistentMap,

@@ -43,8 +43,15 @@ angular.module('mobileMasterApp')
 		AddService: AddService,
 		$window: ng.IWindowService,
 		$compile : ng.ICompileService,
-	    persistentMap : PersistentMap,
+		persistentMap: PersistentMap,
+		notify: angularNotify,
 		$state: ng.ui.IStateService) => {
+
+		if ($rootScope.pastSituation) {
+			notify({message: "Naaan", classes: "alert-warning"});
+			$state.go("main");
+			return;
+		}
 
 		var url = $stateParams.hash + '.' + $stateParams.extension,
 			multimediaServer = settingsService.getMediaServerUrl();

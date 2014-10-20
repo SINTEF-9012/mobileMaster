@@ -13,7 +13,7 @@
 angular.module('mobileMasterApp')
 .controller('MapCtrl', (
 	$scope,
-	notify,
+	notify : angularNotify,
     masterMap : Master.Map,
     thingModel : ThingModelService,
 	$rootScope : MasterScope.Root,

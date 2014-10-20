@@ -13,7 +13,7 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	$rootScope : MasterScope.Root,
 	masterMap: Master.Map,
 	thingModel: ThingModelService,
-	notify
+	notify: angularNotify
 	) => {
 
 	masterMap.show();

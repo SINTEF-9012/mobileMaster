@@ -16,9 +16,17 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 	$state,
 	$scope,
 	$stateParams,
+	notify: angularNotify,
+	$rootScope : MasterScope.Root,
 	AddService: AddService,
 	thingModel: ThingModelService
 	) => {
+
+	if ($state.is('summary.edit') && $rootScope.pastSituation) {
+		notify({message: "Naaan", classes: "alert-warning"});
+		$state.go("main");
+		return;
+	}
 
 	var defaultTitle = 'Untitled situation';
 
@@ -31,7 +39,7 @@ angular.module('mobileMasterApp').config((AddServiceProvider: AddServiceConfig) 
 				.replace(/<table>/g, '<table class="table table-striped">') : '';
 		} else {
 
-			if (!$state.is('summary.edit')) {
+			if (!$rootScope.pastSituation && !$state.is('summary.edit')) {
 				$state.go('summary.edit');
 			}
 
