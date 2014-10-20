@@ -168,7 +168,8 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 			thing.String('_type', $rootScope.add.type);
 		});
 
-		//alert($scope.description)
+		var message = $scope.types[$rootScope.add.category].items[$rootScope.add.type] + " saved";
+		notify({message: message, classes: "alert-info"});
 		
 		if (goToMainAfter) {
 			$state.go(($rootScope.previousState && $rootScope.previousState.indexOf('add') !== 0) ?

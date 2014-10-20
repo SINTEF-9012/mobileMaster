@@ -348,6 +348,9 @@ angular.module('mobileMasterApp')
 				($scope.thing.name || $scope.thing.ID));
 		}, undefined, [thingModelThing]);
 
+		var message = "Order "+$scope.types[$scope.order.category].items[$scope.order.type] + " sent";
+		notify({ message: message, classes: "alert-info" });
+
 		$state.go(stateBack, stateInfos);
 	};
 
