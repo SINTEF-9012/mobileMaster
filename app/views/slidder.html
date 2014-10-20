@@ -1,11 +1,19 @@
 <div class="infos">
 	<a class="glyphicon glyphicon-th pull-left" ui-sref="main" id="dashboard-btn"></a>
 	<div class="infos-tools pull-right">
-		<div class="btn-group">
-			<a class="btn btn-default" ui-sref="add">
+		<div class="btn-group" ng-if="!pastSituation">
+			<a class="btn btn-default" ui-sref="add" ng-hide="pastSituation">
 				<span class="glyphicon glyphicon-map-marker"></span>	
 			</a>
 			<camera-trigger class="btn btn-default"></camera-trigger>
+			<a class="btn btn-default" ui-sref="background">
+				<span class="glyphicon glyphicon-globe"></span>
+			</a>
+			<a class="btn btn-default" ng-class="hasSomeFiltering ? 'hasSomeFiltering' : ''" ui-sref="filters">
+				<span class="glyphicon glyphicon-filter"></span>	
+			</a>
+		</div>
+		<div class="btn-group" ng-if="pastSituation">
 			<a class="btn btn-default" ui-sref="background">
 				<span class="glyphicon glyphicon-globe"></span>
 			</a>

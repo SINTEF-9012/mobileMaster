@@ -19,6 +19,6 @@
 
 <footer class="chat-input">
 	<form ng-submit="send()">
-		<input type="text" name="message" tabindex="10" class="form-control input-lg" ng-model="messageContent" required/>
+		<input type="text" name="message" tabindex="10" class="form-control input-lg" ng-model="messageContent" required ng-disabled="pastSituation"/>
 	</form
 ></footer>

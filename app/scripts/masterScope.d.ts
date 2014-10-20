@@ -31,6 +31,9 @@ declare module MasterScope {
 
 		currentState: string;
 		bodyClass: string;
+
+		pastSituation: boolean;
+		situationDate: Date;
 	}
 
 	interface Settings extends ng.IScope {

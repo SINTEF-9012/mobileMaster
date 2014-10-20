@@ -22,6 +22,7 @@ angular.module('mobileMasterApp')
 	$scope,
 	$rootScope : MasterScope.Root,
 	$stateParams,
+	notify,
 	$window: ng.IWindowService,
 	AddService: AddService,
     persistentMap : PersistentMap,
@@ -30,6 +31,12 @@ angular.module('mobileMasterApp')
 	itsa: ThingIdentifierService,
 	Knowledge: KnowledgeService,
 	masterMap: Master.Map) {
+
+	if ($rootScope.pastSituation) {
+		notify({message: "Naaan", classes: "alert-warning"});
+		$state.go("main");
+		return;
+	}
 
 	$scope.types = {};
 

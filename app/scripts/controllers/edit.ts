@@ -10,13 +10,19 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	$state,
 	$scope,
 	$stateParams,
-	$rootScope,
+	$rootScope : MasterScope.Root,
 	masterMap: Master.Map,
-	thingModel: ThingModelService
+	thingModel: ThingModelService,
+	notify
 	) => {
 
 	masterMap.show();
 
+	if ($rootScope.pastSituation) {
+		notify({message: "Naaan", classes: "alert-warning"});
+		$state.go("main");
+		return;
+	}
 
 	$scope.$parent.returnLink = $state.href('^');
 	/*$scope.$parent.showSaveButton = true;*/

@@ -19,9 +19,15 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 	AddService: AddService,
 	hotkeys: ng.hotkeys.HotkeysProvider,
 	$window: ng.IWindowService,
-    persistentMap : PersistentMap
+	persistentMap: PersistentMap,
+	notify
 	) => {
 
+	if ($rootScope.pastSituation) {
+		notify({message: "Naaan", classes: "alert-warning"});
+		$state.go("main");
+		return;
+	}
 
 	var position: L.LatLng;
 

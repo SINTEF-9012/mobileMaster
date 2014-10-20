@@ -96,7 +96,7 @@
 
 				<div class="chat-input">
 					<form ng-submit="send()">
-						<input type="text" class="form-control" ng-model="messageContent" tabindex="1" required/>
+						<input type="text" class="form-control" ng-model="messageContent" tabindex="1" required ng-disabled="pastSituation"/>
 					</form>
 				</div>
 			</div>

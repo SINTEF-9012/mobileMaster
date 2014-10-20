@@ -13,6 +13,7 @@ angular.module('mobileMasterApp')
 		$scope,
 		$http: ng.IHttpService,
 		thingModel: ThingModelService,
+		$rootScope : MasterScope.Root,
 		$state: ng.ui.IStateService,
 		settingsService: SettingsService) => {
 
@@ -58,6 +59,8 @@ angular.module('mobileMasterApp')
 			var r = (newValue - minDate) / diffDate * 1000;
 			$scope.sliderValue = Math.round(r);
 			$scope.isLive = false;
+			$rootScope.pastSituation = true;
+			$rootScope.situationDate = $scope.date;
 		}
 	});
 
@@ -74,6 +77,7 @@ angular.module('mobileMasterApp')
 
 	$scope.selectRecord = (record) => {
 		$scope.date = record.d;
+
 		$scope.isLive = false;
 		if (!L.Browser.touch) {
 			$state.go('main');
@@ -83,6 +87,9 @@ angular.module('mobileMasterApp')
 	$scope.live = () => {
 		$scope.isLive = true;
 		$state.go('main');
+
+		$rootScope.pastSituation = false;
+		$rootScope.situationDate = null;
 	};
 
 	$scope.$on('$destroy', () => {

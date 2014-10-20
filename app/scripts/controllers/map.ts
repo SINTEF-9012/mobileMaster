@@ -12,9 +12,11 @@
 // Module configuration
 angular.module('mobileMasterApp')
 .controller('MapCtrl', (
-    $scope,
+	$scope,
+	notify,
     masterMap : Master.Map,
     thingModel : ThingModelService,
+	$rootScope : MasterScope.Root,
 	$state: ng.ui.IStateService,
 	$window: ng.IWindowService,
 	hotkeys: ng.hotkeys.HotkeysProvider,
@@ -61,7 +63,11 @@ angular.module('mobileMasterApp')
 
 
 	var contextmenu = (e: L.LeafletMouseEvent) => {
-		$state.go('add', e.latlng);
+		if ($rootScope.pastSituation) {
+			notify({ message: "Naaan", classes: "alert-warning" });
+		} else {
+			$state.go('add', e.latlng);
+		}
 	};
 
 	masterMap.on('contextmenu', contextmenu);

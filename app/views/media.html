@@ -14,7 +14,7 @@
 
 				<button type="button" class="btn btn-danger navbar-btn pull-right ng-hide" ng-click="cancelDeleteTimer()" ng-show="deleteTimerRunning">Cancel deletion ({{delay}})</button>
 
-				<div class="btn-group navbar-btn-group pull-right" ng-show="!hideToolbarButtons">
+				<div class="btn-group navbar-btn-group pull-right" ng-show="!hideToolbarButtons &amp;&amp;!pastSituation">
 					<a ui-sref="media.edit" class="btn navbar-btn btn-primary ng-hide" ng-show="canEdit">Edit</a>
 					<button type="button" ng-click="startDeleteTimer()" class="btn navbar-btn btn-primary ng-hide" ng-show="canDelete">Delete</a>
 					</div>

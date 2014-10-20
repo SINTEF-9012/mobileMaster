@@ -21,7 +21,8 @@ angular.module('mobileMasterApp', [
 	'masonry',
 	'FBAngular',
 	'cfp.hotkeys',
-	'ngSanitize'])
+	'ngSanitize',
+	'cgNotify'])
   .config(($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, $provide) => {
 
 	$provide.decorator("$exceptionHandler", ['$delegate', ($delegate) => {
