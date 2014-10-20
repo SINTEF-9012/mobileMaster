@@ -78,7 +78,7 @@ input[type=range]:focus::-ms-fill-lower {
 }*/
 input[type=range]::-moz-range-track {
     height: 60px;
-    background: #ddd;
+    background: transparent;
     border: none;
 }
 
@@ -110,4 +110,29 @@ input[type=range]::-moz-focus-outer {
 	h3:first-letter {
 		text-transform: uppercase;
 	}	
+
+	.container-fluid {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		h3 {
+			margin-top:2px;
+			margin-bottom:4px;
+		}
+
+		& > h3, & > .row {
+			flex-shrink: 0;
+		}
+
+		.timeline-data-block-area {
+			flex-shrink: 1;
+			overflow-x:auto;
+			min-height:128px;
+		}
+	}
 }
