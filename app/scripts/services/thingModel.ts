@@ -44,7 +44,7 @@
 			newest: null
 		};
 
-		var infosUrl = endPoint.replace(/^ws/i, "http") + "/infos";
+		var infosUrl = settingsService.getHttpThingModelUrl()+"/infos";
 
 		$http.get(infosUrl).success((data: any) => {
 			$rootScope.timelineInfos.count += data.count;

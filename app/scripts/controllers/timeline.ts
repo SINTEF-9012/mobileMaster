@@ -19,7 +19,7 @@ angular.module('mobileMasterApp')
 
 	$scope.isLive = thingModel.IsLive();
 
-	var server = settingsService.getThingModelUrl().replace(/^ws/i, "http");
+	var server = settingsService.getHttpThingModelUrl();
 
 	var timelineUrl = server + "/timeline?precision=60000";
 

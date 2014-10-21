@@ -46,7 +46,8 @@ declare module MasterScope {
 		thingModelUrl: string;
 		clientName: string;
 		mediaServerUrl: string;
-		reload: () => void;	
+		reload: () => void;
+		channels: any;
 	}
 
 	interface Background extends ng.IScope {

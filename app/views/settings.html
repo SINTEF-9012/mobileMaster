@@ -18,6 +18,21 @@
 				<input type="text" class="form-control" id="inputClientName" ng-model="clientName" required/>
 			</div>
 		</div>
+		<div ng-show="channels">
+			<h3>
+				<span class="glyphicon glyphicon-th-list"></span> Channels
+			</h3>
+			<ul class="list-group col-sm-offset-3">
+				<a class="list-group-item" ng-repeat="channel in channels" href="#" ng-click="$parent.thingModelUrl=channel.url">
+					<h4>{{channel.name||"Untitled"}} <small>{{channel.description}}</small></h4>	
+					<p>
+						Creation date : <span am-time-ago="channel.creationDate"></span>
+					</p>
+					<code>{{channel.url}}</code>
+				</a>
+			</ul>
+			<!-- <button class="btn btn-default col-sm-2 col-sm-offset-10"><span class="glyphicon glyphicon-plus"></span>&nbsp;New channel</button> -->
+		</div>
 		<h3>
 			<span class="glyphicon glyphicon-cloud"></span> Media server
 		</h3>

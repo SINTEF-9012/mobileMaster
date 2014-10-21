@@ -131,6 +131,7 @@ interface SettingsService {
 	setMediaServerUrl(url: string);
 
 	getThingModelUrl(): string;
+	getHttpThingModelUrl(): string;
 	getClientName(): string;
 	getMediaServerUrl(): string;
 }

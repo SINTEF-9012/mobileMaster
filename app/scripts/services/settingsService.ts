@@ -66,4 +66,6 @@ angular.module('mobileMasterApp')
 		this.getClientName = () => clientName;
 		this.getMediaServerUrl = () => mediaServerUrl;
 
+		this.getHttpThingModelUrl = () => thingModelUrl.replace(/^ws/i, "http");
+
 });
