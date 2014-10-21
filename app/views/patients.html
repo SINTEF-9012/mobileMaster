@@ -57,9 +57,13 @@
 		</div>
 		<div class="col-xs-8 col-sm-10 thing-row-center">
 			{{thing.name}}<br ng-show="thing.name"/>
+			<span class="glyphicon glyphicon-bell" ng-show="thing.alarmAct||thing.alarmTemp"></span>
+			<span ng-show="thing.alarmAct">Activity&nbsp;: {{thing.activity}}</span>
+			<span ng-show="thing.alarmTemperature">Temperature&nbsp;: {{thing.temperature}}</span>
 			<span ng-show="thing.transporting">Transporting</span>
 			<span ng-show="thing.transferredToDestination &amp;&amp; thing.transferredToDestination != 'Unknown'">Transfered to {{thing.transferredToDestination}}</span>
 			<small ng-show="thing.age &amp;&amp; thing.age >= 0">{{thing.age}} years old</small>
+			<br>
 			<small ng-if="thing.reportDate">Reported: <strong am-time-ago="thing.reportDate"></strong></small>
 		</div>
 

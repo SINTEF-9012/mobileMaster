@@ -79,6 +79,8 @@ angular.module('mobileMasterApp')
 					var light = $('<div class="triage-light"></div>');
 					light.css('background', value.toLowerCase());
 					element.prepend(light);
+					light.attr("title", scope.result);
+					scope.result = "";
 				} else if (type === 'default') {
 
 					if (key === 'url') {

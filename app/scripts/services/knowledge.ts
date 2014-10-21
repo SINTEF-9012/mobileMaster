@@ -13,6 +13,27 @@
 			tablePropertiesOrder: { name : 10, description: 3, location: -5, _type: -5}
 		},
 		{
+			typeName: "patients",
+			tablePropertiesOrder: {
+				triage_status: 30,
+				temperature: 15,
+				activity: 13, 
+				alarmAct: 12,
+				alarmTemp: 11,
+				transporting: 10,
+				braceletOn: 9,
+				transferredToDestination: 8,
+				reportDate: 7,
+				age: 6,
+				sex: 5,
+				locationName: 5,
+				locationId: 4,
+				GPSSatellites: 3,
+				GSMLevel: 2,
+				battery: 1
+			}	
+		},
+		{
 			typeName: "tweets",
 			tablePropertiesOrder: {
 				description: 5,

@@ -1,13 +1,83 @@
 <header>
 	<nav class="navbar navbar-default navbar-fixed-top master-list-navbar" role="navigation">
-	  <div class="container-fluid">
-	  	<div class="row">
-	  		
-		    <a class="navbar-brand col-xs-2" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
+		<div class="container-fluid">
+			<div class="row">
+				
+				<a class="navbar-brand col-xs-2" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
 
-	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-5">{{typeName}}</h3>
-	    </div>
-	  </div>
+				<h3 class="col-sm-6 col-sm-push-1 col-xs-5">{{typeName}}</h3>
+
+				<div class="btn-group navbar-btn-group pull-right" data-toggle="buttons" ng-if="typeName==='Beacons'">
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'all' ? 'active' : ''"
+						ui-sref="table({filter: 'all', page: undefined})">
+						<input type="radio" name="status"> All
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'safe:false' ? 'active' : ''"
+						ui-sref="table({filter: 'safe:false', page: undefined})">
+						<input type="radio" name="status">
+						Unsafe
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'safe:true' ? 'active' : ''"
+						ui-sref="table({filter: 'safe:true', page: undefined})">
+						<input type="radio" name="status">
+						Safe
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'rescued:true' ? 'active' : ''"
+						ui-sref="table({filter: 'rescued:true', page: undefined})">
+						<input type="radio" name="status">
+						Rescued
+					</label>
+				</div>
+				<div class="btn-group navbar-btn-group pull-right" data-toggle="buttons" ng-if="typeName==='Orders'">
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'all' ? 'active' : ''"
+						ui-sref="table({filter: 'all', page: undefined})">
+						<input type="radio" name="status"> All
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'accepted:false' ? 'active' : ''"
+						ui-sref="table({filter: 'accepted:false', page: undefined})">
+						<input type="radio" name="status">
+						Waiting
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'accepted:true' ? 'active' : ''"
+						ui-sref="table({filter: 'accepted:true', page: undefined})">
+						<input type="radio" name="status">
+						Accepted
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'done:true' ? 'active' : ''"
+						ui-sref="table({filter: 'done:true', page: undefined})">
+						<input type="radio" name="status">
+						Done
+					</label>
+				</div>
+				<div class="btn-group navbar-btn-group pull-right" data-toggle="buttons" ng-if="typeName==='Resources'">
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'all' ? 'active' : ''"
+						ui-sref="table({filter: 'all', page: undefined})">
+						<input type="radio" name="status"> All
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'status:unassigned' ? 'active' : ''"
+						ui-sref="table({filter: 'status:unassigned', page: undefined})">
+						<input type="radio" name="status">
+						Unassigned
+					</label>
+					<label class="btn navbar-btn btn-primary"
+						ng-class="filter === 'safe:true' ? 'active' : ''"
+						ui-sref="table({filter: 'status:!unassigned', page: undefined})">
+						<input type="radio" name="status">
+						Assigned
+					</label>
+				</div>
+			</div>
+		</div>
 	</nav>
 </header>
 

@@ -6,8 +6,7 @@
 				<a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
 				<h3 class="col-xs-8 identicon">
-					<identicon id="id"></identicon>
-					<span ng-show="!unfound">Patient {{thing.name}}</span>
+					<identicon id="id"></identicon>&nbsp;<span ng-show="!unfound">Patient {{thing._masterName}}</span>
 					<span class="text-danger ng-hide" ng-show="unfound">Patient not found</span>
 				</h3>
 
@@ -20,69 +19,25 @@
 <div class="container-fluid">
 
 	<div class="row" >
-		<div class="col-sm-5 col-lg-4 properties-list">
-			<div class="row">
-				<div class="col-xs-6 coli-lg-3 col-sm-6 col-md-6 triage-status">
-					<div class="patientInfobox">
-						<h3>Triage status</h3>
-						<div class="infoboxview">
-							<div class="patient">
-								<div class="triage-light" style="background:{{thing.triage_status}}"></div>
+		<div class="col-sm-5 col-lg-4 properties-list" ng-class="hideMap ? 'col-xs-12 col-sm-12 col-lg-12' : ''" id="thing-view">
+
+			<div ui-view>
+				<div class="row big-advise-icon" ng-if="thing.type == 'AdviseUpdateType'">
+					<watch-master-icon thingid="thing.ID"></master-icon>
+				</div>
+				<div class="row patient">
+
+					<div ng-class="(''+thing[type.key]).length > 60 ? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
+						<div class="thingInfobox">
+							<h3 title="{{type.key}}">{{type.name | humanizeCamelCase}}</h3>	
+							<div class="infoboxview">
+								<thing-property value="thing[type.key]" key="{{type.key}}"></thing-property>
 							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-6 col-sm-6 col-md-6 transporting">
-					<div class="patientInfobox">
-						<h3>Transporting</h3>
-						<div class="infoboxview">
-							<span class="glyphicon glyphicon-{{thing.transporting ? 'ok' : 'remove'}}" title="{{thing.transporting}}"></span>
-						</div>
-					</div>
-				</div>
-
-				<div class="ng-hide col-xs-6 col-sm-6 col-md-6 destination" ng-show="thing.transferredToDestination">
-					<div class="patientInfobox">
-						<h3>Transferred to destination</h3>
-						<div class="infoboxview">
-							<span>{{thing.transferredToDestination}}</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="ng-hide col-xs-6 col-sm-6 col-md-6 age" ng-show="thing.age >= 0">
-					<div class="patientInfobox">
-						<h3>Age</h3>
-						<div class="infoboxview">
-							<span>{{thing.age}} years old</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="ng-hide col-xs-6 col-sm-6 col-md-6 reportDate" ng-show="thing.reportDate">
-					<div class="patientInfobox">
-						<h3>Report date</h3>
-						<div class="infoboxview">
-							<div>
-								<strong am-time-ago="thing.reportDate"></strong><br>
-								<span>{{thing.reportDate | date:'medium'}}</span>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="ng-hide col-xs-6 col-sm-6 col-md-6 sex" ng-show="thing.sex">
-					<div class="patientInfobox">
-						<h3>Sex</h3>
-						<div class="infoboxview">
-							<span>{{thing.sex}}</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-7 col-lg-8" id="thing-map"></div>
+		<div class="col-xs-12 col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
 	</div>
 </div>

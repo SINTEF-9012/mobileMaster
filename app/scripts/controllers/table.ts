@@ -3,6 +3,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
 
 'use strict';
 
@@ -94,7 +95,7 @@ angular.module('mobileMasterApp')
 		var cpt = 0;
 
 		var showAll = $scope.filter === 'all';
-		var filterKey, filterValue;
+		var filterKey, filterValue, invertFilter = false;
 
 		if (!showAll) {
 			var m = $scope.filter.match(filterRegex);
@@ -105,11 +106,15 @@ angular.module('mobileMasterApp')
 				filterKey = "triage_status";
 				filterValue = $scope.filter.toLowerCase();
 			}
+			if (filterValue[0] === '!') {
+				filterValue = filterValue.slice(1);
+				invertFilter = true;
+			}
 		}
 
 		var more = false;
 		$scope.things = _.filter(globalList, (s: any) => {
-				if (s.ID !== "master-summary" && (showAll || (""+s[filterKey]).toLowerCase() == filterValue) &&
+				if (s.ID !== "master-summary" && (showAll || ((""+s[filterKey]).toLowerCase() == filterValue) != invertFilter) &&
 				(cpt++ >= startPageCount)) {
 					if (cpt <= endPageCount) {
 						return true;
