@@ -122,8 +122,9 @@ L.MasterImageOverlay = L.Layer.extend({
 		L.DomUtil.setPosition(image, bounds.min);
 
 		this._size = size.x * size.y;
+		this._maxSize = (4 * this._map._container.offsetHeight) * (4 * this._map._container.offsetWidth);
 
-		if (this._size > 8) {
+		if (this._size > 8 && this._size < this._maxSize) {
 
 			if (this.options.resizeServiceEndpoint) {
 				var imageX = size.x,
@@ -154,7 +155,7 @@ L.MasterImageOverlay = L.Layer.extend({
 		var p = this.options.padding,
 			mapBounds = this._map.getBounds().pad(p);
 
-		this._image.style.display = this._size > 8 && mapBounds.intersects(this._bounds) ? '' : 'none';
+		this._image.style.display = this._size > 8 && this._size < this._maxSize && mapBounds.intersects(this._bounds) ? '' : 'none';
 	},
 
 	_updateOpacity: function () {
