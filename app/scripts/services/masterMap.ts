@@ -806,7 +806,9 @@
 
 				var location = thing.LocationLatLng();
 
-				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
+				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude) ||
+					location.Latitude < -90.0 || location.Latitude > 90.0 ||
+					location.Longitude < -180.0 || location.Longitude > 180.0) {
 					return;
 				}
 
@@ -845,7 +847,9 @@
 
 				var location = thing.LocationLatLng();
 
-				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude)) {
+				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude) ||
+					location.Latitude < -90.0 || location.Latitude > 90.0 ||
+					location.Longitude < -180.0 || location.Longitude > 180.0) {
 					removeMarker(thing);
 					return;
 				}
