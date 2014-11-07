@@ -57,6 +57,14 @@ angular.module('mobileMasterApp', [
                 }
             }
 		})
+        .state('map.paint', {
+            url: '^/map/paint',
+            views: {
+				'slidder': {
+					controller: 'MapPaintCtrl'
+				}
+			}
+		})
 		.state('summary', {
 			url: '/summary',
 			controller: 'SummaryCtrl',
@@ -168,7 +176,8 @@ angular.module('mobileMasterApp', [
 	  $rootScope: MasterScope.Root,
 	  $state: ng.ui.IStateService,
 	  masterMap: Master.Map,
-	  hotkeys: ng.hotkeys.HotkeysProvider) => {
+	  hotkeys: ng.hotkeys.HotkeysProvider,
+	  notify: any) => {
 	  $rootScope.$on('$stateChangeStart', (event, toState: ng.ui.IState, toParams, fromState: ng.ui.IState, fromParams) => {
 			$rootScope.previousState = fromState.name;
 		  $rootScope.currentState = toState.name;
@@ -230,6 +239,12 @@ angular.module('mobileMasterApp', [
 			$state.go('checklist');
 		}
 	}, 3000);
+
+    notify.config({
+		startTop: 60,
+		position: 'right'
+    });
+
   });
 
 
@@ -257,10 +272,12 @@ if (window.applicationCache) {
 	});
 }
 
-if (navigator.userAgent.match(/iPad;.*CPU.*OS [78]_\d/i) && !window.navigator.standalone) {
-	document.body.parentElement.className = "ipad ios7";
-
-  window.addEventListener('orientationchange', () => {
-    window.scrollTo(0, 0);
-  });
+if (navigator.userAgent.match(/iPad;.*CPU.*OS [78]_\d/i)) {
+	if (window.navigator.standalone) {
+		document.body.parentElement.className = "ipad ios standalone";
+	} else {
+	  window.addEventListener('orientationchange', () => {
+		window.scrollTo(0, 0);
+	  });
+	} 
 }
