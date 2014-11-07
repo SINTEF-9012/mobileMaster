@@ -5,7 +5,7 @@
 	  		
 		    <a class="navbar-brand col-xs-2" ui-sref="{{previousState || 'map.slidder'}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
-			<h3 class="col-xs-8">Map background</h3>
+			<h3 class="col-xs-8">Map backgrounds and overlays</h3>
 	    </div>
 	  </div>
 	</nav>
@@ -13,7 +13,7 @@
 
 <div class="container-fluid">
 	<div class="row layers">
-		<h3 class="col-xs-12">Ground</h3>
+		<h3 class="col-xs-12">Backgrounds</h3>
 		<button class="btn btn-default col-xs-5 col-sm-2 col-lg-1" type="button" ng-class="{active: layer.active}" ng-click="layerClick(layer)" style="background-image:url(/images/{{layer.iconPath}})" title="{{layer.name}}" ng-repeat="layer in layers" ui-sref="map.slidder">
 			</button>
 	</div>
@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="row">
-		<h3 class="col-xs-12">Overlay</h3>
+		<h3 class="col-xs-12">Overlays</h3>
 
 		<div ng-controller="TableCtrl" class="col-xs-12">
 			<div class="row background-overlay" ng-repeat="thing in things" >
@@ -53,10 +53,8 @@
 						<range-switch name="thing.ID" model="$parent.overlays[thing.ID]"></range-switch>
 					</div>
 				</div>
-
-				<p class="empty-message" ng-if="things.length == 0">The list is empty</p>
-
 			</div>
+			<p class="empty-message" ng-if="things.length == 0">The list is empty</p>
 		</div>
 		<br>&nbsp;
 	</div>

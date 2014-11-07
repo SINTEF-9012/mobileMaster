@@ -23,7 +23,7 @@
 				<span class="glyphicon glyphicon-th-list"></span> Channels
 			</h3>
 			<ul class="list-group col-sm-offset-3">
-				<a class="list-group-item" ng-repeat="channel in channels" href="#" ng-click="$parent.thingModelUrl=channel.url">
+				<a class="list-group-item" ng-repeat="channel in channels" href="#" ng-click="$parent.thingModelUrl=channel.url;reload()">
 					<h4>{{channel.name||"Untitled"}} <small>{{channel.description}}</small></h4>	
 					<p>
 						Creation date : <span am-time-ago="channel.creationDate"></span>
@@ -47,4 +47,5 @@
 			<input type="submit" class="col-xs-7 col-xs-push-4 col-sm-5 col-sm-push-6 btn btn-lg btn-primary" ng-click="reload()" value="All right"/>
 		</div>
 	</form>
+	<br>&nbsp;<br>
 </div>
