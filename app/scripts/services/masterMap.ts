@@ -654,6 +654,7 @@
 
 			var selectedMapMarker = null,
 				selectedMarkerId = null,
+				selectedConnectedMarkersLines: {[id: string]: L.Path} = {},
 				noAnimTimeout = 0,
 				draggableSelectedThing = false,
 				selectedMapMarkerHasBeenDragged = false;
@@ -687,11 +688,15 @@
 					selectedMapMarker.setIcon(icon);
 					selectedMapMarker.setZIndexOffset(8000);
 					instance.addLayer(selectedMapMarker);
-					L.DomUtil.addClass(selectedMapMarker._icon, "no-anim");
+					if (selectedMapMarker._icon) {
+						L.DomUtil.addClass(selectedMapMarker._icon, "no-anim");
+					}
 					selectedMapMarker.setOpacity(0);
 
 					window.setTimeout(() => {
-						L.DomUtil.removeClass(selectedMapMarker._icon, "no-anim");
+						if (selectedMapMarker._icon) {
+							L.DomUtil.removeClass(selectedMapMarker._icon, "no-anim");
+						}
 						selectedMapMarker.setOpacity(1);
 					}, 1);
 
@@ -703,15 +708,62 @@
 
 					(<any>cluster).spiderfier.Unspiderfy();
 
+
 				} else if (!selectedMapMarkerHasBeenDragged) {
 					selectedMapMarker.setLatLng(new L.LatLng(lat, lng));
 				}
+
+				var thing = thingModel.warehouse.GetThing(id);
+
+				_.each(selectedConnectedMarkersLines, (line: any) => {
+					line._mustBeRemoved = true;
+				});
+
+				if (thing && thing.ConnectedThingsCount > 0) {
+					_.each(thing.ConnectedThings, (connectedThing: ThingModel.Thing) => {
+
+						var location = connectedThing.LocationLatLng();
+
+						if (!location || isNaN(location.Latitude) || isNaN(location.Longitude) ||
+							location.Latitude < -90.0 || location.Latitude > 90.0 ||
+							location.Longitude < -180.0 || location.Longitude > 180.0) {
+							return;
+						}
+
+						var connectionLine;
+						if (selectedConnectedMarkersLines.hasOwnProperty(connectedThing.ID)) {
+							connectionLine = <L.Polyline>selectedConnectedMarkersLines[connectedThing.ID];
+							(<any>connectionLine)._mustBeRemoved = false;
+							connectionLine.setLatLngs([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)]);
+
+						} else {
+							connectionLine = L.polyline([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)], {
+								clickable: false
+							}).addTo(instance);
+
+							selectedConnectedMarkersLines[connectedThing.ID] = connectionLine;
+						}
+
+					});
+				}
+
+				_.each(selectedConnectedMarkersLines, (line: any) => {
+					if (line._mustBeRemoved) {
+						instance.removeLayer(line);
+					}
+				});
 
 				selectedMarkerId = id;
 			};
 
 			instance.removeSelectedThing = () => {
 				if (selectedMapMarker != null) {
+					_.each(selectedConnectedMarkersLines, (line) => {
+						instance.removeLayer(line);
+					});
+
+					selectedConnectedMarkersLines = {};
+
 					var m = selectedMapMarker;
 					window.setTimeout(() => {
 						m.setOpacity(0);
