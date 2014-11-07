@@ -52,7 +52,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"incident rock slide": "Rock slide"
 			}
 		},
-		"resource": {
+		/*"resource": {
 			title: "Resources",
 			items: {
 				"resource fire and rescue vehicle": "Firetruck",
@@ -66,7 +66,7 @@ angular.module('mobileMasterApp').controller('AddCtrl', (
 				"resource people aid": "People's aid",
 				"resource hexacopter uav": "Helicopter UAV"
 			}
-		},
+		},*/
 		"risk": {
 			title: "Risks",
 			items: {
