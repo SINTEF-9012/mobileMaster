@@ -172,3 +172,56 @@ html:not(.disable-markers-animations).popup-transition .leaflet-popup{
     }
 }
 
+.mappaint-control > div {
+    width:238px;
+}
+
+.mappaint-pencil {
+    height: 36px;
+}
+
+.mappaint-uglyfeltpen, .mappaint-crayonpencil, .mappaint-proceduralpencil {
+    background: white url("/images/ic_edit_black_24dp.png") no-repeat 4px center;
+}
+.mappaint-circlespencil {
+    background: white url("/images/ic_grain_black_24dp.png") no-repeat 4px center;
+}
+.mappaint-stripespencil {
+    background: white url("/images/ic_texture_black_24dp.png") no-repeat 4px center;
+}
+
+.mappaint-switch {
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    background: white url("/images/ic_edit_black_24dp.png") no-repeat center center;
+}
+
+.mappaint-switch.enabled {
+    background: white url("/images/ic_close_black_24dp.png") no-repeat center center;
+}
+
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) { 
+    .mappaint-uglyfeltpen, .mappaint-crayonpencil, .mappaint-proceduralpencil {
+        background-image: url("/images/ic_edit_black_48dp.png");
+        background-size: 24px 24px;
+    }
+    .mappaint-circlespencil {
+        background-image: url("/images/ic_grain_black_48dp.png");
+        background-size: 24px 24px;
+    }
+    .mappaint-stripespencil {
+        background-image: url("/images/ic_texture_black_48dp.png");
+        background-size: 24px 24px;
+    }
+    .mappaint-switch {
+        background-image: url("/images/ic_edit_black_48dp.png");
+        background-size: 24px 24px;
+    }
+    .mappaint-switch.enabled {
+        background-image: url("/images/ic_close_black_48dp.png");
+        background-size: 24px 24px;
+    }
+}

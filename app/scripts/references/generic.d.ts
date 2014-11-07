@@ -48,3 +48,5 @@ declare var throttle: (fn: () => void, wait: number, options?: any) => () => voi
 declare var PruneClusterLeafletSpiderfier: any;
 
 declare var RGBaster: any;
+
+declare var MapPaint: any;

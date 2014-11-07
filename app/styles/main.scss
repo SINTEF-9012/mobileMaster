@@ -201,7 +201,9 @@ margin-left:1.65em;
 
 
 @media (orientation:landscape) {
-    html.ipad.ios7 > body #wrapper {
+    html.ipad.ios {
+    }
+    //html.ipad.ios7 > body #wrapper {
 /* position: fixed;
 bottom: 0;
 width:100%;
@@ -209,7 +211,7 @@ height: 672px !important;
 */
 /*border-bottom:40px solid green;*/
 // margin-bottom:20px;
-    }
+   //}
 }
 
 // #main {
