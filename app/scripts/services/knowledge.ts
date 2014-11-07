@@ -160,13 +160,14 @@
 							};
 
 							// TODO identify undefined source and fixe it
-							if (prop.Name !== "undefined") {
+							// lets be honest, it will never be fixed :-)
+							if (prop.Name !== "undefined" && prop.Name !== undefined) {
 								scopeProp.name = prop.Name;
 							} else {
 								scopeProp.name = prop.Key.charAt(0).toUpperCase() + prop.Key.slice(1);
 							}
 
-							if (prop.Description !== "undefined") {
+							if (prop.Description !== "undefined" && prop.Description !== undefined) {
 								scopeProp.description = prop.Description;
 							}
 
