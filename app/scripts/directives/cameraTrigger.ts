@@ -6,6 +6,7 @@
 
 angular.module('mobileMasterApp')
 	.directive('cameraTrigger', (
+	notify: angularNotify,
 	$upload: any,
 	cfpLoadingBar: any,
 	$state: ng.ui.IStateService,
@@ -35,8 +36,7 @@ angular.module('mobileMasterApp')
 				}).success((data) => {
 					$state.go('camera', data);
 				}).error(() => {
-					// TODO this is not really good :-)
-					alert("Sorry, an error occured while uploading the file");
+					notify({ message: "Sorry, an error occured while uploading the file", classes: "alert-danger" });
 				}).then(() => {
 					cfpLoadingBar.complete();
 				});

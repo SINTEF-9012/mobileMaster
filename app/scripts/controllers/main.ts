@@ -27,6 +27,7 @@ angular.module('mobileMasterApp')
                 return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.gefc9emp/{z}/{x}/{y}.png', {
                     detectRetina: true,
 					reuseTiles: true,
+					maxZoom:20,
                     maxNativeZoom: 17
                 });
             }
@@ -38,6 +39,7 @@ angular.module('mobileMasterApp')
                 return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.g98dhngl/{z}/{x}/{y}.png', {
                     detectRetina: true,
 					reuseTiles: true,
+					maxZoom:20,
                     maxNativeZoom: 17
                 });
             }
@@ -49,6 +51,7 @@ angular.module('mobileMasterApp')
                 return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.goh7k5a1/{z}/{x}/{y}.png', {
                     detectRetina: true,
 					reuseTiles: true,
+					maxZoom:20,
                     maxNativeZoom: 17
                 });
             }
@@ -62,6 +65,7 @@ angular.module('mobileMasterApp')
                         subdomains: ['', '2', '3'],
                         detectRetina: true,
 						reuseTiles: true,
+						maxZoom:20,
                         maxNativeZoom: 18
                     });
             }
@@ -75,6 +79,7 @@ angular.module('mobileMasterApp')
                         subdomains: ['', '2', '3'],
                         detectRetina: true,
 						reuseTiles: true,
+						maxZoom:20,
                         maxNativeZoom: 18
                     });
             }
@@ -88,6 +93,7 @@ angular.module('mobileMasterApp')
                         subdomains: ['', '2', '3'],
                         detectRetina: true,
 						reuseTiles: true,
+						maxZoom:20,
                         maxNativeZoom: 18
                     });
             }
@@ -101,6 +107,7 @@ angular.module('mobileMasterApp')
                         subdomains: ['', '2', '3'],
                         detectRetina: true,
 						reuseTiles: true,
+						maxZoom:20,
                         maxNativeZoom: 18
                     });
             }
@@ -114,6 +121,7 @@ angular.module('mobileMasterApp')
                     detectRetina: true,
 					reuseTiles: true,
                     minZoom: 3,
+					maxZoom:20,
                     maxNativeZoom: 16
                 });
             }
@@ -137,6 +145,7 @@ angular.module('mobileMasterApp')
 				return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/apultier.iehnl469/{z}/{x}/{y}.png', {
                     detectRetina: true,
 					reuseTiles: true,
+					maxZoom:20,
                     maxNativeZoom: 17
                 });
             }
