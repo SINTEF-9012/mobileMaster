@@ -52,6 +52,10 @@ angular.module('mobileMasterApp')
 			description: 'Change filters',
 			callback: () => $state.go('filters')
 		}).add({
+			combo: 'o',
+			description: 'Map drawing',
+			callback: () => $state.go('map.paint')
+		}).add({
 			combo: 'b',
 			description: 'Map background filters',
 			callback: () => $state.go('background')
@@ -63,6 +67,9 @@ angular.module('mobileMasterApp')
 
 
 	var contextmenu = (e: L.LeafletMouseEvent) => {
+		if ($state.is('map.paint')) {
+			return;
+		}
 		if ($rootScope.pastSituation) {
 			notify({ message: "Live mode is required for adding new elements.", classes: "alert-warning" });
 		} else {

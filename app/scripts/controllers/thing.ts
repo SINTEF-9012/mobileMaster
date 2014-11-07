@@ -23,7 +23,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	$window: ng.IWindowService,
 	Knowledge : KnowledgeService,
 	thingModel: ThingModelService,
-	colorFromImage: ColorFromImageService
+	colorFromImage: ColorFromImageService,
+	notify: angularNotify
 	) => {
 
 	masterMap.disableSituationOverview();
@@ -60,6 +61,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			if (--$scope.delay === 0) {
 				thingModel.RemoveThing(id);
 				$state.go(stateBack, stateInfos);
+				notify({message: id +" deleted", classes: "alert-danger"});
 				deleteTimer = 0;
 			} else {
 				$scope.$digest();

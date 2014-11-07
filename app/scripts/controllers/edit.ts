@@ -102,6 +102,9 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 
 		thingModel.EditThing(id, transaction);
 
+		var message = id + " saved";
+		notify({ message: message, classes: "alert-info" });
+
 		$state.go('^');
 	};
 
