@@ -134,7 +134,8 @@ angular.module('mobileMasterApp')
 					detectRetina: true,
 					reuseTiles: true,
 					minZoom: 1,
-                    maxNativeZoom: 18
+                    maxNativeZoom: 18,
+		            maxZoom:20
                 });
             }
         })
