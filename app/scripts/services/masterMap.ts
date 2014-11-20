@@ -96,7 +96,7 @@
 
 			instance.GamepadController.enable();
 
-			var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet(100);
+			var cluster: PruneCluster.LeafletAdapter = new PruneClusterForLeaflet(60,10);
 
 			instance.addLayer(cluster);
 
