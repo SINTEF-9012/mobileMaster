@@ -158,7 +158,6 @@
         width:100%;
     }
 
-	//min-height:200px;
 }
 
 @media (min--moz-device-pixel-ratio: 1.3),
@@ -197,15 +196,67 @@ a.infoblock {
 		flex-grow:1;
 		display: flex;
 	    width:100%;
+	    position:relative;
 	    /*height:100%;*/
 	}
+
+    .number-with-chart {
+    	// width:auto;
+    	font-size:2em;
+    	position:absolute;
+    	left:0;
+    	right:0;
+    	top:50%;
+    }
+
+    canvas {
+        // margin:10px auto;
+        //flex-shrink: 0;
+        //position:relative;
+		/*position: absolute;
+		top:10%;
+		right:0;
+		bottom:0;
+		left:0;
+
+        padding:0;
+        height:90%;*/
+        width:100%;
+        height:100%;
+    }
+    .canvas-area {
+        //margin:auto;
+        align-self: center;
+        //flex-shrink: 0;
+        width:100%;
+        height:90%;
+        top:5%;
+        bottom:5%;
+        left:0;
+        right:0;
+        position:absolute;
+
+        .number-area {
+	    	font-size:2em;
+	    	position:absolute;
+	    	left:0;
+	    	right:0;
+	    	top:50%;
+	    	margin-top:-1em;
+	    	line-height: 2em;
+        }
+
+        canvas {
+        	position:relative;
+        }
+    }
 }
 
 a.infoblock.patients-block {
 
-	.infoblockview {
+	/*.infoblockview {
 		position:relative;
-	}
+	}*/
 	
     .barchart-area {
     	/* This is ugly but Chrome has a bug with 

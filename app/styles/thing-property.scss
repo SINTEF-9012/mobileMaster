@@ -43,3 +43,67 @@ thing-property .markdown-property {
 		color: $indigo-color;
 	}
 }
+
+thing-property .network-bar {
+	display:inline-block;
+	margin:0 5px;
+	width:15px;
+	line-height: 1.20em;
+}
+
+thing-property.battery-indicator-low {
+	color:$red-color;
+}
+
+.patientInfobox thing-property .triage-light {
+	height: 60px;
+	width: 60px;
+	border-radius: 30px;
+}
+
+.thing-property-number {
+	font-size:xx-large;	
+}
+:not(.thing-property-empty) {
+	&.thing-property-GSMLevel, &.thing-property-GPSSatellites, &.thing-property-battery {
+		font-size:medium;
+	}
+	&.thing-property-battery {
+		.ng-binding {
+			font-size:small;
+		}
+	}
+}
+
+
+@keyframes thingInfoboxAlarm {
+	from {
+		// background-color:#c41411;
+		background-color:#3e2623;
+	}
+	30% {
+		// background-color:#dd0000;
+		background-color:#c41411;
+	}
+
+	50% {
+		background-color:$pantone_7417;
+		// background-color:#cc0000;
+	}
+
+	72% {
+		background-color:#c41411;
+	}
+	to {
+		// background-color:#6d4c41;
+		background-color:#3e2623;
+	}
+}
+
+.thingInfobox.alarm {
+	background-color:red;
+	animation-duration: 3s;
+	animation-name: thingInfoboxAlarm;
+	animation-iteration-count: infinite;
+}
+

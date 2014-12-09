@@ -241,7 +241,7 @@ angular.module('mobileMasterApp', [
 	}, 3000);
 
     notify.config({
-		startTop: 60,
+		startTop: 80,
 		position: 'right'
     });
 
@@ -280,4 +280,7 @@ if (navigator.userAgent.match(/iPad;.*CPU.*OS [78]_\d/i)) {
 		window.scrollTo(0, 0);
 	  });
 	} 
+}
+else if (navigator.userAgent.match(/Trident.*rv:11\./)) {
+	document.body.className += " e11";
 }
