@@ -26,10 +26,11 @@
 				<a class="col-xs-6 col-lg-4 infoblock patients-block"  href="{{infos.Patients.href || '/patients'}}">
 					<h3>Patients</h3>
 					<div class="infoblockview">
-						<div class="number-area" ng-show="!infos.Patients.count">{{infos.Patients.count || 0}}</div>	
-						<div class="col-xs-12 barchart-area" ng-show="infos.Patients.count > 0">
-							<div id="patients-chart"></div>
+						<div class="canvas-area" ng-show="infos.Patients.count > 0">
+							<div class="number-area">{{infos.Patients.count}}</div>
+							<canvas id="patients-chart"></canvas>
 						</div>
+						<div class="number-area" ng-show="!(infos.Patients.count > 0)">0</div>	
 					</div>
 				</a>	
 					
@@ -44,7 +45,11 @@
 					href="{{infos.Resources.href || '/table/Resources'}}">
 					<h3>Resources</h3>
 					<div class="infoblockview">
-						<div class="number-area">{{infos.Resources.count || 0}}</div>	
+						<div class="canvas-area" ng-show="infos.Resources.count > 0">
+							<div class="number-area">{{infos.Resources.count}}</div>
+							<canvas id="resources-chart"></canvas>
+						</div>
+						<div class="number-area" ng-show="!(infos.Resources.count > 0)">0</div>	
 					</div>
 				</a>
 				<a class="col-xs-6 col-lg-4 infoblock"
@@ -65,7 +70,11 @@
 					href="{{infos.Beacons.href || '/table/Beacons'}}">
 					<h3>Beacons</h3>
 					<div class="infoblockview">
-						<div class="number-area">{{infos.Beacons.count || 0}}</div>	
+						<div class="canvas-area" ng-show="infos.Beacons.count > 0">
+							<div class="number-area">{{infos.Beacons.count}}</div>
+							<canvas id="beacons-chart"></canvas>
+						</div>
+						<div class="number-area" ng-show="!(infos.Beacons.count > 0)">0</div>	
 					</div>
 				</a>
 				<a class="col-xs-6 col-lg-4 infoblock"

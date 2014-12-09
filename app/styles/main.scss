@@ -534,6 +534,9 @@ header + .container, header + .container-fluid {
     .thing-controller header + .container-fluid {
         margin-top: 100px;
     }
+    .patient-controller header + .container-fluid.patient-container-fluid {
+        margin-top: 50px;
+    }
 }
 
 header .navbar button, header .navbar .btn-group,
@@ -615,7 +618,8 @@ header + .master-list {
 .thing.row {
     display:block;
     color: inherit;
-    padding-top: 11px;
+    //padding-top: 11px;
+    padding:11px 20px 0px 25px;
     // padding-bottom: 12px;
     border-bottom:1px solid white;
     //border-top:1px solid $gray-lighter;
@@ -778,6 +782,13 @@ img.identicon {
         }
 
         font-size: 1.3em;
+
+        #canvas-temperature-area {
+            flex-grow: 1;
+            flex-shrink: 0;
+            position:relative;
+            height:140px;
+        }
     }
 
     h3 {
@@ -800,6 +811,23 @@ img.identicon {
         float: none;
         margin: 0 auto;
     }
+}
+
+.patientInfobox {
+    .thing-property-temperature {
+        position:absolute;
+        left: 0;
+        right: 0;
+        /* background: blue; */
+        top: 50%;
+        line-height: 1.6em;
+        margin-top: -0.8em;
+        /* z-index: 1; */
+        font-size: 4em; 
+    }
+}
+.ie11 .infoboxview {
+    min-height: 120px;
 }
 
 div:nth-child(even) > .thingInfobox {
@@ -910,4 +938,70 @@ div:nth-child(3n+1) > .thingInfobox {
 .cg-notify-message {
     left: auto;
     right: 1em;
+}
+
+.navbar-default {
+    background-image:url(/images/background-moche.png);
+    background-repeat: repeat;
+}
+
+.navbar-default .navbar-brand {
+    color: inherit;
+}
+
+.thing.row.patient-bracelet-off {
+    background: $gray-lighter;
+    opacity: 0.6;
+    .thing-row-center, .thing-row-right {
+        border-color: $gray-lighter;
+    }
+    .glyphicon-off {
+        color:$gray;
+    }
+}
+
+.patient .alarm-block {
+    font-size:2em;
+
+    .glyphicon {
+        left:-0.5em;
+    }
+}
+
+.thing.row.patient-bracelet-on.patient-alarm {
+    //background: #F4F5F9;
+    //.thing-row-center, .thing-row-right {
+    //    border-color: rgb(239, 238, 238);
+    //}
+    .glyphicon-bell {
+        animation-duration: 3s;
+        animation-name: alarmBellAnimation;
+        animation-iteration-count: infinite;
+    }
+}
+@keyframes alarmBellAnimation {
+    from {
+        color:#3e2623;
+    }
+    30% {
+        color:#c41411;
+    }
+
+    50% {
+        color:$pantone_7417;
+    }
+
+    72% {
+        color:#c41411;
+    }
+    to {
+        color:#3e2623;
+    }
+}
+
+.patient-date {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display:block;
+    overflow:hidden;
 }
