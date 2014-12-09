@@ -5,7 +5,7 @@
 	  		
 		    <a class="navbar-brand col-xs-1" href="#" ng-href="{{returnLink}}"><span class="glyphicon" ng-class="from === 'map' ? 'glyphicon-chevron-left' : 'glyphicon-th'"></span></a>
 
-	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-6 ng-hide" ng-show="filter">Patients{{filter != 'all' ? ' ' + filter : ''}}</h3>
+	    	<h3 class="col-sm-6 col-sm-push-1 col-xs-9 ng-hide" ng-show="filter">Patients{{filter != 'all' ? ' ' + filter : ''}}</h3>
 
 	    	<div class="btn-group navbar-btn-group pull-right" data-toggle="buttons">
 			  <label class="btn navbar-btn btn-primary" ng-class="filter === 'all' ? 'active' : ''"
@@ -48,7 +48,7 @@
 		<li><a href="#" ui-sref="patients({page: previousPage})">Previous</a></li>
 	</ul>
 
-	<a class="patient thing row" ng-repeat="thing in things" ui-sref="patient({ID: thing.ID, from: thingfrom})">
+	<a class="patient thing row" ng-repeat="thing in things" ui-sref="patient({ID: thing.ID, from: thingfrom})" ng-class="(thing.braceletOn === false ? 'patient-bracelet-off' : 'patient-bracelet-on')+(thing.alarmAct ? ' patient-alarm' : '')">
 
 		<div class="col-xs-2 col-sm-1 thing-row-left">
 			<div class="pull-right">
@@ -56,20 +56,29 @@
 			</div>
 		</div>
 		<div class="col-xs-8 col-sm-10 thing-row-center">
-			{{thing.name}}<br ng-show="thing.name"/>
-			<span class="glyphicon glyphicon-bell" ng-show="thing.alarmAct||thing.alarmTemp"></span>
-			<span ng-show="thing.alarmAct">Activity&nbsp;: {{thing.activity}}</span>
-			<span ng-show="thing.alarmTemperature">Temperature&nbsp;: {{thing.temperature}}</span>
-			<span ng-show="thing.transporting">Transporting</span>
-			<span ng-show="thing.transferredToDestination &amp;&amp; thing.transferredToDestination != 'Unknown'">Transfered to {{thing.transferredToDestination}}</span>
-			<small ng-show="thing.age &amp;&amp; thing.age >= 0">{{thing.age}} years old</small>
-			<br>
-			<small ng-if="thing.reportDate">Reported: <strong am-time-ago="thing.reportDate"></strong></small>
+			<div class="row">
+				<div class="col-sm-6 col-xs-10">
+					<span ng-show="thing.activity >= 0">A<span class="hidden-xs">ctivity</span>: <strong>{{thing.activity}}</strong></span> <span ng-show="thing.activity >= 0 &amp;&amp; (thing.temperature >= 0 || thing.temperature < 0)">|</span>
+					<span ng-show="thing.temperature >= 0 || thing.temperature < 0">T<span class="hidden-xs">emperature</span>: <strong>{{thing.temperature}}</strong></span>
+					<br>
+					<small class="patient-date" ng-if="thing.reportDate"><span am-time-ago="thing.reportDate"></span> - {{thing.reportDate | date:'H\'h\'mm\' d/M/yyyy'}}</small>
+				</div>
+				<div class="col-sm-5 hidden-xs">
+					<span ng-show="thing.locationName" title="{{thing.locationId}}">{{thing.locationName | humanizeCamelCase}}</span>
+					<span ng-show="thing.transporting">Transporting</span>
+					<span ng-show="thing.transferredToDestination &amp;&amp; thing.transferredToDestination != 'Unknown'">Transfered to {{thing.transferredToDestination}}</span>
+					<small ng-show="thing.age &amp;&amp; thing.age >= 0">{{thing.age}} years old</small>
+				</div>
+				<div class="col-xs-1 alarm-block">
+					<span class="glyphicon glyphicon-off" ng-show="thing.braceletOn===false"></span>
+					<span class="glyphicon glyphicon-bell" ng-show="thing.alarmAct||thing.alarmTemp"></span>
+				</div>	
+			</div>
 		</div>
 
 		<div class="col-xs-2 col-sm-1 thing-row-right">
-			<div class="pull-left">
-				<div class="triage-light" ng-style="{background:thing.triage_status}"></div>			
+			<div class="pull-left" ng-show="thing.triage_status &amp;&amp;thing.triage_status !== 'no status entered'">
+				<div class="triage-light" title="{{thing.triage_status}}" ng-style="{background:thing.triage_status}"></div>			
 			</div>
 		</div>
 	</a>

@@ -63,7 +63,11 @@ angular.module('mobileMasterApp')
 		globalList.sort((a, b) => {
 			var ta = a.triage_status, tb = b.triage_status;
 
-			if (ta === tb) return a.ID > b.ID ? 1 : -1;
+			if (ta === tb) {
+				var ra = +a.reportDate, rb = +b.reportDate;
+				if (ra == rb) return a.ID > b.ID ? 1 : -1;
+				return ra > rb ? -1 : 1;
+			}
 
 			if (ta === 'black') return -1;
 			if (tb === 'black') return 1;

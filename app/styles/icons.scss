@@ -486,8 +486,9 @@ master-icon {
 .map master-icon .triage-light {
 	height:38px;
 	width:38px;
+	float:none;
 	margin-top:1px;
-	margin-left:1px;
+	margin-left:0px;
 	border-radius:50%;
 	// border:2px solid white;
 	border: none;
