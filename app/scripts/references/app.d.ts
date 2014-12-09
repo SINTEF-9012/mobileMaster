@@ -129,11 +129,13 @@ interface SettingsService {
 	setThingModelUrl(url: string);
 	setClientName(name: string);
 	setMediaServerUrl(url: string);
+	setRrdServerUrl(url: string);
 
 	getThingModelUrl(): string;
 	getHttpThingModelUrl(): string;
 	getClientName(): string;
 	getMediaServerUrl(): string;
+	getRrdServerUrl(): string;
 }
 
 interface ThingIdentifierService {

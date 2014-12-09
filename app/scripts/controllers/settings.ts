@@ -16,6 +16,7 @@ angular.module('mobileMasterApp')
 	$scope.thingModelUrl = settingsService.getThingModelUrl();
 	$scope.clientName = settingsService.getClientName();
 	$scope.mediaServerUrl = settingsService.getMediaServerUrl();
+	$scope.rrdServerUrl = settingsService.getRrdServerUrl();
 
 	$scope.$watch('thingModelUrl', (v) => {
 		settingsService.setThingModelUrl(v);
@@ -27,6 +28,10 @@ angular.module('mobileMasterApp')
 
 	$scope.$watch('mediaServerUrl', (v) => {
 		settingsService.setMediaServerUrl(v);
+	});
+
+	$scope.$watch('rrdServerUrl', (v) => {
+		settingsService.setRrdServerUrl(v);
 	});
 
 	$scope.reload = () => {

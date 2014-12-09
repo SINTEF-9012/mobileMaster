@@ -6,7 +6,7 @@
 'use strict'
 angular.module('mobileMasterApp')
 	.config(($sceDelegateProvider: ng.ISCEDelegateProvider) => {
-		var mediaServerUrl;
+		var mediaServerUrl, rrdServerUrl;
 
 		if (window.localStorage && window.localStorage.hasOwnProperty('mediaServerUrl')) {
 			mediaServerUrl = window.localStorage.getItem('mediaServerUrl');
@@ -22,8 +22,22 @@ angular.module('mobileMasterApp')
 			mediaServerUrl += '**';
 		}
 
+		if (window.localStorage && window.localStorage.hasOwnProperty('rrdServerUrl')) {
+			rrdServerUrl = window.localStorage.getItem('rrdServerUrl');
+		} else if (window.hasOwnProperty('defaultRrdServerUrl')) {
+			rrdServerUrl = window['defaultRrdServerUrl'];
+		} else {
+			rrdServerUrl = "http://" + window.location.hostname + ":5070/";
+		}
+
+		if (rrdServerUrl[rrdServerUrl.length - 1] !== '/') {
+			rrdServerUrl += '/**';
+		} else {
+			rrdServerUrl += '**';
+		}
+
 		$sceDelegateProvider.resourceUrlWhitelist([
-			'self', /^rstp.*/i, mediaServerUrl
+			'self', /^rstp.*/i, mediaServerUrl,rrdServerUrl
 		]);
 	})
 	.service('settingsService', function() {
@@ -44,6 +58,11 @@ angular.module('mobileMasterApp')
 				window['defaultMediaServerUrl'] : 
 			"http://" + window.location.hostname + ":8075/");
 
+		var rrdServerUrl = ls.rrdServerUrl ? ls.rrdServerUrl : (
+			window.hasOwnProperty('defaultRrdServerUrl') ?
+				window['defaultRrdServerUrl'] : 
+			"http://" + window.location.hostname + ":5070/");
+
 		this.setThingModelUrl = (url:string) => {
 			thingModelUrl = url;
 			ls.thingModelUrl = url;
@@ -62,9 +81,18 @@ angular.module('mobileMasterApp')
 			ls.mediaServerUrl = url;
 		}
 
+		this.setRrdServerUrl = (url: string) => {
+			if (url && (typeof(url.length) !== "undefined") && url[url.length - 1] === '/') {
+				url = url.slice(0, -1);
+			}
+			rrdServerUrl = url;
+			ls.rrdServerUrl = url;
+		}
+
 		this.getThingModelUrl = () => thingModelUrl;
 		this.getClientName = () => clientName;
 		this.getMediaServerUrl = () => mediaServerUrl;
+		this.getRrdServerUrl = () => rrdServerUrl;
 
 		this.getHttpThingModelUrl = () => thingModelUrl.replace(/^ws/i, "http");
 

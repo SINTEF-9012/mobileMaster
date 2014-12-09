@@ -7,7 +7,7 @@
 			<img src="images/thingmodel.png" alt="" width="38px" height="38px"/> ThingModel
 		</h3>
 		<div class="form-group">
-			<label for="inputThingModelUrl" class="col-sm-3 control-label">Server URL</label>
+			<label for="inputThingModelUrl" class="col-sm-3 control-label">Server endpoint</label>
 			<div class="col-sm-9">
 				<input type="text" class="form-control" id="inputThingModelUrl" ng-model="thingModelUrl" required/>
 			</div>
@@ -34,12 +34,18 @@
 			<!-- <button class="btn btn-default col-sm-2 col-sm-offset-10"><span class="glyphicon glyphicon-plus"></span>&nbsp;New channel</button> -->
 		</div>
 		<h3>
-			<span class="glyphicon glyphicon-cloud"></span> Media server
+			<span class="glyphicon glyphicon-cloud"></span> Data server
 		</h3>
 		<div class="form-group">
-			<label for="inputMediaServerUrl" class="col-sm-3 control-label">URL</label>
+			<label for="inputMediaServerUrl" class="col-sm-3 control-label">Media server endpoint</label>
 			<div class="col-sm-9">
 				<input type="url" class="form-control" id="inputMediaServerUrl" ng-model="mediaServerUrl" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputRrdServerUrl" class="col-sm-3 control-label">RRD server endpoint</label>
+			<div class="col-sm-9">
+				<input type="url" class="form-control" id="inputRrdServerUrl" ng-model="rrdServerUrl" />
 			</div>
 		</div>
 		<br/>

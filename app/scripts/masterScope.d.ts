@@ -46,6 +46,7 @@ declare module MasterScope {
 		thingModelUrl: string;
 		clientName: string;
 		mediaServerUrl: string;
+		rrdServerUrl: string;
 		reload: () => void;
 		channels: any;
 	}
