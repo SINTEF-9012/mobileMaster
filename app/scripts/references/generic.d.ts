@@ -50,3 +50,5 @@ declare var PruneClusterLeafletSpiderfier: any;
 declare var RGBaster: any;
 
 declare var MapPaint: any;
+
+declare var Chart: any;
