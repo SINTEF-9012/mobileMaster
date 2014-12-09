@@ -25,6 +25,8 @@ angular.module('mobileMasterApp')
 
 			scope.$watch('value', (value) => {
 
+				var i, text;
+
 				var type = 'default';
 
 				scope.rawValue = value;
@@ -50,9 +52,12 @@ angular.module('mobileMasterApp')
 					scope.result = value.toLocaleString([]);
 				} else if (type === 'Boolean') {
 					scope.result = '';
-
+					if (key.indexOf("alarm") !== -1) {
+						
+					}
 					element.prepend(value ?
-						'<span class="glyphicon glyphicon-ok"></span> ' :
+						(key.indexOf("alarm") !== -1 ? '<span class="glyphicon glyphicon-bell"></span>' :
+						'<span class="glyphicon glyphicon-ok"></span> ') :
 						'<span class="glyphicon glyphicon-remove"></span> ');
 				} else {
 					if (value) {
@@ -70,17 +75,51 @@ angular.module('mobileMasterApp')
 						element.prepend('<span class="glyphicon glyphicon-heart-empty"></span>');
 					} else {
 						var heart = $('<span class="glyphicon glyphicon-heart"></span>');
-						for (var i = 0; i < nbHeart; ++i) {
+						for (i = 0; i < nbHeart; ++i) {
 							element.prepend(heart.clone());
 						}
 					}
 					scope.result = "";
 				} else if (/*key === 'status' || */key === 'triage_status') {
-					var light = $('<div class="triage-light"></div>');
-					light.css('background', value.toLowerCase());
-					element.prepend(light);
-					light.attr("title", scope.result);
+					if (value === 'no status entered') {
+						scope.result = '\u2205';
+						element.addClass("thing-property-empty");
+					} else if (value) {
+						var light = $('<div class="triage-light"></div>');
+						light.css('background', (value? value.toLowerCase(): 'grey'));
+						element.prepend(light);
+						light.attr("title", scope.result);
+						scope.result = "";
+					}
+				} else if ((key === 'GPSSatellites' || key === 'GSMLevel') && type === 'Number') {
+					if (value == 0) {
+						element.prepend('<span class="glyphicon glyphicon-remove"></span> ');
+					} else {
+						text = '\u2588';
+						for (i = 0; i < value && i < 4; ++i) {
+							element.append($('<div class="network-bar"></div>').text(text));
+							if (i < 3) {
+								text += ' \u2588';
+							}
+						}
+					}
+					element.attr("title", scope.result);
 					scope.result = "";
+				} else if (key === 'battery' && type === 'Number') {
+					scope.result = "";
+					var battery = $('<span class="battery-indicator"></span>');
+					if (value > 0 && value < 1) {
+						value *= 100;
+					}
+					if (value < 30) {
+						element.addClass("battery-indicator-low");
+					}
+					text = '';
+					for (i = 0; i < value; i+=25) {
+						text += '\u2588 ';
+					}
+					element.prepend(battery.text(text));
+					scope.result = " "+value + "%";
 				} else if (type === 'default') {
 
 					if (key === 'url') {

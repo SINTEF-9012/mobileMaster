@@ -24,6 +24,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	Knowledge : KnowledgeService,
 	thingModel: ThingModelService,
 	colorFromImage: ColorFromImageService,
+	$http: ng.IHttpService,
 	notify: angularNotify
 	) => {
 
@@ -35,7 +36,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	var multimediaServer = settingsService.getMediaServerUrl();
 
 	var id = $stateParams.ID;
-	var stateBack = $state.is('patient') ? 'patients' : 'table',
+	var isPatient = $state.is('patient'),
+		stateBack = isPatient ? 'patients' : 'table',
 		stateInfos = { thingtype: 'all' },
 		isMedia = false;
 
@@ -305,6 +307,26 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var tileColor = null;//, oldTileColor = null;
 
+	if (isPatient) {
+		var canvas = null, canvasCtx = null;
+		var chartData = {
+			labels: [],
+			datasets: [
+				{
+					label: "Temperature",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: []
+				}
+			]
+		};
+		var patientChart = null;
+	}
+
 	var setLayout = throttle(() => {
 		if (destroyed) {
 			return;
@@ -317,13 +339,79 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		setTilesColors(tileColor);
 		////}
 
-		var height = Math.max(Math.floor(jwindow.height() - jMap.offset().top), 300);
+		var windowHeight = jwindow.height();
+		var height = Math.max(Math.floor(windowHeight - jMap.offset().top), 300);
 		jMap.height(height - 1 /* border */);
 		if (width >= 768 && !$scope.hideMap) {
 			jView.height(height - 11 /* margin bottom */);
 		} else {
+			jMap.height(Math.min(height - 1, Math.floor(windowHeight/2)) /* border */);
 			jView.height('auto');
 		}
+
+		//if (oldPosition) {
+		//	masterMap.setView(oldPosition, oldZoom, {animate: false});
+		//}
+		if (isPatient) {
+			var rrdServerUrl = settingsService.getRrdServerUrl();
+			if (!canvas) {
+				canvas = <HTMLCanvasElement> document.createElement("canvas");
+				canvasCtx = canvas.getContext('2d'); 
+			}
+			var canvasArea = document.getElementById("canvas-temperature-area");
+			if (canvasArea) {
+				canvasArea.appendChild(canvas);
+				$http.get(rrdServerUrl + "/"+encodeURIComponent(id)+"/temperature", {cache: true}).success((json: any) => {
+
+					//var ctx = canvas.getContext('2d');
+					var labels = [],
+						data = [];
+
+					_.each(json, (value: any) => {
+						if (value.date && value.value) {
+							labels.push(moment(value.date).fromNow());
+							data.push(value.value);
+						}
+					});
+
+					chartData.labels = labels;
+					chartData.datasets[0].data = data;
+
+					if (!patientChart) {
+						patientChart = new Chart(canvasCtx).Line(chartData, {
+							scaleShowGridLines: false,
+							pointDotRadius: 3,
+							scaleFontSize: 10,
+							responsive: false,
+							scaleLineColor: 'rgba(255,255,255,0.5)',
+							scaleFontColor: 'rgba(220,220,220,0.5)',
+							scaleShowLabelBackdrop: false,
+							scaleShowLabels: true,
+							maintainAspectRatio: false
+						});
+						//patientChart.resize();
+						patientChart.resize(() => {
+							patientChart.reflow();
+							patientChart.update();
+						});
+					} else {
+						patientChart.options.animate = false;
+						//patientChart.stop();
+						patientChart.resize(() => {
+							patientChart.reflow();
+							patientChart.update();
+						});
+					}
+
+					if ($scope.hideMap) {
+						masterMap.hide();
+					} else {
+						masterMap.moveTo(jMap);
+					}
+				});
+			}
+		}
+
 
 		if ($scope.hideMap) {
 			masterMap.hide();
@@ -331,9 +419,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			masterMap.moveTo(jMap);
 		}
 
-		//if (oldPosition) {
-		//	masterMap.setView(oldPosition, oldZoom, {animate: false});
-		//}
+
 	}, 50);
 
 	setLayout();
@@ -368,9 +454,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	masterMap.enableScale();
 	masterMap.disableMiniMap();
 	masterMap.filterThing(id);
-
-
-
 
 
 	var disableStateChangeSuccessCallback =
@@ -408,11 +491,26 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	setLayout();
 
 	function setTilesColors(color) {
-		if (!color) return;
+		if (!color || $scope.unfound) return;
 		tileColor = color;
-		$('.patientInfobox, .thingInfobox').css({
+		var match = color.match(/rgb\((\d+),(\d+),(\d+)\)/),
+			r = parseInt(match[1]),
+			g = parseInt(match[2]),
+			b = parseInt(match[3]);
+
+		var sat = isPatient ? 0.32 : 0.66;
+		var gray = r * 0.3086 + g * 0.6094 + b * 0.0820;
+
+		r = Math.round(r * sat + gray * (1 - sat));
+		g = Math.round(g * sat + gray * (1 - sat));
+		b = Math.round(b * sat + gray * (1 - sat));
+		color = "rgb(" + r + "," + g + "," + b + ")";
+		var borderColor = "rgb(" + Math.round(r*0.85) + "," + Math.round(g*0.85) + "," + Math.round(b*0.85) + ")";
+
+		$('.patientInfobox, .thingInfobox, .navbar-fixed-top').css({
 			'backgroundColor': color,
-			'color': colorFromImage.whiteOrBlack(color)
+			'color': colorFromImage.whiteOrBlack(color),
+			'borderColor':  borderColor
 		});
 	}
 

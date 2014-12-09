@@ -16,7 +16,7 @@
 	</nav>
 </header>
 
-<div class="container-fluid">
+<div class="container-fluid patient-container-fluid">
 
 	<div class="row" >
 		<div class="col-sm-5 col-lg-4 properties-list" ng-class="hideMap ? 'col-xs-12 col-sm-12 col-lg-12' : ''" id="thing-view">
@@ -27,11 +27,13 @@
 				</div>
 				<div class="row patient">
 
-					<div ng-class="(''+thing[type.key]).length > 60 ? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
-						<div class="thingInfobox">
+					<div ng-class="(''+thing[type.key]).length > 60 || type.key === 'temperature'? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
+						<div class="patientInfobox thingInfobox" ng-class="(!alarmDisabled &amp;&amp; thing[type.key] &amp;&amp; type.key.indexOf('alarm') !== -1? 'alarm' : '')" ng-click="alarmDisabled=true">
 							<h3 title="{{type.key}}">{{type.name | humanizeCamelCase}}</h3>	
 							<div class="infoboxview">
 								<thing-property value="thing[type.key]" key="{{type.key}}"></thing-property>
+								<div id="canvas-temperature-area" ng-if="type.key === 'temperature'">
+								</div>
 							</div>
 						</div>
 					</div>
