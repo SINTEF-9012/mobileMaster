@@ -61,11 +61,26 @@ angular.module('mobileMasterApp')
 
 	var sortPatients =  () => {
 		globalList.sort((a, b) => {
+			if (a.braceletOn && !b.braceletOn) {
+				return -1;
+			} else if (b.braceletOn && !a.braceletOn) {
+				return 1;
+			}
+
 			var ta = a.triage_status, tb = b.triage_status;
 
 			if (ta === tb) {
-				var ra = +a.reportDate, rb = +b.reportDate;
-				if (ra == rb) return a.ID > b.ID ? 1 : -1;
+				var ra = +a.reportDate, rb = +b.reportDate,
+					nRa = isNaN(ra), nRb = isNaN(rb);
+				if (nRa && nRb || ra == rb) {
+					return a.ID > b.ID ? 1 : -1;
+				}
+				if (nRa && !nRb) {
+					return 1;
+				}
+				if (nRb && !nRa) {
+					return -1;
+				}
 				return ra > rb ? -1 : 1;
 			}
 
