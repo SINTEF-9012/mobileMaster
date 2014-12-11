@@ -71,7 +71,7 @@
 				</div>
 				<div class="col-xs-1 alarm-block">
 					<span class="glyphicon glyphicon-off" ng-show="thing.braceletOn===false"></span>
-					<span class="glyphicon glyphicon-bell" ng-show="thing.alarmAct||thing.alarmTemp"></span>
+					<span class="glyphicon glyphicon-bell" ng-show="(thing.alarmAct||thing.alarmTemp)&amp;&amp;(thing.braceletOn!==false)"></span>
 				</div>	
 			</div>
 		</div>

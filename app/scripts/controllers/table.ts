@@ -90,10 +90,13 @@ angular.module('mobileMasterApp')
 			if (tb === 'red') return 1;
 			if (ta === 'yellow') return -1;
 			if (tb === 'yellow') return 1;
-			if (ta === 'greens') return -1;
-			if (tb === 'greens') return 1;
+			if (ta === 'green') return -1;
+			if (tb === 'green') return 1;
+			if (ta && tb) return ta > tb ? 1 : -1;
+			if (ta && !tb) return -1;
+			if (tb && !ta) return 1;
 
-			return ta > tb ? 1 : -1;
+			return a.ID > b.ID ? 1 : -1;
 		});
 	},
 	dateSort = () => {

@@ -105,7 +105,7 @@ angular.module('mobileMasterApp')
 	function setIcon(element: JQuery, type: string, thing: ThingModel.Thing, attrs) {
 		if (/patient/i.test(type) && !/patients/i.test(type)) {
 			// triage_status
-			var color = (thing && thing.HasProperty('triage_status')) ? thing.String('triage_status') : '#FF4B00';
+			var color = (thing && thing.HasProperty('triage_status') && thing.String('triage_status') !== 'no status entered') ? thing.String('triage_status') : '#FF4B00';
 			element.append(patientTriageIcon(color));
 			element.addClass('patient');
 		} else if (/picture/i.test(type)) {
