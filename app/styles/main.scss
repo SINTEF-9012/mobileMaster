@@ -577,7 +577,7 @@ header + .master-list {
 .master-list {
     padding-bottom: 30px;
 
-    .pager {
+    .pager:not(.pager-previous) {
         margin-bottom:0;
     }
 }
