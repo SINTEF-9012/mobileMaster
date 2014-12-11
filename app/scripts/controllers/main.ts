@@ -231,6 +231,12 @@ angular.module('mobileMasterApp')
 
 		//Boolean - Whether we animate scaling the Doughnut from the centre
 		animateScale: false,
+
+		onAnimationComplete: function () {
+			this.options.animation = false;
+			this.options.animateRotate = false;
+			this.options.animateScale = false;
+		}
 	};
 
 	// And for a doughnut chart
@@ -285,19 +291,21 @@ angular.module('mobileMasterApp')
 			jlink.height(mapHeight).width(jMap.width()).offset(jMap.offset());
 
 			jChatScrollarea.scrollTop = jChatScrollarea.scrollHeight;
-
 			masterMap.moveTo(jMapBody);
+			_.each(patientsChart.segments, (segment:any) => segment.save());
 			patientsChart.resize(() => {
 				patientsChart.reflow();
-				patientsChart.update();
+				patientsChart.render();
 			});
+			_.each(resourcesChart.segments, (segment:any) => segment.save());
 			resourcesChart.resize(() => {
 				resourcesChart.reflow();
-				resourcesChart.update();
+				resourcesChart.render();
 			});
+			_.each(beaconsChart.segments, (segment:any) => segment.save());
 			beaconsChart.resize(() => {
 				beaconsChart.reflow();
-				beaconsChart.update();
+				beaconsChart.render();
 			});
 			//masterMap.invalidateSize({});
 			masterMap.showOverview();
@@ -347,7 +355,7 @@ angular.module('mobileMasterApp')
 
 	var triageColorsLockup = {
 		'unknown': '#666',
-		'no status entered': '#666',
+		'no status entered': '#FFF',
 		'yellow': '#EBC813',
 		'red': '#E51E23' 
 	};
@@ -397,6 +405,11 @@ angular.module('mobileMasterApp')
 	var computeStatsWorker = (first?: boolean) => {
 		workerTimeout = 0;
 		lastCall = +new Date();
+
+		//resourcesChart.stop();
+		//patientsChart.stop();
+		//beaconsChart.stop();
+
 		//nbPatients = 0;
 		var statsPatients = {};
 		var finalStatsPatients = [];
@@ -453,6 +466,8 @@ angular.module('mobileMasterApp')
 			}
 		});
 
+		finalStatsPatients.sort((a, b) => a.label > b.label ? 1 : -1);
+
 		//patientsChart.SetData(statsPatients);
 		//$scope.nbPatients = nbPatients;
 		//myDoughnutChart.segments = $scope.statsPatients;
@@ -465,24 +480,18 @@ angular.module('mobileMasterApp')
 		for (i = 0, l = statsBeacons.length; i < l; ++i) {
 			beaconsChart.addData(statsBeacons[i], undefined, true);
 		}
-		resourcesChart.stop();
 		resourcesChart.reflow();
 		resourcesChart.update();
 
-		patientsChart.stop();
 		patientsChart.reflow();
 		patientsChart.update();
 
-		beaconsChart.stop();
 		beaconsChart.reflow();
 		beaconsChart.update();
 
 		if (!first) {
 			$scope.$apply();
 			setLayout();
-			patientsChart.options.animateRotate = false;
-			resourcesChart.options.animateRotate = false;
-			beaconsChart.options.animateRotate = false;
 		}
 	};
 
