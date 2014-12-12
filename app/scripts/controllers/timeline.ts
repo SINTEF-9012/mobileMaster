@@ -98,11 +98,70 @@ angular.module('mobileMasterApp')
 		$rootScope.situationDate = null;
 	};
 
+	var timelineSlider = $('#timeline-slider');
+		timelineSlider.empty();
+
+	var loadDate = _.throttle((ldate) => {
+		if (ldate === "now") {
+			$rootScope.pastSituation = false;
+			$rootScope.situationDate = null;
+			thingModel.Live();
+		} else {
+			$rootScope.situationDate = ldate;
+			$rootScope.pastSituation = true;
+			thingModel.Load(ldate);
+		}
+	}, 200);
+
 	$scope.$on('$destroy', () => {
 		if ($scope.isLive) {
 			thingModel.Live();
 		} else {
 			thingModel.Load(new Date($scope.date));
+
+			var lastValue = 0, currentSelectedDate = $scope.date, speed = 0;
+			//timelineSlider.click(() => $state.go('timeline'));
+			(<any>timelineSlider).CircularSlider({
+				innerCircleRatio: 0.5,
+				formLabel: (newValue) => {
+					var diff = Math.abs(newValue - lastValue);
+					// Loop
+					if (diff > 250) {
+						diff = 360 - diff;
+					}
+
+					if (diff === 0) {
+						speed *= 0.5;
+					} else if (diff < 3) {
+						speed = (1 + speed) / 2;
+					} else {
+						//speed = (diff + speed * 5) / 3;
+						speed = Math.min(speed + 1, 200);
+					}
+
+					if (newValue - lastValue > 0) {
+						currentSelectedDate += speed*1000;
+					} else {
+						currentSelectedDate -= speed*1000;
+					}
+					lastValue = newValue;
+					var now = +new Date();
+					if (currentSelectedDate >= now) {
+						loadDate("now");
+						currentSelectedDate = now;
+						return "now";
+					}
+
+					var r = new Date(currentSelectedDate);
+					loadDate(r);
+
+					if (window.getSelection) window.getSelection().removeAllRanges();
+					else if (document.selection) document.selection.empty();
+
+					return moment(r).format("[<span>]HH:mm:ss[<br>]DD/MM/YY[</span>]");
+				}
+			});
 		}
 	});
+
 });

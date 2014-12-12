@@ -156,3 +156,47 @@ body.touch.timeline-controller {
 		width:20px;
 	}
 }
+
+#timeline-slider {
+	position:fixed;
+	right:0px;
+	top:40px;
+	padding:40px;
+	z-index:5020;
+	box-sizing: content-box;
+	opacity:0.25;
+	transition: opacity 0.4s ease;
+
+	&:hover {
+		opacity:1;
+	}
+
+	&:empty {
+		display: none;
+	}
+
+	//* {
+	//	box-sizing: content-box;
+	//}
+	.jcs {
+		border-color: rgb(3, 169, 244);
+	}
+	.jcs-panel {
+		background: rgba(0,0,0,0.7);
+	}
+	.jcs-value {
+		border-color: rgb(3, 169, 244);
+		background: rgb(3, 169, 244);
+		font-family: monospace;
+		font-size: 13px !important;
+		line-height: 15px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.jcs-indicator {
+		background-color: white;
+		border-color:white;
+	}
+}
+
