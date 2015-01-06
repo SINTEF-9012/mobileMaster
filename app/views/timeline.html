@@ -20,7 +20,7 @@
 	<div class="row">
 		<h3 class="col-xs-12">
 			<span ng-show="isLive">Live</span>
-			<span ng-show="!isLive"><span am-time-ago="date"></span> - {{date | date:'shortTime'}}</span>
+			<span ng-show="!isLive"><span am-time-ago="date"></span> - {{date | date:'d/M/yy H:mm'}}</span>
 		</h3>
 		<div ng-style="{backgroundImage: gradient}" class="col-xs-12">
 			<input type="range" ng-model="sliderValue" name="" min="0" max="1000" step="1" value="" placeholder="" class="col-xs-12">
