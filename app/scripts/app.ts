@@ -230,6 +230,11 @@ angular.module('mobileMasterApp', [
 		description: 'Summary',
 		callback: () => $state.go('summary')
 	});
+	hotkeys.add({
+		combo: 't',
+		description: 'Timeline',
+		callback: () => $state.go('timeline')
+	});
 
 	// Check if the browser is compatible
 	// We need to wait a bit for the initialization of ui.state
