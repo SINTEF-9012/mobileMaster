@@ -134,9 +134,20 @@
 					}
 
 					var masterIconElement = $compile(e);
-					masterIconElement(this.scope).appendTo(div);
+					var createMasterIconElement = () => {
+						var c = masterIconElement(this.scope);
+						if (!div.firstChild) {
+							c.appendTo(div);
+						}
+					};
+
+					createMasterIconElement();
 
 					this._setIconStyles(div, 'icon');
+
+					if (this.thingID) {
+						iconsOnTheMap[this.thingID] = createMasterIconElement;
+					}
 
 					return div;
 				},
@@ -329,7 +340,11 @@
 				var name = thingModel.GetThingName(thing);
 
 				if (!name) {
-					name = thing.Type ? thing.Type.Name : 'unknown object';
+					if (itsa.patient(thing)) {
+						name = "Patient " + thing.ID;
+					} else {
+						name = thing.Type ? thing.Type.Name : 'unknown object';
+					}
 				}
 
 				content.text(name);
@@ -611,7 +626,7 @@
 			var serviceFilterMethod = filterService.getFilter();
 			var filteredThings: { [id: string]: boolean } = {};
 
-
+			var iconsOnTheMap: { [id: string]: ()=>void } = {};
 
 			var filteringMethod: (thing: ThingModel.Thing) => boolean = (thing: ThingModel.Thing) => {
 				return serviceFilterMethod(thing) || filteredThings.hasOwnProperty(thing.ID);
@@ -804,6 +819,10 @@
 					removeMarker(thing);
 				}
 
+				if (thing.Type != null && (/hospital/i).test(thing.Type.Name)) {
+					return;
+				}
+
 				var location = thing.LocationLatLng();
 
 				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude) ||
@@ -845,6 +864,7 @@
 					return;
 				}
 
+
 				var location = thing.LocationLatLng();
 
 				if (!location || isNaN(location.Latitude) || isNaN(location.Longitude) ||
@@ -854,6 +874,9 @@
 					return;
 				}
 
+				if (iconsOnTheMap.hasOwnProperty(thing.ID)) {
+					iconsOnTheMap[thing.ID]();
+				}
 				marker.Move(location.Latitude, location.Longitude);
 				marker.filtered = filteringMethod(thing);
 
@@ -876,6 +899,7 @@
 				if (marker) {
 					markersToRemove.push(marker);
 					delete thingsOnTheMap[id];
+					delete iconsOnTheMap[id];
 
 					// The removing is delayed so we can group removing actions
 					if (removeMarkersTimeout === 0) {

@@ -354,8 +354,7 @@ angular.module('mobileMasterApp')
 	};
 
 	var triageColorsLockup = {
-		'unknown': '#666',
-		'no status entered': '#FFF',
+		'unknown': '#FFF',
 		'yellow': '#EBC813',
 		'red': '#E51E23' 
 	};
@@ -435,6 +434,9 @@ angular.module('mobileMasterApp')
 					triage_status = 'unknown';
 				} else {
 					triage_status = triage_status.toLowerCase();
+					if (triage_status === "no status entered") {
+						triage_status = "unknown";
+					}
 				}
 
 				if (statsPatients[triage_status]) {

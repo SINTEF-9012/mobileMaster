@@ -52,3 +52,5 @@ declare var RGBaster: any;
 declare var MapPaint: any;
 
 declare var Chart: any;
+
+declare var Dygraph: any;

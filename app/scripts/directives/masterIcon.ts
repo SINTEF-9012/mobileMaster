@@ -105,8 +105,17 @@ angular.module('mobileMasterApp')
 	function setIcon(element: JQuery, type: string, thing: ThingModel.Thing, attrs) {
 		if (/patient/i.test(type) && !/patients/i.test(type)) {
 			// triage_status
-			var color = (thing && thing.HasProperty('triage_status') && thing.String('triage_status') !== 'no status entered') ? thing.String('triage_status') : '#FF4B00';
-			element.append(patientTriageIcon(color));
+			var color = (thing && thing.HasProperty('triage_status') && thing.String('triage_status') !== 'no status entered') ? thing.String('triage_status') : 'white';
+			var triagelight = patientTriageIcon(color);
+			element.append(triagelight);
+			if (thing) {
+				if (thing.HasProperty("braceletOn") && !thing.Boolean("braceletOn")) {
+					element.addClass("patientBraceletOff");
+					triagelight.text("off");
+				} else if (thing.HasProperty("alarmAct") && thing.Boolean("alarmAct")) {
+					element.addClass("patientAlarmAct");
+				}
+			}
 			element.addClass('patient');
 		} else if (/picture/i.test(type)) {
 			element.append(glyphicon('picture'));
@@ -226,13 +235,24 @@ angular.module('mobileMasterApp')
 
 	}
 
+	var hashcode = (s: string, hash: number = 0) => {
+		var i, ch, l;
+		if (s.length == 0) return hash;
+		for (i = 0, l = s.length; i < l; i++) {
+			ch = s.charCodeAt(i);
+			hash = ((hash << 5) - hash) + ch;
+			hash |= 0; // Convert to 32bit integer
+		}
+		return hash;
+	};
 	return {
 		restrict: 'E',
 		link: function postLink(scope, element : JQuery, attrs) {
 
 			var type = 'default',
 				thing: ThingModel.Thing = null,
-				_type = null;
+				_type = null,
+				hash = 0;
 			if (attrs.type) {
 				type = attrs.type;
 			} else if (attrs.thingid) {
@@ -252,9 +272,25 @@ angular.module('mobileMasterApp')
 					if (__type) {
 						type = type + " " + __type;
 					}
+
+					_.each(thing.Properties, (property: ThingModel.Property) => {
+						if (property.Key !== "location") {
+							hash = hashcode(property.Key, hashcode(property.ValueToString(), hash));
+						}
+					});
 				}
 			}
+			if (attrs.selected) {
+				hash = hashcode("selected", hash);
+			}
+			var shash = hashcode(type, hash).toString();
 
+			if (shash === element.data("hash")) {
+				return;
+			}
+
+			element.data("hash", shash);
+			element.empty().removeClass();
 			setIcon(element, type, thing, attrs);
 		}
 	};
