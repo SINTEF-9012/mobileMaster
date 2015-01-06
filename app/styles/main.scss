@@ -783,7 +783,7 @@ img.identicon {
 
         font-size: 1.3em;
 
-        #canvas-temperature-area {
+        #canvas-temperature-area, #canvas-activity-area {
             flex-grow: 1;
             flex-shrink: 0;
             position:relative;
@@ -814,7 +814,7 @@ img.identicon {
 }
 
 .patientInfobox {
-    .thing-property-temperature {
+    .thing-property-temperature, .thing-property-activity {
         position:absolute;
         left: 0;
         right: 0;
@@ -1005,3 +1005,4 @@ div:nth-child(3n+1) > .thingInfobox {
     display:block;
     overflow:hidden;
 }
+

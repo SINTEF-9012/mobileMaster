@@ -24,8 +24,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	Knowledge : KnowledgeService,
 	thingModel: ThingModelService,
 	colorFromImage: ColorFromImageService,
-	$http: ng.IHttpService,
-	notify: angularNotify
+	notify: angularNotify,
+	rrdService: RrdService
 	) => {
 
 	masterMap.disableSituationOverview();
@@ -90,7 +90,47 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		oldTime: number,
 		oldBounds: L.LatLngBounds = null,
 		thingSpeed = 0.0,
-		registeredViewLostDate = 0;
+		lastDragTime = 0;
+
+	var onDrag = () => {
+		lastDragTime = +new Date();
+	};
+	masterMap.on('dragstart', onDrag);
+
+	var graphOptionsTemperature = {
+		labels: ["", "Temperature"],
+		colors: ["white"],
+		highlightCircleSize: 5,
+		animatedZooms: true,
+		//showRangeSelector: true,
+		//showRoller: true,
+		fillGraph: true,
+		customBars: false,
+		fillAlpha: 0.15,
+		gridLineColor: "rgba(220,220,220,0.3)",
+		strokeWidth: 3.0,
+		axisLineColor: "rgba(220,220,220,0.3)",
+		axisLabelColor: "white",
+		//rollPeriod: 2,
+		//plotter: smoothPlotter,
+		labelsDivWidth: 260,
+		labelsDivStyles: {
+			background: "transparent",
+			fontSize: "12px",
+			fontFamily: "monospace",
+			textAlign: "right"
+		},
+		axes: {
+			y: {
+				axisLabelWidth: 18
+			}
+		}
+	};
+	var graphOptionsActivity = _.cloneDeep(graphOptionsTemperature);
+	graphOptionsActivity.labels[1] = "Activity";
+	graphOptionsActivity.customBars = true;
+	graphOptionsActivity.fillGraph = false;
+	graphOptionsActivity.fillAlpha = 0.42;
 
 	var digestScope = throttle(() => {
 		var thing = thingModel.warehouse.GetThing(id);
@@ -132,6 +172,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					zoom = Math.max(masterMap.getZoom(), zoom);
 				}
 
+
 				/*var centerPoint = masterMap.project(pos, zoom),
 					size = masterMap.getSize().divideBy(2),
 					viewBounds = new L.Bounds(centerPoint.subtract(size), centerPoint.add(size)),
@@ -144,27 +185,21 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				var mapBounds = masterMap.getBounds();
 
 				var changeView = false, initSetView = false;
+				// First update after opening the view (when selecting another thing for example)
 				if (oldPosition === null && (!mapBounds.pad(-0.2).contains(pos) || Math.abs(masterMap.getZoom() - zoom) > 2)){
 					changeView = true;
 					initSetView = true;
+				// If only the zoom level should be updated, or the element is to close to the border of the map
 				} else if (mapBounds.contains(pos)) {
 					if (masterMap.getZoom() > zoom || !mapBounds.pad(-0.2).contains(pos)) {
 						changeView = true;
 					}
 				} else {
-					if (registeredViewLostDate) {
-						if (!mapBounds.equals(oldBounds)) {
-							registeredViewLostDate = now;
-							oldBounds = mapBounds;
-						}
-						else if (now - registeredViewLostDate > 4200) {
-							changeView = true;
-							registeredViewLostDate = 0;
-						}
-					} else {
-						registeredViewLostDate = +new Date();
-						oldBounds = mapBounds;
-					}
+					changeView = true;
+				}
+
+				if (now - lastDragTime < 4200) {
+					changeView = false;
 				}
 
 				if (changeView) {
@@ -192,6 +227,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				oldPosition = pos;
 				oldTime = now;
 				oldZoom = zoom;
+				oldBounds = mapBounds;
 			}
 
 			var type = itsa.typefrom(thing);
@@ -308,7 +344,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	var tileColor = null;//, oldTileColor = null;
 
 	if (isPatient) {
-		var canvas = null, canvasCtx = null;
+		/*var canvas = null, canvasCtx = null;
 		var chartData = {
 			labels: [],
 			datasets: [
@@ -324,7 +360,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				}
 			]
 		};
-		var patientChart = null;
+		var patientChart = null;*/
 	}
 
 	var setLayout = throttle(() => {
@@ -353,15 +389,24 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		//	masterMap.setView(oldPosition, oldZoom, {animate: false});
 		//}
 		if (isPatient) {
-			var rrdServerUrl = settingsService.getRrdServerUrl();
-			if (!canvas) {
+			/*if (!canvas) {
 				canvas = <HTMLCanvasElement> document.createElement("canvas");
 				canvasCtx = canvas.getContext('2d'); 
-			}
+			}*/
 			var canvasArea = document.getElementById("canvas-temperature-area");
 			if (canvasArea) {
-				canvasArea.appendChild(canvas);
-				$http.get(rrdServerUrl + "/"+encodeURIComponent(id)+"/temperature", {cache: true}).success((json: any) => {
+				rrdService.load(id, "temperature", (data) => {
+					new Dygraph(canvasArea, data, graphOptionsTemperature);
+				});
+			}
+			var canvasAreaAct = document.getElementById("canvas-activity-area");
+			if (canvasAreaAct) {
+				rrdService.load(id, "activity", (data) => {
+					new Dygraph(canvasAreaAct, data, graphOptionsActivity);
+				},true);
+			}
+			/*canvasArea.appendChild(canvas);
+				rrdService.load(id, "temperature", (json) => {
 
 					//var ctx = canvas.getContext('2d');
 					var labels = [],
@@ -408,8 +453,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					} else {
 						masterMap.moveTo(jMap);
 					}
-				});
-			}
+				});*/
 		}
 
 
@@ -483,6 +527,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			window.clearInterval(deleteTimer);
 			thingModel.RemoveThing(id);
 		}
+
+		masterMap.off('drag', onDrag);
 	});
 
 	jwindow.resize(setLayout);

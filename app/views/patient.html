@@ -27,13 +27,13 @@
 				</div>
 				<div class="row patient">
 
-					<div ng-class="(''+thing[type.key]).length > 60 || type.key === 'temperature'? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
+					<div ng-class="(''+thing[type.key]).length > 60 || type.key === 'temperature' || type.key === 'activity' ? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
 						<div class="patientInfobox thingInfobox" ng-class="(!alarmDisabled &amp;&amp; thing[type.key] &amp;&amp; type.key.indexOf('alarm') !== -1? 'alarm' : '')" ng-click="alarmDisabled=true">
 							<h3 title="{{type.key}}">{{type.name | humanizeCamelCase}}</h3>	
 							<div class="infoboxview">
 								<thing-property value="thing[type.key]" key="{{type.key}}"></thing-property>
-								<div id="canvas-temperature-area" ng-if="type.key === 'temperature'">
-								</div>
+								<div id="canvas-temperature-area" ng-if="type.key === 'temperature'"></div>
+								<div id="canvas-activity-area" ng-if="type.key === 'activity'"></div>
 							</div>
 						</div>
 					</div>

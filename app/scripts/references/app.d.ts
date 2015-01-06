@@ -197,3 +197,7 @@ interface AuthenticationService {
 	getUserName: () => string;
 	setUserName: (username: string) => void;
 }
+
+interface RrdService {
+	load: (id:string,property:string, callback: (data: any[][]) => void,minMax?: boolean) => void;
+}
