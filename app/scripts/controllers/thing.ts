@@ -305,29 +305,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 			$scope.knowledge = thing.Type ? Knowledge.getPropertiesOrder(thing) : [];
 
-			/*var missingProperties: { [key: string]: boolean } = {
-				ID: true,
-				type: true,
-				location: true,
-				_type: true
-			};
-
-
-			_.each($scope.knowledge, (property: any) => missingProperties[<string>(property.key)] = true);
-
-			_.each($scope.thing, (value, key) => {
-				if (!missingProperties[key]) {
-					if (key !== 'name' || $scope.thing.description !== $scope.thing.name ||
-					(key !== 'undefined' && !$scope.thing.undefined)) {
-						$scope.knowledge.push({
-							key: key,
-							required: false,
-							score: 0,
-							name: key.charAt(0).toUpperCase() + key.slice(1)
-						});
-					}
-				}
-			});*/
 
 			// The name information is already in the page title
 			$scope.rawKnowledge = $scope.knowledge;
@@ -403,80 +380,22 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			jView.height('auto');
 		}
 
-		//if (oldPosition) {
-		//	masterMap.setView(oldPosition, oldZoom, {animate: false});
-		//}
 		if (isPatient) {
-			/*if (!canvas) {
-				canvas = <HTMLCanvasElement> document.createElement("canvas");
-				canvasCtx = canvas.getContext('2d'); 
-			}*/
-			//window.setImmediate(() => {
-				if (graphTemperature) {
-					var canvasArea = document.getElementById("canvas-temperature-area");
-					if (canvasArea) {
-						canvasArea.appendChild(divGraphTemperature);
-						graphTemperature.resize();
-					}
+			if (graphTemperature) {
+				var canvasArea = document.getElementById("canvas-temperature-area");
+				if (canvasArea) {
+					canvasArea.appendChild(divGraphTemperature);
+					graphTemperature.resize();
 				}
+			}
 
-				if (graphActivity) {
-					var canvasAreaAct = document.getElementById("canvas-activity-area");
-					if (canvasAreaAct) {
-						canvasAreaAct.appendChild(divGraphActivity);
-						graphActivity.resize();
-					}
+			if (graphActivity) {
+				var canvasAreaAct = document.getElementById("canvas-activity-area");
+				if (canvasAreaAct) {
+					canvasAreaAct.appendChild(divGraphActivity);
+					graphActivity.resize();
 				}
-			//});
-			/*canvasArea.appendChild(canvas);
-				rrdService.load(id, "temperature", (json) => {
-
-					//var ctx = canvas.getContext('2d');
-					var labels = [],
-						data = [];
-
-					_.each(json, (value: any) => {
-						if (value.date && value.value) {
-							labels.push(moment(value.date).fromNow());
-							data.push(value.value);
-						}
-					});
-
-					chartData.labels = labels;
-					chartData.datasets[0].data = data;
-
-					if (!patientChart) {
-						patientChart = new Chart(canvasCtx).Line(chartData, {
-							scaleShowGridLines: false,
-							pointDotRadius: 3,
-							scaleFontSize: 10,
-							responsive: false,
-							scaleLineColor: 'rgba(255,255,255,0.5)',
-							scaleFontColor: 'rgba(220,220,220,0.5)',
-							scaleShowLabelBackdrop: false,
-							scaleShowLabels: true,
-							maintainAspectRatio: false
-						});
-						//patientChart.resize();
-						patientChart.resize(() => {
-							patientChart.reflow();
-							patientChart.update();
-						});
-					} else {
-						patientChart.options.animate = false;
-						//patientChart.stop();
-						patientChart.resize(() => {
-							patientChart.reflow();
-							patientChart.update();
-						});
-					}
-
-					if ($scope.hideMap) {
-						masterMap.hide();
-					} else {
-						masterMap.moveTo(jMap);
-					}
-				});*/
+			}
 		}
 
 
