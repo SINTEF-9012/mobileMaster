@@ -70,9 +70,10 @@ angular.module('mobileMasterApp')
 		}
 
 		var rrdServerUrl = settingsService.getRrdServerUrl();
-		$http.get(rrdServerUrl + "/" + encodeURIComponent(id) + "/"+encodeURIComponent(property)).success((json: any) => {
+		$http.get(rrdServerUrl + "/" + encodeURIComponent(id) + "/" + encodeURIComponent(property)).success((json: any) => {
 			_.each(json, (value: any) => {
-				if (value.date && value.value) {
+				if (typeof value.date !== "undefined" &&
+					typeof value.value !== "undefined") {
 					if (minMax) {
 						var i = value.value;
 						collection.push([new Date(value.date), [Math.max(0, i - Math.round(Math.random() * 2)), i, Math.min(9, i + Math.round(Math.random() * 2))]]);
