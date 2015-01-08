@@ -122,7 +122,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		},
 		axes: {
 			y: {
-				axisLabelWidth: 18
+				axisLabelWidth: 30
 			}
 		}
 	};
@@ -393,18 +393,25 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				canvas = <HTMLCanvasElement> document.createElement("canvas");
 				canvasCtx = canvas.getContext('2d'); 
 			}*/
-			var canvasArea = document.getElementById("canvas-temperature-area");
-			if (canvasArea) {
-				rrdService.load(id, "temperature", (data) => {
-					new Dygraph(canvasArea, data, graphOptionsTemperature);
-				});
-			}
-			var canvasAreaAct = document.getElementById("canvas-activity-area");
-			if (canvasAreaAct) {
-				rrdService.load(id, "activity", (data) => {
-					new Dygraph(canvasAreaAct, data, graphOptionsActivity);
-				},true);
-			}
+			window.setImmediate(() => {
+
+				var canvasArea = document.getElementById("canvas-temperature-area");
+				if (canvasArea) {
+					rrdService.load(id, "temperature", (data) => {
+						if (data.length) {
+							new Dygraph(canvasArea, data, graphOptionsTemperature);
+						}
+					});
+				}
+				var canvasAreaAct = document.getElementById("canvas-activity-area");
+				if (canvasAreaAct) {
+					rrdService.load(id, "activity", (data) => {
+						if (data.length) {
+							new Dygraph(canvasAreaAct, data, graphOptionsActivity);
+						}
+					}, { min: "_activityMin", max: "_activityMax" });
+				}
+			});
 			/*canvasArea.appendChild(canvas);
 				rrdService.load(id, "temperature", (json) => {
 
