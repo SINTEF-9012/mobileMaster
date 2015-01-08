@@ -788,6 +788,10 @@ img.identicon {
             flex-shrink: 0;
             position:relative;
             height:140px;
+            & > div {
+                width:100% !important;
+                height:140px !important;
+            }
         }
     }
 

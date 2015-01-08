@@ -132,6 +132,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	graphOptionsActivity.fillGraph = false;
 	graphOptionsActivity.fillAlpha = 0.42;
 
+	var graphTemperature = null, graphActivity = null;
+	var divGraphTemperature = null, divGraphActivity = null;
+
 	var digestScope = throttle(() => {
 		var thing = thingModel.warehouse.GetThing(id);
 
@@ -330,6 +333,43 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.rawKnowledge = $scope.knowledge;
 			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 /*&& k.key !== 'name'*/);
 
+			if (isPatient) {
+				rrdService.load(id, "temperature", (data) => {
+					if (data.length) {
+						if (graphTemperature === null) {
+							divGraphTemperature = document.createElement("div");
+
+							var canvasArea = document.getElementById("canvas-temperature-area");
+							if (canvasArea) {
+								canvasArea.appendChild(divGraphTemperature);
+							}
+
+							graphTemperature = new Dygraph(divGraphTemperature, data, graphOptionsTemperature);
+						} else {
+							graphTemperature.updateOptions({ 'file': data });
+						}
+					}
+				});
+
+				rrdService.load(id, "activity", (data) => {
+					if (data.length) {
+						if (graphActivity === null) {
+							divGraphActivity = document.createElement("div");
+
+							var canvasArea = document.getElementById("canvas-activity-area");
+							if (canvasArea) {
+								canvasArea.appendChild(divGraphActivity);
+							}
+
+							graphActivity = new Dygraph(divGraphActivity, data, graphOptionsActivity);
+						} else {
+							graphActivity.updateOptions({ 'file': data });
+						}
+					}
+				}, { min: "_activityMin", max: "_activityMax" });
+			}
+
+
 			if (!$scope.$$phase) {
 				$scope.$digest();
 				setLayout();
@@ -341,27 +381,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var destroyed = false;
 
-	var tileColor = null;//, oldTileColor = null;
+	var tileColor = null;
 
-	if (isPatient) {
-		/*var canvas = null, canvasCtx = null;
-		var chartData = {
-			labels: [],
-			datasets: [
-				{
-					label: "Temperature",
-					fillColor: "rgba(220,220,220,0.2)",
-					strokeColor: "rgba(220,220,220,1)",
-					pointColor: "rgba(220,220,220,1)",
-					pointStrokeColor: "#fff",
-					pointHighlightFill: "#fff",
-					pointHighlightStroke: "rgba(220,220,220,1)",
-					data: []
-				}
-			]
-		};
-		var patientChart = null;*/
-	}
 
 	var setLayout = throttle(() => {
 		if (destroyed) {
@@ -370,10 +391,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 		var width = jwindow.width();
 
-		//if (tileColor !== oldTileColor) {
-		//	oldTileColor = tileColor;
 		setTilesColors(tileColor);
-		////}
 
 		var windowHeight = jwindow.height();
 		var height = Math.max(Math.floor(windowHeight - jMap.offset().top), 300);
@@ -393,25 +411,23 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 				canvas = <HTMLCanvasElement> document.createElement("canvas");
 				canvasCtx = canvas.getContext('2d'); 
 			}*/
-			window.setImmediate(() => {
+			//window.setImmediate(() => {
+				if (graphTemperature) {
+					var canvasArea = document.getElementById("canvas-temperature-area");
+					if (canvasArea) {
+						canvasArea.appendChild(divGraphTemperature);
+						graphTemperature.resize();
+					}
+				}
 
-				var canvasArea = document.getElementById("canvas-temperature-area");
-				if (canvasArea) {
-					rrdService.load(id, "temperature", (data) => {
-						if (data.length) {
-							new Dygraph(canvasArea, data, graphOptionsTemperature);
-						}
-					});
+				if (graphActivity) {
+					var canvasAreaAct = document.getElementById("canvas-activity-area");
+					if (canvasAreaAct) {
+						canvasAreaAct.appendChild(divGraphActivity);
+						graphActivity.resize();
+					}
 				}
-				var canvasAreaAct = document.getElementById("canvas-activity-area");
-				if (canvasAreaAct) {
-					rrdService.load(id, "activity", (data) => {
-						if (data.length) {
-							new Dygraph(canvasAreaAct, data, graphOptionsActivity);
-						}
-					}, { min: "_activityMin", max: "_activityMax" });
-				}
-			});
+			//});
 			/*canvasArea.appendChild(canvas);
 				rrdService.load(id, "temperature", (json) => {
 
@@ -536,6 +552,13 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		}
 
 		masterMap.off('drag', onDrag);
+
+		if (graphTemperature !== null) {
+			graphTemperature.destroy();
+		}
+		if (graphActivity != null) {
+			graphActivity.destroy();
+		}
 	});
 
 	jwindow.resize(setLayout);

@@ -199,5 +199,5 @@ interface AuthenticationService {
 }
 
 interface RrdService {
-	load: (id:string,property:string, callback: (data: any[][]) => void,minMax?: boolean) => void;
+	load: (id:string,property:string, callback: (data: any[][]) => void,minMax?: {min: string; max:string}) => void;
 }
