@@ -30,7 +30,9 @@
 				locationId: 4,
 				GPSSatellites: 3,
 				GSMLevel: 2,
-				battery: 1
+				battery: 1,
+				_activityMax: -1,
+				_activityMin: -1
 			}	
 		},
 		{
