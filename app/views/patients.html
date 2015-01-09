@@ -67,7 +67,9 @@
 					<span ng-show="thing.locationName" title="{{thing.locationId}}">{{thing.locationName | humanizeCamelCase}}</span>
 					<span ng-show="thing.transporting">Transporting</span>
 					<span ng-show="thing.transferredToDestination &amp;&amp; thing.transferredToDestination != 'Unknown'">Transfered to {{thing.transferredToDestination}}</span>
+					<br>
 					<small ng-show="thing.age &amp;&amp; thing.age >= 0">{{thing.age}} years old</small>
+					<small class="thing-id-identicon">{{thing.ID}}</small>
 				</div>
 				<div class="col-xs-1 alarm-block">
 					<span class="glyphicon glyphicon-off" ng-show="thing.braceletOn===false"></span>
