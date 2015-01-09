@@ -225,6 +225,7 @@ angular.module('mobileMasterApp')
 			element.text('\u25C6');
 		} else {
 			element.addClass('default-icon');
+			element.addClass(type.replace(/[:\s]/g, " "));// TODO bourrin aussi
 			element.text(type[0]);
 		}
 
