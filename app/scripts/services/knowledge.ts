@@ -85,7 +85,8 @@
 				threatLevel: -1,
 				healthLevel: -1,
 				flammabilityLevel: -1,
-				instabilityLevel: -1
+				instabilityLevel: -1,
+				hospitalName: -2
 			}
 		}
 	];

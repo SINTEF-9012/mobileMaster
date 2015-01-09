@@ -819,9 +819,9 @@
 					removeMarker(thing);
 				}
 
-				if (thing.Type != null && (/hospital/i).test(thing.Type.Name)) {
+				/*if (thing.Type != null && (/hospital/i).test(thing.Type.Name)) {
 					return;
-				}
+				}*/
 
 				var location = thing.LocationLatLng();
 
