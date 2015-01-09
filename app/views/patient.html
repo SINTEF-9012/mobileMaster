@@ -6,7 +6,12 @@
 				<a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
 				<h3 class="col-xs-8 identicon">
-					<identicon id="id"></identicon>&nbsp;<span ng-show="!unfound">Patient {{thing._masterName}}</span>
+					<identicon id="id"></identicon>&nbsp;<span ng-show="!unfound">Patient {{thing._masterName || thing.ID}}</span>
+					<small ng-if="oldReport">
+						&nbsp;
+						<span class="glyphicon glyphicon-time"></span>
+						last report <span am-time-ago="thing.reportDate"></span>
+					</small>
 					<span class="text-danger ng-hide" ng-show="unfound">Patient not found</span>
 				</h3>
 

@@ -311,6 +311,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 /*&& k.key !== 'name'*/);
 
 			if (isPatient) {
+				$scope.oldReport = $scope.thing && $scope.thing.braceletOn && $scope.thing.reportDate && (moment().subtract("minutes", 3).isAfter($scope.thing.reportDate));
+
 				rrdService.load(id, "temperature", (data) => {
 					if (data.length) {
 						if (graphTemperature === null) {
