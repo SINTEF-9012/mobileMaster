@@ -39,20 +39,29 @@ angular.module('mobileMasterApp')
 		(<any>window).location = "/";
 	};
 
-	function updateChannelsList() {
+	var origin;
+	var parseChannelList = (data: any) => {
+		_.each(data, (d: any, key) => {
+			d.url = origin + key;
+		});
+
+		$scope.channels = data;
+	};
+
+	var updateChannelsList = () => {
 		var httpEndpoint = settingsService.getHttpThingModelUrl();
 		var m = $scope.thingModelUrl.match(/^(wss?:\/\/[^\/]+)\/?/i);
 		if (!m) {
 			return;
 		}
-		var origin = m[1];
-		$http.get(httpEndpoint + "/channels").success((data: any) => {
+		origin = m[1];
 
-			_.each(data, (d: any, key) => {
-				d.url = origin + key;
-			});
+		$http.get(httpEndpoint + "/channels").success(parseChannelList).error(() => {
 
-			$scope.channels = data;
+			var addr = window.hasOwnProperty('defaultThingModelUrl') ?
+				window['defaultThingModelUrl'].replace(/^ws/i, "http") :
+				"http://" + window.location.hostname + ":8083";
+			$http.get(addr + "/channels").success(parseChannelList);
 		});
 	}
 
