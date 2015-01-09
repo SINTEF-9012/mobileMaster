@@ -111,6 +111,11 @@ angular.module('mobileMasterApp')
 					return;
 				}
 
+				if (collection.length === 0) {
+					callback(collection);
+					return;
+				}
+
 				collection.sort((a, b) => a[0] - b[0]);
 
 				var newCollection = [], current = collection[0];
@@ -191,7 +196,7 @@ angular.module('mobileMasterApp')
 							}
 							if (nextMin) {
 								item[1][0] = previous[1][0] + (item[0] - previous[0]) *
-								((nextAvg[1][0] - previous[1][0]) / (nextAvg[0] - previous[0]));
+								((nextMin[1][0] - previous[1][0]) / (nextMin[0] - previous[0]));
 							}
 						} else {
 							item[1][0] = item[1][1];
@@ -203,7 +208,7 @@ angular.module('mobileMasterApp')
 							if (!nextMax || nextMax[0] < item[0]) {
 								nextMax = null;
 								for (j = i + 1; j < l; ++j) {
-									if (newCollection[j][2][0] !== undefined) {
+									if (newCollection[j][1][2] !== undefined) {
 										nextMax = newCollection[j];
 										break;
 									}
@@ -214,7 +219,7 @@ angular.module('mobileMasterApp')
 							}
 							if (nextMax) {
 								item[1][2] = previous[1][2] + (item[0] - previous[0]) *
-								((nextAvg[1][2] - previous[1][2]) / (nextAvg[0] - previous[0]));
+								((nextMax[1][2] - previous[1][2]) / (nextMax[0] - previous[0]));
 							}
 						} else {
 							item[1][2] = item[1][1];
@@ -224,6 +229,7 @@ angular.module('mobileMasterApp')
 					previous = item;
 				}
 
+				database[id][property] = newCollection;
 				callback(newCollection);
 			};
 
