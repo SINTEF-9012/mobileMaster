@@ -84,6 +84,11 @@ angular.module('mobileMasterApp', [
 			controller: 'ThingCtrl',
 			templateUrl: 'views/patient.html'
 		})
+		.state('patient.edit', {
+			url: '/edit',
+			controller: 'EditCtrl',
+			templateUrl: 'views/patientedit.html'
+		})
         .state('main', {
             url: '/',
             controller: 'MainCtrl',

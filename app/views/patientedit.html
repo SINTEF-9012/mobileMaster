@@ -1,0 +1,116 @@
+<div class="container-fluid">
+	<form role="form" class="form form-horizontal" ng-submit="save()">
+		<div class="form-group">
+			<label for="inputdescription">Description</label>
+			<textarea class="form-control" id="inputdescription" name="inputdescription" rows="8" ng-model="description"></textarea>
+
+		</div>
+		<button type="submit" class="btn btn-primary btn-lg">Save</button>
+		<br>&nbsp;<br>
+		<span class="help-block"><em>You can use the <a href ng-init="mdSyntax=false" ng-click="mdSyntax = !mdSyntax">Markdown syntax.</a></em></span>
+	</form>
+	<div class="markdown-help" ng-show="mdSyntax">
+	<div class="row">
+		<h2>Markdown</h2>
+		<h4>Paragraphs</h4>
+		<div class="col-sm-6">
+			<pre>Markdown is a plain text formatting syntax.
+
+You can also write HTML code if you prefer.</pre>
+		</div>
+		<div class="col-sm-6">
+			<p>Markdown is a plain text formatting syntax.</p>
+			<p>You can also write HTML code if you prefer.</p>
+		</div>
+	</div>
+
+
+	<div class="row">
+
+		<h4>Lists</h4>
+		<div class="col-sm-6">
+			<pre>* Red
+* Green
+* Blue
+
+1. One
+1. Two
+41. Tree
+</pre>
+		</div>
+		<div class="col-sm-6">
+			<ul>
+				<li>Red</li>
+				<li>Green</li>
+				<li>Blue</li>
+			</ul>
+			<ol>
+				<li>One</li>
+				<li>Two</li>
+				<li>Tree</li>
+			</ol>
+		</div>
+	</div>
+
+	<div class="row">
+
+		<h4>Styling text</h4>
+		<div class="col-sm-6">
+			<pre>*this text will be italic*
+**this text will be bold**
+</pre>
+		</div>
+		<div class="col-sm-6">
+			<em>this text will be italic</em>
+			<br>
+			<strong>this text will be bold</strong>
+		</div>
+	</div>
+
+	<div class="row">
+		<h4>Links</h4>
+		<div class="col-sm-6">
+			<pre>http://perdu.com
+or
+[Perdu](http://perdu.com)</pre>
+		</div>
+		<div class="col-sm-6">
+			<a href="http://perdu.com">http://perdu.com</a><br/>
+			or<br/>
+			<a href="http://perdu.com">Perdu</a>
+		</div>
+	</div>
+
+	<div class="row">
+
+		<h4>Tables</h4>
+		<div class="col-sm-6">
+			<pre>First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+</pre>
+		</div>
+		<div class="col-sm-6">
+		<table class="table table-striped">
+<thead>
+<tr>
+<th>First Header</th>
+<th>Second Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+</tbody>
+</table>	
+		</div>
+</div>	</div>
+</div>
+</div>

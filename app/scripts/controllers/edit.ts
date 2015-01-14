@@ -16,7 +16,9 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	notify: angularNotify
 	) => {
 
-	masterMap.show();
+	if (!$scope.$parent.hideMap) {
+		masterMap.show();
+	}
 
 	if ($rootScope.pastSituation) {
 		notify({message: "Live mode is required for editing elements.", classes: "alert-warning"});
@@ -29,9 +31,35 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 	$scope.$parent.hideToolbarButtons = true;
 
 	var id = $scope.$parent.id;
+	var isPatient = $state.is('patient.edit');
+
+	masterMap.filterThing(id);
 
 	if (!$scope.newValues) {
 		$scope.newValues = {};
+	}
+
+	if (isPatient) {
+		$scope.description = $scope.thing.description;
+
+		$scope.save = () => {
+			var thing = thingModel.warehouse.GetThing(id);
+			var transaction: { [property: string]: { value: any; type: string } } = {
+				description: {
+					value: $scope.description,
+					type: "String"
+				}
+			};
+
+			thingModel.EditThing(id, transaction);
+
+			var message = id + "'s description saved";
+			notify({ message: message, classes: "alert-info" });
+
+			$state.go('^');
+		};
+
+		return;
 	}
 
 	$scope.$parent.$watch('rawKnowledge', () => {
@@ -118,5 +146,4 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 		$state.go("^");
 	};
 
-	masterMap.filterThing(id);
 }); 

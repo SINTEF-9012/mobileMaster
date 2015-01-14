@@ -6,7 +6,7 @@
 				<a class="navbar-brand col-xs-2" ng-href="{{returnLink}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
 
 				<h3 class="col-xs-8 identicon">
-					<identicon id="id"></identicon>&nbsp;<span ng-show="!unfound">Patient {{thing._masterName || thing.ID}}</span>
+					<identicon id="id"></identicon>&nbsp;<span ng-show="!unfound">Patient  {{thing.ID}}</span>
 					<small ng-if="oldReport">
 						&nbsp;
 						<span class="glyphicon glyphicon-time"></span>
@@ -39,6 +39,9 @@
 								<thing-property value="thing[type.key]" key="{{type.key}}"></thing-property>
 								<div id="canvas-temperature-area" ng-if="type.key === 'temperature'"></div>
 								<div id="canvas-activity-area" ng-if="type.key === 'activity'"></div>
+								<div ng-if="type.key === 'description'" class="description-btn btn" ui-sref="patient.edit">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</div>
 							</div>
 						</div>
 					</div>
