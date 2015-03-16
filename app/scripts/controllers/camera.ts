@@ -65,9 +65,9 @@ angular.module('mobileMasterApp')
 //		$scope.identicon = settingsService.getMediaServerUrl() + '/identicon/' + $stateParams.hash;
 
 		// Small list but it should be enough in 2014 (and we support web)
-		var type = $scope.isPicture ? 'master:picture' : ($scope.isVideo ? 'master:video' : 'master:document');
 		$scope.isPicture = filetypeIdentificationService.isPicture($stateParams.extension);
 		$scope.isVideo = filetypeIdentificationService.isVideo($stateParams.extension);
+		var typeFile = $scope.isPicture ? 'master:picture' : ($scope.isVideo ? 'master:video' : 'master:document');
 
 		if ($scope.isPicture) {
 			$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
@@ -83,7 +83,7 @@ angular.module('mobileMasterApp')
 		var position = masterMap.getCenter();
 
 		var icon = angular.element('<master-icon />');
-		icon.attr('type', type);
+		icon.attr('type', typeFile);
 		var compiledIcon = $compile(icon)($scope);
 
 		masterMap.locate({
@@ -97,7 +97,7 @@ angular.module('mobileMasterApp')
 
 		$scope.publish = () => {
 
-			AddService.register(type, masterMap.getCenter(), (thing : ThingModel.ThingPropertyBuilder) => {
+			AddService.register(typeFile, masterMap.getCenter(), (thing : ThingModel.ThingPropertyBuilder) => {
 				thing.String('description', $scope.description != undefined ? $scope.description : "");
 				thing.String('url', $scope.url);
 				// TODO check if it's working
