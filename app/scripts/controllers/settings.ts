@@ -18,6 +18,8 @@ angular.module('mobileMasterApp')
 	$scope.accessKey = settingsService.getAccessKey();
 	$scope.mediaServerUrl = settingsService.getMediaServerUrl();
 	$scope.rrdServerUrl = settingsService.getRrdServerUrl();
+	$scope.almendeTimelineUrl = settingsService.getAlmendeTimelineUrl();
+	$scope.almendeTimelineUsage = settingsService.getAlmendeTimelineUsage();
 
 	$scope.$watch('thingModelUrl', (v) => {
 		settingsService.setThingModelUrl(v);
@@ -37,6 +39,14 @@ angular.module('mobileMasterApp')
 
 	$scope.$watch('rrdServerUrl', (v) => {
 		settingsService.setRrdServerUrl(v);
+	});
+
+	$scope.$watch('almendeTimelineUrl',(v) => {
+		settingsService.setAlmendeTimelineUrl(v);
+	});
+
+	$scope.$watch('almendeTimelineUsage',(v) => {
+		settingsService.setAlmendeTimelineUsage(v);
 	});
 
 	$scope.selectChannel = (channel) => {

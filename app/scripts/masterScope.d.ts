@@ -48,6 +48,8 @@ declare module MasterScope {
 		accessKey: string;
 		mediaServerUrl: string;
 		rrdServerUrl: string;
+		almendeTimelineUrl: string;
+		almendeTimelineUsage: boolean;
 		selectChannel: (channel: any) => void;
 		reload: () => void;
 		channels: any;

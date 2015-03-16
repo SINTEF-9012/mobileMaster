@@ -67,6 +67,15 @@ angular.module('mobileMasterApp')
 				window['defaultRrdServerUrl'] : 
 			"http://" + window.location.hostname + ":5070/");
 
+		var almendeTimelineUrl = ls.almendeTimelineUrl ? ls.almendeTimelineUrl : (
+			window.hasOwnProperty('defaultAlmendeTimelineUrl') ?
+				window['defaultAlmendeTimelineUrl'] :
+				"http://visjs.org/showcase/projects/bridge/demo");
+
+		var almendeTimelineUsage = ls.almendeTimelineUsage ? ls.almendeTimelineUsage === 'true' : (
+			window.hasOwnProperty('defaultAlmendeTimelineUsage') ?
+				window['defaultAlmendeTimelineUsage'] === 'true' : false);
+
 		this.setThingModelUrl = (url:string) => {
 			thingModelUrl = url;
 			ls.thingModelUrl = url;
@@ -98,11 +107,23 @@ angular.module('mobileMasterApp')
 			ls.rrdServerUrl = url;
 		}
 
+		this.setAlmendeTimelineUrl = (url: string) => {
+			almendeTimelineUrl = url;
+			ls.almendeTimelineUrl = url;
+		}
+
+		this.setAlmendeTimelineUsage = (enable: boolean) => {
+			almendeTimelineUsage = enable;
+			ls.almendeTimelineUsage = enable ? 'true' : 'false';
+		}
+
 		this.getThingModelUrl = () => thingModelUrl;
 		this.getClientName = () => clientName;
 		this.getAccessKey = () => accessKey;
 		this.getMediaServerUrl = () => mediaServerUrl;
 		this.getRrdServerUrl = () => rrdServerUrl;
+		this.getAlmendeTimelineUrl = () => almendeTimelineUrl;
+		this.getAlmendeTimelineUsage = () => almendeTimelineUsage;
 
 		this.getHttpThingModelUrl = () => thingModelUrl.replace(/^ws/i, "http");
 

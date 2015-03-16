@@ -131,6 +131,8 @@ interface SettingsService {
 	setAccessKey(key: string);
 	setMediaServerUrl(url: string);
 	setRrdServerUrl(url: string);
+	setAlmendeTimelineUsage(enable: boolean);
+	setAlmendeTimelineUrl(url: string);
 
 	getThingModelUrl(): string;
 	getHttpThingModelUrl(): string;
@@ -138,8 +140,12 @@ interface SettingsService {
 	getAccessKey(): string;
 	getMediaServerUrl(): string;
 	getRrdServerUrl(): string;
+	getAlmendeTimelineUsage(): boolean;
+	getAlmendeTimelineUrl(): string;
 
 	hasAccesskey(): boolean;
+
+
 }
 
 interface ThingIdentifierService {
