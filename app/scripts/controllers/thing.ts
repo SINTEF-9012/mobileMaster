@@ -303,6 +303,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 				window.setImmediate(() => {
 					colorFromImage.applyColor(smallThumbnailUrl, setTilesColors);
+					(<any>$('#camera-thumbnail')).imagesLoaded(() => {
+						setLayout();
+					});
 				});
 			}
 
