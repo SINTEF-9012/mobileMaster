@@ -6,7 +6,7 @@
 'use strict'
 angular.module('mobileMasterApp')
 	.config(($sceDelegateProvider: ng.ISCEDelegateProvider) => {
-		var mediaServerUrl, rrdServerUrl;
+		var mediaServerUrl, rrdServerUrl, almendeTimelineUrl;
 
 		if (window.localStorage && window.localStorage.hasOwnProperty('mediaServerUrl')) {
 			mediaServerUrl = window.localStorage.getItem('mediaServerUrl');
@@ -36,8 +36,16 @@ angular.module('mobileMasterApp')
 			rrdServerUrl += '**';
 		}
 
+		if (window.localStorage && window.localStorage.hasOwnProperty('almendeTimelineUrl')) {
+			almendeTimelineUrl = window.localStorage.getItem('almendeTimelineUrl');
+		} else if (window.hasOwnProperty('defaultAlmendeTimelineUrl')) {
+			almendeTimelineUrl = window['defaultAlmendeTimelineUrl'];
+		} else {
+			almendeTimelineUrl = "http://visjs.org/showcase/projects/bridge/demo";
+		}
+
 		$sceDelegateProvider.resourceUrlWhitelist([
-			'self', /^rstp.*/i, mediaServerUrl,rrdServerUrl
+			'self', /^rstp.*/i, mediaServerUrl,rrdServerUrl,almendeTimelineUrl
 		]);
 	})
 	.service('settingsService', function() {
