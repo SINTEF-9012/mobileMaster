@@ -45,8 +45,10 @@ declare module MasterScope {
 	interface Settings extends ng.IScope {
 		thingModelUrl: string;
 		clientName: string;
+		accessKey: string;
 		mediaServerUrl: string;
 		rrdServerUrl: string;
+		selectChannel: (channel: any) => void;
 		reload: () => void;
 		channels: any;
 	}

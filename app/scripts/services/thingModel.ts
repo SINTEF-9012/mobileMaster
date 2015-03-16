@@ -28,6 +28,13 @@
 
 		var clientID = settingsService.getClientName() + " - " + navigator.userAgent;
 		var endPoint = settingsService.getThingModelUrl();
+		var infosUrl = settingsService.getHttpThingModelUrl()+"/infos";
+
+		if (settingsService.hasAccesskey()) {
+			var key = "?key="+encodeURIComponent(settingsService.getAccessKey());
+			endPoint += key;
+			infosUrl += key;
+		}
 
 		$rootScope.thingmodel = {
 			loading: true,
@@ -44,7 +51,6 @@
 			newest: null
 		};
 
-		var infosUrl = settingsService.getHttpThingModelUrl()+"/infos";
 
 		$http.get(infosUrl).success((data: any) => {
 			$rootScope.timelineInfos.count += data.count;

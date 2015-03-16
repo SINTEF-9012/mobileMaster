@@ -15,6 +15,7 @@ angular.module('mobileMasterApp')
 
 	$scope.thingModelUrl = settingsService.getThingModelUrl();
 	$scope.clientName = settingsService.getClientName();
+	$scope.accessKey = settingsService.getAccessKey();
 	$scope.mediaServerUrl = settingsService.getMediaServerUrl();
 	$scope.rrdServerUrl = settingsService.getRrdServerUrl();
 
@@ -26,6 +27,10 @@ angular.module('mobileMasterApp')
 		settingsService.setClientName(v);
 	});
 
+	$scope.$watch('accessKey',(v) => {
+		settingsService.setAccessKey(v);
+	});
+
 	$scope.$watch('mediaServerUrl', (v) => {
 		settingsService.setMediaServerUrl(v);
 	});
@@ -33,6 +38,16 @@ angular.module('mobileMasterApp')
 	$scope.$watch('rrdServerUrl', (v) => {
 		settingsService.setRrdServerUrl(v);
 	});
+
+	$scope.selectChannel = (channel) => {
+		if (channel.secure && !$scope.accessKey) {
+			var key = window.prompt("The channel \"" + channel.name + "\" requires an access key.");
+			settingsService.setAccessKey(key);
+		}
+		settingsService.setThingModelUrl(channel.url);
+		// ui-router bypass
+		(<any>window).location = "/";
+	};
 
 	$scope.reload = () => {
 		// ui-router bypass

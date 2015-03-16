@@ -128,14 +128,18 @@ interface AddService {
 interface SettingsService {
 	setThingModelUrl(url: string);
 	setClientName(name: string);
+	setAccessKey(key: string);
 	setMediaServerUrl(url: string);
 	setRrdServerUrl(url: string);
 
 	getThingModelUrl(): string;
 	getHttpThingModelUrl(): string;
 	getClientName(): string;
+	getAccessKey(): string;
 	getMediaServerUrl(): string;
 	getRrdServerUrl(): string;
+
+	hasAccesskey(): boolean;
 }
 
 interface ThingIdentifierService {

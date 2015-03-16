@@ -53,6 +53,10 @@ angular.module('mobileMasterApp')
 			window.hasOwnProperty('defaultClientName') ?
 				window['defaultClientName'] : "mobileMaster");
 
+		var accessKey = ls.thingModelAccessKey ? ls.thingModelAccessKey : (
+			window.hasOwnProperty('defaultThingModelAccessKey') ?
+				window['defaultThingModelAccessKey'] : ''); 
+
 		var mediaServerUrl = ls.mediaServerUrl ? ls.mediaServerUrl : (
 			window.hasOwnProperty('defaultMediaServerUrl') ?
 				window['defaultMediaServerUrl'] : 
@@ -73,6 +77,11 @@ angular.module('mobileMasterApp')
 			ls.clientName = name;
 		}
 
+		this.setAccessKey = (key: string) => {
+			accessKey = key;
+			ls.thingModelAccessKey = key;
+		}
+
 		this.setMediaServerUrl = (url: string) => {
 			if (url && (typeof(url.length) !== "undefined") && url[url.length - 1] === '/') {
 				url = url.slice(0, -1);
@@ -91,9 +100,11 @@ angular.module('mobileMasterApp')
 
 		this.getThingModelUrl = () => thingModelUrl;
 		this.getClientName = () => clientName;
+		this.getAccessKey = () => accessKey;
 		this.getMediaServerUrl = () => mediaServerUrl;
 		this.getRrdServerUrl = () => rrdServerUrl;
 
 		this.getHttpThingModelUrl = () => thingModelUrl.replace(/^ws/i, "http");
 
+		this.hasAccesskey = () => !!accessKey;
 });
