@@ -24,6 +24,10 @@ angular.module('mobileMasterApp')
 
 	var timelineUrl = server + "/timeline?precision=60000";
 
+	if (settingsService.hasAccesskey()) {
+		timelineUrl += "&key="+encodeURIComponent(settingsService.getAccessKey());
+	}
+
 	var maxDate = +new Date(),
 		minDate = maxDate - 10000,
 		diffDate = 10000; 

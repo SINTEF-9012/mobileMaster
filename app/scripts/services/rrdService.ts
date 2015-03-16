@@ -93,6 +93,11 @@ angular.module('mobileMasterApp')
 		var rrdServerUrl = settingsService.getRrdServerUrl();
 		var encodedId = encodeURIComponent(id);
 
+		var accessKey = '';
+		if (settingsService.hasAccesskey()) {
+			accessKey += "?key="+encodeURIComponent(settingsService.getAccessKey());
+		}
+
 		// If it's a min/max loading, we need to load 3 datasets and to merge them
 		// this could be done in O(n), but I am tired and I will go with a O(n log n)
 		if (minMax) {
@@ -233,7 +238,9 @@ angular.module('mobileMasterApp')
 				callback(newCollection);
 			};
 
-			$http.get(rrdServerUrl + "/" + encodedId + "/" + encodeURIComponent(minMax.min)).success((json: any[]) => {
+
+			$http.get(rrdServerUrl + "/" + encodedId + "/" +
+				encodeURIComponent(minMax.min) + accessKey).success((json: any[]) => {
 				minLoaded = true;
 				_.each(json, (value: any) => {
 					if (typeof value.date !== "undefined" &&
@@ -247,7 +254,8 @@ angular.module('mobileMasterApp')
 				minMaxCallback();
 			});
 
-			$http.get(rrdServerUrl + "/" + encodedId + "/" + encodeURIComponent(minMax.max)).success((json: any[]) => {
+			$http.get(rrdServerUrl + "/" + encodedId + "/" +
+				encodeURIComponent(minMax.max)+accessKey).success((json: any[]) => {
 				maxLoaded = true;
 				_.each(json, (value: any) => {
 					if (typeof value.date !== "undefined" &&
@@ -261,7 +269,8 @@ angular.module('mobileMasterApp')
 				minMaxCallback();
 			});
 
-			$http.get(rrdServerUrl + "/" + encodedId + "/" + encodeURIComponent(property)).success((json: any[]) => {
+			$http.get(rrdServerUrl + "/" + encodedId + "/" +
+				encodeURIComponent(property) + accessKey).success((json: any[]) => {
 				avgLoaded = true;
 				_.each(json, (value: any) => {
 					if (typeof value.date !== "undefined" &&
@@ -275,7 +284,8 @@ angular.module('mobileMasterApp')
 				minMaxCallback();
 			});
 		} else {
-			$http.get(rrdServerUrl + "/" + encodedId + "/" + encodeURIComponent(property)).success((json: any) => {
+			$http.get(rrdServerUrl + "/" + encodedId + "/" +
+				encodeURIComponent(property) + accessKey).success((json: any) => {
 				_.each(json, (value: any) => {
 					if (typeof value.date !== "undefined" &&
 						typeof value.value !== "undefined") {
