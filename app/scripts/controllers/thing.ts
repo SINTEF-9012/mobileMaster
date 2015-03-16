@@ -2,6 +2,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/moment/moment.d.ts" />
 
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />

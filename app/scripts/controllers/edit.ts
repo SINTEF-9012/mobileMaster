@@ -2,6 +2,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
+/// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../masterScope.d.ts" />
 
 'use strict';

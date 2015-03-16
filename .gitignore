@@ -16,3 +16,8 @@ test/**/*.js.map
 test/**/*.d.ts
 app/scripts/reference.ts
 *.sublime-workspace
++web*.config
++*.csproj
++*.csproj.user
++*.sln
++*.v12.suo

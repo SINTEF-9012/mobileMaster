@@ -2,6 +2,7 @@
 /// <reference path="./../../bower_components/DefinitelyTyped/leaflet/leaflet.d.ts" />
 /// <reference path="./../../bower_components/a99d99f275e5c274a6ba/SuperSimpleCharts.ts" />
 /// <reference path="./../../bower_components/DefinitelyTyped/marked/marked.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/lodash/lodash.d.ts" />
 
 /// <reference path="./../references/generic.d.ts" />
 /// <reference path="./../references/app.d.ts" />

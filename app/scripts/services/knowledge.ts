@@ -7,7 +7,7 @@
 
 (<any>angular.module('mobileMasterApp')).provider('Knowledge', function () {
 
-	var knowledge = [
+	var knowledge : Knowledge []= [
 		{
 			typeName: null, // default
 			tablePropertiesOrder: { name : 10, description: 3, location: -5, _type: -5}

@@ -183,7 +183,7 @@
 						break;
 					default :
 					case 'string':
-						prop = new ThingModel.Property.String(property, value.value);
+						prop = new ThingModel.Property.String(property, value.value == null ? "" : value.value);
 						break;
 				}
 				thing.SetProperty(prop);

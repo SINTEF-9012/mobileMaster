@@ -78,7 +78,7 @@ declare module MasterScope {
 	interface Thing {
 		ID: string;
 		name: string;
-		typeName: string;
+		typeName?: string;
 		visible: boolean;
 		location?: {
 			x: number;
