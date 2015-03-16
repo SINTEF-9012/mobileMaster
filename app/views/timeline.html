@@ -16,7 +16,7 @@
 	</nav>
 </header>
 
-<div class="container-fluid container-timeline" ng-init="date='now'">
+<div class="container-fluid container-timeline" ng-init="date='now'" ng-if="!useAlmendeTimeline">
 	<div class="row">
 		<h3 class="col-xs-12">
 			<span ng-show="isLive">Live</span>
@@ -37,4 +37,9 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+
+<div class="container-fluid container-timeline" ng-if="useAlmendeTimeline">
+	<iframe id="almendeTimelineIframe" ng-src="{{almendeTimelineUrl}}" width="100%" sandbox="allow-scripts"></iframe>
 </div>

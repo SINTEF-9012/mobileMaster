@@ -200,3 +200,13 @@ body.touch.timeline-controller {
 	}
 }
 
+
+#almendeTimelineIframe {
+  border: none;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+}

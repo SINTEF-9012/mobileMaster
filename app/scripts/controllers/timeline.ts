@@ -20,6 +20,14 @@ angular.module('mobileMasterApp')
 
 	$scope.isLive = thingModel.IsLive();
 
+	$scope.useAlmendeTimeline = settingsService.getAlmendeTimelineUsage();
+
+	if ($scope.useAlmendeTimeline) {
+		$scope.almendeTimelineUrl = settingsService.getAlmendeTimelineUrl();
+		return;
+	}
+
+
 	var server = settingsService.getHttpThingModelUrl();
 
 	var timelineUrl = server + "/timeline?precision=60000";
