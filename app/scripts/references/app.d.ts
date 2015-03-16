@@ -211,3 +211,9 @@ interface AuthenticationService {
 interface RrdService {
 	load: (id:string,property:string, callback: (data: any[][]) => void,minMax?: {min: string; max:string}) => void;
 }
+
+interface FileTypeIdentificationService {
+	isMedia: (path:string) => boolean;
+	isPicture: (path:string) => boolean;
+	isVideo: (path:string) => boolean;
+}

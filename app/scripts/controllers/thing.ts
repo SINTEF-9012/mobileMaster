@@ -26,6 +26,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	thingModel: ThingModelService,
 	colorFromImage: ColorFromImageService,
 	notify: angularNotify,
+	filetypeIdentificationService: FileTypeIdentificationService,
 	rrdService: RrdService
 	) => {
 
@@ -248,7 +249,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 			$scope.canDelete = Knowledge.canDelete(thing);
 
 			var url = $scope.thing.url;
-			isMedia = url != null && itsa.media(thing);
+
+			isMedia = url != null && (itsa.media(thing) || filetypeIdentificationService.isMedia(url));
 
 			if (isMedia) {
 

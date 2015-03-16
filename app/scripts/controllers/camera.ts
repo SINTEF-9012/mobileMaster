@@ -45,6 +45,7 @@ angular.module('mobileMasterApp')
 		$compile : ng.ICompileService,
 		persistentMap: PersistentMap,
 		notify: angularNotify,
+		filetypeIdentificationService: FileTypeIdentificationService,
 		$state: ng.ui.IStateService) => {
 
 		if ($rootScope.pastSituation) {
@@ -64,9 +65,9 @@ angular.module('mobileMasterApp')
 //		$scope.identicon = settingsService.getMediaServerUrl() + '/identicon/' + $stateParams.hash;
 
 		// Small list but it should be enough in 2014 (and we support web)
-		$scope.isPicture = /(bmp|png|jpeg|jpg|gif|tiff|webp)/i.test($stateParams.extension);
-		$scope.isVideo = /(3gb|3g2|h261|h263|h264|jpgv|mp4|mpv4|mpg4|mpeg|mpg|mpe|mv1|mv2|ogv|qt|mov|webm|flv|mkv|mk3d|wm|wmv|avi|movie)/i.test($stateParams.extension);
 		var type = $scope.isPicture ? 'master:picture' : ($scope.isVideo ? 'master:video' : 'master:document');
+		$scope.isPicture = filetypeIdentificationService.isPicture($stateParams.extension);
+		$scope.isVideo = filetypeIdentificationService.isVideo($stateParams.extension);
 
 		if ($scope.isPicture) {
 			$scope.thumbnailUrl = multimediaServer + '/resize/640/480/' + url;
