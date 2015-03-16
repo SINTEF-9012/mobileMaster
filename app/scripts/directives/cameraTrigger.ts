@@ -30,7 +30,7 @@ angular.module('mobileMasterApp')
 				cfpLoadingBar.start();
 				$upload.upload({
 					url: settingsService.getMediaServerUrl() + '/upload',
-					file: scope.myFiles[0]
+					file: scope.myFile[0]
 				}).progress((e) => {
 					cfpLoadingBar.set(e.loaded / e.total);
 				}).success((data) => {
