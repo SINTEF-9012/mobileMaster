@@ -3,22 +3,11 @@
 
 <div class="container-fluid etriage-dashboard">
 	<div class="row etriage-header">
-		<h1 class="col-sm-7 etriage-summary-title" id="mastertitle">
+		<h1 class="col-xs-12 etriage-summary-title" id="mastertitle">
 			<a>
 				{{!thingmodel || thingmodel.loading ? 'Loading' : title}}
 			</a>
 		</h1>
-		<div class="col-sm-5 etriage-charts">
-			<div class="etriage-chart-area">
-				<canvas id="patients-chart"></canvas>
-				<h6>Status</h6>
-			</div>
-			<div class="etriage-chart-area" style="margin-left:20px">
-				<canvas id="patients-location-chart"></canvas>
-				<h6>Locations</h6>
-			</div>
-			<h3 class="etriage-nb-patients"><ng-pluralize count="nbPatients" when="{'0': '0 patients', 'one': '1 patient', 'other': '{} patients'}"></ng-pluralize></h3>
-		</div>
 	</div>
 
 	<div class="row">
@@ -31,44 +20,44 @@
 				<table class="table table-bordered table-patient-summary">
 					<thead>
 						<tr>
-							<th width="20%">Status</th>
-							<th width="20%" style="background:#673ab7;">On&nbsp;scene</th>
-							<th width="20%" style="background:#0277bd;">Transport</th>
-							<th width="20%" style="background:#689f38;">Delivered</th>
-							<th width="20%">Total</th>
+							<th width="20%" ui-sref="patients">Status</th>
+							<th width="20%" style="background:#673ab7;" ui-sref="patients({filter: 'locationName:on scene'})">On&nbsp;scene</th>
+							<th width="20%" style="background:#0277bd;" ui-sref="patients({filter: 'locationName:transport'})">Transport</th>
+							<th width="20%" style="background:#689f38;" ui-sref="patients({filter: 'locationName:hospital'})">Delivered</th>
+							<th width="20%" ui-sref="patients">Total</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<th style="background:#e51e23;color:#222;">Acute</th>
+							<th style="background:#e51e23;color:#222;" ui-sref="patients({filter: 'red'})">Acute</a></th>
 							<td>{{tableStats.red.onscene}}</td>
 							<td>{{tableStats.red.transport}}</td>
 							<td>{{tableStats.red.delivered}}</td>
 							<td>{{tableStats.red.total}}</td>
 						</tr>
 						<tr>
-							<th style="background:#ebc813;color:#222;">Urgent</th>
+							<th style="background:#ebc813;color:#222;" ui-sref="patients({filter: 'yellow'})">Urgent</th>
 							<td>{{tableStats.yellow.onscene}}</td>
 							<td>{{tableStats.yellow.transport}}</td>
 							<td>{{tableStats.yellow.delivered}}</td>
 							<td>{{tableStats.yellow.total}}</td>
 						</tr>
 						<tr>
-							<th style="background:green;color:#222;">Normal</th>
+							<th style="background:green;color:#222;" ui-sref="patients({filter: 'green'})">Normal</th>
 							<td>{{tableStats.green.onscene}}</td>
 							<td>{{tableStats.green.transport}}</td>
 							<td>{{tableStats.green.delivered}}</td>
 							<td>{{tableStats.green.total}}</td>
 						</tr>
 						<tr>
-							<th style="background:grey;">Lost</th>
+							<th style="background:grey;" ui-sref="patients({filter: 'black'})">Lost</th>
 							<td>{{tableStats.black.onscene}}</td>
 							<td>{{tableStats.black.transport}}</td>
 							<td>{{tableStats.black.delivered}}</td>
 							<td>{{tableStats.black.total}}</td>
 						</tr>
 						<tr>
-							<th style="background:white;color:#222;">Unknown</th>
+							<th style="background:white;color:#222;" ui-sref="patients">Unknown</th>
 							<td>{{tableStats.white.onscene}}</td>
 							<td>{{tableStats.white.transport}}</td>
 							<td>{{tableStats.white.delivered}}</td>
@@ -77,7 +66,24 @@
 					</tbody>
 				</table>
 			</section>
-			<section ng-controller="TableCtrl" class="etriage-patients-list" id="main-patients-list">
+			<section>
+				<h3 class="etriage-nb-patients" ui-sref="patients"><ng-pluralize count="nbPatients" when="{'0': '0 patients', 'one': '1 patient', 'other': '{} patients'}"></ng-pluralize></h3>
+				<div class="row">
+					<div class="col-xs-6">
+						<h6>Status</h6>
+						<div class="etriage-chart-area">
+							<canvas id="patients-chart"></canvas>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<h6>Locations</h6>
+						<div class="etriage-chart-area">
+							<canvas id="patients-location-chart"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+<!-- 			<section ng-controller="TableCtrl" class="etriage-patients-list" id="main-patients-list">
 				<h2 ui-sref="patients" ng-hide="thing.length==0">Patient list</h2>
 				<a href="/patients" ng-show="nextPage >= 0" class="patients-list-link">Show the complete list of patients</a>
 				<a class="row patient thing" ng-repeat="thing in things" ui-sref="patient({ID: thing.ID, from: thingfrom})" ng-class="(thing.braceletOn === false ? 'patient-bracelet-off' : 'patient-bracelet-on')+(thing.alarmAct ? ' patient-alarm' : '')">
@@ -99,7 +105,7 @@
 
 				</a>
 			</section>
-		</div>
+ -->		</div>
 	</div>
 </div>
 <a ui-sref="map.slidder" id="main-map-link" class="etriage-main-map-link"></a>
