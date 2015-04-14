@@ -2,7 +2,7 @@
 @import "compass";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
 
-.main-controller {
+.main-controller, .maintmp-controller {
     background: $gray-darker;
     color:white;
 
@@ -21,7 +21,7 @@
 	transform:rotate(270deg) translateX(-100%);
 	padding: 0.2em 0.5em;
 	font-size:1.5em;
-	margin-top:13px;
+	margin-top:10px;
 
 	a {
 		color: white;
@@ -62,7 +62,7 @@
 	}
 }
 
-#username, #thingmodelstatus {
+#username, #thingmodelstatus,#main-timeline-link {
 	position:absolute;
 	right: 2em;
 	top:0;
@@ -396,5 +396,187 @@ a.mediablock {
 		padding: 0;
 		margin: 0;
 		font-family: $font-family-monospace;
+	}
+}
+
+.etriage-dashboard {
+
+	#main-map {
+		padding:0;
+	}
+
+	.table-patient-summary {
+		background:$gray-darker;
+		text-align: center;
+		border-color:$gray-dark;
+
+		&.table-bordered > thead > tr > th,
+		&.table-bordered > tbody > tr > th {
+			border-color:transparent;
+		}
+		&.table-bordered > thead > tr > th {
+			text-align: center;
+			border-bottom-color:$gray-dark;
+			border-bottom-width:1px;
+			border-right-color:$gray-dark;
+			border-left-color:$gray-dark;
+		}
+		&.table-bordered > tbody > tr > th {
+			border-right-color:$gray-dark;
+		}
+
+		// &.table-bordered > tbody > tr > th,
+		&.table-bordered > tbody > tr > td {
+			border-color:$gray-dark;
+		}
+	}
+
+	.etriage-summary {
+		padding-bottom:15px;
+		& > section {
+			padding-top:20px;
+
+			& > h2 {
+				margin-top:0;
+			}
+		}
+	}
+
+	.with-ugly-background {
+	    //background: $gray-darker url(/images/background-moche.png) repeat;
+	    //background: url(/images/background-moche.png) repeat,
+	    background:linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(34,34,34,1) 36%);
+	}
+
+	.etriage-charts {
+		display:flex;
+		justify-content:space-around;
+	}
+
+	.etriage-chart-area {
+		height:90px;
+		width:90px;
+		margin:10px;
+		position:relative;
+		h6 {
+			position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: rotate(270deg) translateX(-68px) translateY(-5px);
+  transform-origin: bottom left;
+  text-align: center;
+		}
+	}
+
+	.etriage-nb-patients {
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  text-align: center;
+	  white-space: nowrap;
+	  flex-shrink: 0;
+	  padding-left:5px;
+	  align-self:center;
+	}
+
+	#main-patients-list {
+		overflow: hidden;
+		& > h2 {
+			cursor:pointer;
+		}
+
+		& > a.row {
+			background:$gray-darker;
+		}
+
+		.patients-list-link{
+			display:block;
+			font-size:14px;
+			margin-bottom:8px;
+			margin-top:-6px;
+		}
+	}
+
+	.thing.row {
+		border-bottom-color: #111;
+		padding:5px;
+
+		.triage-light {
+			float:inherit;
+		}
+
+		span {
+			color: #cccccc; 
+		}
+	}
+}
+
+
+#main-map-link.etriage-main-map-link {
+	border:none;
+
+	/*&:hover {
+		background:rgba(3, 169, 244, 0.33);
+	}*/
+}
+
+.etriage-bottomlinks {
+	position:fixed;
+	bottom:0;
+	right: 2em;
+	color: white;
+	z-index:1; 
+	& > a {
+		cursor:pointer;
+		background: $gray;
+		padding:0.4em 1em;
+	}
+
+	#main-timeline-link, #username {
+		position: static;
+		float: left;
+		bottom:auto;
+		right:auto;
+		margin-left: 20px;
+	}
+}
+@media (max-width: $screen-xs-max) {
+
+	.etriage-bottomlinks {
+		position:static;
+		margin-top:20px;
+	}
+
+	#mastertitle.etriage-summary-title {
+		font-size:28px;
+	}
+
+	#mastertitle {
+		text-align: center;
+	}
+
+	.etriage-charts {
+		margin-bottom:20px;
+	}
+	.etriage-summary {
+		padding-left:30px;
+		padding-right:30px;
+	}
+}
+.etriage-summary-title {
+	a {
+		padding-right:0;
+	}
+}
+
+
+@media (max-width: 750px) {
+	.table-patient-summary {
+		font-size:12px;
+	}
+}
+@media (max-width: 320px) {
+	.table-patient-summary {
+		font-size:10px;
 	}
 }

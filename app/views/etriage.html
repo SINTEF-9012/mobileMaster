@@ -1,0 +1,111 @@
+
+<h1 id="masterlogo"><a href="/settings">Master</a></h1>
+
+<div class="container-fluid etriage-dashboard">
+	<div class="row etriage-header">
+		<h1 class="col-sm-7 etriage-summary-title" id="mastertitle">
+			<a>
+				{{!thingmodel || thingmodel.loading ? 'Loading' : title}}
+			</a>
+		</h1>
+		<div class="col-sm-5 etriage-charts">
+			<div class="etriage-chart-area">
+				<canvas id="patients-chart"></canvas>
+				<h6>Status</h6>
+			</div>
+			<div class="etriage-chart-area" style="margin-left:20px">
+				<canvas id="patients-location-chart"></canvas>
+				<h6>Locations</h6>
+			</div>
+			<h3 class="etriage-nb-patients"><ng-pluralize count="nbPatients" when="{'0': '0 patients', 'one': '1 patient', 'other': '{} patients'}"></ng-pluralize></h3>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-6 col-md-7 col-lg-8" id="main-map">
+			<div></div>	
+		</div>
+		<div class="col-sm-6 col-md-5 col-lg-4 etriage-summary">
+			<section id="main-summary">
+				<h2>Patient summary<br/><small>Summary of status and location</small></h2>
+				<table class="table table-bordered table-patient-summary">
+					<thead>
+						<tr>
+							<th width="20%">Status</th>
+							<th width="20%" style="background:#673ab7;">On&nbsp;scene</th>
+							<th width="20%" style="background:#0277bd;">Transport</th>
+							<th width="20%" style="background:#689f38;">Delivered</th>
+							<th width="20%">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th style="background:#e51e23;color:#222;">Acute</th>
+							<td>{{tableStats.red.onscene}}</td>
+							<td>{{tableStats.red.transport}}</td>
+							<td>{{tableStats.red.delivered}}</td>
+							<td>{{tableStats.red.total}}</td>
+						</tr>
+						<tr>
+							<th style="background:#ebc813;color:#222;">Urgent</th>
+							<td>{{tableStats.yellow.onscene}}</td>
+							<td>{{tableStats.yellow.transport}}</td>
+							<td>{{tableStats.yellow.delivered}}</td>
+							<td>{{tableStats.yellow.total}}</td>
+						</tr>
+						<tr>
+							<th style="background:green;color:#222;">Normal</th>
+							<td>{{tableStats.green.onscene}}</td>
+							<td>{{tableStats.green.transport}}</td>
+							<td>{{tableStats.green.delivered}}</td>
+							<td>{{tableStats.green.total}}</td>
+						</tr>
+						<tr>
+							<th style="background:grey;">Lost</th>
+							<td>{{tableStats.black.onscene}}</td>
+							<td>{{tableStats.black.transport}}</td>
+							<td>{{tableStats.black.delivered}}</td>
+							<td>{{tableStats.black.total}}</td>
+						</tr>
+						<tr>
+							<th style="background:white;color:#222;">Unknown</th>
+							<td>{{tableStats.white.onscene}}</td>
+							<td>{{tableStats.white.transport}}</td>
+							<td>{{tableStats.white.delivered}}</td>
+							<td>{{tableStats.white.total}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<section ng-controller="TableCtrl" class="etriage-patients-list" id="main-patients-list">
+				<h2 ui-sref="patients" ng-hide="thing.length==0">Patient list</h2>
+				<a href="/patients" ng-show="nextPage >= 0" class="patients-list-link">Show the complete list of patients</a>
+				<a class="row patient thing" ng-repeat="thing in things" ui-sref="patient({ID: thing.ID, from: thingfrom})" ng-class="(thing.braceletOn === false ? 'patient-bracelet-off' : 'patient-bracelet-on')+(thing.alarmAct ? ' patient-alarm' : '')">
+					<div class="col-sm-5 col-xs-5">
+						<span class="thing-id-identicon">{{thing.ID}}</span>
+						<br>
+						<small class="patient-date" ng-if="thing.reportDate"><span am-time-ago="thing.reportDate"></span> - {{thing.reportDate | date:'H\'h\'mm\' d/M/yyyy'}}</small>
+					</div>
+					<div class="col-sm-4 col-xs-4">
+						<span ng-show="thing.locationName" title="{{thing.locationId}}">{{thing.locationName | humanizeCamelCase}}</span>
+					</div>
+					<div class="col-xs-1 alarm-block">
+						<span class="glyphicon glyphicon-off" ng-show="thing.braceletOn===false"></span>
+						<span class="glyphicon glyphicon-bell" ng-show="(thing.alarmAct||thing.alarmTemp)&amp;&amp;(thing.braceletOn!==false)"></span>
+					</div>	
+					<div class="col-xs-1 triage-light-container">
+						<div class="triage-light" title="{{thing.triage_status}}" ng-style="{background:thing.triage_status}"></div>
+					</div>
+
+				</a>
+			</section>
+		</div>
+	</div>
+</div>
+<a ui-sref="map.slidder" id="main-map-link" class="etriage-main-map-link"></a>
+<div class="etriage-bottomlinks">
+	<a ui-sref="timeline" id="main-timeline-link">
+		Last change: <span am-time-ago="timelineInfos.newest">...loading...</span>
+	</a>
+	<!-- <div id="username" class="etriage-username" ng-click="changeUserName()">{{username}}</div> -->
+</div>

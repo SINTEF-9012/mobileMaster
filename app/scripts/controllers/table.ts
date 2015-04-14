@@ -41,7 +41,7 @@ angular.module('mobileMasterApp')
 	$scope.nextPage = -1;
 
 	var globalList = [];
-	var pageSize = 50,
+	var pageSize = $state.is('main') ? 10 : 50,
 		startPageCount = $stateParams.page ? Math.max($stateParams.page * pageSize || 0,0) : 0,
 		endPageCount = startPageCount + pageSize;
 
@@ -107,7 +107,7 @@ angular.module('mobileMasterApp')
 	};
 
 
-	var sortThings = $state.is('patients') ? sortPatients : ($state.is('messenger') ? dateSort : defaultSort);
+	var sortThings = ($state.is('patients') || $state.is('main') )? sortPatients : ($state.is('messenger') ? dateSort : defaultSort);
 
 	var filterRegex = /^(\w+):(.*)$/;
 	var digestScope = throttle(() => {
