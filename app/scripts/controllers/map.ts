@@ -43,7 +43,11 @@ angular.module('mobileMasterApp')
 
 	window.setImmediate(() => {
 		persistentMap.bindMasterMap(masterMap);
-		masterMap.enableMiniMap();
+		if ($state.is('map')) {
+			masterMap.disableMiniMap();
+		} else {
+			masterMap.enableMiniMap();
+		}
 	});
 
 	hotkeys.bindTo($scope)
