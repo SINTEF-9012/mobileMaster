@@ -545,7 +545,8 @@ angular.module('mobileMasterApp')
 		}
 		setLayout();
 		masterMap.setVerticalTopMargin(0);
-		masterMap.moveTo(jMap.get(0));
+		// TODO check this
+		masterMap.moveTo(jMapBody);
 		setLayout();
 		masterMap.enableSituationOverview();
     });
