@@ -41,7 +41,7 @@ angular.module('mobileMasterApp')
 		} else if (window.hasOwnProperty('defaultAlmendeTimelineUrl')) {
 			almendeTimelineUrl = window['defaultAlmendeTimelineUrl'];
 		} else {
-			almendeTimelineUrl = "http://visjs.org/showcase/projects/bridge/demo";
+			almendeTimelineUrl = "http://" + window.location.hostname + ":5005/";
 		}
 
 		$sceDelegateProvider.resourceUrlWhitelist([

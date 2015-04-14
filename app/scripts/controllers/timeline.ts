@@ -24,7 +24,11 @@ angular.module('mobileMasterApp')
 
 	if ($scope.useAlmendeTimeline) {
 		$scope.almendeTimelineUrl = settingsService.getAlmendeTimelineUrl();
-		return;
+	}
+
+	if (window.location.protocol === "https:" && $scope.almendeTimelineUrl.indexOf("https://") !== 0) {
+		$scope.useAlmendeTimeline = false;
+		delete $scope.almendeTimelineUrl;
 	}
 
 
@@ -37,10 +41,10 @@ angular.module('mobileMasterApp')
 	}
 
 	var maxDate = +new Date(),
-		minDate = maxDate - 10000,
-		diffDate = 10000; 
+		diffDate = 43200000,
+		minDate = maxDate - diffDate;
 
-	$http.get(timelineUrl).success((data: any) => {
+	/*$http.get(timelineUrl).success((data: any) => {
 
 		var max = (<any>_.max(data, (d: any) => d.s)).s;
 		minDate = (<any>_.first(data)).d;
@@ -61,12 +65,15 @@ angular.module('mobileMasterApp')
 		$scope.gradient = gradient;
 		$scope.data = data;
 		$scope.sliderValue = $scope.isLive ? 1000 : Math.max(Math.round(($scope.lorie - minDate)/diffDate * 1000), 0);
-	});
+	});*/
+	$scope.gradient = '';
+	$scope.data = [];
 
 	$scope.lorie = +thingModel.CurrentTime();
 
-	$scope.sliderValue = $scope.isLive ? 1000 : Math.max(Math.round(($scope.lorie - minDate)/diffDate * 1000), 0);
+	$scope.sliderValue = $scope.isLive ? 1000 : Math.max(Math.round(($scope.lorie - minDate) / diffDate * 1000), 0);
 
+	console.log($scope.sliderValue);
 	var date = null;
 	var throttledDate = throttle(() => {
 		var r = (date - minDate) / diffDate * 1000;
@@ -76,20 +83,29 @@ angular.module('mobileMasterApp')
 		$rootScope.situationDate = $scope.date;
 	}, 60);
 
+	if (!$scope.isLive) {
+		$scope.date = $scope.lorie;
+	}
+
 	$scope.$watch('date', (newValue, oldValue) => {
 		if (newValue !== oldValue) {
 			date = newValue;
+			console.log("ragard", newValue)
 			throttledDate();
 		}
 	});
 
-	$scope.$watch('sliderValue', (newValue, oldValue) => {
-		if (newValue !== oldValue) {
+	var firstNeedsChange = !$scope.isLive;
+	$scope.$watch('sliderValue',(newValue, oldValue) => {
+		$scope.sliderValue = parseFloat($scope.sliderValue);
+		if (firstNeedsChange || newValue !== oldValue) {
+			firstNeedsChange = false;
 			var r = newValue / 1000;
 			if (isNaN(r)) {
 				r = maxDate;
 			}
 			var d = Math.round(r * diffDate + minDate);
+			console.log(d);
 			$scope.date = d;
 		}
 	});
@@ -130,7 +146,10 @@ angular.module('mobileMasterApp')
 		if ($scope.isLive) {
 			thingModel.Live();
 		} else {
-			thingModel.Load(new Date($scope.date));
+			var scopeDate = new Date($scope.date);
+			if (!isNaN(scopeDate.getTime())) {
+				thingModel.Load(new Date($scope.date));
+			}
 
 			var lastValue = 0, currentSelectedDate = $scope.date, speed = 0;
 			//timelineSlider.click(() => $state.go('timeline'));
@@ -159,7 +178,7 @@ angular.module('mobileMasterApp')
 					}
 					lastValue = newValue;
 					var now = +new Date();
-					if (currentSelectedDate >= now) {
+					if (currentSelectedDate >= now || isNaN(currentSelectedDate)) {
 						loadDate("now");
 						currentSelectedDate = now;
 						return "now";

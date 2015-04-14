@@ -1,6 +1,10 @@
 @import "_settings";
 @import "compass";
 
+.timeline-controller {
+    background: #222;
+    color:white;
+}
 .row.timeline-data-block-area {
 	line-height:0px;
 	margin:auto;
@@ -204,9 +208,10 @@ body.touch.timeline-controller {
 #almendeTimelineIframe {
   border: none;
   position: fixed;
-  top: 50px;
+  top: 250px;
   left: 0;
   right: 0;
   bottom: 0;
+  min-height:350px;
   height: 100%;
 }

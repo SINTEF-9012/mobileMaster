@@ -16,7 +16,7 @@
 	</nav>
 </header>
 
-<div class="container-fluid container-timeline" ng-init="date='now'" ng-if="!useAlmendeTimeline">
+<div class="container-fluid container-timeline" ng-init="date='now'" >
 	<div class="row">
 		<h3 class="col-xs-12">
 			<span ng-show="isLive">Live</span>
@@ -30,16 +30,16 @@
 		<br/>
 	</div>
 
-	<h3><ng-pluralize count="data.length" when="{'0': 'The situation is empty', 'one': '1 record', 'other': '{} records'}"></ng-pluralize></h3>
-	<div class="row timeline-data-block-area">
+	<h3><ng-pluralize count="data.length" when="{'0': '', 'one': '1 record', 'other': '{} records'}"></ng-pluralize></h3>
+	<div class="row timeline-data-block-area" ng-hide="useAlmendeTimeline">
 		<div>
 			<div class="timeline-data-block" ng-repeat="d in data" ng-style="{backgroundColor: 'hsl(210,'+(30+d.s/5)+'%,'+(d.s + 10 > 80 ? 80 : d.s+10)+'%)'}" ng-mouseover="$parent.date = d.d" ng-click="selectRecord(d)">
 			</div>
 		</div>
 	</div>
+	<div ng-if="useAlmendeTimeline">
+		<iframe id="almendeTimelineIframe" ng-src="{{almendeTimelineUrl}}" width="100%" sandbox="allow-scripts"></iframe>
+	</div>
 </div>
 
 
-<div class="container-fluid container-timeline" ng-if="useAlmendeTimeline">
-	<iframe id="almendeTimelineIframe" ng-src="{{almendeTimelineUrl}}" width="100%" sandbox="allow-scripts"></iframe>
-</div>
