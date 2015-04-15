@@ -6,9 +6,10 @@
     background: $gray-darker;
     color:white;
 
-    .leaflet-container {
+    #map-root.leaflet-container {
 	    //background: $gray-darker;//#0d5302;
-	    background: #8bc34a;
+	    //background: #8bc34a;
+	    background: #73B5E5;
     }
 }
 
@@ -443,6 +444,7 @@ a.mediablock {
 	}
 
 	.etriage-summary {
+		overflow-x:auto;
 		padding-bottom:15px;
 		& > section {
 			padding-top:20px;
@@ -567,6 +569,12 @@ a.mediablock {
 
 	#mastertitle {
 		text-align: center;
+		margin-top:20px;
+		margin-bottom:10px;
+	}
+
+	#masterlogo, #main-timeline-link {
+		height:30px;
 	}
 
 	.etriage-charts {

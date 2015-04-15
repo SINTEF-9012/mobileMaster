@@ -31,8 +31,7 @@ angular.module('mobileMasterApp')
 
 	var jMap = $('#main-map'),
 		jlink = $('#main-map-link'),
-		jSummary = $('#main-summary'),
-		jPatientsList = $('#main-patients-list'),
+		jSummary = $('#main-summary').parent(),
 		jMapBody = jMap.children();
 
 	persistentMap.restorePersistentLayer(masterMap);
@@ -104,8 +103,8 @@ angular.module('mobileMasterApp')
 
 		// If it's not a mobile or a tablet in portrait
 		if (windowWidth >= 768) {
-			mapHeight = height - 104;
-			jPatientsList.height(mapHeight - jSummary.height() - 76);
+			mapHeight = height - 100;
+			jSummary.height(mapHeight-15);
 		}
 
 		jMap.height(mapHeight);
@@ -191,7 +190,6 @@ angular.module('mobileMasterApp')
 		lastCall = +new Date();
 
 
-		var nbPatients = 0;
 		var statsPatients = {};
 		var statsPatientsLocation = {};
 		var finalStatsPatients = [];
@@ -243,8 +241,6 @@ angular.module('mobileMasterApp')
 
 		angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
 			if (itsa.patient(thing)) {
-				nbPatients += 1;
-
 				var triage_status: string;
 				if (!(triage_status = thing.GetString('triage_status'))) {
 					triage_status = 'unknown';
@@ -316,7 +312,8 @@ angular.module('mobileMasterApp')
 		patientsLocationChart.update();
 		patientsLocationChart.update();
 
-		$scope.nbPatients = nbPatients;
+		$scope.nbPatients = tableStats.black.total + tableStats.green.total +
+			tableStats.red.total + tableStats.white.total + tableStats.yellow.total;
 		$scope.tableStats = tableStats;
 
 		if (!first) {
