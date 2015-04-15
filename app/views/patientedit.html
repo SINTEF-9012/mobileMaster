@@ -4,6 +4,13 @@
 			<label for="inputdescription">Description</label>
 			<textarea class="form-control" id="inputdescription" name="inputdescription" rows="8" ng-model="description"></textarea>
 
+			<p class="help-block" ng-show="newDescription">
+
+				The description has been edited by another system. Do you want to replace your version with the newer description?
+				<a class="btn btn-default btn-xs" ng-click="description = thing.description">
+					<span class="glyphicon glyphicon-chevron-up"></span>
+				</a>
+			</p>
 		</div>
 		<button type="submit" class="btn btn-primary btn-lg">Save</button>
 		<br>&nbsp;<br>

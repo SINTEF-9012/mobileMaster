@@ -60,6 +60,10 @@ angular.module('mobileMasterApp').controller('EditCtrl', (
 			$state.go('^');
 		};
 
+		$scope.$watch('thing.description', () => {
+			$scope.newDescription = $scope.description !== $scope.thing.description;
+		});
+
 		return;
 	}
 
