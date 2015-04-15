@@ -550,6 +550,27 @@
 				}
 			}
 
+			var zoomControl: L.IControl = null, zoomControlEnabled = false;
+			instance.enableZoomControl = () => {
+				if (!zoomControl) {
+					zoomControl = L.control.zoom({
+						position: 'bottomleft'
+					});
+				}
+
+				if (!zoomControlEnabled) {
+					instance.addControl(zoomControl);
+					zoomControlEnabled = true;
+				}
+			}
+
+			instance.disableZoomControl = () => {
+				if (zoomControl && zoomControlEnabled) {
+					instance.removeControl(zoomControl);
+					zoomControlEnabled = false;
+				}
+			}
+
 			var situationOverviewEnabled = false;
 			instance.enableSituationOverview = () => {
 				if (!situationOverviewEnabled) {

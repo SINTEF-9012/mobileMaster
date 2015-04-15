@@ -21,6 +21,9 @@ declare module Master {
 		enableScale();
 		disableScale();
 
+		enableZoomControl();
+		disableZoomControl();
+
 		enableSituationOverview();
 		disableSituationOverview();
 

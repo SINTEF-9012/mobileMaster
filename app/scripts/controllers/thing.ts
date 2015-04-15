@@ -34,6 +34,9 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	persistentMap.restorePersistentLayer(masterMap);
 	persistentMap.unbindMasterMap(masterMap);
 
+	if (!L.Browser.touch) {
+		masterMap.enableZoomControl();
+	}
 
 	var multimediaServer = settingsService.getMediaServerUrl();
 
@@ -479,6 +482,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 		}
 
 		masterMap.off('drag', onDrag);
+		masterMap.disableZoomControl();
 
 		if (graphTemperature !== null) {
 			graphTemperature.destroy();

@@ -26,6 +26,9 @@ angular.module('mobileMasterApp')
 
 	masterMap.enableInteractions();
     masterMap.enableScale();
+	if (!L.Browser.touch) {
+		masterMap.enableZoomControl();
+	}
 	masterMap.disableSituationOverview();
 
 	persistentMap.restorePersistentLayer(masterMap);
@@ -97,6 +100,7 @@ angular.module('mobileMasterApp')
 		destroyed = true;
 		jwindow.off('resize', setLayout);
 		masterMap.off('contextmenu', contextmenu);
+		masterMap.disableZoomControl();
 		angular.element($window).off('resize', setMargin);
 	});
 
