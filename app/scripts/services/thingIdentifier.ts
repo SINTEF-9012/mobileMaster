@@ -23,6 +23,7 @@ angular.module('mobileMasterApp')
 		fire = /(fire)/i,
 		message = /(message)/i,
 		imageOverlay = /(imageOverlay)/i,
+		uav = /(uav)/i,
 
 	// Some more high level categories
 		multimedia = /(media|picture|video|tweet|stream)/i;
@@ -68,6 +69,7 @@ angular.module('mobileMasterApp')
 	this.message = (thing: ThingModel.Thing) =>			thing.Type && message.test(thing.Type.Name);
 	this.imageOverlay = (thing: ThingModel.Thing) =>	thing.Type && imageOverlay.test(thing.Type.Name);
 	this.stream = (thing: ThingModel.Thing) =>			thing.Type && stream.test(thing.Type.Name);
+	this.uav = (thing: ThingModel.Thing) =>				thing.Type && uav.test(thing.Type.Name);
 	this.other = (thing: ThingModel.Thing) =>			!thing.Type || !other_invert.test(thing.Type.Name);
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {

@@ -149,6 +149,23 @@ angular.module('mobileMasterApp')
 					"investigate risk": "Investigate risk"
 				}
 			}
+		},
+		uav: {
+			"0": {
+				title: "Fly",
+				items: {
+					"flyto point high": "Fly to (high altitude)",
+					"flyto point low": "Fly to (low altitude)"
+				}
+			},
+			"search": {
+				title: "Search",
+				items: {
+					"search high": "Search from high altitude",
+					"search low": "Search other location",
+					"search scan": "Scan area"
+				}
+			},
 		}
 	};
 
@@ -233,6 +250,8 @@ angular.module('mobileMasterApp')
 				$scope.types = rawTypes.police;
 			} else if (itsa.medic(thing)) {
 				$scope.types = rawTypes.medic;
+			} else if (itsa.uav(thing)) {
+				$scope.types = rawTypes.uav;
 			} else {
 				$scope.types = rawTypes.resources;
 			}
