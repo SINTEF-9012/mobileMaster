@@ -95,7 +95,7 @@
 		knowledge.push(k);
 	};
 
-	this.$get = (itsa: ThingIdentifierService) => {
+	this.$get = (itsa: ThingIdentifierService, authenticationService: AuthenticationService) => {
 
 		_.each(knowledge, (k: Knowledge) => {
 			if (k.typeName) {
@@ -104,6 +104,97 @@
 				k.typeTest = /^/;
 			}
 		});
+
+		var getPropertiesOrder = (thing: ThingModel.Thing) => {
+			var scores = {};
+			var list = [];
+			var propertiesDone = {};
+
+
+			if (thing.Type) {
+				_.each(knowledge,(k: Knowledge) => {
+					if (k.typeTest.test(thing.Type.Name)) {
+						_.each(k.tablePropertiesOrder,(score, key) => {
+							if (scores.hasOwnProperty(key)) {
+								scores[key] += score;
+							} else {
+								scores[key] = score;
+							}
+						});
+					}
+				});
+
+
+				_.each(thing.Type.Properties,(prop: ThingModel.PropertyType) => {
+
+					if (prop.Key !== "undefined") {
+						var score = scores[prop.Key] || 0;
+
+						var scopeProp: any = {
+							key: prop.Key,
+							required: prop.Required,
+							type: ThingModel.Type[prop.Type],
+							score: score + (prop.Required ? 1 : 0)
+						};
+
+						// TODO identify undefined source and fixe it
+						// lets be honest, it will never be fixed :-)
+						if (prop.Name !== "undefined" && prop.Name !== undefined) {
+							scopeProp.name = prop.Name;
+						} else {
+							scopeProp.name = prop.Key.charAt(0).toUpperCase() + prop.Key.slice(1);
+						}
+
+						if (prop.Description !== "undefined" && prop.Description !== undefined) {
+							scopeProp.description = prop.Description;
+						}
+
+						propertiesDone[prop.Key] = true;
+						list.push(scopeProp);
+					}
+				});
+
+			}
+
+			_.each(thing.Properties,(prop: ThingModel.Property) => {
+				var key = prop.Key;
+				if (propertiesDone[key]) {
+					return;
+				}
+
+				var score = scores[prop.Key] || 0;
+
+				var scopeProp = {
+					key: key,
+					required: false,
+					score: score,
+					name: key.charAt(0).toUpperCase() + key.slice(1)
+				};
+
+				list.push(scopeProp);
+			});
+
+
+			list.sort((a, b) => {
+				var scorea = a.score,
+					scoreb = b.score;
+				return scorea === scoreb ? a.key.localeCompare(b.key) : scoreb - scorea;
+			});
+
+
+			return list;
+		};
+
+		// TODO security later
+		if (authenticationService.getUserName() === 'root') {
+			console.log("raaa")
+			return {
+				canOrder: () => true,
+				canEdit: () => true,
+				canDelete: () => true,
+				getPropertiesOrder: getPropertiesOrder
+			};
+		}
 
 		return {
 			canOrder: (thing: ThingModel.Thing) => {
@@ -130,86 +221,7 @@
 					itsa.other(thing) ||
 					itsa.risk(thing);
 			},
-			getPropertiesOrder: (thing: ThingModel.Thing) => {
-				var scores = {};
-				var list = [];
-				var propertiesDone = {};
-
-
-				if (thing.Type) {
-					_.each(knowledge, (k: Knowledge) => {
-						if (k.typeTest.test(thing.Type.Name)) {
-							_.each(k.tablePropertiesOrder, (score, key) => {
-								if (scores.hasOwnProperty(key)) {
-									scores[key] += score;
-								} else {
-									scores[key] = score;
-								}
-							});
-						}
-					});
-
-
-					_.each(thing.Type.Properties, (prop: ThingModel.PropertyType) => {
-
-						if (prop.Key !== "undefined") {
-							var score = scores[prop.Key] || 0;
-
-							var scopeProp: any = {
-								key: prop.Key,
-								required: prop.Required,
-								type: ThingModel.Type[prop.Type],
-								score: score + (prop.Required ? 1 : 0)
-							};
-
-							// TODO identify undefined source and fixe it
-							// lets be honest, it will never be fixed :-)
-							if (prop.Name !== "undefined" && prop.Name !== undefined) {
-								scopeProp.name = prop.Name;
-							} else {
-								scopeProp.name = prop.Key.charAt(0).toUpperCase() + prop.Key.slice(1);
-							}
-
-							if (prop.Description !== "undefined" && prop.Description !== undefined) {
-								scopeProp.description = prop.Description;
-							}
-
-							propertiesDone[prop.Key] = true;
-							list.push(scopeProp);
-						}
-					});
-
-				}
-
-				_.each(thing.Properties, (prop: ThingModel.Property) => {
-					var key = prop.Key;
-					if (propertiesDone[key]) {
-						return;
-					}
-
-					var score = scores[prop.Key] || 0;
-
-					var scopeProp = {
-						key: key,
-						required: false,
-						score: score,
-						name: key.charAt(0).toUpperCase() + key.slice(1)
-					};
-
-					list.push(scopeProp);
-				});
-
-
-
-				list.sort((a, b) => {
-					var scorea = a.score,
-						scoreb = b.score;
-					return scorea === scoreb ? a.key.localeCompare(b.key) : scoreb - scorea;
-				});
-
-
-				return list;
-			}
-		}
+			getPropertiesOrder: getPropertiesOrder
+		};
 	};
 });
