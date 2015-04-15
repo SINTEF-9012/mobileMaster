@@ -34,6 +34,15 @@
 			<div class="col-sm-5 col-lg-4 properties-list" ng-class="hideMap ? 'col-xs-12 col-sm-12 col-lg-12' : ''" id="thing-view">
 
 				<div ui-view>
+					<p ng-if="isPicture" class="media-view">
+						<img ng-src="{{thumbnailUrl}}" alt="" class="img-thumbnail" id="camera-thumbnail" ng-click="$parent.$parent.showPicture()"/>
+					</p>
+					<p ng-if="isVideo" class="media-view">
+						<video id="video{{thing.id}}" controls ng-attr-poster="{{posterUrl}}" loop autoplay fullscreen="videoFullscreen" ngi-click="videoFullscreen = !videoFullscreen">
+							<source ng-src="{{mp4Url}}" type="video/mp4">
+							<source ng-src="{{webmUrl}}" type="video/webm">
+						</video>
+					</p>
 					<div class="row big-advise-icon" ng-if="thing.type == 'AdviseUpdateType'">
 						<watch-master-icon thingid="thing.ID"></master-icon>
 					</div>
@@ -54,4 +63,6 @@
 			<div class="col-xs-12 col-sm-7 col-lg-8" id="thing-map" ng-hide="hideMap"></div>
 		</div>
 	</div>
+</div>
+<div ng-if="fullscreenPicture" id="picture-view" ng-click="$parent.fullscreenPicture = false" fullscreen="$parent.fullscreenPicture" ng-style="{'background-image': 'url('+fullUrl+')'}">
 </div>

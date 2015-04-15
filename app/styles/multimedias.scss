@@ -100,30 +100,11 @@
     left: 0;
     bottom: 0;
     z-index: 3000;
-    text-align: center;
     background: black;
     cursor: zoom-out;
-
-
-    img {
-        max-width: 100%;
-        max-height: 100%;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    div {
-        height:100%;
-        text-align: center;
-        font: 0/0 a;
-    }
-
-    div:before {
-        content: ' ';
-        display: inline-block;
-        vertical-align: middle;
-        height:100%;
-    }
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
 }
 
 #camera-thumbnail {

@@ -149,7 +149,7 @@ angular.module('mobileMasterApp', [
 		.state('media', {
 			url: '/media/:ID?from',
 			controller: 'ThingCtrl',
-			templateUrl: 'views/media.html'
+			templateUrl: 'views/thing.html'
 		})
 		.state('media.edit', {	
 			url: '/edit',
