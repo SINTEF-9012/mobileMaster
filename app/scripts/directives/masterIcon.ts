@@ -214,7 +214,7 @@ angular.module('mobileMasterApp')
 				}
 
 				prop = thing.Int("specialLevel");
-				if (prop !== null) {
+				if (prop !== null && prop !== 0) {
 					$('<span>').text(prop).appendTo(specific);
 				}
 			}
