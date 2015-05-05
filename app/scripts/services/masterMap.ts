@@ -54,12 +54,14 @@
 			filterService: FilterService,
 			$state: ng.ui.IStateService,
 			$stateParams: any,
-			thingModel: ThingModelService) {
+			thingModel: ThingModelService,
+			evacuationPlansService: EvacuationPlansService) {
 
 			// Generals settings
 			L.Renderer.prototype.options.padding = 0.1;
 			//PruneClusterLeafletSpiderfier.prototype._circleFootSeparation = 30;
 			PruneClusterLeafletSpiderfier.prototype.spiderfyDistanceMultiplier = 1.26;
+			var evacuationPlanLineId = "_evacuation_plan_line";
 
 			var instance = <Master.Map> L.map(this.container, this.options);
 
@@ -842,6 +844,26 @@
 						}
 
 					});
+				}
+
+				if (itsa.patient(thing)) {
+					var evacLocation = evacuationPlansService.getHospitalLocationByPatient(thing);
+					if (evacLocation) {
+						var evacConnectionLine;
+						if (selectedConnectedMarkersLines.hasOwnProperty(evacuationPlanLineId)) {
+							evacConnectionLine = <L.Polyline>selectedConnectedMarkersLines[evacuationPlanLineId];
+							(<any>evacConnectionLine)._mustBeRemoved = false;
+							evacConnectionLine.setLatLngs([new L.LatLng(lat, lng), evacLocation]);
+						} else {
+							evacConnectionLine = L.polyline([new L.LatLng(lat, lng), evacLocation], {
+								clickable: false,
+								weight: 8,
+								color: "#FF4B00"
+							}).addTo(instance);
+
+							selectedConnectedMarkersLines[evacuationPlanLineId] = evacConnectionLine;
+						}
+					}
 				}
 
 				_.each(selectedConnectedMarkersLines, (line: any) => {

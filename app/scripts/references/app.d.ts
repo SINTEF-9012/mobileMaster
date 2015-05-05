@@ -222,3 +222,9 @@ interface FileTypeIdentificationService {
 	isPicture: (path:string) => boolean;
 	isVideo: (path:string) => boolean;
 }
+
+interface EvacuationPlansService {
+	hasEvacuationPlanByPatient: (patient: ThingModel.Thing) => boolean;
+	getEvacuationPlanByPatient: (patient: ThingModel.Thing) => ThingModel.Thing;
+	getHospitalLocationByPatient: (patient: ThingModel.Thing) => L.LatLng;
+}
