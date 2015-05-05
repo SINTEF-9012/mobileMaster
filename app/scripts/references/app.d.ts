@@ -176,6 +176,7 @@ interface ThingIdentifierService {
 	stream(thing: ThingModel.Thing): boolean;
 	imageOverlay(thing: ThingModel.Thing): boolean;
 	uav(thing: ThingModel.Thing): boolean;
+	evacuationPlan(thing: ThingModel.Thing): boolean;
 }
 
 interface FilterService {

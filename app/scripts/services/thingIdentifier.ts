@@ -24,6 +24,7 @@ angular.module('mobileMasterApp')
 		message = /(message)/i,
 		imageOverlay = /(imageOverlay)/i,
 		uav = /(uav)/i,
+		evacuationPlan = /(evacuationPlan)/i,
 
 	// Some more high level categories
 		multimedia = /(media|picture|video|tweet|stream)/i;
@@ -41,7 +42,8 @@ angular.module('mobileMasterApp')
 		orders: order,
 		multimedias: multimedia,
 		messages: message,
-		imageoverlays: imageOverlay
+		imageoverlays: imageOverlay,
+		evacuationPlan: evacuationPlan
 	};
 	// Compute the oposite of all these regexp
 
@@ -70,6 +72,7 @@ angular.module('mobileMasterApp')
 	this.imageOverlay = (thing: ThingModel.Thing) =>	thing.Type && imageOverlay.test(thing.Type.Name);
 	this.stream = (thing: ThingModel.Thing) =>			thing.Type && stream.test(thing.Type.Name);
 	this.uav = (thing: ThingModel.Thing) =>				thing.Type && uav.test(thing.Type.Name);
+	this.evacuationPlan = (thing: ThingModel.Thing) =>	thing.Type && evacuationPlan.test(thing.Type.Name);
 	this.other = (thing: ThingModel.Thing) =>			!thing.Type || !other_invert.test(thing.Type.Name);
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {
@@ -91,6 +94,7 @@ angular.module('mobileMasterApp')
 		if (beacon.test(type)) return 'Beacons';
 		if (imageOverlay.test(type)) return 'ImageOverlays';
 		if (stream.test(type)) return 'Streams';
+		if (evacuationPlan.test(type)) return 'EvacuationPlans';
 
 		return 'Others';
 	};
