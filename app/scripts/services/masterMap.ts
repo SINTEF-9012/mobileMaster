@@ -319,6 +319,11 @@
 				icon.scope = $rootScope;
 				icon.thingID = id;
 
+				// This is the case when the selected marker is inside a spiderfier view
+				if (id === selectedMarkerId) {
+					icon.selected = true;
+				}
+
 				marker.setIcon(icon);
 
 				var content = $('<div />');
@@ -695,6 +700,8 @@
 				draggableSelectedThing = false,
 				selectedMapMarkerHasBeenDragged = false;
 
+			var overlappingCancelCallback = null;
+
 			instance.setSelectedThing = (id: string, lat: number, lng: number) => {
 				if (selectedMapMarker && selectedMarkerId !== id) {
 					instance.removeSelectedThing();
@@ -741,6 +748,60 @@
 							selectedMapMarkerHasBeenDragged = true;
 						});
 					}
+
+					// TODO this is an important feature implemented in a quick and dirty way :-)
+					selectedMapMarker.on('click',() => {
+						if (!draggableSelectedThing) {
+
+							// First lets find if we have a cluster below
+							var clusters: PruneCluster.Cluster[] = (<any>cluster)._objectsOnMap;
+
+							var aClusterExistsBelow = _.any(clusters,(c) => {
+								var b = c.bounds;
+								// If the marker is inside the cluster, we have found it
+								return (lat >= b.minLat && lat <= b.maxLat) &&
+									(lng >= b.minLng && lng <= b.maxLng);
+							});
+
+							if (aClusterExistsBelow) {
+								// Lets move the marker back in the cluster and then, we need to click on it
+								var tmpthing = thingsOnTheMap[id];
+								if (tmpthing) {
+									tmpthing.filtered = false;
+									processView();
+								}
+								instance.removeLayer(selectedMapMarker);
+
+								// We need to find the cluster again because the clustering may have changed
+								clusters = (<any>cluster)._objectsOnMap;
+								_.forEach(clusters, (c) => {
+									var b = c.bounds;
+									if ((lat >= b.minLat && lat <= b.maxLat) &&
+									(lng >= b.minLng && lng <= b.maxLng)) {
+										//c.data._leafletMarker.fire('click');
+										var m = c.data._leafletMarker;
+										var markersArea = cluster.Cluster.FindMarkersInArea(b);
+										instance.fire('overlappingmarkers', {
+											cluster: cluster,
+											markers: markersArea,
+											center: m.getLatLng(),
+											marker: m
+										});
+										overlappingCancelCallback = () => {
+											if (tmpthing) {
+												tmpthing.filtered = true;
+												processView();
+											}
+											instance.addLayer(selectedMapMarker);
+											overlappingCancelCallback = null;
+										};
+										instance.once('click', overlappingCancelCallback);
+										instance.once('zoomend', overlappingCancelCallback);
+									}
+								});
+							}
+						}
+					});
 
 					(<any>cluster).spiderfier.Unspiderfy();
 
@@ -811,6 +872,11 @@
 					selectedMapMarker = null;
 
 					draggableSelectedThing = false;
+				}
+				if (overlappingCancelCallback != null) {
+					instance.off('click', overlappingCancelCallback);
+					instance.off('zoomend', overlappingCancelCallback);
+					overlappingCancelCallback = null;
 				}
 			};
 
