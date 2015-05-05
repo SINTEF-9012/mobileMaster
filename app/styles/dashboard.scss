@@ -493,6 +493,11 @@ a.mediablock {
 	  &:hover {
 	  	text-decoration: underline;
 	  }
+	  & > * {
+	  	background: rgb(27, 27, 27);
+		padding: 10px 16px;
+		border-radius: 11px;
+	  }
 	}
 
 	#main-patients-list {
