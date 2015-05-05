@@ -26,7 +26,8 @@ angular.module('mobileMasterApp')
 		$scope.almendeTimelineUrl = settingsService.getAlmendeTimelineUrl();
 	}
 
-	if (window.location.protocol === "https:" && $scope.almendeTimelineUrl.indexOf("https://") !== 0) {
+	if (window.location.protocol === "https:" && $scope.almendeTimelineUrl &&
+		$scope.almendeTimelineUrl.indexOf("https://") !== 0) {
 		$scope.useAlmendeTimeline = false;
 		delete $scope.almendeTimelineUrl;
 	}
