@@ -1049,6 +1049,8 @@
 
 			instance.moveTo = (div: any, keepCenter: boolean = false) => {
 				instance.show();
+				var tmpOverflow = document.body.style.overflow;
+				document.body.style.overflow = 'hidden'; 
 
 				div = $(div);
 
@@ -1104,6 +1106,7 @@
 						instance.panBy(new L.Point(-diffLeft, -diffTop), {animate: false});
 					}
 				}
+				document.body.style.overflow = tmpOverflow;
 			};
 
 			instance.show = () => {
