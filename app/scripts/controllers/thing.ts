@@ -210,6 +210,19 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 					changeView = false;
 				}
 
+				var asynchronousRah = () => {
+					if (oldPosition === pos && oldZoom === zoom && !masterMap.getCenter().equals(pos)) {
+						masterMap.setView(pos, zoom, {animate: false});
+					}
+				};
+
+				// Fix the problem with the vertical layout and mobile devices
+				// It's a bit ugly, but it works and should have a low performances impact
+				if (window.innerWidth < 768) {
+					window.setTimeout(asynchronousRah, 500);
+					window.setTimeout(asynchronousRah, 800);
+				}
+
 				if (changeView) {
 					//if (trueinitSetView/* || !$('html').hasClass('disable-markers-animations')*/) {
 
@@ -217,15 +230,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 					masterMap.setView(pos, zoom, options);
 
-					var asynchronousRah = () => {
-						if (oldPosition === pos && oldZoom === zoom && !masterMap.getCenter().equals(pos)) {
-							masterMap.setView(pos, zoom, {animate: false});
-						}
-					};
 
 					masterMap.on('moveend', asynchronousRah);
 
 					window.setTimeout(() => {
+						//asynchronousRah();
 						masterMap.off('moveend', asynchronousRah);
 					}, 500);
 
@@ -333,6 +342,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 							}
 
 							graphTemperature = new Dygraph(divGraphTemperature, data, graphOptionsTemperature);
+							digestScope();
 						} else {
 							graphTemperature.updateOptions({ 'file': data });
 						}
@@ -350,6 +360,7 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 							}
 
 							graphActivity = new Dygraph(divGraphActivity, data, graphOptionsActivity);
+							digestScope();
 						} else {
 							graphActivity.updateOptions({ 'file': data });
 						}
@@ -419,8 +430,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	}, 50);
 
-	setLayout();
-	// ??? masterMap.moveTo(jMap);
+	//setLayout();
+	//masterMap.moveTo(jMap);
 
 	digestScope();
 
