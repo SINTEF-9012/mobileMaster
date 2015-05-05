@@ -89,8 +89,8 @@ angular.module('mobileMasterApp', [
 			controller: 'EditCtrl',
 			templateUrl: 'views/patientedit.html'
 		})
-        .state('maintmp', {
-            url: '/main',
+        .state('main', {
+            url: '/',
             controller: 'MainCtrl',
             templateUrl: 'views/main.html'
 		})
@@ -176,8 +176,8 @@ angular.module('mobileMasterApp', [
 			controller: 'CheckListCtrl',
 			templateUrl: 'views/checklist.html'
 		})
-		.state('main', {
-			url: '/',
+		.state('etriage', {
+			url: '/etriage',
 			controller: 'EtriageCtrl',
 			templateUrl: 'views/etriage.html'
 		});
