@@ -45,7 +45,7 @@ angular.module('mobileMasterApp')
 		diffDate = 43200000,
 		minDate = maxDate - diffDate;
 
-	/*$http.get(timelineUrl).success((data: any) => {
+	$http.get(timelineUrl).success((data: any) => {
 
 		var max = (<any>_.max(data, (d: any) => d.s)).s;
 		minDate = (<any>_.first(data)).d;
@@ -59,14 +59,14 @@ angular.module('mobileMasterApp')
 			var timePosition = Math.round((d.d - minDate) / diffDate * 10000) / 100;
 			d.timePosition = timePosition;
 			d.s = changesDiff;
-			gradient += ",hsl(210,"+(30+changesDiff/5)+"%,"+Math.min(d.s + 10, 80)+"%) "+timePosition+"%";
+			gradient += ",hsl(210,"+Math.min(100, 50+changesDiff/7)+"%,"+Math.min(d.s + 10, 85)+"%) "+timePosition+"%";
 		});
 
 		gradient += ")";
 		$scope.gradient = gradient;
 		$scope.data = data;
 		$scope.sliderValue = $scope.isLive ? 1000 : Math.max(Math.round(($scope.lorie - minDate)/diffDate * 1000), 0);
-	});*/
+	});
 	$scope.gradient = '';
 	$scope.data = [];
 
