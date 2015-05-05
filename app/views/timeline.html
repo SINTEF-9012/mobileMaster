@@ -33,7 +33,7 @@
 	<h3><ng-pluralize count="data.length" when="{'0': '', 'one': '1 record', 'other': '{} records'}"></ng-pluralize></h3>
 	<div class="row timeline-data-block-area" ng-hide="useAlmendeTimeline">
 		<div>
-			<div class="timeline-data-block" ng-repeat="d in data" ng-style="{backgroundColor: 'hsl(210,'+(30+d.s/5)+'%,'+(d.s + 10 > 80 ? 80 : d.s+10)+'%)'}" ng-mouseover="$parent.date = d.d" ng-click="selectRecord(d)">
+			<div class="timeline-data-block" ng-repeat="d in data" ng-style="{backgroundColor: 'hsl(210,'+(d.s/7 > 50 ? 100: 50+d.s/7)+'%,'+(d.s + 10 > 80 ? 80 : d.s+10)+'%)'}" ng-mouseover="$parent.date = d.d" ng-click="selectRecord(d)">
 			</div>
 		</div>
 	</div>
