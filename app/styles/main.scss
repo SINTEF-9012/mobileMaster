@@ -779,7 +779,15 @@ img.identicon {
             display: block;
             width:100%;
             text-align: center;
+
+            &.table {
+                display:table;
+                th, td {
+                    vertical-align: middle;
+                }
+            }
         }
+
 
         font-size: 1.3em;
 

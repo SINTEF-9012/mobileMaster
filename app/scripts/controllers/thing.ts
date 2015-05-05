@@ -27,7 +27,8 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	colorFromImage: ColorFromImageService,
 	notify: angularNotify,
 	filetypeIdentificationService: FileTypeIdentificationService,
-	rrdService: RrdService
+	rrdService: RrdService,
+	evacuationPlansService: EvacuationPlansService
 	) => {
 
 	masterMap.disableSituationOverview();
@@ -366,6 +367,26 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 						}
 					}
 				}, { min: "_activityMin", max: "_activityMax" });
+
+				if (evacuationPlansService.hasEvacuationPlanByPatient(thing)) {
+					var plan = evacuationPlansService.getEvacuationPlanByPatient(thing);
+					var hospitalID = plan.String("hospitalID");
+					var hospital = thingModel.warehouse.GetThing(hospitalID);
+					var hospitalName: string;
+					if (hospital) {
+						hospitalName = hospital.String("name");
+					}
+					if (!hospitalName) {
+						hospitalName = hospitalID;
+					}
+					$scope.evacuationPlan = {
+						hospitalID: plan.String("hospitalID"),
+						hospitalName: hospitalName,
+						transport: plan.String("typeOfTransport")
+					};
+				} else {
+					delete $scope.evacuationPlan;
+				}
 			}
 
 

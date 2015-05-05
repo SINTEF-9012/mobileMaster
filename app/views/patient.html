@@ -15,7 +15,6 @@
 					<span class="text-danger ng-hide" ng-show="unfound">Patient not found</span>
 				</h3>
 
-
 			</div>
 		</div>
 	</nav>
@@ -31,7 +30,23 @@
 					<watch-master-icon thingid="thing.ID"></master-icon>
 				</div>
 				<div class="row patient">
-
+					<div class="col-xs-12" ng-if="evacuationPlan">
+						<div class="patientInfobox thingInfobox">
+							<h3>Suggested evacuation plan</h3>
+							<div class="infoboxview">
+								<table class="table table-bordered">
+									<tr>
+										<th>Hospital</th>
+										<td><a ui-sref="thing({ID: evacuationPlan.hospitalID, from:from})" class="btn btn-primary btn-sm">{{evacuationPlan.hospitalName}}</a></td>
+									</tr>
+									<tr>
+										<th>Type of transport</th>
+										<td>{{evacuationPlan.transport}}</td>
+									</tr>
+								</table>					
+							</div>
+						</div>
+					</div>
 					<div ng-class="(''+thing[type.key]).length > 60 || type.key === 'temperature' || type.key === 'activity' ? 'col-xs-12' : 'col-xs-6'" ng-class-even="'clearfix'" ng-repeat="type in knowledge">
 						<div class="patientInfobox thingInfobox" ng-class="(!alarmDisabled &amp;&amp; thing[type.key] &amp;&amp; type.key.indexOf('alarm') !== -1? 'alarm' : '')" ng-click="alarmDisabled=true">
 							<h3 title="{{type.key}}">{{type.name | humanizeCamelCase}}</h3>	
