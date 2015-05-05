@@ -9,7 +9,7 @@ angular.module('mobileMasterApp')
 
 	// Raw categories
 	var patient = /(victim|patient)/i,
-		media = /(media|picture|video)/i,
+		media = /(media|picture|video|beacon)/i,
 		stream = /(stream)/i,
 		tweet = /(tweet)/i,
 		resource = /(resource)/i,
@@ -27,7 +27,7 @@ angular.module('mobileMasterApp')
 		evacuationPlan = /(evacuationPlan)/i,
 
 	// Some more high level categories
-		multimedia = /(media|picture|video|tweet|stream)/i;
+		multimedia = /(media|picture|video|tweet|stream|beacon)/i;
 
 	var lockup = {
 		patients: patient,
@@ -84,6 +84,8 @@ angular.module('mobileMasterApp')
 
 		// It must be a bit slow, but I am too lazy to build an efficient state machine
 		if (patient.test(type)) return 'Patients';
+		// Beacons must be tested before multimedias because they are also multimedias element
+		if (beacon.test(type)) return 'Beacons';
 		if (multimedia.test(type)) return 'Multimedias';
 		if (message.test(type)) return 'Messages';
 		if (order.test(type)) return 'Orders';
@@ -91,7 +93,6 @@ angular.module('mobileMasterApp')
 		if (risk.test(type)) return 'Risks';
 		if (resource.test(type)) return 'Resources';
 		if (response.test(type)) return 'Responses';
-		if (beacon.test(type)) return 'Beacons';
 		if (imageOverlay.test(type)) return 'ImageOverlays';
 		if (stream.test(type)) return 'Streams';
 		if (evacuationPlan.test(type)) return 'EvacuationPlans';
