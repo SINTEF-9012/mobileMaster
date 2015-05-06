@@ -322,7 +322,7 @@
 				icon.thingID = id;
 
 				// This is the case when the selected marker is inside a spiderfier view
-				if (id === selectedMarkerId) {
+				if (showSelectedInSpiderfier && id === selectedMarkerId) {
 					icon.selected = true;
 				}
 
@@ -700,7 +700,8 @@
 				selectedConnectedMarkersLines: {[id: string]: L.Path} = {},
 				noAnimTimeout = 0,
 				draggableSelectedThing = false,
-				selectedMapMarkerHasBeenDragged = false;
+				selectedMapMarkerHasBeenDragged = false,
+				showSelectedInSpiderfier = false;
 
 			var overlappingCancelCallback = null;
 
@@ -783,12 +784,14 @@
 										//c.data._leafletMarker.fire('click');
 										var m = c.data._leafletMarker;
 										var markersArea = cluster.Cluster.FindMarkersInArea(b);
+										showSelectedInSpiderfier = true;
 										instance.fire('overlappingmarkers', {
 											cluster: cluster,
 											markers: markersArea,
 											center: m.getLatLng(),
 											marker: m
 										});
+										showSelectedInSpiderfier = false;
 										overlappingCancelCallback = () => {
 											if (tmpthing) {
 												tmpthing.filtered = true;
