@@ -458,17 +458,17 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 	var observer = {
 		New: (thing: ThingModel.Thing) => {
-			if (thing.ID === id) {
+			if (thing.ID === id || (itsa.evacuationPlan(thing) && thing.String("patientID") === id)) {
 				digestScope();
 			} 
 		},
 		Updated: (thing: ThingModel.Thing) => {
-			if (thing.ID === id) {
+			if (thing.ID === id || (itsa.evacuationPlan(thing) && thing.String("patientID") === id)) {
 				digestScope();
 			} 
 		},
 		Deleted: (thing: ThingModel.Thing) => {
-			if (thing.ID === id) {
+			if (thing.ID === id || (itsa.evacuationPlan(thing) && thing.String("patientID") === id)) {
 				$scope.unfound = true;
 				digestScope();
 			} 
