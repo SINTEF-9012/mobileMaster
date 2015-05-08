@@ -338,7 +338,7 @@
 					return;
 				}
 
-				var toState = itsa.patient(thing) ? 'patient' : (itsa.media(thing) ? 'media' : 'thing');
+				var toState = itsa.patient(thing) ? 'patient' : (itsa.media(thing) ? (itsa.beacon(thing) ? 'thing' : 'media') : 'thing');
 
 				content.click(() => {
 					$state.go(toState, { ID: id, from: $stateParams.from ? $stateParams.from : 'map' });
@@ -414,6 +414,26 @@
 				return e;
 
 			};
+
+			var computeArcLine = _.memoize((startLat, startLon, endLat, endLon) => {
+				var startLatLng = new L.LatLng(startLat, startLon),
+					endLatLng = new L.LatLng(endLat, endLon);
+
+				if (startLatLng.distanceTo(endLatLng) < 10000) {
+					return [startLatLng, endLatLng];
+				}
+				var start = { x: startLon, y: startLat };
+				var end = { x: endLon, y: endLat };
+				var generator = new arc.GreatCircle(start, end, {});
+				var line = generator.Arc(100, { offset: 10 });
+				var coords = [];
+				_.each(line.geometries[0].coords, (c) => {
+					coords.push(new L.LatLng(c[1], c[0]));
+				});
+				return coords;
+			},(startLat, startLon, endLat, endLon) => {
+					return "" + startLat + startLon + endLat + endLon;
+				});
 
 			instance.declareTileLayer = function(layer) {
 				layersTable[layer.name] = layer;
@@ -836,10 +856,14 @@
 						if (selectedConnectedMarkersLines.hasOwnProperty(connectedThing.ID)) {
 							connectionLine = <L.Polyline>selectedConnectedMarkersLines[connectedThing.ID];
 							(<any>connectionLine)._mustBeRemoved = false;
-							connectionLine.setLatLngs([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)]);
+
+							//connectionLine.setLatLngs([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)]);
+							connectionLine.setLatLngs(computeArcLine(lat, lng, location.Latitude, location.Longitude));
 
 						} else {
-							connectionLine = L.polyline([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)], {
+							//connectionLine.setLatLngs([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)]);
+							connectionLine = L.polyline(computeArcLine(lat, lng, location.Latitude, location.Longitude), {
+							//connectionLine = L.polyline([new L.LatLng(lat, lng), new L.LatLng(location.Latitude, location.Longitude)], {
 								clickable: false
 							}).addTo(instance);
 
@@ -856,9 +880,11 @@
 						if (selectedConnectedMarkersLines.hasOwnProperty(evacuationPlanLineId)) {
 							evacConnectionLine = <L.Polyline>selectedConnectedMarkersLines[evacuationPlanLineId];
 							(<any>evacConnectionLine)._mustBeRemoved = false;
-							evacConnectionLine.setLatLngs([new L.LatLng(lat, lng), evacLocation]);
+							//evacConnectionLine.setLatLngs([new L.LatLng(lat, lng), evacLocation]);
+							evacConnectionLine.setLatLngs(computeArcLine(lat, lng, evacLocation.lat, evacLocation.lng));
 						} else {
-							evacConnectionLine = L.polyline([new L.LatLng(lat, lng), evacLocation], {
+							//evacConnectionLine = L.polyline([new L.LatLng(lat, lng), evacLocation], {
+							evacConnectionLine = L.polyline(computeArcLine(lat, lng, evacLocation.lat, evacLocation.lng), {
 								clickable: false,
 								weight: 8,
 								color: "#FF4B00"

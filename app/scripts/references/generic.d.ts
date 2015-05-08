@@ -54,3 +54,5 @@ declare var MapPaint: any;
 declare var Chart: any;
 
 declare var Dygraph: any;
+
+declare var arc: any;
