@@ -42,6 +42,14 @@ angular.module('mobileMasterApp')
 				element.removeClass().addClass("thing-property-" + key + " thing-property-" + type.replace(/\s+/g, '-').toLowerCase());
 
 				if (type === 'DateTime') {
+
+					try {
+						var now = new Date();
+						var diff = <any>now - value;
+						if (diff < 0 && diff > -5000) {
+							value = now;
+						}
+					} catch (e) { }
 					scope.result = value ? value.toLocaleString(window.navigator.userLanguage || window.navigator.language) : '';
 
 					var roger = $('<p class="date" am-time-ago="value"></p>');

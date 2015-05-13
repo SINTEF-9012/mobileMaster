@@ -61,7 +61,7 @@
 					<span ng-show="thing.activity >= 0">A<span class="hidden-xs">ctivity</span>: <strong>{{thing.activity}}</strong></span> <span ng-show="thing.activity >= 0 &amp;&amp; (thing.temperature >= 0 || thing.temperature < 0)">|</span>
 					<span ng-show="thing.temperature >= 0 || thing.temperature < 0">T<span class="hidden-xs">emperature</span>: <strong>{{thing.temperature}}</strong></span>
 					<br>
-					<small class="patient-date" ng-if="thing.reportDate"><span am-time-ago="thing.reportDate"></span> - {{thing.reportDate | date:'H\'h\'mm\' d/M/yyyy'}}</small>
+					<small class="patient-date" ng-if="thing.reportDate"><span am-time-ago="thing.reportDate | noFuture"></span> - {{thing.reportDate | date:'H\'h\'mm\' d/M/yyyy'}}</small>
 				</div>
 				<div class="col-sm-5 hidden-xs">
 					<span ng-show="thing.locationName" title="{{thing.locationId}}">{{thing.locationName | humanizeCamelCase}}</span>
