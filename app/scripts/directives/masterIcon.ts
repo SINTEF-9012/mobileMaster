@@ -39,7 +39,8 @@ angular.module('mobileMasterApp')
 				"civil defence": "J",
 				"people aid": "K",
 				"red cross": "K",
-				"uav": "T"
+				"hexacopter": "T",
+				"uav": "U"
 			}
 		},
 		"risk": {
@@ -87,7 +88,7 @@ angular.module('mobileMasterApp')
 		}
 	}
 
-	var light = $('<div class="triage-light"></div>');
+	var light = $('<div class="triage-light fonticon">V</div>');
 	function patientTriageIcon(color: string) : JQuery {
 		return light.clone().css('background', color.toLowerCase());
 	}
