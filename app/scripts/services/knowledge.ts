@@ -16,9 +16,10 @@
 			typeName: "patients",
 			tablePropertiesOrder: {
 				triage_status: 30,
-				alarmAct: 14,
-				temperature: 13,
-				activity: 12, 
+				alarmAct: 15,
+				temperature: 14,
+				activity: 13,
+				description: 12, 
 				alarmTemp: 11,
 				transporting: 10,
 				braceletOn: 9,
