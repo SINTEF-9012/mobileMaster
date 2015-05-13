@@ -327,7 +327,13 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 			// The name information is already in the page title
 			$scope.rawKnowledge = $scope.knowledge;
-			$scope.knowledge = _.filter($scope.knowledge, (k: any) => k.score >= 0 /*&& k.key !== 'name'*/);
+			$scope.knowledge = _.filter($scope.knowledge,(k: any) => {
+				if (k.score > 0) return true;
+				if (k.score === 0) {
+					return thing.HasProperty(k.key);
+				}
+				return false;
+			} /*&& k.key !== 'name'*/);
 
 			if (isPatient) {
 				$scope.oldReport = $scope.thing && $scope.thing.braceletOn && $scope.thing.reportDate && (moment().subtract("minutes", 3).isAfter($scope.thing.reportDate));
