@@ -35,9 +35,6 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 	persistentMap.restorePersistentLayer(masterMap);
 	persistentMap.unbindMasterMap(masterMap);
 
-	if (!L.Browser.touch) {
-		masterMap.enableZoomControl();
-	}
 
 	var multimediaServer = settingsService.getMediaServerUrl();
 
@@ -485,8 +482,11 @@ angular.module('mobileMasterApp').controller('ThingCtrl', (
 
 
 	masterMap.closePopup();
-	masterMap.enableInteractions();
 	masterMap.enableScale();
+	masterMap.enableInteractions();
+	if (!L.Browser.touch) {
+		masterMap.enableZoomControl();
+	}
 	masterMap.disableMiniMap();
 	masterMap.filterThing(id);
 
