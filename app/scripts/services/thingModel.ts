@@ -138,6 +138,10 @@
 				return thing.String("message");
 			}
 
+			if (thing.String("_type") === "response text") {
+				return thing.String("description");
+			}
+
 			var name: string;
 			if (!(name = thing.String('name'))) {
 				if (!(name = thing.String('title'))) {
