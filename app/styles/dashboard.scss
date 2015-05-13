@@ -122,7 +122,7 @@
 
     cursor:pointer;
     //background: #3f51b5 url(/images/background-moche.png) repeat;
-    background: #3145B1 url(/images/background-moche.png) repeat;
+    background: $dashboard-bg url(/images/background-moche.png) repeat;
 
     &:hover {
         border-color:#ecb813;

@@ -32,12 +32,18 @@ $btn-primary-bg: $indigo-color;
 // $navbar-default-bg: $indigo-color;
 
 
-$mediablock-bg: $purple-dark; 
+//$mediablock-bg: $purple-dark; 
+$dashboard-bg: #3E485C;
+$mediablock-bg: #473C5A;
 $connection-bg: $pink-color;//darken(#e51e23, 3%);
 
-$messenger-bg: rgb(225, 149, 63);
+//$messenger-bg: rgb(225, 149, 63);
+//$messenger-bg: #B2987B;
+$messenger-bg: $dashboard-bg;
 
-$timeline-bg: $pantone_5405;
+//$timeline-bg: $pantone_5405;
+$timeline-bg: $dashboard-bg;
+$mediablock-bg: $dashboard-bg;
 
 // TODOOO
 //$screen-md: 965;
