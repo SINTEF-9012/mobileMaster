@@ -669,6 +669,7 @@
 
 			var thingsOnTheMap: { [id: string]: PruneCluster.Marker } = {};
 			var overlaysOnTheMap: { [id: string]: L.ImageOverlay } = {};
+			var geometricObjetsOnTheMap: { [id: string]: L.Polygon } = {};
 			var filteredOverlaysLookupTable: { [id: string]: boolean } = {};
 
 			var serviceFilterMethod = filterService.getFilter();
@@ -1078,6 +1079,66 @@
 			removeImageOverlay = (thing: ThingModel.Thing) => {
 				if (overlaysOnTheMap.hasOwnProperty(thing.ID)) {
 					instance.removeLayer(overlaysOnTheMap[thing.ID]);
+					delete overlaysOnTheMap[thing.ID];
+				}
+			};
+
+			var addOrUpdateGeometry = (thing: ThingModel.Thing) => {
+				var polygonText = thing.String("polygon");
+				if (!polygonText || !polygonText.length) {
+					removeGeometry(thing);
+					return;
+				}
+				var polygonAlreadyOnTheMap = geometricObjetsOnTheMap.hasOwnProperty(thing.ID);
+				var polygon = polygonAlreadyOnTheMap ? geometricObjetsOnTheMap[thing.ID] : new L.Polygon([], {
+					fill: false,
+					weight: 6
+				});
+				var leafletPath: L.LatLng[] = [];
+
+				try {
+					var polygonObj = JSON.parse(polygonText);
+					var paths: number[][][] = polygonObj.paths;
+					for (var i = 0, l = paths.length; i < l; ++i) {
+						for (var ii = 0, ll = paths[i].length; ii < ll; ++ii) {
+							var latlng = paths[i][ii];
+							leafletPath.push(new L.LatLng(latlng[1], latlng[0]));
+						}
+					}
+				} catch (e) {
+					console.log("Unable to parse the geometry object");
+					console.error(e);
+				}
+
+				if (leafletPath.length === 0) {
+					removeGeometry(thing);
+					return;
+				}
+
+				var color = '#03f';
+			    switch (thing.String("_type")) {
+				    case "zone inner":
+						color = "#f00";
+						break;
+					case "zone outer":
+						color = "#090";
+						break;
+					case "zone rectangle":
+						color = "#EBC813";
+			    }
+
+			    polygon.setStyle({ color: color});
+			    polygon.setLatLngs(leafletPath);
+
+				if (!polygonAlreadyOnTheMap) {
+					geometricObjetsOnTheMap[thing.ID] = polygon;
+					instance.addLayer(polygon);
+				}
+			},
+			removeGeometry = (thing: ThingModel.Thing) => {
+				if (geometricObjetsOnTheMap.hasOwnProperty(thing.ID)) {
+					instance.removeLayer(geometricObjetsOnTheMap[thing.ID]);
+					delete geometricObjetsOnTheMap[thing.ID];
 				}
 			};
 
@@ -1098,6 +1159,8 @@
 			var addMarkerOrOverlay = (thing: ThingModel.Thing) => {
 				if (itsa.imageOverlay(thing)) {
 					addImageOverlay(thing);
+				} else if (itsa.geometricZone(thing)) {
+					addOrUpdateGeometry(thing);
 				} else {
 					addMarker(thing);
 				}
@@ -1111,6 +1174,8 @@
 					if (itsa.imageOverlay(thing)) {
 						removeImageOverlay(thing);
 						addImageOverlay(thing);
+					} else if (itsa.geometricZone(thing)) {
+						addOrUpdateGeometry(thing);
 					} else {
 						updateMarker(thing);
 					}
@@ -1118,6 +1183,8 @@
 				Deleted: (thing: ThingModel.Thing) => {
 					if (itsa.imageOverlay(thing)) {
 						removeImageOverlay(thing);
+					} else if (itsa.geometricZone(thing)) {
+						removeGeometry(thing);
 					} else {
 						removeMarker(thing);
 					}

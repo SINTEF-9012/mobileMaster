@@ -25,6 +25,7 @@ angular.module('mobileMasterApp')
 		imageOverlay = /(imageOverlay)/i,
 		uav = /(uav)/i,
 		evacuationPlan = /(evacuationPlan)/i,
+		geometricZone = /(zoneType)/i,
 
 	// Some more high level categories
 		multimedia = /(media|picture|video|tweet|stream|beacon)/i;
@@ -43,7 +44,8 @@ angular.module('mobileMasterApp')
 		multimedias: multimedia,
 		messages: message,
 		imageoverlays: imageOverlay,
-		evacuationPlan: evacuationPlan
+		evacuationplans: evacuationPlan,
+		geometriczones: geometricZone
 	};
 	// Compute the oposite of all these regexp
 
@@ -73,6 +75,7 @@ angular.module('mobileMasterApp')
 	this.stream = (thing: ThingModel.Thing) =>			thing.Type && stream.test(thing.Type.Name);
 	this.uav = (thing: ThingModel.Thing) =>				thing.Type && uav.test(thing.Type.Name);
 	this.evacuationPlan = (thing: ThingModel.Thing) =>	thing.Type && evacuationPlan.test(thing.Type.Name);
+	this.geometricZone = (thing: ThingModel.Thing) =>	thing.Type && geometricZone.test(thing.Type.Name);
 	this.other = (thing: ThingModel.Thing) =>			!thing.Type || !other_invert.test(thing.Type.Name);
 
 	this.typefrom = (thing: ThingModel.Thing) : string =>  {
@@ -96,6 +99,7 @@ angular.module('mobileMasterApp')
 		if (imageOverlay.test(type)) return 'ImageOverlays';
 		if (stream.test(type)) return 'Streams';
 		if (evacuationPlan.test(type)) return 'EvacuationPlans';
+		if (geometricZone.test(type)) return 'GeometricZones';
 
 		return 'Others';
 	};

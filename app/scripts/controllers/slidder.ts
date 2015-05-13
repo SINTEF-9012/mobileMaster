@@ -69,6 +69,7 @@ angular.module('mobileMasterApp')
 					// Ignore image overlays and evacuationPlans
 					case 'ImageOverlays':
 					case 'EvacuationPlans':
+					case 'GeometricZones':
 						return;
 					default:
 						href = 'table';
