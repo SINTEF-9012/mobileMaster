@@ -59,7 +59,8 @@ angular.module('mobileMasterApp')
 	});
 
 
-	var sortPatients =  () => {
+	var sortPatients = () => {
+	    var now = +new Date();
 		globalList.sort((a, b) => {
 			if (a.braceletOn && !b.braceletOn) {
 				return -1;
@@ -71,17 +72,36 @@ angular.module('mobileMasterApp')
 
 			if (ta === tb) {
 				var ra = +a.reportDate, rb = +b.reportDate,
-					nRa = isNaN(ra), nRb = isNaN(rb);
-				if (nRa && nRb || ra == rb) {
+					nRa = isNaN(ra), nRb = isNaN(rb),
+					aIsOld = nRa || ((now - ra) > 3600000),
+					bIsOld = nRb || ((now - rb) > 3600000);
+				/*if (a.ID === "VBS2_3_597" || b.ID === "VBS2_3_597") {
+					console.log(a.ID, b.ID, ra, rb, nRa, nRb, aIsOld, bIsOld);
+				}*/
+
+				if (nRa && nRb || ra === rb) {
 					return a.ID > b.ID ? 1 : -1;
 				}
+
 				if (nRa && !nRb) {
-					return 1;
-				}
-				if (nRb && !nRa) {
 					return -1;
 				}
-				return ra > rb ? -1 : 1;
+				if (nRb && !nRa) {
+					return 1;
+				}
+
+				if (aIsOld === bIsOld) {
+					return ra > rb ? -1 : 1;
+				}
+
+				if (aIsOld) return 1;
+				if (bIsOld) return -1;
+
+				// Group by 15 seconds
+				//if (Math.abs(ra - rb) > 150000) {
+				//	return ra > rb ? -1 : 1;
+				//}
+				return a.ID > b.ID ? 1 : -1;
 			}
 
 			if (ta === 'black') return -1;
