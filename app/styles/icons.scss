@@ -492,6 +492,24 @@ master-icon.hospitalType {
 
 }
 
+master-icon.textresponse {
+  background: white;
+  background: rgba(255, 255, 255, 0.76);
+  width: auto;
+  height: auto;
+  max-width: 100px;
+  max-height: 40px;
+  line-height: 12px;
+  font-size: 10px;
+  text-shadow: initial;
+  border-radius: 5px;
+  padding: 2px 3px;
+  font-family: cursive;
+  box-shadow: 1px 1px 0px 2px rgba(255,255,255,0.33) inset, 1px 1px 0px 2px rgba(0,0,0,0.33);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .map master-icon.patient {
 	//background:black;
 	//border-radius:50%;
@@ -514,8 +532,8 @@ master-icon.hospitalType {
 	}
 }
 .map master-icon .triage-light {
-	height:38px;
-	width:38px;
+	height:34px;
+	width:34px;
 	float:none;
 	margin-top:1px;
 	margin-left:0px;
@@ -710,4 +728,8 @@ master-icon.hospitalType {
 
 .thing.row master-icon {
 	font-size: 1.1em;
+
+	&.textresponse {
+		font-size:10px;
+	}
 }

@@ -168,6 +168,13 @@ angular.module('mobileMasterApp')
 					} else if (thing.Boolean("rescued")) {
 						element.addClass("rescued");
 					}
+				} else if (cat === 'response' && thing.String("_type") === "response text") {
+					element.append(thing.String("description"));
+					element.addClass('textresponse');
+					if (attrs.selected) {
+						element.addClass('selected');
+					}
+					return;
 				}
 			}
 
