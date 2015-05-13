@@ -228,16 +228,19 @@ angular.module('mobileMasterApp')
 		animationEasing: 'easeOutBounce',
 
 		//Boolean - Whether we animate the rotation of the Doughnut
-		animateRotate: true,
+		animateRotate: false,
 
 		//Boolean - Whether we animate scaling the Doughnut from the centre
 		animateScale: false,
 
-		onAnimationComplete: function () {
+		/*onAnimationComplete: function () {
+			jsChartAnimationComplete = true;
 			this.options.animation = false;
 			this.options.animateRotate = false;
 			this.options.animateScale = false;
-		}
+			computeStats();
+		},*/
+		animation: false
 	};
 
 	// And for a doughnut chart
@@ -426,7 +429,7 @@ angular.module('mobileMasterApp')
 		statsBeacons[1].value = 0;
 		statsBeacons[2].value = 0;
 
-		angular.forEach(thingModel.warehouse.Things, (thing: ThingModel.Thing) => {
+		angular.forEach(thingModel.warehouse.Things,(thing: ThingModel.Thing) => {
 			if (itsa.patient(thing)) {
 				//nbPatients += 1;
 
