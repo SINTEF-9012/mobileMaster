@@ -8,7 +8,7 @@ angular.module('mobileMasterApp')
   .directive('chatMessage', (authenticationService: AuthenticationService) => {
     return {
         template: '<div class="chat-message" ng-class="messageClass">' +
-        '<identicon id="thing.author" />' +
+        '<identicon id="identiconId" />' +
 		'<p class="message">{{thing.content || " "}}</p>' +
 		'<p class="chat-infos">' +
 	        '<span class="author">{{thing.author}}</span>' +
@@ -20,13 +20,16 @@ angular.module('mobileMasterApp')
 			thing: '='
 		},
 		link: (scope, element: JQuery, attrs) => {
-
+			var authName = authenticationService.getUserName(),
+				edxlAuthName = authName.replace(/\s+/g, "");
 			scope.$watch('thing.author', () => {
 				// TODO this is obviously wrong
-				if (scope.thing.author === authenticationService.getUserName()) {
+				if (scope.thing.author === authName || scope.thing.author === edxlAuthName) {
 					scope.messageClass = 'my-chat-message';
+					scope.identiconId = edxlAuthName;
 				} else {
 					scope.messageClass = '';
+					scope.identiconId = scope.thing.author;
 				}
 			});
 	    }
