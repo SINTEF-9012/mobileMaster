@@ -161,6 +161,10 @@ angular.module('mobileMasterApp')
 			return _.clone(hiddenOverlays);
 		};
 
+		this.containsViewBounds = () => {
+			return center != null;
+		};
+
 		$(window).on('storage', throttle(() => {
 			if (!binded) {
 				return;

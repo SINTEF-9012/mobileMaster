@@ -73,7 +73,8 @@ interface PersistentMap {
 	restorePersistentLayer(map: Master.Map);
 	hideOverlay(id: string);
 	showOverlay(id: string);
-	getHiddenOverlays() : string[];
+	getHiddenOverlays(): string[];
+	containsViewBounds(): boolean;
 	clear();
 }
 
