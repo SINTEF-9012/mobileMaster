@@ -222,25 +222,24 @@ angular.module('mobileMasterApp')
 		maintainAspectRatio: false,
 
 		//Number - Amount of animation steps
-		animationSteps: 100,
+		animationSteps: 50,
 
 		//String - Animation easing effect
 		animationEasing: 'easeOutBounce',
 
 		//Boolean - Whether we animate the rotation of the Doughnut
-		animateRotate: false,
+		animateRotate: true,
 
 		//Boolean - Whether we animate scaling the Doughnut from the centre
 		animateScale: false,
 
-		/*onAnimationComplete: function () {
-			jsChartAnimationComplete = true;
+		onAnimationComplete: function () {
 			this.options.animation = false;
 			this.options.animateRotate = false;
 			this.options.animateScale = false;
-			computeStats();
-		},*/
-		animation: false
+			//computeStats();
+		},
+		animation: true
 	};
 
 	// And for a doughnut chart
