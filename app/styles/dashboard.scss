@@ -280,7 +280,8 @@ a.infoblock.patients-block {
 
 a.mediablock {
 	// background: #352847;
-	background-color: $mediablock-bg;
+	//background-color: $mediablock-bg;
+	background-color: $dashboard-bg;
 	flex-direction: row-reverse;
 	flex-wrap: wrap;
 	justify-content:space-around;
@@ -319,7 +320,8 @@ a.mediablock {
 }*/
 
 .chat-block {
-	background-color: $messenger-bg;
+	//background-color: $messenger-bg;
+	background-color: $dashboard-bg;
 	background-position: 50px 10px;
 	padding: 0 8px 8px 8px;
 	display:flex;
@@ -372,7 +374,8 @@ a.mediablock {
 }
 
 .timeline-block {
-	background-color: $timeline-bg;
+	//background-color: $timeline-bg;
+	//background-color: $dashboard-bg;
 	background-position: -30px -40px;
 	overflow:hidden;
 
