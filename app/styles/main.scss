@@ -735,8 +735,8 @@ body:not(.touch) .thing.row:hover,  {
 img.identicon {
     width:41px;
     height:41px;
-    image-rendering: pixelated;
     image-rendering:-webkit-optimize-contrast;
+    image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     -ms-interpolation-mode: nearest-neighbor;
 }
