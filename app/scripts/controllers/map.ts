@@ -33,6 +33,7 @@ angular.module('mobileMasterApp')
 
 	persistentMap.restorePersistentLayer(masterMap);
 
+
 	var jMap = $('#map'), jwindow = $(window);
 	var destroyed = false;
 	var setLayout = throttle(() => {
@@ -46,6 +47,11 @@ angular.module('mobileMasterApp')
 
 	window.setImmediate(() => {
 		persistentMap.bindMasterMap(masterMap);
+		if (!persistentMap.containsViewBounds()) {
+			// TODO temporary hack which is not so bad
+			masterMap.setView(new L.LatLng(43.4722, 5.9558), 1, { animate: false });
+			masterMap.showOverview();
+		}
 		if ($state.is('map')) {
 			masterMap.disableMiniMap();
 		} else {
