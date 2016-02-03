@@ -1,4 +1,4 @@
-/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui/angular-ui-router.d.ts" />
+/// <reference path="./../../bower_components/DefinitelyTyped/angular-ui-router/angular-ui-router.d.ts" />
 
 /// <reference path="./../references/app.d.ts" />
 /// <reference path="./../references/generic.d.ts" />
@@ -8,7 +8,7 @@
 angular.module('mobileMasterApp')
 	.directive('cameraTrigger', (
 	notify: angularNotify,
-	$upload: any,
+	Upload: any,
 	cfpLoadingBar: any,
 	$state: ng.ui.IStateService,
 	settingsService: SettingsService
@@ -16,21 +16,21 @@ angular.module('mobileMasterApp')
 	return {
 		template: '<div class="camera-trigger">' +
 			'<span class="glyphicon glyphicon-camera"></span>' +
-			'<input type="file" accept="image/*,video/*,audio/*"' +
-			' capture ng-file-select ng-model="myFile" capture resetOnClick="true" />' +
+			'<input type="file" ngf-pattern="\'image/*,video/*,audio/*\'" ngf-accept="\'image/*,video/*,audio/*\'"' +
+			' ngf-select ng-model="myFile" ngf-capture="camera" resetOnClick="true" />' +
 		'</div>',
 		restrict: 'E',
 		scope: true,
 		link: (scope: any, element: JQuery, attrs: any) => {
 			scope.$watch('myFile',() => {
-				if (!scope.myFile || !scope.myFile.length) {
+				if (!scope.myFile) {
 					return;
 				}
 
 				cfpLoadingBar.start();
-				$upload.upload({
+				Upload.upload({
 					url: settingsService.getMediaServerUrl() + '/upload',
-					file: scope.myFile[0]
+					file: scope.myFile
 				}).progress((e) => {
 					cfpLoadingBar.set(e.loaded / e.total);
 				}).success((data) => {
