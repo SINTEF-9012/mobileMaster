@@ -137,11 +137,14 @@ module.exports = function (grunt) {
         options: {
           open: true,
           middleware: function (connect, options) {
+            var serveStatic = require('serve-static');
             return [
               modRewrite,
+              serveStatic('.tmp'),
+              serveStatic(yeoman.app)
               // require('connect-livereload')(),
-              connect.static('.tmp'),
-              connect.static(yeoman.app)
+              // connect.static('.tmp'),
+              // connect.static(yeoman.app)
             ];
           }
         }
