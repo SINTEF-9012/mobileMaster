@@ -2,6 +2,10 @@
 @import "_settings";
 @import "compass";
 
+.leaflet-pane {
+  z-index: initial;
+}
+
 .map {
     color:black;
 }
