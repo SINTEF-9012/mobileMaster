@@ -80,13 +80,13 @@ module.exports = function (grunt) {
       dynamic: {
           src: [],
           options: { // override the main options, http://gruntjs.com/configuring-tasks#options
-              sourcemap: true,
+              sourceMap: true,
               declaration: true,
               comments: true,
               fast: 'always'
           }
       },
-      watch: { // a particular target
+      watchS: { // a particular target
           src: ['<%= yeoman.app %>/scripts/{,*/}*.ts',
                 '!<%= yeoman.app %>/scripts/reference.ts',
                 '!<%= yeoman.app %>/scripts/{,*/}*.d.ts',
@@ -339,7 +339,7 @@ module.exports = function (grunt) {
     },
     concurrent: {
       watch: {
-        tasks: ['watch', 'ts:watch'],
+        tasks: ['watch', 'ts:watchS'],
         options: {
           logConcurrentOutput: true
         }
