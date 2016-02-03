@@ -14,7 +14,7 @@
 
 angular.module('mobileMasterApp', [
 	'ui.router',
-	'angularFileUpload',
+	'ngFileUpload',
 	'angular-loading-bar',
 	'cfp.loadingBar',
 	'angularMoment',
